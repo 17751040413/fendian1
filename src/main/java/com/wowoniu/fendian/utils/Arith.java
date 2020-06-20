@@ -37,6 +37,7 @@ public class Arith {
 
     // 进行四舍五入操作
     public double round(double d, int len) { // 进行四舍五入操作
+
         BigDecimal b1 = new BigDecimal(d);
         BigDecimal b2 = new BigDecimal(1);
         // 任何一个数字除以1都是原数字
