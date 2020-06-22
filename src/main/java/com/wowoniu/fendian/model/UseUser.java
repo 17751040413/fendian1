@@ -39,9 +39,19 @@ public class UseUser {
     private Integer balance;
     @ApiModelProperty("推广码")
     private String promotionCode;
+    @ApiModelProperty("设备码")
+    private String identification;
     @ApiModelProperty("创建时间")
     private java.util.Date createTime;
 
+
+    public String getIdentification() {
+        return identification;
+    }
+
+    public void setIdentification(String identification) {
+        this.identification = identification;
+    }
 
     public String getId() {
         return id;
