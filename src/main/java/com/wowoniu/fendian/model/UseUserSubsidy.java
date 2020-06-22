@@ -1,14 +1,23 @@
 package com.wowoniu.fendian.model;
 
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+@ApiModel("补贴分类表")
 public class UseUserSubsidy {
 
   private String id;
+  @ApiModelProperty("用户id")
   private String userId;
+  @ApiModelProperty("补贴描述")
   private String subsidyName;
+  @ApiModelProperty("领取条件")
   private Integer conditions;
+  @ApiModelProperty("补贴金额")
   private Integer money;
+  @ApiModelProperty("是否已领取")
   private Integer receiveFlg;
+  @ApiModelProperty("创建时间")
   private java.util.Date createTime;
 
 

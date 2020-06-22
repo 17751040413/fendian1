@@ -1,6 +1,8 @@
 package com.wowoniu.fendian.model;
 
+import io.swagger.annotations.ApiModel;
 
+@ApiModel("系统购买表")
 public class UserPaySystem {
 
   private String id;

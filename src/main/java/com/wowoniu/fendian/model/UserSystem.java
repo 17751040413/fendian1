@@ -1,11 +1,17 @@
 package com.wowoniu.fendian.model;
 
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+@ApiModel
 public class UserSystem {
 
   private String id;
+  @ApiModelProperty("用户id")
   private String userId;
+  @ApiModelProperty("系统id")
   private String systemId;
+  @ApiModelProperty("到期时间")
   private java.util.Date expireTime;
 
 
