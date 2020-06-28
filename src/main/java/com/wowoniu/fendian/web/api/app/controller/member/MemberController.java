@@ -1,6 +1,10 @@
 package com.wowoniu.fendian.web.api.app.controller.member;
 
+import com.wowoniu.fendian.service.MemberStatisticService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,4 +18,35 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/member")
 public class MemberController {
+
+    @Autowired
+    private MemberStatisticService memberStatisticService;
+
+    /**
+     * 根据用户ID获取其会员及当日数据统计
+     *
+     * @param userId 用户ID
+     * @return
+     */
+    @ApiOperation(value = "会员统计数据", tags = "根据用户ID获取其会员及当日数据统计")
+    @RequestMapping("/getMemberTotalData")
+    public Object getMemberTotalData(@ApiParam(name = "userId", value = "登录用户ID", required = true) String userId) {
+
+        return memberStatisticService.getMemberTotalData(userId);
+    }
+
+    /**
+     * 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量
+     *
+     * @param userId 用户ID
+     * @param limit 数据量
+     * @return
+     */
+    @ApiOperation(value = "父级用户ID获取会员用户集合", tags = "limit为获取数据条数")
+    @RequestMapping("/getMemberList")
+    public Object getMemberList(@ApiParam(name = "userId", value = "登录用户ID", required = true) String userId,
+                                @ApiParam(name = "limit", value = "数据量", required = true) Integer limit) {
+
+        return memberStatisticService.getMemberList(userId,limit);
+    }
 }
