@@ -3,6 +3,9 @@ package com.wowoniu.fendian.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Date;
+
 @ApiModel
 public class UserLogin {
 
@@ -18,6 +21,14 @@ public class UserLogin {
   @ApiModelProperty("最后一次请求登录时间")
   private java.util.Date connectionTime;
 
+  public UserLogin(String id, String userId, String identification, Integer loginType, Date loginTime, Date connectionTime) {
+    this.id = id;
+    this.userId = userId;
+    this.identification = identification;
+    this.loginType = loginType;
+    this.loginTime = loginTime;
+    this.connectionTime = connectionTime;
+  }
 
   public String getId() {
     return id;

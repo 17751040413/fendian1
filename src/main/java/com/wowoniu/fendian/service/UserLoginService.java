@@ -18,4 +18,6 @@ public interface UserLoginService {
      * @return
      */
     int updateConTimeUserLoginById(UserLogin userLogin);
+
+
 }
