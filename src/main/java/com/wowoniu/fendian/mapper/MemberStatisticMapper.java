@@ -21,14 +21,14 @@ public interface MemberStatisticMapper {
      * @param userId 用户ID
      * @return
      */
-    @Select("SELECT * FROM member_statistic WHERE user_id = #{userId}")
-    MemberStatistic getMemberTotalData(@Param("userId") String userId);
+    @Select("SELECT * FROM member_statistic WHERE user_id = #{userId} AND type = #{type}")
+    MemberStatistic getMemberTotalData(@Param("userId") String userId, @Param("type") String type);
 
     /**
      * 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量
      *
      * @param parentId 父级用户ID
-     * @param limit  数据量
+     * @param limit    数据量
      * @return
      */
     List<UseUser> getMemberList(@Param("parentId") String parentId, @Param("limit") Integer limit);

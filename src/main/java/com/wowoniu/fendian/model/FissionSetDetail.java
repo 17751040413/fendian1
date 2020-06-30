@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @date 2020-06-22
  */
 @ApiModel("会员活动设置详情")
-public class MemberSetDetail {
+public class FissionSetDetail {
 
     @ApiModelProperty("主键ID")
     private String id;
