@@ -3,6 +3,8 @@ package com.wowoniu.fendian.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.sql.Timestamp;
+
 /**
  * @author yuany
  * @date 2020-06-22
@@ -35,7 +37,12 @@ public class MemberStatistic {
     private Integer totayUseCoupon;
 
     @ApiModelProperty("最后更新时间(用于归零今日数据)")
-    private java.util.Date lastUpdateTime;
+    private Timestamp lastUpdateTime;
+
+    @ApiModelProperty("引流类型（0：会员裂变；1：会员返利；2：店铺分销；3：在线商城；" +
+            "4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；" +
+            "9：砸金蛋抽奖；10：砍价大战；11：红包裂变券）")
+    private Integer type;
 
 
     public String getId() {
@@ -114,8 +121,15 @@ public class MemberStatistic {
         return lastUpdateTime;
     }
 
-    public void setLastUpdateTime(java.util.Date lastUpdateTime) {
+    public void setLastUpdateTime(Timestamp lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
     }
 
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
 }

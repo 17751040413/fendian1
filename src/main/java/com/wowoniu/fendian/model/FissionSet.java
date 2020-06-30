@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @date 2020-06-22
  */
 @ApiModel("会员活动设置")
-public class MemberSet {
+public class FissionSet {
 
     @ApiModelProperty("主键ID")
     private String id;
@@ -22,12 +22,17 @@ public class MemberSet {
     @ApiModelProperty("券有效月数（1-36）")
     private Integer effectiveTime;
 
+    @ApiModelProperty("领取时是否填写手机号（N：否；Y：是）")
+    private String phoneEnable;
+
     @ApiModelProperty("手机号")
     private String phoneNo;
 
-    @ApiModelProperty("状态（0：关；1：开）")
-    private Integer state;
+    @ApiModelProperty("状态（N：关；Y：开）")
+    private String state;
 
+    @ApiModelProperty("防刷（N：禁用；Y：启用）")
+    private String preventBrush;
 
     public String getId() {
         return id;
@@ -73,13 +78,27 @@ public class MemberSet {
         this.phoneNo = phoneNo;
     }
 
+    public String getPhoneEnable() {
+        return phoneEnable;
+    }
 
-    public Integer getState() {
+    public void setPhoneEnable(String phoneEnable) {
+        this.phoneEnable = phoneEnable;
+    }
+
+    public String getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(String state) {
         this.state = state;
     }
 
+    public String getPreventBrush() {
+        return preventBrush;
+    }
+
+    public void setPreventBrush(String preventBrush) {
+        this.preventBrush = preventBrush;
+    }
 }
