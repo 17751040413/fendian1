@@ -3,12 +3,14 @@ package com.wowoniu.fendian.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
+
 /**
  * @author yuany
  * @date 2020-06-22
  */
-@ApiModel("会员活动设置")
-public class FissionSet {
+@ApiModel("裂变活动设置")
+public class FissionSet implements Serializable {
 
     @ApiModelProperty("主键ID")
     private String id;

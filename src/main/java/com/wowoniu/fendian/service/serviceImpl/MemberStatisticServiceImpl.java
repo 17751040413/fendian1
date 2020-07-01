@@ -3,6 +3,7 @@ package com.wowoniu.fendian.service.serviceImpl;
 import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
 import com.wowoniu.fendian.mapper.MemberStatisticMapper;
+import com.wowoniu.fendian.model.DistributionSet;
 import com.wowoniu.fendian.service.MemberStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,31 +36,48 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
     @Override
     public Object getTotalDataAndActivity(String userId, String type) {
         Map<String, Object> map = new HashMap<>();
-        map.put("total", memberStatisticMapper.getMemberTotalData(userId,type));
+        //统计数据-类型区分
+        map.put("total", memberStatisticMapper.getMemberTotalData(userId, type));
         switch (type) {
+            //会员裂变
             case Constants.FISSION:
-                map.put("activity",activitySetMapper.getFissionSetDetail(userId));
+                map.put("activity", activitySetMapper.getFissionSetDetail(userId));
                 break;
+            //会员返利
             case Constants.REBATE:
+                map.put("activity", activitySetMapper.getRebateSetList(userId));
                 break;
+            //店铺分销
             case Constants.DISTRIBUTION:
+                DistributionSet distributionSet = activitySetMapper.getDistributionSet(userId);
+                distributionSet.setDistributionCouponList(activitySetMapper.getDistributionCouponList(userId));
+                map.put("activity", distributionSet);
                 break;
+            //在线商城
             case Constants.SHOPPINGMALL:
                 break;
+            //幸运转盘
             case Constants.TURNTABLE:
                 break;
+            //发优惠券
             case Constants.COUPON:
                 break;
+            //推荐有礼
             case Constants.RECOMMEND:
                 break;
+            //秒杀活动
             case Constants.SECKILL:
                 break;
+            //拼团活动
             case Constants.SPELL:
                 break;
+            //砸金蛋抽奖
             case Constants.LUCKDRAW:
                 break;
+            //砍价大战
             case Constants.BARGAINING:
                 break;
+            //红包裂变券
             case Constants.REDENVELOPES:
                 break;
             default:

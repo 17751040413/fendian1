@@ -3,6 +3,7 @@ package com.wowoniu.fendian.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -10,7 +11,7 @@ import java.sql.Timestamp;
  * @date 2020-06-22
  */
 @ApiModel("会员统计")
-public class MemberStatistic {
+public class MemberStatistic implements Serializable {
 
     @ApiModelProperty("主键ID")
     private String id;

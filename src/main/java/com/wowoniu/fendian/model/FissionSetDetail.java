@@ -3,18 +3,20 @@ package com.wowoniu.fendian.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
+
 /**
  * @author yuany
  * @date 2020-06-22
  */
-@ApiModel("会员活动设置详情")
-public class FissionSetDetail {
+@ApiModel("裂变设置详情")
+public class FissionSetDetail implements Serializable {
 
     @ApiModelProperty("主键ID")
     private String id;
 
-    @ApiModelProperty("会员活动设置ID")
-    private Integer memberSetId;
+    @ApiModelProperty("裂变设置ID")
+    private Integer fissionId;
 
     @ApiModelProperty("等级序列")
     private Integer level;
@@ -54,15 +56,13 @@ public class FissionSetDetail {
         this.id = id;
     }
 
-
-    public Integer getMemberSetId() {
-        return memberSetId;
+    public Integer getFissionId() {
+        return fissionId;
     }
 
-    public void setMemberSetId(Integer memberSetId) {
-        this.memberSetId = memberSetId;
+    public void setFissionId(Integer fissionId) {
+        this.fissionId = fissionId;
     }
-
 
     public Integer getLevel() {
         return level;
