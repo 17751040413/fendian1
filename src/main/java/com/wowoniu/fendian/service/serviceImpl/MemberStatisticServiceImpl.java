@@ -55,6 +55,9 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
                 break;
             //在线商城
             case Constants.SHOPPINGMALL:
+                //查询状态非未付款和已取消的订单
+                String[] states = {Constants.ORDER_STATE_PAID, Constants.ORDER_STATE_NOT_SHIPPED, Constants.ORDER_STATE_SHIPPED, Constants.ORDER_STATE_COMPLETE};
+                map.put("activity", activitySetMapper.getWaresOrder(userId, states));
                 break;
             //幸运转盘
             case Constants.TURNTABLE:

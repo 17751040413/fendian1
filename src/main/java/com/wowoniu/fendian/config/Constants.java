@@ -28,5 +28,15 @@ public class Constants {
     public static final String BARGAINING = "10";
     public static final String REDENVELOPES = "11";
 
+    /***************
+     * 订单状态（0：待付款；1：已付款；2：代发货；3：已发货；4：已完成；5：已关闭）
+     * ***************/
+    public static final String ORDER_STATE_PENDING_PAYMENT = "0";
+    public static final String ORDER_STATE_PAID = "1";
+    public static final String ORDER_STATE_NOT_SHIPPED = "2";
+    public static final String ORDER_STATE_SHIPPED= "3";
+    public static final String ORDER_STATE_COMPLETE = "4";
+    public static final String ORDER_STATE_CLOSE = "5";
+
 
 }

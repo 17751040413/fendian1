@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.mapper;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.model.DistributionCoupon;
 import com.wowoniu.fendian.model.DistributionSet;
 import com.wowoniu.fendian.model.FissionSetDetail;
@@ -52,4 +53,13 @@ public interface ActivitySetMapper {
      */
     @Select("SELECT * FROM distribution_coupon WHERE distribution_id = (SELECT id FROM distribution_set WHERE user_id = #{userId})")
     List<DistributionCoupon> getDistributionCouponList(@Param("userId") String userId);
+
+    /**
+     * 商家-客户订单列表(订单状态筛选)
+     *
+     * @param userId 商家ID
+     * @param states 状态字符串数组 为NULL时 查询所有订单
+     * @return
+     */
+    List<JSONObject> getWaresOrder(@Param("userId") String userId, @Param("states") String[] states);
 }

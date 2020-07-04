@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wowoniu.fendian.mapper.ActivitySetMapper">
+
+    <!-- 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量 -->
+    <select id="getWaresOrder" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT * FROM wares_order o
+        LEFT JOIN wares w ON w.id = o.wares_id
+        LEFT JOIN wares_spec s ON s.id = o.spec_id
+        WHERE o.wares_id = #{userId}
+        <if test="states != null">
+            AND o.state IN
+            <foreach item="item" index="index" collection="states" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY o.create_time DESC
+    </select>
+</mapper>
