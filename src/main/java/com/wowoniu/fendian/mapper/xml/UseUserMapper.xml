@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wowoniu.fendian.mapper.UseUserMapper">
+
     <resultMap id="BaseResultMap" type="com.wowoniu.fendian.model.UseUser">
         <id column="id" jdbcType="VARCHAR" property="id" />
         <result column="login_name" jdbcType="VARCHAR" property="loginName" />
@@ -34,20 +35,20 @@
         where id = #{id,jdbcType=VARCHAR}
     </select>
     <select id="queryUserByLoginName" resultType="com.wowoniu.fendian.model.UseUser">
-        select
-        <include refid="Base_Column_List" />
-        from use_user
-        where login_name = #{loginName} and state = 0
-    </select>
-    <select id="queryUserByOpenId" resultType="com.wowoniu.fendian.model.UseUser">
-        SELECT <include refid="Base_Column_List" /> FROM use_user
-        WHERE wechat_id = #{openId} AND state = 0
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from use_user
+    where login_name = #{loginName} and state = 0
+</select>
+<select id="queryUserByOpenId" resultType="com.wowoniu.fendian.model.UseUser">
+SELECT <include refid="Base_Column_List" /> FROM use_user
+WHERE wechat_id = #{openId} AND state = 0
+</select>
+<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from use_user
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UseUser" useGeneratedKeys="true">
+<insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UseUser" useGeneratedKeys="true">
     insert into use_user (login_name, wechat_id, nick_name,
       head_img, parent_id, parent_name,
       `hierarchy`, role_id1, role_id2,
@@ -63,182 +64,182 @@
       #{promotionCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}
       )
   </insert>
-    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UseUser" useGeneratedKeys="true">
-        insert into use_user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="loginName != null">
-                login_name,
-            </if>
-            <if test="wechatId != null">
-                wechat_id,
-            </if>
-            <if test="nickName != null">
-                nick_name,
-            </if>
-            <if test="headImg != null">
-                head_img,
-            </if>
-            <if test="parentId != null">
-                parent_id,
-            </if>
-            <if test="parentName != null">
-                parent_name,
-            </if>
-            <if test="hierarchy != null">
-                `hierarchy`,
-            </if>
-            <if test="roleId1 != null">
-                role_id1,
-            </if>
-            <if test="roleId2 != null">
-                role_id2,
-            </if>
-            <if test="teamNumber != null">
-                team_number,
-            </if>
-            <if test="systemNumber != null">
-                system_number,
-            </if>
-            <if test="todayTermNumber != null">
-                today_term_number,
-            </if>
-            <if test="openSystemFlg != null">
-                open_system_flg,
-            </if>
-            <if test="promotionIncome != null">
-                promotion_income,
-            </if>
-            <if test="balance != null">
-                balance,
-            </if>
-            <if test="promotionCode != null">
-                promotion_code,
-            </if>
-            <if test="createTime != null">
-                create_time,
-            </if>
-            <if test="state != null">
-                `state`,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="loginName != null">
-                #{loginName,jdbcType=VARCHAR},
-            </if>
-            <if test="wechatId != null">
-                #{wechatId,jdbcType=VARCHAR},
-            </if>
-            <if test="nickName != null">
-                #{nickName,jdbcType=VARCHAR},
-            </if>
-            <if test="headImg != null">
-                #{headImg,jdbcType=VARCHAR},
-            </if>
-            <if test="parentId != null">
-                #{parentId,jdbcType=VARCHAR},
-            </if>
-            <if test="parentName != null">
-                #{parentName,jdbcType=VARCHAR},
-            </if>
-            <if test="hierarchy != null">
-                #{hierarchy,jdbcType=INTEGER},
-            </if>
-            <if test="roleId1 != null">
-                #{roleId1,jdbcType=VARCHAR},
-            </if>
-            <if test="roleId2 != null">
-                #{roleId2,jdbcType=VARCHAR},
-            </if>
-            <if test="teamNumber != null">
-                #{teamNumber,jdbcType=INTEGER},
-            </if>
-            <if test="systemNumber != null">
-                #{systemNumber,jdbcType=INTEGER},
-            </if>
-            <if test="todayTermNumber != null">
-                #{todayTermNumber,jdbcType=INTEGER},
-            </if>
-            <if test="openSystemFlg != null">
-                #{openSystemFlg,jdbcType=INTEGER},
-            </if>
-            <if test="promotionIncome != null">
-                #{promotionIncome,jdbcType=INTEGER},
-            </if>
-            <if test="balance != null">
-                #{balance,jdbcType=INTEGER},
-            </if>
-            <if test="promotionCode != null">
-                #{promotionCode,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="state != null">
-                #{state,jdbcType=INTEGER},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.wowoniu.fendian.model.UseUser">
-        update use_user
-        <set>
-            <if test="loginName != null">
-                login_name = #{loginName,jdbcType=VARCHAR},
-            </if>
-            <if test="wechatId != null">
-                wechat_id = #{wechatId,jdbcType=VARCHAR},
-            </if>
-            <if test="nickName != null">
-                nick_name = #{nickName,jdbcType=VARCHAR},
-            </if>
-            <if test="headImg != null">
-                head_img = #{headImg,jdbcType=VARCHAR},
-            </if>
-            <if test="parentId != null">
-                parent_id = #{parentId,jdbcType=VARCHAR},
-            </if>
-            <if test="parentName != null">
-                parent_name = #{parentName,jdbcType=VARCHAR},
-            </if>
-            <if test="hierarchy != null">
-                `hierarchy` = #{hierarchy,jdbcType=INTEGER},
-            </if>
-            <if test="roleId1 != null">
-                role_id1 = #{roleId1,jdbcType=VARCHAR},
-            </if>
-            <if test="roleId2 != null">
-                role_id2 = #{roleId2,jdbcType=VARCHAR},
-            </if>
-            <if test="teamNumber != null">
-                team_number = #{teamNumber,jdbcType=INTEGER},
-            </if>
-            <if test="systemNumber != null">
-                system_number = #{systemNumber,jdbcType=INTEGER},
-            </if>
-            <if test="todayTermNumber != null">
-                today_term_number = #{todayTermNumber,jdbcType=INTEGER},
-            </if>
-            <if test="openSystemFlg != null">
-                open_system_flg = #{openSystemFlg,jdbcType=INTEGER},
-            </if>
-            <if test="promotionIncome != null">
-                promotion_income = #{promotionIncome,jdbcType=INTEGER},
-            </if>
-            <if test="balance != null">
-                balance = #{balance,jdbcType=INTEGER},
-            </if>
-            <if test="promotionCode != null">
-                promotion_code = #{promotionCode,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="state != null">
-                `state` = #{state,jdbcType=INTEGER},
-            </if>
-        </set>
-        where id = #{id,jdbcType=VARCHAR}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.wowoniu.fendian.model.UseUser">
+<insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UseUser" useGeneratedKeys="true">
+insert into use_user
+<trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="loginName != null">
+        login_name,
+    </if>
+    <if test="wechatId != null">
+        wechat_id,
+    </if>
+    <if test="nickName != null">
+        nick_name,
+    </if>
+    <if test="headImg != null">
+        head_img,
+    </if>
+    <if test="parentId != null">
+        parent_id,
+    </if>
+    <if test="parentName != null">
+        parent_name,
+    </if>
+    <if test="hierarchy != null">
+        `hierarchy`,
+    </if>
+    <if test="roleId1 != null">
+        role_id1,
+    </if>
+    <if test="roleId2 != null">
+        role_id2,
+    </if>
+    <if test="teamNumber != null">
+        team_number,
+    </if>
+    <if test="systemNumber != null">
+        system_number,
+    </if>
+    <if test="todayTermNumber != null">
+        today_term_number,
+    </if>
+    <if test="openSystemFlg != null">
+        open_system_flg,
+    </if>
+    <if test="promotionIncome != null">
+        promotion_income,
+    </if>
+    <if test="balance != null">
+        balance,
+    </if>
+    <if test="promotionCode != null">
+        promotion_code,
+    </if>
+    <if test="createTime != null">
+        create_time,
+    </if>
+    <if test="state != null">
+        `state`,
+    </if>
+</trim>
+<trim prefix="values (" suffix=")" suffixOverrides=",">
+    <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+    </if>
+    <if test="wechatId != null">
+        #{wechatId,jdbcType=VARCHAR},
+    </if>
+    <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+    </if>
+    <if test="headImg != null">
+        #{headImg,jdbcType=VARCHAR},
+    </if>
+    <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+    </if>
+    <if test="parentName != null">
+        #{parentName,jdbcType=VARCHAR},
+    </if>
+    <if test="hierarchy != null">
+        #{hierarchy,jdbcType=INTEGER},
+    </if>
+    <if test="roleId1 != null">
+        #{roleId1,jdbcType=VARCHAR},
+    </if>
+    <if test="roleId2 != null">
+        #{roleId2,jdbcType=VARCHAR},
+    </if>
+    <if test="teamNumber != null">
+        #{teamNumber,jdbcType=INTEGER},
+    </if>
+    <if test="systemNumber != null">
+        #{systemNumber,jdbcType=INTEGER},
+    </if>
+    <if test="todayTermNumber != null">
+        #{todayTermNumber,jdbcType=INTEGER},
+    </if>
+    <if test="openSystemFlg != null">
+        #{openSystemFlg,jdbcType=INTEGER},
+    </if>
+    <if test="promotionIncome != null">
+        #{promotionIncome,jdbcType=INTEGER},
+    </if>
+    <if test="balance != null">
+        #{balance,jdbcType=INTEGER},
+    </if>
+    <if test="promotionCode != null">
+        #{promotionCode,jdbcType=VARCHAR},
+    </if>
+    <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="state != null">
+        #{state,jdbcType=INTEGER},
+    </if>
+</trim>
+</insert>
+<update id="updateByPrimaryKeySelective" parameterType="com.wowoniu.fendian.model.UseUser">
+update use_user
+<set>
+    <if test="loginName != null">
+        login_name = #{loginName,jdbcType=VARCHAR},
+    </if>
+    <if test="wechatId != null">
+        wechat_id = #{wechatId,jdbcType=VARCHAR},
+    </if>
+    <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+    </if>
+    <if test="headImg != null">
+        head_img = #{headImg,jdbcType=VARCHAR},
+    </if>
+    <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+    </if>
+    <if test="parentName != null">
+        parent_name = #{parentName,jdbcType=VARCHAR},
+    </if>
+    <if test="hierarchy != null">
+        `hierarchy` = #{hierarchy,jdbcType=INTEGER},
+    </if>
+    <if test="roleId1 != null">
+        role_id1 = #{roleId1,jdbcType=VARCHAR},
+    </if>
+    <if test="roleId2 != null">
+        role_id2 = #{roleId2,jdbcType=VARCHAR},
+    </if>
+    <if test="teamNumber != null">
+        team_number = #{teamNumber,jdbcType=INTEGER},
+    </if>
+    <if test="systemNumber != null">
+        system_number = #{systemNumber,jdbcType=INTEGER},
+    </if>
+    <if test="todayTermNumber != null">
+        today_term_number = #{todayTermNumber,jdbcType=INTEGER},
+    </if>
+    <if test="openSystemFlg != null">
+        open_system_flg = #{openSystemFlg,jdbcType=INTEGER},
+    </if>
+    <if test="promotionIncome != null">
+        promotion_income = #{promotionIncome,jdbcType=INTEGER},
+    </if>
+    <if test="balance != null">
+        balance = #{balance,jdbcType=INTEGER},
+    </if>
+    <if test="promotionCode != null">
+        promotion_code = #{promotionCode,jdbcType=VARCHAR},
+    </if>
+    <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="state != null">
+        `state` = #{state,jdbcType=INTEGER},
+    </if>
+</set>
+where id = #{id,jdbcType=VARCHAR}
+</update>
+<update id="updateByPrimaryKey" parameterType="com.wowoniu.fendian.model.UseUser">
     update use_user
     set login_name = #{loginName,jdbcType=VARCHAR},
       wechat_id = #{wechatId,jdbcType=VARCHAR},
@@ -260,4 +261,5 @@
       `state` = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
 </mapper>

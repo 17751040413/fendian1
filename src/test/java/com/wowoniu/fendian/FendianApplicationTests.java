@@ -18,6 +18,7 @@ class FendianApplicationTests {
 	@Test
 	void contextLoads() {
 		useUserMapper.selectByPrimaryKey("1");
+		//memberStatisticMapper.getMemberTotalData("1","2");
 	}
 
 }
