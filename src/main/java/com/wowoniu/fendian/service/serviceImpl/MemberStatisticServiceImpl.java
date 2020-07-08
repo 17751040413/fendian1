@@ -41,7 +41,7 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
         switch (type) {
             //会员裂变
             case Constants.FISSION:
-                map.put("activity", activitySetMapper.getFissionSetDetail(userId));
+                map.put("activity", activitySetMapper.getFissionSetDetailByUserId(userId));
                 break;
             //会员返利
             case Constants.REBATE:

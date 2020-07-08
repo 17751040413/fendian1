@@ -16,4 +16,15 @@
         </if>
         ORDER BY o.create_time DESC
     </select>
+
+    <!-- 批量更新裂变详情 -->
+    <update id="updateFissionSetDetailList">
+        <foreach collection="fissionSetDetailList" item="item" index="index" close="" open="" separator=";">
+            UPDATE fission_set_detail SET level_name=#{level_name},equity=#{equity},coupon_type=#{coupon_type},
+            discount_money=#{discount_money},use_threshold=#{use_threshold},month_number=#{month_number},use_range=#{use_range},
+            exchange_coupon_name=#{exchange_coupon_name},discount=#{discount}
+            WHERE id =#{id}
+        </foreach>
+    </update>
+
 </mapper>

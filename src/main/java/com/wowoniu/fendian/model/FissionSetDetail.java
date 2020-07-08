@@ -16,7 +16,7 @@ public class FissionSetDetail implements Serializable {
     private String id;
 
     @ApiModelProperty("裂变设置ID")
-    private Integer fissionId;
+    private String fissionId;
 
     @ApiModelProperty("等级序列")
     private Integer level;
@@ -56,11 +56,11 @@ public class FissionSetDetail implements Serializable {
         this.id = id;
     }
 
-    public Integer getFissionId() {
+    public String getFissionId() {
         return fissionId;
     }
 
-    public void setFissionId(Integer fissionId) {
+    public void setFissionId(String fissionId) {
         this.fissionId = fissionId;
     }
 
