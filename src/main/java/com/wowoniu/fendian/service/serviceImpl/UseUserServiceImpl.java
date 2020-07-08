@@ -16,13 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
-import java.util.Map;
 
 @Service
 public class UseUserServiceImpl implements UseUserService {
+
     @Autowired
     UseUserMapper useUserMapper;
     @Autowired
@@ -102,6 +101,7 @@ public class UseUserServiceImpl implements UseUserService {
         return loginPack;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result smsLogin(String code, String phone, String identification, HttpSession httpSession) {
         //通过账号查询用户
