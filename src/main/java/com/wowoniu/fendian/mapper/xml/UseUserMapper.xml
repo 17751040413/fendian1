@@ -33,6 +33,12 @@
         from use_user
         where id = #{id,jdbcType=VARCHAR}
     </select>
+    <select id="queryUserByLoginName" resultType="com.wowoniu.fendian.model.UseUser">
+        select
+        <include refid="Base_Column_List" />
+        from use_user
+        where login_name = #{loginName} and state = 0
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from use_user
     where id = #{id,jdbcType=VARCHAR}

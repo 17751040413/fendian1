@@ -27,4 +27,11 @@ public interface UseUserMapper {
 
     int updateByPrimaryKey(UseUser record);
 
+    /**
+     * 根据用户名查询
+     * @param loginName
+     * @return
+     */
+    UseUser queryUserByLoginName(String loginName);
+
 }

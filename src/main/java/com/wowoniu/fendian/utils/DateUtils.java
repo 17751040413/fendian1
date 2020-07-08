@@ -416,4 +416,6 @@ public class DateUtils {
         return hour(end, begin) / 24;
     }
 
+
+
 }
