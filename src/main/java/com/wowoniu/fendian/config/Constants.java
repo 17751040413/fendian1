@@ -8,6 +8,12 @@ package com.wowoniu.fendian.config;
  */
 public class Constants {
 
+    /***************  关闭：NO 开启：YES ***************/
+    public static final String NO = "N";
+
+    public static final String YES = "Y";
+
+
     /***************
      * 引流类型【
      * 0：会员裂变；1：会员返利；2：店铺分销；3：在线商城；
@@ -34,7 +40,7 @@ public class Constants {
     public static final String ORDER_STATE_PENDING_PAYMENT = "0";
     public static final String ORDER_STATE_PAID = "1";
     public static final String ORDER_STATE_NOT_SHIPPED = "2";
-    public static final String ORDER_STATE_SHIPPED= "3";
+    public static final String ORDER_STATE_SHIPPED = "3";
     public static final String ORDER_STATE_COMPLETE = "4";
     public static final String ORDER_STATE_CLOSE = "5";
 

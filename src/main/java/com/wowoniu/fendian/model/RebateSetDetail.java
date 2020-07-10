@@ -30,4 +30,51 @@ public class RebateSetDetail implements Serializable {
     @ApiModelProperty("买单返现比例（整数+%）")
     private Integer rebateRatio;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRebateId() {
+        return rebateId;
+    }
+
+    public void setRebateId(String rebateId) {
+        this.rebateId = rebateId;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
+    }
+
+    public Integer getGainFactor() {
+        return gainFactor;
+    }
+
+    public void setGainFactor(Integer gainFactor) {
+        this.gainFactor = gainFactor;
+    }
+
+    public Integer getRebateRatio() {
+        return rebateRatio;
+    }
+
+    public void setRebateRatio(Integer rebateRatio) {
+        this.rebateRatio = rebateRatio;
+    }
 }

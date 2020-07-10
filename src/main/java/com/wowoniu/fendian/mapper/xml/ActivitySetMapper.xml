@@ -20,9 +20,30 @@
     <!-- 批量更新裂变详情 -->
     <update id="updateFissionSetDetailList">
         <foreach collection="fissionSetDetailList" item="item" index="index" close="" open="" separator=";">
-            UPDATE fission_set_detail SET level_name=#{level_name},equity=#{equity},coupon_type=#{coupon_type},
-            discount_money=#{discount_money},use_threshold=#{use_threshold},month_number=#{month_number},use_range=#{use_range},
-            exchange_coupon_name=#{exchange_coupon_name},discount=#{discount}
+            UPDATE fission_set_detail SET
+            level_name=#{item.levelName},equity=#{item.equity},coupon_type=#{item.couponType},
+            discount_money=#{item.discountMoney},use_threshold=#{item.useThreshold},month_number=#{item.monthNumber},use_range=#{item.useRange},
+            exchange_coupon_name=#{item.exchangeCouponName},discount=#{item.discount}
+            WHERE id =#{id}
+        </foreach>
+    </update>
+
+    <!-- 批量更新返利详情 -->
+    <update id="updateRebateSetDetailList">
+        <foreach collection="rebateSetDetailList" item="item" index="index" close="" open="" separator=";">
+            UPDATE rebate_set_detail SET
+            level_name=#{item.levelName},gain_factor=#{item.gainFactor},rebate_ratio=#{item.rebateRatio},rebate_id=#{item.rebateId}
+            WHERE id =#{id}
+        </foreach>
+    </update>
+
+    <!-- 批量更新分销优惠券详情 -->
+    <update id="updateDistributionCouponList">
+        <foreach collection="distributionCouponList" item="item" index="index" close="" open="" separator=";">
+            UPDATE distribution_coupon
+            SET
+            phone_enable=#{item.phoneEnable},type=#{item.type},money=#{item.money},discount=#{item.discount},threshold=#{item.threshold},
+            effective_type=#{item.effectiveType},start_time=#{item.startTime},end_time=#{item.endTime},range=#{item.range}
             WHERE id =#{id}
         </foreach>
     </update>
