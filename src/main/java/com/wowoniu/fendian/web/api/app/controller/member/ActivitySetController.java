@@ -1,6 +1,5 @@
 package com.wowoniu.fendian.web.api.app.controller.member;
 
-import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.ActivitySetService;
 import com.wowoniu.fendian.utils.Result;
@@ -9,6 +8,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author yuany
@@ -32,22 +33,18 @@ public class ActivitySetController {
     /************************************************* 裂变 - START *********************************************************/
 
     @PostMapping("/getFission")
-    @ApiOperation("商家ID获取裂变及详情")
-    public Object getFission(@ApiIgnore HttpServletRequest request) {
+    @ApiOperation("获取裂变及详情 及启用/禁用")
+    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（N：关；Y：开； null：为Null时 设置过则返回数据，未设置则返回空数据）", dataType = "String", required = true)})
+    public Object getFission(String state, @ApiIgnore HttpServletRequest request) {
 
-        JSONObject jsonObject = activitySetService.getFissionAndDetail((String) request.getAttribute("sysid"));
-        if (jsonObject.isEmpty()) {
-            return new Result(204, false, "获取失败", null);
-        }
-        return new Result(200, true, "获取成功", jsonObject);
+        return activitySetService.getFissionSet((String) request.getAttribute("sysid"), state);
     }
 
     @ApiOperation("裂变活动设置(新增/修改)")
     @PostMapping("/setFission")
     public Object setFission(@RequestBody FissionSet fissionSet, @ApiIgnore HttpServletRequest request) {
 
-        fissionSet.setUserId((String) request.getAttribute("sysid"));
-        boolean result = activitySetService.addOrUpdateFission(fissionSet);
+        boolean result = activitySetService.addOrUpdateFission(fissionSet,(String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "设置成功", null);
         }
@@ -82,22 +79,18 @@ public class ActivitySetController {
 
     /************************************************* 返利 - START *********************************************************/
     @PostMapping("/getRebate")
-    @ApiOperation("商家ID获取返利及详情")
-    public Object getRebate(@ApiIgnore HttpServletRequest request) {
+    @ApiOperation("获取返利设置及详情 及启用/禁用")
+    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（N：关；Y：开； null：为Null时 设置过则返回数据，未设置则返回空数据）", dataType = "String", required = true)})
+    public Object getRebate(String state, @ApiIgnore HttpServletRequest request) {
 
-        JSONObject jsonObject = activitySetService.getRebateAndDetail((String) request.getAttribute("sysid"));
-        if (jsonObject.isEmpty()) {
-            return new Result(204, false, "获取失败", null);
-        }
-        return new Result(200, true, "获取成功", jsonObject);
+        return activitySetService.getRebate((String) request.getAttribute("sysid"), state);
     }
 
     @ApiOperation("返利活动设置(新增/修改)")
     @PostMapping("/setRebate")
     public Object setRebate(@RequestBody RebateSet rebateSet, @ApiIgnore HttpServletRequest request) {
 
-        rebateSet.setUserId((String) request.getAttribute("sysid"));
-        boolean result = activitySetService.addOrUpdateRebate(rebateSet);
+        boolean result = activitySetService.addOrUpdateRebate(rebateSet,(String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "设置成功", null);
         }
@@ -131,22 +124,18 @@ public class ActivitySetController {
 
     /************************************************* 分销 - START *********************************************************/
     @PostMapping("/getDistribution")
-    @ApiOperation("商家ID获取返利及详情")
-    public Object getDistribution(@ApiIgnore HttpServletRequest request) {
+    @ApiOperation("获取返利及详情 及启用/禁用")
+    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（N：关；Y：开； null：为null时返回现有状态的数据）", dataType = "String", required = true)})
+    public Object getDistribution(String state, @ApiIgnore HttpServletRequest request) {
 
-        JSONObject jsonObject = activitySetService.getDistributionAndDetail((String) request.getAttribute("sysid"));
-        if (jsonObject.isEmpty()) {
-            return new Result(204, false, "获取失败", null);
-        }
-        return new Result(200, true, "获取成功", jsonObject);
+        return activitySetService.getDistribution((String) request.getAttribute("sysid"), state);
     }
 
     @ApiOperation("分销活动设置(新增/修改)")
     @PostMapping("/setRebate")
     public Object setDistribution(@RequestBody DistributionSet distributionSet, @ApiIgnore HttpServletRequest request) {
 
-        distributionSet.setUserId((String) request.getAttribute("sysid"));
-        boolean result = activitySetService.addOrUpdateDistribution(distributionSet);
+        boolean result = activitySetService.addOrUpdateDistribution(distributionSet,(String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "设置成功", null);
         }
@@ -178,6 +167,132 @@ public class ActivitySetController {
     /************************************************* 分销 - END *********************************************************/
 
     /************************************************* 商城 - END *********************************************************/
+    @PostMapping("/getShoppingMallSet")
+    @ApiOperation("商家ID获取商城设置")
+    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（N：关；Y：开； null：为Null时 设置过则返回数据，未设置则返回空数据）", dataType = "String", required = true)})
+    public Object getShoppingMallSet(String state, @ApiIgnore HttpServletRequest request) {
+
+        return activitySetService.getShoppingMallSet((String) request.getAttribute("sysid"), state);
+    }
+
+    @ApiOperation("商城设置(新增/修改)")
+    @PostMapping("/setShoppingMall")
+    public Object setShoppingMall(@RequestBody ShoppingMallSet shoppingMallSet, @ApiIgnore HttpServletRequest request) {
+
+        boolean result = activitySetService.addOrUpdateShoppingMall(shoppingMallSet,(String) request.getAttribute("sysid"));
+        if (result) {
+            return new Result(200, true, "设置成功", null);
+        }
+        return new Result(204, false, "设置失败", null);
+    }
+
+    @ApiOperation("订单状态获取订单列表")
+    @PostMapping("/getWaresOrder")
+    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "订单状态（0：待付款；1：待发货；2：已发货；3：已完成；4：已关闭）", dataType = "String", required = true)})
+    public Object getWaresOrder(String state, @ApiIgnore HttpServletRequest request) {
+
+        List<WaresOrder> waresOrderList = activitySetService.getWaresOrderList((String) request.getAttribute("sysid"), state);
+        if (CollectionUtils.isEmpty(waresOrderList)) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", waresOrderList);
+    }
+
+    @ApiOperation("商品分类启用/禁用设置 并返回分类列表")
+    @PostMapping("/getWaresShortSet")
+    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "分类N:禁用；Y:启用", dataType = "String", required = true)})
+    public Object getWaresShortSet(String state, @ApiIgnore HttpServletRequest request) {
+
+        return activitySetService.getWaresShortSet((String) request.getAttribute("sysid"), state);
+    }
+
+    @ApiOperation("商品分类ID获取分类信息")
+    @PostMapping("/getWaresSortDetail")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品分类ID", dataType = "String", required = true)})
+    public Object getWaresSortDetail(String id) {
+
+        WaresSortDetail waresSortDetail = activitySetService.getWaresSortDetail(id);
+        if (waresSortDetail == null) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", waresSortDetail);
+    }
+
+    @ApiOperation("商品分类新增/修改")
+    @PostMapping("/setWaresSortDetail")
+    public Object getWaresSortDetail(@RequestBody WaresSortDetail waresSortDetail) {
+
+        boolean result = activitySetService.setWaresSortDetail(waresSortDetail);
+        if (result) {
+            return new Result(200, true, "设置成功", null);
+        }
+        return new Result(204, false, "设置失败", null);
+    }
+
+    @ApiOperation("商品分类置顶设置")
+    @PostMapping("/setWaresSortDetailTop")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品分类ID", dataType = "String", required = true)})
+    public Object setWaresSortDetailTop(String id) {
+
+        List<WaresSortDetail> waresSortDetailList = activitySetService.setWaresSortDetailTop(id);
+        if (CollectionUtils.isEmpty(waresSortDetailList)) {
+            return new Result(204, false, "设置失败", null);
+        }
+        return new Result(200, true, "设置成功", waresSortDetailList);
+    }
+
+    @ApiOperation("商品分类置顶上移 下移")
+    @PostMapping("/setWaresSortDetailTop")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品分类ID", dataType = "String", required = true),
+            @ApiImplicitParam(name = "move", value = "移动（0：向上移动一位；1：向下移动一位）", dataType = "int", required = true)})
+    public Object setWaresSortDetailTopMove(String id, Integer move) {
+
+        boolean result = activitySetService.setWaresSortDetailTopMove(id, move);
+        if (result) {
+            return new Result(200, true, "设置成功", null);
+        }
+        return new Result(204, false, "设置失败", null);
+    }
+
+    @ApiOperation("商品分类列表")
+    @PostMapping("/getWaresSortDetailList")
+    public Object getWaresSortDetailList(@ApiIgnore HttpServletRequest request) {
+
+        List<WaresSortDetail> waresSortDetailList = activitySetService.getWaresSortDetailListByUserId((String) request.getAttribute("sysid"));
+        if (CollectionUtils.isEmpty(waresSortDetailList)) {
+            return new Result(204, false, "获取失败", null);
+        }
+
+        return new Result(200, true, "获取成功", null);
+
+    }
+
+    @ApiOperation("商品列表条件查询")
+    @PostMapping("/getWaresList")
+    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "上架（Y：上架；N：下架;全部：0）", dataType = "String", required = true),
+            @ApiImplicitParam(name = "time", value = "时间查询条件（1:；0：禁用）按时间由近到远排序", dataType = "String", required = true),
+            @ApiImplicitParam(name = "sales", value = "销量查询条件（1：启用；0：禁用）按时间由多到排序", dataType = "String", required = true),
+            @ApiImplicitParam(name = "sortDetailId", value = "商品分类详情(全部则为0)", dataType = "String", required = true)})
+    public Object getWaresList(String state, String time, String sales,String sortDetailId, @ApiIgnore HttpServletRequest request) {
+
+        List<Wares> waresList = activitySetService.getWaresList((String) request.getAttribute("sysid"), state, time, sales,sortDetailId);
+        if (CollectionUtils.isEmpty(waresList)) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", waresList);
+
+    }
+
+    @ApiOperation("发布商品新增/修改")
+    @PostMapping("/setWares")
+    public Object setWares(@RequestBody Wares wares, @ApiIgnore HttpServletRequest request) {
+        boolean result = activitySetService.setWares(wares,(String) request.getAttribute("sysid"));
+        if (result) {
+            return new Result(204, false, "发布失败", null);
+        }
+        return new Result(200, true, "发布成功", null);
+
+    }
 
     /************************************************* 商城 - END *********************************************************/
 }

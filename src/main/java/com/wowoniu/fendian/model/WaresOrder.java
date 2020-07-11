@@ -28,7 +28,7 @@ public class WaresOrder implements Serializable {
     @ApiModelProperty("规格ID")
     private String specId;
 
-    @ApiModelProperty("状态（0：待付款；1：已付款；2：代发货；3：已经发货；4：已完成；5：已关闭）")
+    @ApiModelProperty("状态（0：待付款；1：待发货；2：已发货；3：已完成；4：已关闭）")
     private String state;
 
     @ApiModelProperty("创建时间")

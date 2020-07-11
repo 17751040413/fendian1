@@ -48,4 +48,32 @@
         </foreach>
     </update>
 
+    <!-- 批量更新商品分类置顶排序 -->
+    <update id="updateWaresSortDetailBatch">
+        <foreach collection="waresSortDetail" item="item" index="index" close="" open="" separator=";">
+            UPDATE wares_sort_detail SET top_row=#{item.topRow}, WHERE id = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 商品条件查询 -->
+    <select id="getWaresList" resultType="com.wowoniu.fendian.model.Wares">
+        SELECT w.* FROM wares w
+        LEFT JOIN wares_sort_set wss ON wss.user_id = w.user_id
+        LEFT JOIN wares_sort_detail wsd ON wsd.sort_id = wss.id
+        WHERE w.user_id = #{userId}
+        AND w.hide = 'N'
+        <if test="state != 0" >
+            AND w.state = #{state}
+        </if>
+        <if test="sortDetailId != 0 " >
+            AND wsd.id = #{sortDetailId}
+        </if>
+        <if test="time == 1">
+            ORDER BY shelfTime DESC
+        </if>
+        <if test="sales == 1">
+            ORDER BY salesVolume DESC
+        </if>
+    </select>
+
 </mapper>

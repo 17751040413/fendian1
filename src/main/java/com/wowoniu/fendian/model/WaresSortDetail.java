@@ -27,9 +27,6 @@ public class WaresSortDetail implements Serializable {
     @ApiModelProperty("名称")
     private String name;
 
-    @ApiModelProperty("置顶（N:禁用；Y:启用）")
-    private String top;
-
     @ApiModelProperty("置顶排序")
     private Integer topRow;
 
@@ -71,14 +68,6 @@ public class WaresSortDetail implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getTop() {
-        return top;
-    }
-
-    public void setTop(String top) {
-        this.top = top;
     }
 
     public Integer getTopRow() {

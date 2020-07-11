@@ -25,6 +25,16 @@ public interface ActivitySetMapper {
     List<FissionSetDetail> getFissionSetDetailByUserId(@Param("userId") String userId);
 
     /**
+     * 设置裂变启用/禁用
+     *
+     * @param userId
+     * @param state
+     * @return
+     */
+    @Update("UPDATE fission_set SET state = #{state} WHERE user_id = #{userId}")
+    int setFissionState(@Param("userId") String userId, @Param("state") String state);
+
+    /**
      * 商家ID获取裂变设置
      *
      * @param userId
@@ -103,6 +113,16 @@ public interface ActivitySetMapper {
      */
     @Select("SELECT * FROM rebate_set WHERE user_id = #{userId}")
     List<RebateSet> getRebateSetList(@Param("userId") String userId);
+
+    /**
+     * 设置返利启用/禁用
+     *
+     * @param userId
+     * @param state
+     * @return
+     */
+    @Update("UPDATE rebate_set SET state = #{state} WHERE user_id = #{userId}")
+    int setRebateState(@Param("userId") String userId, @Param("state") String state);
 
     /**
      * 商家ID获取返利设置
@@ -186,6 +206,16 @@ public interface ActivitySetMapper {
     DistributionSet getDistributionSet(@Param("userId") String userId);
 
     /**
+     * 设置分销启用/禁用
+     *
+     * @param userId
+     * @param state
+     * @return
+     */
+    @Update("UPDATE distribution_set SET state = #{state} WHERE user_id = #{userId}")
+    int setDistributionSetState(@Param("userId") String userId, @Param("state") String state);
+
+    /**
      * 用户ID获取分销优惠券
      *
      * @param userId
@@ -241,7 +271,185 @@ public interface ActivitySetMapper {
 
     /************************************** 分销 - END *************************************************/
 
+    /************************************** 商城 - START *************************************************/
+    /**
+     * 商家ID获取商城设置
+     *
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM shopping_mall_set WHERE user_id = #{userId}")
+    ShoppingMallSet getShoppingMallSet(@Param("userId") String userId);
 
+    /**
+     * 设置商城启用/禁用
+     *
+     * @param userId
+     * @param state
+     * @return
+     */
+    @Update("UPDATE shopping_mall_set SET state = #{state} WHERE user_id = #{userId}")
+    int setShoppingMallSetState(@Param("userId") String userId, @Param("state") String state);
+
+    /**
+     * 新增商城设置
+     *
+     * @param shoppingMallSet
+     * @return
+     */
+    @Insert("INSERT INTO shopping_mall_set(id,user_id,state,self_raising,distribution,freight,recommend,prevent_brush) " +
+            "VALUES (id,userId,state,selfRaising,distribution,freight,recommend,preventBrush)")
+    int addShoppingMallSet(ShoppingMallSet shoppingMallSet);
+
+    /**
+     * 更新商城设置
+     *
+     * @param shoppingMallSet
+     * @return
+     */
+    @Update("UPDATE shopping_mall_set SET state = #{state} ,self_raising = #{selfRaising},distribution = #{distribution},freight=#{freight},recommend=#{recommend},prevent_brush=#{preventBrush} WHERE id =#{id} ")
+    int updateShoppingMallSet(ShoppingMallSet shoppingMallSet);
+
+    /**
+     * 状态获取订单列表
+     *
+     * @param userId
+     * @param state
+     * @return
+     */
+    @Select("SELECT * FROM wares_order WHERE user_id = #{userId} AND state = #{state}")
+    List<WaresOrder> getWaresOrderList(@Param("userId") String userId, @Param("state") String state);
+
+    @Select("SELECT * FROM wares_sort_set WHERE user_id = #{userId}")
+    WaresSortSet getWaresSortSet(String userId);
+
+    /**
+     * 新增商品分类管理启用/禁用标识
+     *
+     * @param waresSortSet
+     * @return
+     */
+    @Insert("INSERT INTO wares_sort_set (user_id,state) VALUES (userId,state)")
+    int addWaresSortSet(WaresSortSet waresSortSet);
+
+    /**
+     * 修改商品分类管理启用/禁用标识
+     *
+     * @param userId
+     * @param state
+     * @return
+     */
+    @Update("UPDATE wares_sort_set SET state = #{state} WHERE id = #{id} AND user_id #{userId}")
+    int setWaresSortSetState(@Param("userId") String userId, @Param("state") String state);
+
+    /**
+     * 分类ID获取分类列表
+     *
+     * @param sortId
+     * @return
+     */
+    @Select("SELECT * FROM wares_sort_detail WHERE sort_id = #{sortId} ORDER BY top_row,state,id ASC")
+    List<WaresSortDetail> getWaresSortDetailList(@Param("sortId") String sortId);
+
+    /**
+     * 分类ID获取置顶分类列表
+     *
+     * @param sortId
+     * @return
+     */
+    @Select("SELECT * FROM wares_sort_detail WHERE sort_id = #{sortId} AND top = #{top} ORDER BY top_row ASC")
+    List<WaresSortDetail> getWaresSortDetailListByTop(@Param("sortId") String sortId);
+
+    /**
+     * 分类详情ID获取商品分类
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM WHERE wares_sort_detail id = #{id}")
+    WaresSortDetail getWaresSortDetail(@Param("id") String id);
+
+    /**
+     * 新增商品分类
+     *
+     * @param waresSortDetail
+     * @return
+     */
+    @Insert("INSERT INTO wares_sort_detail(id,state,name,top_row,sort_id) VALUES (id,state,name,topRow,sortId)")
+    int addWaresSortDetail(WaresSortDetail waresSortDetail);
+
+    /**
+     * 修改商品分类
+     *
+     * @param waresSortDetail
+     * @return
+     */
+    @Update("UPDATE wares_sort_detail SET state = #{state},name=#{name},top_row=#{topRow},sort_id=#{sortId} WHERE id = #{id}")
+    int updateWaresSortDetail(WaresSortDetail waresSortDetail);
+
+    /**
+     * 商品分类置顶
+     *
+     * @param waresSortDetail
+     * @return
+     */
+    int updateWaresSortDetailBatch(@Param("waresSortDetail") List<WaresSortDetail> waresSortDetail);
+
+    /**
+     * 置顶排序获取分类
+     *
+     * @param topRow
+     * @return
+     */
+    @Select("SELECT * FROM wares_sort_detail WHERE top_row = #{topRow}")
+    WaresSortDetail getWaresSortDetailByTopRow(@Param("topRow") Integer topRow);
+
+    /**
+     * 状态 用户ID获取分类列表
+     *
+     * @param state
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM wares_sort_detail WHERE sort_id = (SELECT id FROM wares_sort_set WHERE user_id = #{userId}) " +
+            "AND state =#{state} ORDER BY top_row,state,id ASC")
+    List<WaresSortDetail> getWaresSortDetailListByUserId(@Param("state") String state, @Param("userId") String userId);
+
+    /**
+     * 商品列表条件查询
+     *
+     * @param userId
+     * @param state
+     * @param time
+     * @param sales
+     * @param sortDetailId
+     * @return
+     */
+    List<Wares> getWaresList(@Param("userId") String userId, @Param("state") String state, @Param("time") String time,
+                             @Param("sales") String sales, @Param("sortDetailId") String sortDetailId);
+
+    /**
+     * 新增商品
+     *
+     * @param wares
+     * @return
+     */
+    @Insert("INSERT INTO wares(id,title,price,stock,freight,sort_id,distribution_commission,hide,picture_url,on_shelf,sales_volume,shelf_time,user_id) " +
+            "VALUES (id,title,price,stock,freight,sortId,distributionCommission,hide,pictureUrl,onShelf,salesVolume,shelfTime,userId)")
+    int addWares(Wares wares);
+
+    /**
+     * 更新商品
+     *
+     * @param wares
+     * @return
+     */
+    @Update("UPDATE wares SET title = #{title},price=#{price},stock=#{stock},freight=#{freight},sort_id=#{sortId}," +
+            "distribution_commission=#{distributionCommission},hide=#{hide},picture_url=#{pictureUrl},on_shelf=#{onShelf}，" +
+            "sales_volume =#{salesVolume},shelf_time=#{shelfTime} WHERE id = #{id}")
+    int updateWares(Wares wares);
+
+    /************************************** 商城 - END *************************************************/
 
 
     /**
