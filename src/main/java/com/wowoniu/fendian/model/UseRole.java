@@ -13,9 +13,19 @@ public class UseRole {
   private String roleItem;
   @ApiModelProperty("角色名")
   private String roleName;
+  @ApiModelProperty("角色图标")
+  private String roleImg;
   @ApiModelProperty("创建时间")
   private java.util.Date createTime;
 
+
+  public String getRoleImg() {
+    return roleImg;
+  }
+
+  public void setRoleImg(String roleImg) {
+    this.roleImg = roleImg;
+  }
 
   public String getId() {
     return id;

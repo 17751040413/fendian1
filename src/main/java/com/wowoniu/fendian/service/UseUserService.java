@@ -1,6 +1,7 @@
 package com.wowoniu.fendian.service;
 
 import com.wowoniu.fendian.model.pack.LoginPack;
+import com.wowoniu.fendian.model.pack.UserInfoPack;
 import com.wowoniu.fendian.utils.Result;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -44,4 +45,11 @@ public interface UseUserService {
      * @return
      */
     Result bindWeChat(String openId, String photo, String nickname,String userId) throws MalformedURLException;
+
+    /**
+     * 获取个人中心
+     * @param userid
+     * @return
+     */
+    UserInfoPack getUserInfo(String userid);
 }

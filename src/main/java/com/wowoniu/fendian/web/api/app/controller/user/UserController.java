@@ -51,4 +51,13 @@ public class UserController {
         return useUserService.bindWeChat(openId,photo,nickname,userid);
 
     }
+
+    @PostMapping("getUserInfo")
+    @ApiOperation("个人中心")
+    public Result getUserInfo(@ApiIgnore HttpServletRequest request){
+
+        String userid = (String) request.getAttribute("id");
+        return new Result(200,true,"获取成功",useUserService.getUserInfo(userid));
+
+    }
 }

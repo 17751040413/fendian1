@@ -3,11 +3,14 @@ package com.wowoniu.fendian.service.serviceImpl;
 import com.wowoniu.fendian.config.AuthCodeConfig;
 import com.wowoniu.fendian.mapper.UseUserMapper;
 import com.wowoniu.fendian.mapper.UserLoginMapper;
+import com.wowoniu.fendian.mapper.UserRoleMapper;
 import com.wowoniu.fendian.model.UseUser;
 import com.wowoniu.fendian.model.UserLogin;
 import com.wowoniu.fendian.model.pack.LoginPack;
+import com.wowoniu.fendian.model.pack.UserInfoPack;
 import com.wowoniu.fendian.service.UseUserService;
 import com.wowoniu.fendian.utils.*;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,8 @@ public class UseUserServiceImpl implements UseUserService {
     //访问路径
     @Value("${headimg.visit}")
     String headImgVisit;
+    @Autowired
+    UserRoleMapper userRoleMapper;
 
 
     @Transactional(rollbackFor = Exception.class)
@@ -227,6 +232,24 @@ public class UseUserServiceImpl implements UseUserService {
         useUserMapper.updateByPrimaryKeySelective(newUser);
 
         return new Result(200,true,"绑定成功");
+    }
+
+    @Override
+    public UserInfoPack getUserInfo(String userid) {
+
+        UserInfoPack userInfoPack = new UserInfoPack();
+        //根据id获取个人信息
+        UseUser useUser = useUserMapper.selectByPrimaryKey(userid);
+        if (useUser != null){
+            userInfoPack.setBalance(useUser.getBalance());
+            userInfoPack.setHeadImg(useUser.getHeadImg());
+            userInfoPack.setParentName(useUser.getParentName());
+            userInfoPack.setPromotionIncome(useUser.getPromotionIncome());
+            userInfoPack.setRoleId(useUser.getRoleId1());
+            userInfoPack.setRoleName(userRoleMapper.queryUseRoleById(useUser.getRoleId1()).getRoleName());
+            userInfoPack.setRoleImg(userRoleMapper.queryUseRoleById(useUser.getRoleId1()).getRoleImg());;
+        }
+        return userInfoPack;
     }
 
 
