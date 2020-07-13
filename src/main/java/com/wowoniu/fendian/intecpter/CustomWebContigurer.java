@@ -18,7 +18,7 @@ public class CustomWebContigurer implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry){
 
-        registry.addInterceptor(loginIntercepter).addPathPatterns("/api/us/v1/*/**");
+        registry.addInterceptor(loginIntercepter).addPathPatterns("/app/v1/us/*/**");
         registry.addInterceptor(loginIntercepter).addPathPatterns("/api/pay/*/**");
         registry.addInterceptor(loginIntercepter).addPathPatterns("/api/bank/*/**");
         //registry.addInterceptor(loginIntercepter).addPathPatterns("/api/us/login/getHomePage");

@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.web.api.app.controller.login;
 
+import com.wowoniu.fendian.model.UseUser;
 import com.wowoniu.fendian.service.UseUserService;
 import com.wowoniu.fendian.service.UserLoginService;
 import com.wowoniu.fendian.utils.Result;
@@ -8,11 +9,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpRequest;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -45,12 +46,16 @@ public class LoginController {
             @ApiImplicitParam(name = "code",value = "验证码",dataType = "String",required = true),
             @ApiImplicitParam(name = "phone",value = "手机号",dataType = "String",required = true),
             @ApiImplicitParam(name = "identification",value = "设备码",dataType = "String",required = true)
+
     })
-    public Result smsLogin(String code, String phone, String identification, @ApiIgnore HttpSession httpSession){
+    public Result smsLogin(String code, String phone, String identification,
+                           @ApiIgnore HttpSession httpSession){
 
 
         return useUserService.smsLogin(code,phone,identification,httpSession);
     }
+
+
 
 
 }

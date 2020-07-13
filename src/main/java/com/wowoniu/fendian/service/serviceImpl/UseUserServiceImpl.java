@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
@@ -78,12 +79,7 @@ public class UseUserServiceImpl implements UseUserService {
             loginPack.setUseUser(newUser);
 
         }
-        //推荐用户首次登录
-        else if(StringUtils.isEmpity(useUser.getNickName())){
 
-
-
-        }
         else {
             String token = JwtUtils.geneJsonToken(useUser);
             String id = StringUtils.getUuid();
@@ -165,6 +161,72 @@ public class UseUserServiceImpl implements UseUserService {
         }
 
         return result;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result bindPhone(String phone, String code, HttpSession httpSession,String userId) {
+
+        Result result;
+        //获取验证码信息
+        AuthCodeConfig authCodeConfig = (AuthCodeConfig) httpSession.getAttribute("authCodeConfig");
+        if (authCodeConfig == null){
+            return new  Result(204,true,"请重新获取验证码");
+        }
+        String authCode = authCodeConfig.getAuthcode();
+        Date sendDate = authCodeConfig.getDate();
+        String iphone = authCodeConfig.getPhone();
+
+        Date nowDate = new Date();
+
+        UseUser us = useUserMapper.queryUserByLoginName(phone);
+        if (us != null){
+            return new Result(204,true,"当前手机已绑定其他账号,请更换");
+        }
+
+        if (!(phone.equals(iphone))) {
+            result = new Result(204, true, "手机号不一致");
+        } else if (sendDate != null && DateUtils.minutie(nowDate, sendDate) > 10) {
+            result = new Result(204, true, "验证码超时，请重新获取");
+        } else if (authCode == null || !(authCode.equals(code))) {
+            result = new Result(204, true, "验证码错误");
+        }else {
+            UseUser useUser = new UseUser();
+            useUser.setId(userId);
+            useUser.setLoginName(phone);
+            useUserMapper.updateByPrimaryKeySelective(useUser);
+            result = new Result(200,true,"绑定成功");
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result bindWeChat(String openId, String photo, String nickname, String userId) throws MalformedURLException {
+
+        Result result;
+        UseUser us = useUserMapper.queryUserByOpenId(openId);
+        if (us != null){
+            return new Result(204,true,"当前微信已存在");
+        }
+        UseUser newUser = new UseUser();
+        newUser.setNickName(nickname);
+        newUser.setWechatId(openId);
+        URL url = new URL(photo);
+        File file = new File(url.getFile());
+        String fe = file.getName();
+        String suffix = fe.substring(fe.lastIndexOf(".") + 1);// 获取后缀
+        String fileName = StringUtils.getUuid() + "." + suffix;// 获取文件名
+
+        //上传头像到服务器
+        ImgByUrl.getImageByUrl(photo, headImgPath, fileName);
+        //获取头像访问地址
+        String imgVisit = headImgVisit+fileName;
+        newUser.setHeadImg(imgVisit);
+        newUser.setId(userId);
+        useUserMapper.updateByPrimaryKeySelective(newUser);
+
+        return new Result(200,true,"绑定成功");
     }
 
 
