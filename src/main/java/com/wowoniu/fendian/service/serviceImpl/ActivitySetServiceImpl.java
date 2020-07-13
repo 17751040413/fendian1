@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.service.serviceImpl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
@@ -73,7 +74,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean addOrUpdateFission(FissionSet fissionSet,String userId) {
+    public boolean addOrUpdateFission(FissionSet fissionSet, String userId) {
         if (fissionSet == null) {
             return false;
         }
@@ -190,7 +191,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean addOrUpdateRebate(RebateSet rebateSet,String userId) {
+    public boolean addOrUpdateRebate(RebateSet rebateSet, String userId) {
         if (rebateSet == null) {
             return false;
         }
@@ -299,7 +300,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean addOrUpdateDistribution(DistributionSet distributionSet,String userId) {
+    public boolean addOrUpdateDistribution(DistributionSet distributionSet, String userId) {
         if (distributionSet == null) {
             return false;
         }
@@ -402,7 +403,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean addOrUpdateShoppingMall(ShoppingMallSet shoppingMallSet,String userId) {
+    public boolean addOrUpdateShoppingMall(ShoppingMallSet shoppingMallSet, String userId) {
         if (shoppingMallSet == null) {
             return false;
         }
@@ -608,7 +609,8 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      * @return
      */
     @Override
-    public boolean setWares(Wares wares,String userId) {
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setWares(Wares wares, String userId) {
         if (wares == null) {
             return false;
         }
@@ -617,6 +619,67 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             activitySetMapper.addWares(wares);
         } else {
             activitySetMapper.updateWares(wares);
+        }
+        return true;
+    }
+
+    /**
+     * 商品ID获取规格及规格详情
+     *
+     * @param waresId
+     * @return
+     */
+    @Override
+    public JSONArray getWaresSpecAndDetail(String waresId) {
+
+        //规格集合
+        List<WaresSpec> waresSpecList = activitySetMapper.getWaresSpecList(waresId);
+        //规格详情集合
+        List<WaresSpecDetail> waresSpecDetailList = activitySetMapper.getWaresSpecDetailList(waresSpecList);
+
+        JSONArray array = new JSONArray();
+        for (WaresSpec waresSpec : waresSpecList) {
+            JSONObject jsonObject = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            jsonObject.put("spec", waresSpec);
+            for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
+                if (waresSpec.getId().equals(waresSpecDetail.getSpecId())) {
+                    jsonArray.add(waresSpecDetail);
+                }
+            }
+            jsonObject.put("detail", jsonArray);
+            array.add(jsonObject);
+        }
+        return array;
+    }
+
+    /**
+     * 商品规格及详情新增/修改
+     *
+     * @param waresSpec
+     * @param waresSpecDetailList
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setWaresSpecAndDetail(WaresSpec waresSpec, List<WaresSpecDetail> waresSpecDetailList) {
+        if (waresSpec == null || CollectionUtils.isEmpty(waresSpecDetailList)) {
+            return false;
+        }
+
+        //新增
+        if (StringUtils.isEmpity(waresSpec.getId())) {
+            waresSpec.setId(StringUtils.getUuid());
+            for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
+                waresSpecDetail.setId(StringUtils.getUuid());
+                waresSpecDetail.setSpecId(waresSpec.getId());
+            }
+            activitySetMapper.addWaresSpec(waresSpec);
+            activitySetMapper.addWaresSpecDetailBatch(waresSpecDetailList);
+        } else {
+            //修改
+            activitySetMapper.updateWaresSpec(waresSpec);
+            activitySetMapper.updateWaresSpecDetailBatch(waresSpecDetailList);
         }
         return true;
     }

@@ -26,7 +26,7 @@ public class WaresOrder implements Serializable {
     private String waresId;
 
     @ApiModelProperty("规格ID")
-    private String specId;
+    private String specDetailId;
 
     @ApiModelProperty("状态（0：待付款；1：待发货；2：已发货；3：已完成；4：已关闭）")
     private String state;
@@ -67,11 +67,11 @@ public class WaresOrder implements Serializable {
     }
 
     public String getSpecId() {
-        return specId;
+        return specDetailId;
     }
 
     public void setSpecId(String specId) {
-        this.specId = specId;
+        this.specDetailId = specId;
     }
 
     public String getState() {

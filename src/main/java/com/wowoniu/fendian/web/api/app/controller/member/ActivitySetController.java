@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.web.api.app.controller.member;
 
+import com.alibaba.fastjson.JSONArray;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.ActivitySetService;
 import com.wowoniu.fendian.utils.Result;
@@ -44,7 +45,7 @@ public class ActivitySetController {
     @PostMapping("/setFission")
     public Object setFission(@RequestBody FissionSet fissionSet, @ApiIgnore HttpServletRequest request) {
 
-        boolean result = activitySetService.addOrUpdateFission(fissionSet,(String) request.getAttribute("sysid"));
+        boolean result = activitySetService.addOrUpdateFission(fissionSet, (String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "设置成功", null);
         }
@@ -90,7 +91,7 @@ public class ActivitySetController {
     @PostMapping("/setRebate")
     public Object setRebate(@RequestBody RebateSet rebateSet, @ApiIgnore HttpServletRequest request) {
 
-        boolean result = activitySetService.addOrUpdateRebate(rebateSet,(String) request.getAttribute("sysid"));
+        boolean result = activitySetService.addOrUpdateRebate(rebateSet, (String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "设置成功", null);
         }
@@ -135,7 +136,7 @@ public class ActivitySetController {
     @PostMapping("/setRebate")
     public Object setDistribution(@RequestBody DistributionSet distributionSet, @ApiIgnore HttpServletRequest request) {
 
-        boolean result = activitySetService.addOrUpdateDistribution(distributionSet,(String) request.getAttribute("sysid"));
+        boolean result = activitySetService.addOrUpdateDistribution(distributionSet, (String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "设置成功", null);
         }
@@ -179,7 +180,7 @@ public class ActivitySetController {
     @PostMapping("/setShoppingMall")
     public Object setShoppingMall(@RequestBody ShoppingMallSet shoppingMallSet, @ApiIgnore HttpServletRequest request) {
 
-        boolean result = activitySetService.addOrUpdateShoppingMall(shoppingMallSet,(String) request.getAttribute("sysid"));
+        boolean result = activitySetService.addOrUpdateShoppingMall(shoppingMallSet, (String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "设置成功", null);
         }
@@ -273,9 +274,9 @@ public class ActivitySetController {
             @ApiImplicitParam(name = "time", value = "时间查询条件（1:；0：禁用）按时间由近到远排序", dataType = "String", required = true),
             @ApiImplicitParam(name = "sales", value = "销量查询条件（1：启用；0：禁用）按时间由多到排序", dataType = "String", required = true),
             @ApiImplicitParam(name = "sortDetailId", value = "商品分类详情(全部则为0)", dataType = "String", required = true)})
-    public Object getWaresList(String state, String time, String sales,String sortDetailId, @ApiIgnore HttpServletRequest request) {
+    public Object getWaresList(String state, String time, String sales, String sortDetailId, @ApiIgnore HttpServletRequest request) {
 
-        List<Wares> waresList = activitySetService.getWaresList((String) request.getAttribute("sysid"), state, time, sales,sortDetailId);
+        List<Wares> waresList = activitySetService.getWaresList((String) request.getAttribute("sysid"), state, time, sales, sortDetailId);
         if (CollectionUtils.isEmpty(waresList)) {
             return new Result(204, false, "获取失败", null);
         }
@@ -286,13 +287,39 @@ public class ActivitySetController {
     @ApiOperation("发布商品新增/修改")
     @PostMapping("/setWares")
     public Object setWares(@RequestBody Wares wares, @ApiIgnore HttpServletRequest request) {
-        boolean result = activitySetService.setWares(wares,(String) request.getAttribute("sysid"));
+        boolean result = activitySetService.setWares(wares, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(204, false, "发布失败", null);
+            return new Result(200, true, "发布成功", null);
         }
-        return new Result(200, true, "发布成功", null);
-
+        return new Result(204, false, "发布失败", null);
     }
 
+    @ApiOperation("商品ID获取规格及规格详情")
+    @PostMapping("/getWaresSpecAndDetail")
+    @ApiImplicitParams({@ApiImplicitParam(name = "waresId", value = "商品ID", dataType = "String", required = true)})
+    public Object getWaresSpecAndDetail(String waresId) {
+
+        JSONArray jsonArray = activitySetService.getWaresSpecAndDetail(waresId);
+        if (jsonArray.isEmpty()) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", jsonArray);
+    }
+
+    @ApiOperation("商品规格及详情新增/修改")
+    @PostMapping("/setWaresSpec")
+    public Object setWaresSpec(@RequestBody WaresSpec waresSpec, @RequestBody List<WaresSpecDetail> waresSpecDetailList) {
+        boolean result = activitySetService.setWaresSpecAndDetail(waresSpec, waresSpecDetailList);
+        if (result) {
+            return new Result(200, true, "操作成功", null);
+        }
+        return new Result(204, false, "操作成功", null);
+    }
+
+
     /************************************************* 商城 - END *********************************************************/
+
+    /************************************************* 抽奖 - END *********************************************************/
+
+    /************************************************* 抽奖 - END *********************************************************/
 }

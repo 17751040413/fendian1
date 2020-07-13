@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.utils.Result;
 
@@ -210,4 +211,22 @@ public interface ActivitySetService {
      */
     boolean setWares(Wares wares, String userId);
 
+    /**
+     * 商品ID获取规格及规格详情
+     *
+     * @param waresId
+     * @return
+     */
+    JSONArray getWaresSpecAndDetail(String waresId);
+
+    /**
+     * 商品规格及详情新增/修改
+     *
+     * @param waresSpec
+     * @param waresSpecDetailList
+     * @return
+     */
+    boolean setWaresSpecAndDetail(WaresSpec waresSpec, List<WaresSpecDetail> waresSpecDetailList);
+
 }
+

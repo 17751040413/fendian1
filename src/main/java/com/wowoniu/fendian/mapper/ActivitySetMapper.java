@@ -405,7 +405,7 @@ public interface ActivitySetMapper {
     WaresSortDetail getWaresSortDetailByTopRow(@Param("topRow") Integer topRow);
 
     /**
-     * 状态 用户ID获取分类列表
+     * 用户ID获取分类列表
      *
      * @param state
      * @param userId
@@ -448,6 +448,45 @@ public interface ActivitySetMapper {
             "distribution_commission=#{distributionCommission},hide=#{hide},picture_url=#{pictureUrl},on_shelf=#{onShelf}，" +
             "sales_volume =#{salesVolume},shelf_time=#{shelfTime} WHERE id = #{id}")
     int updateWares(Wares wares);
+
+    /**
+     * 商品ID获取规格
+     *
+     * @param waresId
+     * @return
+     */
+    @Select("SELECT * FROM wares_spec WHERE wares_id = #{waresId}")
+    List<WaresSpec> getWaresSpecList(String waresId);
+
+    /**
+     * 规格ID获取规格详情
+     *
+     * @param waresSpecList
+     * @return
+     */
+    List<WaresSpecDetail> getWaresSpecDetailList(@Param("waresSpecList") List<WaresSpec> waresSpecList);
+
+    /**
+     * 新增规格
+     */
+    @Insert("INSERT INTO wares_spec (id,spec,wares_id) VALUES (#{id},#{spec},#{waresId})")
+    int addWaresSpec(WaresSpec waresSpec);
+
+    /**
+     * 修改规格
+     */
+    @Insert("UPDATE wares_spec SET spec = #{spec} WHERE id = #{spec}")
+    int updateWaresSpec(WaresSpec waresSpec);
+
+    /**
+     * 新增规格详情-批量
+     */
+    int addWaresSpecDetailBatch(@Param("waresSpecDetailList") List<WaresSpecDetail> waresSpecDetailList);
+
+    /**
+     * 修改规格详情-批量
+     */
+    int updateWaresSpecDetailBatch(@Param("waresSpecDetailList") List<WaresSpecDetail> waresSpecDetailList);
 
     /************************************** 商城 - END *************************************************/
 

@@ -18,9 +18,6 @@ public class WaresSpec implements Serializable {
     @ApiModelProperty("规格")
     private String spec;
 
-    @ApiModelProperty("型号（多个’，‘隔开）")
-    private String model;
-
     @ApiModelProperty("商品ID")
     private String waresId;
 
@@ -38,14 +35,6 @@ public class WaresSpec implements Serializable {
 
     public void setSpec(String spec) {
         this.spec = spec;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public String getWaresId() {
