@@ -1,6 +1,7 @@
 package com.wowoniu.fendian.web.api.app.controller.member;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.ActivitySetService;
 import com.wowoniu.fendian.utils.Result;
@@ -300,7 +301,7 @@ public class ActivitySetController {
     public Object getWaresSpecAndDetail(String waresId) {
 
         JSONArray jsonArray = activitySetService.getWaresSpecAndDetail(waresId);
-        if (jsonArray.isEmpty()) {
+        if (jsonArray == null || jsonArray.size() == 0) {
             return new Result(204, false, "获取失败", null);
         }
         return new Result(200, true, "获取成功", jsonArray);
@@ -311,15 +312,111 @@ public class ActivitySetController {
     public Object setWaresSpec(@RequestBody WaresSpec waresSpec, @RequestBody List<WaresSpecDetail> waresSpecDetailList) {
         boolean result = activitySetService.setWaresSpecAndDetail(waresSpec, waresSpecDetailList);
         if (result) {
-            return new Result(200, true, "操作成功", null);
+            return new Result(200, true, "创建成功", null);
         }
-        return new Result(204, false, "操作成功", null);
+        return new Result(204, false, "创建失败", null);
     }
 
 
     /************************************************* 商城 - END *********************************************************/
 
+    /************************************************* 抽奖 -砸金蛋 转盘 - START *********************************************************/
+
+    @ApiOperation("抽奖ID获取抽奖设置及详情")
+    @PostMapping("/getLuckDrawSetAndDetail")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "抽奖设置ID", dataType = "String", required = true)})
+    public Object getLuckDrawSetAndDetail(String id) {
+
+        JSONObject jsonObject = activitySetService.getLuckDrawSetAndDetail(id);
+        if (jsonObject == null || jsonObject.size() == 0) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", jsonObject);
+    }
+
+    @ApiOperation("抽奖及详情新增/修改")
+    @PostMapping("/setWaresSpec")
+    public Object setLuckDrawSet(@RequestBody LuckDrawSet luckDrawSet, @RequestBody List<LuckDrawDetail> luckDrawDetailList) {
+        boolean result = activitySetService.setLuckDrawSetAndDetail(luckDrawSet, luckDrawDetailList);
+        if (result) {
+            return new Result(200, true, "创建成功", null);
+        }
+        return new Result(204, false, "创建成功", null);
+    }
     /************************************************* 抽奖 - END *********************************************************/
 
-    /************************************************* 抽奖 - END *********************************************************/
+    /************************************************* 优惠券 - START *********************************************************/
+
+    @ApiOperation("优惠券ID获取设置信息")
+    @PostMapping("/getCouponSet")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "优惠券设置ID", dataType = "String", required = true)})
+    public Object getCouponSet(String id) {
+
+        CouponSet couponSet = activitySetService.getCouponSet(id);
+        if (couponSet == null) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", couponSet);
+    }
+
+    @ApiOperation("优惠券新增/修改")
+    @PostMapping("/setCouponSet")
+    public Object setCouponSet(@RequestBody CouponSet couponSet, @ApiIgnore HttpServletRequest request) {
+        boolean result = activitySetService.setCouponSet(couponSet, (String) request.getAttribute("sysid"));
+        if (result) {
+            return new Result(200, true, "创建成功", null);
+        }
+        return new Result(204, false, "创建成功", null);
+    }
+    /************************************************* 优惠券 - END *********************************************************/
+
+    /************************************************* 拼团 - START *********************************************************/
+
+    @ApiOperation("拼团ID获取设置信息")
+    @PostMapping("/getGroupBuying")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "拼团设置ID", dataType = "String", required = true)})
+    public Object getGroupBuying(String id) {
+
+        GroupBuying groupBuying = activitySetService.getGroupBuying(id);
+        if (groupBuying == null) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", groupBuying);
+    }
+
+    @ApiOperation("优惠券新增/修改")
+    @PostMapping("/setGroupBuying")
+    public Object setGroupBuying(@RequestBody GroupBuying groupBuying, @ApiIgnore HttpServletRequest request) {
+        boolean result = activitySetService.setGroupBuying(groupBuying, (String) request.getAttribute("sysid"));
+        if (result) {
+            return new Result(200, true, "创建成功", null);
+        }
+        return new Result(204, false, "创建成功", null);
+    }
+    /************************************************* 拼团 - END *********************************************************/
+
+    /************************************************* 推荐 - START *********************************************************/
+
+    @ApiOperation("推荐ID获取设置信息")
+    @PostMapping("/getRecommendSet")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "推荐设置ID", dataType = "String", required = true)})
+    public Object getRecommendSet(String id) {
+
+        RecommendSet recommendSet = activitySetService.getRecommendSet(id);
+        if (recommendSet == null) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", recommendSet);
+    }
+
+    @ApiOperation("优惠券新增/修改")
+    @PostMapping("/setRecommendSet")
+    public Object setRecommendSet(@RequestBody RecommendSet recommendSet, @ApiIgnore HttpServletRequest request) {
+        boolean result = activitySetService.setRecommendSet(recommendSet, (String) request.getAttribute("sysid"));
+        if (result) {
+            return new Result(200, true, "创建成功", null);
+        }
+        return new Result(204, false, "创建成功", null);
+    }
+    /************************************************* 推荐 - END *********************************************************/
 }

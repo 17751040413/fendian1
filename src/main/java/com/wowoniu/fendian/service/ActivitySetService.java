@@ -1,6 +1,7 @@
 package com.wowoniu.fendian.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.utils.Result;
 
@@ -227,6 +228,72 @@ public interface ActivitySetService {
      * @return
      */
     boolean setWaresSpecAndDetail(WaresSpec waresSpec, List<WaresSpecDetail> waresSpecDetailList);
+
+    /**
+     * 抽奖ID获取抽奖设置及详情
+     *
+     * @param id
+     * @return
+     */
+    JSONObject getLuckDrawSetAndDetail(String id);
+
+    /**
+     * 抽奖及详情新增/修改
+     *
+     * @param luckDrawSet
+     * @param luckDrawDetailList
+     * @return
+     */
+    boolean setLuckDrawSetAndDetail(LuckDrawSet luckDrawSet, List<LuckDrawDetail> luckDrawDetailList);
+
+    /**
+     * ID获取优惠券设置
+     *
+     * @return
+     */
+    CouponSet getCouponSet(String id);
+
+    /**
+     * 优惠券设置新增/修改
+     *
+     * @param couponSet
+     * @return
+     */
+    boolean setCouponSet(CouponSet couponSet, String userId);
+
+    /**
+     * ID获取拼团设置
+     *
+     * @param id
+     * @return
+     */
+    GroupBuying getGroupBuying(String id);
+
+    /**
+     * 拼团设置 新增/删除
+     *
+     * @param groupBuying
+     * @param userId
+     * @return
+     */
+    boolean setGroupBuying(GroupBuying groupBuying, String userId);
+
+    /**
+     * 推荐ID获取推荐信息
+     *
+     * @param id
+     * @return
+     */
+    RecommendSet getRecommendSet(String id);
+
+    /**
+     * 推荐新增/修改
+     *
+     * @param recommendSet
+     * @param userId
+     * @return
+     */
+    boolean setRecommendSet(RecommendSet recommendSet, String userId);
 
 }
 

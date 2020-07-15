@@ -475,7 +475,7 @@ public interface ActivitySetMapper {
     /**
      * 修改规格
      */
-    @Insert("UPDATE wares_spec SET spec = #{spec} WHERE id = #{spec}")
+    @Insert("UPDATE wares_spec SET spec = #{spec} WHERE id = #{id}")
     int updateWaresSpec(WaresSpec waresSpec);
 
     /**
@@ -489,6 +489,168 @@ public interface ActivitySetMapper {
     int updateWaresSpecDetailBatch(@Param("waresSpecDetailList") List<WaresSpecDetail> waresSpecDetailList);
 
     /************************************** 商城 - END *************************************************/
+
+    /************************************** 抽奖 - START *************************************************/
+
+    /**
+     * 抽奖ID获取抽奖信息
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM luck_draw_set WHERE id = #{id} ")
+    LuckDrawSet getLuckDrawSet(@Param("id") String id);
+
+    /**
+     * 抽奖ID获取抽奖详情
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM luck_draw_detail WHERE luck_draw_id = #{id} ")
+    List<LuckDrawDetail> getLuckDrawDetailList(@Param("id") String id);
+
+    /**
+     * 新增抽奖
+     *
+     * @param luckDrawSet
+     * @return
+     */
+    @Insert("INSERT INTO luck_draw_set (id,user_id,title,start_time,end_time,phone_enable,person_day,person_frequency,probability," +
+            "increase_times,`describe`,picture_url,rule,prevent_brush,music_id,type) " +
+            "VALUES (#{id},#{userId},#{title},#{startTime},#{endTime},#{phoneEnable},#{personDay},#{personFrequency},#{probability}," +
+            "#{increaseTimes},#{describe},#{pictureUrl},#{rule},#{preventBrush},#{musicId},#{type})")
+    int addLuckDrawSet(LuckDrawSet luckDrawSet);
+
+    /**
+     * 修改抽奖
+     *
+     * @param luckDrawSet
+     * @return
+     */
+    @Insert("UPDATE luck_draw_set SET title = #{title},start_time=#{startTime},end_time=#{endTime},phone_enable=#{phoneEnable},person_day=#{personDay}," +
+            "person_frequency=#{personFrequency},probability=#{probability},increase_times=#{increaseTimes},`describe`=#{describe},picture_url=#{pictureUrl}," +
+            "prevent_brush=#{preventBrush},music_id=#{music_id} WHERE id = #{id}")
+    int updateLuckDrawSet(LuckDrawSet luckDrawSet);
+
+    /**
+     * 新增抽奖详情-批量
+     */
+    int addLuckDrawDetailBatch(@Param("luckDrawDetailList") List<LuckDrawDetail> luckDrawDetailList);
+
+    /**
+     * 修改抽奖详情-批量
+     */
+    int updateLuckDrawDetailBatch(@Param("luckDrawDetailList") List<LuckDrawDetail> luckDrawDetailList);
+
+
+    /**
+     * 删除抽奖详情-批量
+     */
+    int deleteLuckDrawDetailBatch(@Param("luckDrawDetailList") List<LuckDrawDetail> luckDrawDetailList);
+
+    /************************************** 抽奖 - END *************************************************/
+
+    /************************************** 优惠券 - START *************************************************/
+
+    /**
+     * ID 获取优惠券设置
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM coupon_set WHERE id = #{id}")
+    CouponSet getCouponSet(@Param("id") String id);
+
+    /**
+     * 新增优惠券设置
+     */
+    @Insert("INSERT INTO coupon_set (id,order_coupon,new_customers,phone_enable,type,money,discount,threshold,effective_type,effective_day," +
+            "start_time,end_time,`range`,coupon_number,`describe`,picture_url,prevent_brush,music_url,user_id) " +
+            "VALUES (#{id},#{orderCoupon},#{newCustomers},#{phoneEnable},#{type},#{money},#{discount},#{threshold},#{effectiveType},#{effectiveDay}," +
+            "#{startTime},#{endTime},#{range},#{couponNumber},#{describe},#{pictureUrl},#{preventBrush},#{musicUrl},#{user_id}) ")
+    int addCouponSet(CouponSet couponSet);
+
+    /**
+     * 修改优惠券设置
+     */
+    @Update("UPDATE coupon_set SET order_coupon = #{orderCoupon},new_customers = #{newCustomers},phone_enable = #{phoneEnable},type = #{type},money = #{money}," +
+            "discount = #{discount},threshold = #{threshold},effective_type = #{effectiveType},effective_day = #{effectiveDay},start_time = #{startTime}," +
+            "end_time = #{endTime},`range` = #{range},coupon_number = #{couponNumber},`describe` = #{describe},picture_url = #{pictureUrl}," +
+            "prevent_brush = #{preventBrush},music_url = #{musicUrl} WHERE id = #{id}")
+    int updateCouponSet(CouponSet couponSet);
+
+    /************************************** 优惠券 - END *************************************************/
+
+    /************************************** 拼团 - START *************************************************/
+    /**
+     * ID获取拼团设置
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM group_buying WHERE id = #{id}")
+    GroupBuying getGroupBuying(@Param("id") String id);
+
+    /**
+     * 新增优惠券设置
+     */
+    @Insert("INSERT INTO group_buying (id,head_picture_url,title,start_time,end_time,phone_enable,stock,original_price,group_price,payment_type," +
+            "pay_advance,group_number,group_time,time_unit,automatic_group,`describe`,picture_url,rule,prevent_brush,music_url,user_id) " +
+            "VALUES (#{id},#{headPictureUrl},#{title},#{startTime},#{endTime},#{phoneEnable},#{stock},#{originalPrice},#{groupPrice},#{paymentType}," +
+            "#{payAdvance},#{groupNumber},#{groupTime},#{timeUnit},#{automaticGroup},#{describe},#{pictureUrl},#{rule},#{preventBrush},#{musicUrl},#{user_id})")
+    int addGroupBuying(GroupBuying groupBuying);
+
+    /**
+     * 修改优惠券设置
+     */
+    @Update("UPDATE group_buying SET head_picture_url = #{headPictureUrl},title = #{title},start_time = #{startTime},end_time = #{endTime},phone_enable = #{phoneEnable}," +
+            "stock = #{stock},original_price = #{originalPrice},group_price = #{groupPrice},payment_type = #{paymentType},pay_advance = #{payAdvance}," +
+            "group_number = #{groupNumber},group_time = #{groupTime},time_unit = #{timeUnit},automatic_group = #{automaticGroup},`describe` = #{describe}," +
+            "picture_url = #{pictureUrl}, rule = #{rule},prevent_brush = #{preventBrush},music_url = #{musicUrl} WHERE id = #{id}")
+    int updateGroupBuying(GroupBuying groupBuying);
+    /************************************** 拼团 - END *************************************************/
+
+    /************************************** 推荐 - START *************************************************/
+    /**
+     * 推荐ID获取推荐信息
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM recommend_set WHERE id = #{id}")
+    RecommendSet getRecommendSet(@Param("id") String id);
+
+    /**
+     * 推荐新增
+     */
+    @Insert("INSERT INTO recommend_set (id,title,start_time,end_time,phone_enable,prevent_brush,music_url,user_id,recommend_gift_type," +
+            "recommend_money,recommend_threshold,recommend_effective_type,recommend_effective_day,recommend_start_time,recommend_end_time," +
+            "recommend_range,recommend_gift_number,recommend_discount,recommend_gift_name,`describe`,picture_url,rule,recommended_gift_type," +
+            "recommended_money,recommended_threshold,recommended_effective_type,recommended_effective_day,recommended_start_time,recommended_end_time," +
+            "recommended_range,recommended_gift_number,recommended_discount,recommended_gift_name,recommended_new_customers) " +
+            "VALUES (#{id},#{title},#{startTime},#{endTime,#{phoneEnable},#{preventBrush},#{musicUrl},#{userId},#{recommendGiftType},#{recommendMoney," +
+            "#{recommendThreshold},#{recommendEffectiveType},#{recommendEffectiveDay},#{recommendStartTime},#{recommendEndTime},#{recommendRange},#{recommendGiftNumber}," +
+            "#{recommendDiscount},#{recommendGiftName},#{describe},#{pictureUrl},#{rule},#{recommendedGiftType},#{recommendedMoney},#{recommendedThreshold}," +
+            "#{recommendedEffectiveType},#{recommendedEffectiveDay},#{recommendedStartTime},#{recommendedEndTime},#{recommendedRange},#{recommendedGiftNumber}," +
+            "#{recommendedDiscount},#{recommendedGiftName},#{recommendedNewCustomers})")
+    int addRecommendSet(RecommendSet recommendSet);
+
+    /**
+     * 推荐修改
+     */
+    @Update("UPDATE recommend_set SET title = #{title},start_time = #{startTime},end_time = #{endTime,phone_enable = #{phoneEnable},prevent_brush = #{preventBrush}," +
+            "music_url = #{musicUrl},recommend_gift_type = #{recommendGiftType},recommend_money = #{recommendMoney,recommend_threshold = #{recommendThreshold}," +
+            "recommend_effective_type = #{recommendEffectiveType},recommend_effective_day = #{recommendEffectiveDay},recommend_start_time = #{recommendStartTime}," +
+            "recommend_end_time = #{recommendEndTime},recommend_range = #{recommendRange},recommend_gift_number = #{recommendGiftNumber}," +
+            "recommend_discount = #{recommendDiscount},recommend_gift_name = #{recommendGiftName},describe = #{describe},picture_url = #{pictureUrl}," +
+            "rule = #{rule},recommended_gift_type = #{recommendedGiftType},recommended_money = #{recommendedMoney},recommended_threshold = #{recommendedThreshold}," +
+            "recommended_effective_type = #{recommendedEffectiveType},recommended_effective_day = #{recommendedEffectiveDay},recommended_start_time = #{recommendedStartTime}," +
+            "recommended_end_time = #{recommendedEndTime},recommended_range = #{recommendedRange},recommended_gift_number = #{recommendedGiftNumber}," +
+            "recommended_discount = #{recommendedDiscount},recommended_gift_name = #{recommendedGiftName},recommended_new_customers = #{recommendedNewCustomers} " +
+            "WHERE id = #{id}")
+    int updateRecommendSet(RecommendSet recommendSet);
+    /************************************** 推荐 - END *************************************************/
 
 
     /**

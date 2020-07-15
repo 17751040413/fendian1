@@ -60,10 +60,10 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("fission", fissionSet);
         jsonObject.put("detail", fissionSetDetailList);
-        if (jsonObject.isEmpty()) {
-            return new Result(204, false, "获取成功", jsonObject);
+        if (jsonObject == null || jsonObject.size() == 0) {
+            return new Result(204, false, "获取失败", null);
         }
-        return new Result(204, false, "获取失败", null);
+        return new Result(200, false, "获取成功", jsonObject);
     }
 
     /**
@@ -177,10 +177,11 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("rebate", rebateSet);
         jsonObject.put("detail", rebateSetDetailList);
-        if (jsonObject.isEmpty()) {
-            return new Result(204, false, "获取成功", jsonObject);
+        if (jsonObject == null || jsonObject.size() == 0) {
+            return new Result(204, false, "获取失败", null);
         }
-        return new Result(204, false, "获取失败", null);
+        return new Result(200, false, "获取成功", jsonObject);
+
     }
 
     /**
@@ -286,10 +287,10 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("distribution", distributionSet);
         jsonObject.put("detail", distributionCouponList);
-        if (jsonObject.isEmpty()) {
-            return new Result(204, false, "获取成功", jsonObject);
+        if (jsonObject == null || jsonObject.size() == 0) {
+            return new Result(204, false, "获取失败", null);
         }
-        return new Result(204, false, "获取失败", null);
+        return new Result(200, false, "获取成功", jsonObject);
     }
 
     /**
@@ -389,10 +390,10 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         //启用-返回商城设置
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("shoppingMall", shoppingMallSet);
-        if (jsonObject.isEmpty()) {
-            return new Result(204, false, "获取成功", jsonObject);
+        if (jsonObject == null || jsonObject.size() == 0) {
+            return new Result(204, false, "获取失败", null);
         }
-        return new Result(204, false, "获取失败", null);
+        return new Result(200, false, "获取成功", jsonObject);
     }
 
     /**
@@ -464,10 +465,10 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("waresSortSet", waresSortSet);
         jsonObject.put("detail", waresSortDetailList);
-        if (jsonObject.isEmpty()) {
-            return new Result(204, false, "获取成功", jsonObject);
+        if (jsonObject == null || jsonObject.size() == 0) {
+            return new Result(204, false, "获取失败", null);
         }
-        return new Result(204, false, "获取失败", null);
+        return new Result(200, false, "获取成功", jsonObject);
     }
 
     /**
@@ -680,6 +681,187 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             //修改
             activitySetMapper.updateWaresSpec(waresSpec);
             activitySetMapper.updateWaresSpecDetailBatch(waresSpecDetailList);
+        }
+        return true;
+    }
+
+    /**
+     * 抽奖ID获取抽奖设置及详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public JSONObject getLuckDrawSetAndDetail(String id) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("luckDrawSet", activitySetMapper.getLuckDrawSet(id));
+        jsonObject.put("detail", activitySetMapper.getLuckDrawDetailList(id));
+        return jsonObject;
+    }
+
+    /**
+     * 抽奖及详情新增/修改
+     *
+     * @param luckDrawSet
+     * @param luckDrawDetailList
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setLuckDrawSetAndDetail(LuckDrawSet luckDrawSet, List<LuckDrawDetail> luckDrawDetailList) {
+        if (luckDrawSet == null || CollectionUtils.isEmpty(luckDrawDetailList)) {
+            return false;
+        }
+
+        //新增
+        if (StringUtils.isEmpity(luckDrawSet.getId())) {
+            luckDrawSet.setId(StringUtils.getUuid());
+            for (LuckDrawDetail luckDrawDetail : luckDrawDetailList) {
+                luckDrawDetail.setId(StringUtils.getUuid());
+                luckDrawDetail.setLuckDrawId(luckDrawSet.getId());
+            }
+            activitySetMapper.addLuckDrawSet(luckDrawSet);
+            activitySetMapper.addLuckDrawDetailBatch(luckDrawDetailList);
+        } else {
+            //修改
+            activitySetMapper.updateLuckDrawSet(luckDrawSet);
+            //修改的详情
+            List<LuckDrawDetail> updates = new ArrayList<>();
+            //新增的详情
+            List<LuckDrawDetail> adds = new ArrayList<>();
+            //删除的详情
+            List<LuckDrawDetail> deletes = new ArrayList<>();
+            //原有详情
+            List<LuckDrawDetail> olds = activitySetMapper.getLuckDrawDetailList(luckDrawSet.getId());
+            for (LuckDrawDetail luckDrawDetail : luckDrawDetailList) {
+                if (StringUtils.isEmpity(luckDrawDetail.getId())) {
+                    adds.add(luckDrawDetail);
+                } else {
+                    updates.add(luckDrawDetail);
+                }
+            }
+            for (LuckDrawDetail old : olds) {
+                boolean result = true;
+                for (LuckDrawDetail luckDrawDetail : luckDrawDetailList) {
+                    if (old.getId().equals(luckDrawDetail.getId())) {
+                        result = false;
+                        break;
+                    }
+                }
+                if (result) {
+                    deletes.add(old);
+                }
+            }
+            if (!CollectionUtils.isEmpty(adds)) {
+                activitySetMapper.addLuckDrawDetailBatch(adds);
+            }
+            if (!CollectionUtils.isEmpty(updates)) {
+                activitySetMapper.updateLuckDrawDetailBatch(updates);
+            }
+            if (!CollectionUtils.isEmpty(deletes)) {
+                activitySetMapper.deleteLuckDrawDetailBatch(deletes);
+            }
+
+            activitySetMapper.updateLuckDrawDetailBatch(luckDrawDetailList);
+        }
+        return true;
+    }
+
+    /**
+     * ID获取优惠券设置
+     *
+     * @return
+     */
+    @Override
+    public CouponSet getCouponSet(String id) {
+        return activitySetMapper.getCouponSet(id);
+    }
+
+    /**
+     * 优惠券设置新增/修改
+     *
+     * @param couponSet
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setCouponSet(CouponSet couponSet, String userId) {
+        if (couponSet == null) {
+            return false;
+        }
+        if (StringUtils.isEmpity(couponSet.getId())) {
+            couponSet.setId(StringUtils.getUuid());
+            couponSet.setUserId(userId);
+            activitySetMapper.addCouponSet(couponSet);
+        } else {
+            activitySetMapper.updateCouponSet(couponSet);
+        }
+        return true;
+    }
+
+    /**
+     * ID获取拼团设置
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public GroupBuying getGroupBuying(String id) {
+        return activitySetMapper.getGroupBuying(id);
+    }
+
+    /**
+     * 拼团设置 新增/删除
+     *
+     * @param groupBuying
+     * @param userId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setGroupBuying(GroupBuying groupBuying, String userId) {
+        if (groupBuying == null) {
+            return false;
+        }
+        if (StringUtils.isEmpity(groupBuying.getId())) {
+            groupBuying.setId(StringUtils.getUuid());
+            groupBuying.setUserId(userId);
+            activitySetMapper.addGroupBuying(groupBuying);
+        } else {
+            activitySetMapper.updateGroupBuying(groupBuying);
+        }
+        return true;
+    }
+
+    /**
+     * 推荐ID获取推荐信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public RecommendSet getRecommendSet(String id) {
+        return activitySetMapper.getRecommendSet(id);
+    }
+
+    /**
+     * 推荐新增/修改
+     *
+     * @param recommendSet
+     * @param userId
+     * @return
+     */
+    @Override
+    public boolean setRecommendSet(RecommendSet recommendSet, String userId) {
+        if (recommendSet == null) {
+            return false;
+        }
+        if (StringUtils.isEmpity(recommendSet.getId())) {
+            recommendSet.setId(StringUtils.getUuid());
+            recommendSet.setUserId(userId);
+            activitySetMapper.addRecommendSet(recommendSet);
+        } else {
+            activitySetMapper.updateRecommendSet(recommendSet);
         }
         return true;
     }

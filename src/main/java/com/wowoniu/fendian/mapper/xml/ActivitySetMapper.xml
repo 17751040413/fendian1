@@ -100,4 +100,38 @@
         </foreach>
     </update>
 
+    <!-- 新增抽奖详情-批量 -->
+    <insert id="addLuckDrawDetailBatch">
+        INSERT INTO luck_draw_detail
+        (id,luck_draw_id,`name`,type,coupon_type,preferential,satisfy,`range`,effective_type,effective_day,
+        prize_number,day_max,start_time,end_time,discount,prize_name,picture_url)
+        VALUES
+        <foreach collection="luckDrawDetailList" item="item" index="index" open="" close="" separator=",">
+            (#{item.id},#{item.luckDrawId},#{item.name},#{item.type},#{item.couponType},#{item.preferential},#{item.satisfy},#{item.range},#{item.effectiveType},
+            #{item.effectiveDay},#{item.prizeNumber},#{item.dayMax},#{item.startTime},#{item.endTime},#{item.discount},#{item.prizeName},#{item.pictureUrl})
+        </foreach>
+    </insert>
+
+    <!-- 修改抽奖详情-批量 -->
+    <update id="updateLuckDrawDetailBatch">
+        <foreach collection="luckDrawDetailList" item="item" index="index" open="" close="" separator=";">
+            UPDATE luck_draw_detail SET `name` = #{item.name},type = #{item.type},coupon_type = #{item.couponType},
+            preferential= #{item.preferential},satisfy = #{item.satisfy},`range` = #{item.range},effective_type =
+            #{item.effectiveType},
+            effective_day = #{item.effectiveDay},prize_number = #{item.prizeNumber},day_max = #{item.dayMax},start_time
+            = #{item.startTime},end_time = #{item.endTime},
+            discount = #{item.discount},prize_name = #{item.prizeName},picture_url = #{item.pictureUrl}
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 删除抽奖详情-批量 -->
+    <delete id="deleteLuckDrawDetailBatch">
+        DELETE FROM luck_draw_detail WHERE id IN
+        <foreach collection="luckDrawDetailList" item="item" index="index" open="(" close=")" separator=",">
+            #{item.id}
+        </foreach>
+    </delete>
+
+
 </mapper>
