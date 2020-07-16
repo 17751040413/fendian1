@@ -295,5 +295,73 @@ public interface ActivitySetService {
      */
     boolean setRecommendSet(RecommendSet recommendSet, String userId);
 
+    /**
+     * 砍价ID获取设置信息
+     *
+     * @param id
+     * @return
+     */
+    BargainingSet getBargainingSet(String id);
+
+    /**
+     * 砍价设置新增/修改
+     *
+     * @param bargainingSet
+     * @param userId
+     * @return
+     */
+    boolean setBargainingSet(BargainingSet bargainingSet, String userId);
+
+    /**
+     * 朋友圈分享ID获取设置信息
+     *
+     * @param id
+     * @return
+     */
+    ShareFriends getShareFriends(String id);
+
+    /**
+     * 朋友圈分享新增/修改
+     *
+     * @param shareFriends
+     * @param userId
+     * @return
+     */
+    boolean setShareFriends(ShareFriends shareFriends, String userId);
+
+    /**
+     * 秒杀ID获取设置信息
+     *
+     * @param id
+     * @return
+     */
+    SeckillSet getSeckillSet(String id);
+
+    /**
+     * 秒杀设置新增/修改
+     *
+     * @param seckillSet
+     * @param userId
+     * @return
+     */
+    boolean setSeckillSet(SeckillSet seckillSet, String userId);
+
+    /**
+     * 红包裂变ID获取设置信息
+     *
+     * @param id
+     * @return
+     */
+    RedenvelopesSet getRedenvelopesSet(String id);
+
+    /**
+     * 红包裂变设置新增/修改
+     *
+     * @param redenvelopesSet
+     * @param userId
+     * @return
+     */
+    boolean setRedenvelopesSet(RedenvelopesSet redenvelopesSet, String userId);
+
 }
 

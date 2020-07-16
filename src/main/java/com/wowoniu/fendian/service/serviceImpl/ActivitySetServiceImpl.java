@@ -852,6 +852,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean setRecommendSet(RecommendSet recommendSet, String userId) {
         if (recommendSet == null) {
             return false;
@@ -862,6 +863,143 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             activitySetMapper.addRecommendSet(recommendSet);
         } else {
             activitySetMapper.updateRecommendSet(recommendSet);
+        }
+        return true;
+    }
+
+    /**
+     * 砍价ID获取设置信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public BargainingSet getBargainingSet(String id) {
+        return activitySetMapper.getBargainingSet(id);
+    }
+
+    /**
+     * 砍价设置新增/修改
+     *
+     * @param bargainingSet
+     * @param userId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setBargainingSet(BargainingSet bargainingSet, String userId) {
+
+        if (bargainingSet == null) {
+            return false;
+        }
+        if (StringUtils.isEmpity(bargainingSet.getId())) {
+            bargainingSet.setId(StringUtils.getUuid());
+            bargainingSet.setUserId(userId);
+            activitySetMapper.addBargainingSet(bargainingSet);
+        } else {
+            activitySetMapper.updateBargainingSet(bargainingSet);
+        }
+        return true;
+    }
+
+    /**
+     * 朋友圈分享ID获取设置信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ShareFriends getShareFriends(String id) {
+        return activitySetMapper.getShareFriends(id);
+    }
+
+    /**
+     * 朋友圈分享新增/修改
+     *
+     * @param shareFriends
+     * @param userId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setShareFriends(ShareFriends shareFriends, String userId) {
+        if (shareFriends == null) {
+            return false;
+        }
+        if (StringUtils.isEmpity(shareFriends.getId())) {
+            shareFriends.setId(StringUtils.getUuid());
+            shareFriends.setUserId(userId);
+            activitySetMapper.addShareFriends(shareFriends);
+        } else {
+            activitySetMapper.updateShareFriends(shareFriends);
+        }
+        return true;
+    }
+
+    /**
+     * 秒杀ID获取设置信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public SeckillSet getSeckillSet(String id) {
+        return activitySetMapper.getSeckillSet(id);
+    }
+
+    /**
+     * 秒杀设置新增/修改
+     *
+     * @param seckillSet
+     * @param userId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setSeckillSet(SeckillSet seckillSet, String userId) {
+        if (seckillSet == null) {
+            return false;
+        }
+        if (StringUtils.isEmpity(seckillSet.getId())) {
+            seckillSet.setId(StringUtils.getUuid());
+            seckillSet.setUserId(userId);
+            activitySetMapper.addSeckillSet(seckillSet);
+        } else {
+            activitySetMapper.updateSeckillSet(seckillSet);
+        }
+        return true;
+    }
+
+    /**
+     * 红包裂变ID获取设置信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public RedenvelopesSet getRedenvelopesSet(String id) {
+        return activitySetMapper.getRedenvelopesSet(id);
+    }
+
+    /**
+     * 红包裂变设置新增/修改
+     *
+     * @param redenvelopesSet
+     * @param userId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setRedenvelopesSet(RedenvelopesSet redenvelopesSet, String userId) {
+        if (redenvelopesSet == null) {
+            return false;
+        }
+        if (StringUtils.isEmpity(redenvelopesSet.getId())) {
+            redenvelopesSet.setId(StringUtils.getUuid());
+            redenvelopesSet.setUserId(userId);
+            activitySetMapper.addRedenvelopesSet(redenvelopesSet);
+        } else {
+            activitySetMapper.updateRedenvelopesSet(redenvelopesSet);
         }
         return true;
     }

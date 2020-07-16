@@ -652,6 +652,140 @@ public interface ActivitySetMapper {
     int updateRecommendSet(RecommendSet recommendSet);
     /************************************** 推荐 - END *************************************************/
 
+    /************************************** 砍价 - START *************************************************/
+    /**
+     * 砍价ID获取设置信息
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM bargaining_set WHERE id = #{id}")
+    BargainingSet getBargainingSet(String id);
+
+    /**
+     * 砍价设置新增
+     *
+     * @param bargainingSet
+     * @return
+     */
+    @Insert("INSERT INTO bargaining_set (id,head_picture_url,title,start_time,end_time,phone_enable,stock,original_price,floor_price,bargaining_frequency," +
+            "floor_price_enable,pay_type,`describe`,picture_url,rule,prevent_brush,music_url,user_id) VALUES (#{id},#{headPictureUrl},#{title},#{startTime}," +
+            "#{endTime},#{phoneEnable},#{stock},#{originalPrice},#{floorPrice},#{bargainingFrequency},#{floorPriceEnable},#{payType},#{describe},#{pictureUrl}," +
+            "#{rule},#{preventBrush},#{musicUrl},#{userId}) ")
+    int addBargainingSet(BargainingSet bargainingSet);
+
+    /**
+     * 砍价设置修改
+     *
+     * @param bargainingSet
+     * @return
+     */
+    @Update("UPDATE bargaining_set SET head_picture_url = #{headPictureUrl},title = #{title},start_time = #{startTime},end_time = #{endTime}," +
+            "phone_enable = #{phoneEnable},stock = #{stock},original_price = #{originalPrice},floor_price = #{floorPrice},bargaining_frequency = #{bargainingFrequency}," +
+            "floor_price_enable = #{floorPriceEnable},pay_type = #{payType},`describe` = #{describe},picture_url = #{pictureUrl},rule = #{rule}," +
+            "prevent_brush = #{preventBrush},music_url = #{musicUrl} WHERE id = #{id}")
+    int updateBargainingSet(BargainingSet bargainingSet);
+
+    /************************************** 砍价 - END *************************************************/
+
+    /************************************** 朋友圈分享 - START *************************************************/
+
+    /**
+     * 朋友圈分享ID获取设置信息
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM share_friends WHERE id = #{id}")
+    ShareFriends getShareFriends(String id);
+
+    /**
+     * 朋友圈分享新增
+     */
+    @Insert("INSERT INTO share_friends (id,copywriting,picture_url,user_id) VALUES (#{id},#{copywriting},#{pictureUrl},#{userId})")
+    int addShareFriends(ShareFriends shareFriends);
+
+    /**
+     * 朋友圈分享修改
+     */
+    @Update("UPDATE share_friends SET copywriting = #{copywriting},picture_url = #{pictureUrl} WHERE id = #{id}")
+    int updateShareFriends(ShareFriends shareFriends);
+
+    /************************************** 朋友圈分享 - END *************************************************/
+
+    /************************************** 秒杀 - START *************************************************/
+
+    /**
+     * 秒杀ID获取设置信息
+     *
+     * @param id
+     * @return
+     */
+    @Insert("SELECT * FROM seckill_set WHERE id = #{id}")
+    SeckillSet getSeckillSet(String id);
+
+    /**
+     * 秒杀新增
+     *
+     * @return
+     */
+    @Insert("INSERT INTO seckill_set (id,head_picture_url,title,start_time,end_time,phone_enable,stock,original_price,seckill_price," +
+            "frequency_personal,payment_type,pay_advance,`describe`,picture_url,rule,prevent_brush,music_url,user_id) VALUES (#{id}," +
+            "#{headPictureUrl},#{title},#{startTime},#{endTime},#{phoneEnable},#{stock},#{originalPrice},#{seckillPrice},#{frequencyPersonal}," +
+            "#{paymentType},#{payAdvance},#{describe},#{pictureUrl},#{rule},#{preventBrush},#{musicUrl},#{userId})")
+    int addSeckillSet(SeckillSet seckillSet);
+
+    /**
+     * 秒杀修改
+     *
+     * @return
+     */
+    @Update("UPDATE seckill_set SET head_picture_url = #{headPictureUrl},title = #{title},start_time = #{startTime},end_time = #{endTime}," +
+            "phone_enable = #{phoneEnable},stock = #{stock},original_price = #{originalPrice},seckill_price = #{seckillPrice}," +
+            "frequency_personal = #{frequencyPersonal},payment_type = #{paymentType},pay_advance = #{payAdvance},`describe` = #{describe}," +
+            "picture_url = #{pictureUrl},rule = #{rule},prevent_brush = #{preventBrush},music_url = #{musicUrl} WHERE id = #{id}")
+    int updateSeckillSet(SeckillSet seckillSet);
+
+    /************************************** 秒杀 - END *************************************************/
+
+    /************************************** 红包裂变 - START *************************************************/
+
+    /**
+     * 红包裂变ID获取设置信息
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM redenvelopes_set WHERE id = #{id}")
+    RedenvelopesSet getRedenvelopesSet(String id);
+
+    /**
+     * 红包裂变新增
+     *
+     * @param redenvelopesSet
+     * @return
+     */
+    @Insert("INSERT INTO redenvelopes_set (id,title,start_time,end_time,phone_enable,new_customers,type,money,discount,threshold,effective_type," +
+            "effective_day,coupon_start_time,coupon_end_time,`range`,reward_peoples,reward_condition,total_activities,`describe`,picture_url," +
+            "prevent_brush,user_id) VALUES (#{id},#{title},#{startTime},#{endTime},#{phoneEnable},#{newCustomers},#{type},#{money},#{discount}," +
+            "#{threshold},#{effectiveType},#{effectiveDay},#{couponStartTime},#{couponEndTime},#{range},#{rewardPeoples},#{rewardCondition}," +
+            "#{totalActivities},#{describe,pictureUrl},#{preventBrush},#{userId})")
+    int addRedenvelopesSet(RedenvelopesSet redenvelopesSet);
+
+    /**
+     * 红包裂变修改
+     *
+     * @param redenvelopesSet
+     * @return
+     */
+    @Update("UPDATE redenvelopes_set SET title = #{title},start_time = #{startTime},end_time = #{endTime},phone_enable = #{phoneEnable},new_customers = #{newCustomers}," +
+            "type = #{type},money = #{money},discount = #{discount},threshold = #{threshold},effective_type = #{effectiveType},effective_day = #{effectiveDay}," +
+            "coupon_start_time = #{couponStartTime},coupon_end_time = #{couponEndTime},`range` = #{range},reward_peoples = #{rewardPeoples}," +
+            "reward_condition = #{rewardCondition},total_activities = #{totalActivities},`describe` = #{describe},picture_url = #{pictureUrl}," +
+            "prevent_brush = #{preventBrush} WHERE id = #{id}")
+    int updateRedenvelopesSet(RedenvelopesSet redenvelopesSet);
+
+    /************************************** 红包裂变 - END *************************************************/
 
     /**
      * 商家-客户订单列表(订单状态筛选)

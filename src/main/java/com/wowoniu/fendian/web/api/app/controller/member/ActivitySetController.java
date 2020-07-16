@@ -419,4 +419,104 @@ public class ActivitySetController {
         return new Result(204, false, "创建成功", null);
     }
     /************************************************* 推荐 - END *********************************************************/
+
+
+    /************************************************* 砍价 - START *********************************************************/
+    @ApiOperation("砍价ID获取设置信息")
+    @PostMapping("/getBargainingSet")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "砍价设置ID", dataType = "String", required = true)})
+    public Object getBargainingSet(String id) {
+
+        BargainingSet bargainingSet = activitySetService.getBargainingSet(id);
+        if (bargainingSet == null) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", bargainingSet);
+    }
+
+    @ApiOperation("砍价设置新增/修改")
+    @PostMapping("/setBargainingSet")
+    public Object setBargainingSet(@RequestBody BargainingSet bargainingSet, @ApiIgnore HttpServletRequest request) {
+        boolean result = activitySetService.setBargainingSet(bargainingSet, (String) request.getAttribute("sysid"));
+        if (result) {
+            return new Result(200, true, "创建成功", null);
+        }
+        return new Result(204, false, "创建成功", null);
+    }
+    /************************************************* 砍价 - END *********************************************************/
+
+    /************************************************* 朋友圈分享 - START *********************************************************/
+
+    @ApiOperation("朋友圈分享ID获取设置信息")
+    @PostMapping("/getShareFriends")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "砍价设置ID", dataType = "String", required = true)})
+    public Object getShareFriends(String id) {
+
+        ShareFriends shareFriends = activitySetService.getShareFriends(id);
+        if (shareFriends == null) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", shareFriends);
+    }
+
+    @ApiOperation("朋友圈分享设置新增/修改")
+    @PostMapping("/setShareFriends")
+    public Object setShareFriends(@RequestBody ShareFriends shareFriends, @ApiIgnore HttpServletRequest request) {
+        boolean result = activitySetService.setShareFriends(shareFriends, (String) request.getAttribute("sysid"));
+        if (result) {
+            return new Result(200, true, "创建成功", null);
+        }
+        return new Result(204, false, "创建成功", null);
+    }
+    /************************************************* 朋友圈 - END *********************************************************/
+
+    /************************************************* 秒杀 - START *********************************************************/
+
+    @ApiOperation("秒杀ID获取设置信息")
+    @PostMapping("/getSeckillSet")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "砍价设置ID", dataType = "String", required = true)})
+    public Object getSeckillSet(String id) {
+
+        SeckillSet seckillSet = activitySetService.getSeckillSet(id);
+        if (seckillSet == null) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", seckillSet);
+    }
+
+    @ApiOperation("秒杀设置新增/修改")
+    @PostMapping("/setSeckillSet")
+    public Object setSeckillSet(@RequestBody SeckillSet seckillSet, @ApiIgnore HttpServletRequest request) {
+        boolean result = activitySetService.setSeckillSet(seckillSet, (String) request.getAttribute("sysid"));
+        if (result) {
+            return new Result(200, true, "创建成功", null);
+        }
+        return new Result(204, false, "创建成功", null);
+    }
+    /************************************************* 秒杀 - END *********************************************************/
+
+    /************************************************* 红包裂变 - START *********************************************************/
+
+    @ApiOperation("红包裂变ID获取设置信息")
+    @PostMapping("/getRedenvelopesSet")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "砍价设置ID", dataType = "String", required = true)})
+    public Object getRedenvelopesSet(String id) {
+
+        RedenvelopesSet redenvelopesSet = activitySetService.getRedenvelopesSet(id);
+        if (redenvelopesSet == null) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", redenvelopesSet);
+    }
+
+    @ApiOperation("红包裂变设置新增/修改")
+    @PostMapping("/setRedenvelopesSet")
+    public Object setRedenvelopesSet(@RequestBody RedenvelopesSet redenvelopesSet, @ApiIgnore HttpServletRequest request) {
+        boolean result = activitySetService.setRedenvelopesSet(redenvelopesSet, (String) request.getAttribute("sysid"));
+        if (result) {
+            return new Result(200, true, "创建成功", null);
+        }
+        return new Result(204, false, "创建成功", null);
+    }
+    /************************************************* 红包裂变 - END *********************************************************/
 }
