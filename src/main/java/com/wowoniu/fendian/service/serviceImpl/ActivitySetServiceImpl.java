@@ -1004,5 +1004,164 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         return true;
     }
 
+    /**
+     * 活动浏览次数增加
+     *
+     * @param id
+     * @param type 活动类型（4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈）
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addBrowse(String id, String type) {
+
+        boolean result = true;
+
+        switch (type) {
+            //幸运转盘
+            case Constants.TURNTABLE:
+                activitySetMapper.luckDrawBrowse(id);
+                break;
+            //发优惠券
+            case Constants.COUPON:
+                activitySetMapper.couponBrowse(id);
+                break;
+            //推荐有礼
+            case Constants.RECOMMEND:
+                activitySetMapper.recommendBrowse(id);
+                break;
+            //秒杀活动
+            case Constants.SECKILL:
+                activitySetMapper.seckillBrowse(id);
+                break;
+            //拼团活动
+            case Constants.GROUP:
+                activitySetMapper.groupBrowse(id);
+                break;
+            //砸金蛋抽奖
+            case Constants.LUCKDRAW:
+                activitySetMapper.luckDrawBrowse(id);
+                break;
+            //砍价大战
+            case Constants.BARGAINING:
+                activitySetMapper.bargainingBrowse(id);
+                break;
+            //红包裂变券
+            case Constants.REDENVELOPES:
+                activitySetMapper.redenvelopesBrowse(id);
+                break;
+            default:
+                result = false;
+                break;
+        }
+        return result;
+    }
+
+    /**
+     * 活动领券次数增加
+     *
+     * @param id
+     * @param type 活动类型（4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈）
+     * @return
+     */
+    @Override
+    public boolean addCoupon(String id, String type) {
+        boolean result = true;
+
+        switch (type) {
+            //幸运转盘
+            case Constants.TURNTABLE:
+                activitySetMapper.luckDrawCoupon(id);
+                break;
+            //发优惠券
+            case Constants.COUPON:
+                activitySetMapper.couponCoupon(id);
+                break;
+            //推荐有礼
+            case Constants.RECOMMEND:
+                activitySetMapper.recommendCoupon(id);
+                break;
+            //秒杀活动
+            case Constants.SECKILL:
+                activitySetMapper.seckillCoupon(id);
+                break;
+            //拼团活动
+            case Constants.GROUP:
+                activitySetMapper.groupCoupon(id);
+                break;
+            //砸金蛋抽奖
+            case Constants.LUCKDRAW:
+                activitySetMapper.luckDrawCoupon(id);
+                break;
+            //砍价大战
+            case Constants.BARGAINING:
+                activitySetMapper.bargainingCoupon(id);
+                break;
+            //红包裂变券
+            case Constants.REDENVELOPES:
+                activitySetMapper.redenvelopesCoupon(id);
+                break;
+            default:
+                result = false;
+                break;
+        }
+        return result;
+    }
+
+    /**
+     * 活动用券次数增加
+     *
+     * @param id
+     * @param type 活动类型（4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈）
+     * @return
+     */
+    @Override
+    public boolean addUse(String id, String type) {
+        boolean result = true;
+
+        switch (type) {
+            //幸运转盘
+            case Constants.TURNTABLE:
+                activitySetMapper.luckDrawUse(id);
+                break;
+            //发优惠券
+            case Constants.COUPON:
+                activitySetMapper.couponUse(id);
+                break;
+            //推荐有礼
+            case Constants.RECOMMEND:
+                activitySetMapper.recommendUse(id);
+                break;
+            //秒杀活动
+            case Constants.SECKILL:
+                activitySetMapper.seckillUse(id);
+                break;
+            //拼团活动
+            case Constants.GROUP:
+                activitySetMapper.groupUse(id);
+                break;
+            //砸金蛋抽奖
+            case Constants.LUCKDRAW:
+                activitySetMapper.luckDrawUse(id);
+                break;
+            //砍价大战
+            case Constants.BARGAINING:
+                activitySetMapper.bargainingUse(id);
+                break;
+            //红包裂变券
+            case Constants.REDENVELOPES:
+                activitySetMapper.redenvelopesUse(id);
+                break;
+            //红包裂变券
+            case Constants.SHAREFRIENDS:
+                activitySetMapper.shareFriendsUse(id);
+                break;
+            default:
+                result = false;
+                break;
+        }
+        return result;
+    }
+
 
 }

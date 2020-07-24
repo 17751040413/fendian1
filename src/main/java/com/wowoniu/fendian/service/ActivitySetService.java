@@ -363,5 +363,32 @@ public interface ActivitySetService {
      */
     boolean setRedenvelopesSet(RedenvelopesSet redenvelopesSet, String userId);
 
+    /**
+     * 活动浏览次数增加
+     *
+     * @param id
+     * @param type
+     * @return
+     */
+    boolean addBrowse(String id,String type);
+
+    /**
+     * 活动领券次数增加
+     *
+     * @param id
+     * @param type
+     * @return
+     */
+    boolean addCoupon(String id,String type);
+
+    /**
+     * 活动用券次数增加
+     *
+     * @param id
+     * @param type
+     * @return
+     */
+    boolean addUse(String id,String type);
+
 }
 

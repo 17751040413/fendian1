@@ -67,6 +67,24 @@ public class SeckillSet implements Serializable {
     @ApiModelProperty("商家ID")
     private String userId;
 
+    @ApiModelProperty("今日浏览次数")
+    private Integer todayBrowse;
+
+    @ApiModelProperty("总浏览次数")
+    private Integer browse;
+
+    @ApiModelProperty("今日领券数")
+    private Integer todayReceive;
+
+    @ApiModelProperty("总领券数")
+    private Integer receive;
+
+    @ApiModelProperty("今日用券数")
+    private Integer todayUse;
+
+    @ApiModelProperty("总用券数")
+    private Integer use;
+
     public String getId() {
         return id;
     }
@@ -209,5 +227,53 @@ public class SeckillSet implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public Integer getTodayBrowse() {
+        return todayBrowse;
+    }
+
+    public void setTodayBrowse(Integer todayBrowse) {
+        this.todayBrowse = todayBrowse;
+    }
+
+    public Integer getBrowse() {
+        return browse;
+    }
+
+    public void setBrowse(Integer browse) {
+        this.browse = browse;
+    }
+
+    public Integer getTodayReceive() {
+        return todayReceive;
+    }
+
+    public void setTodayReceive(Integer todayReceive) {
+        this.todayReceive = todayReceive;
+    }
+
+    public Integer getReceive() {
+        return receive;
+    }
+
+    public void setReceive(Integer receive) {
+        this.receive = receive;
+    }
+
+    public Integer getTodayUse() {
+        return todayUse;
+    }
+
+    public void setTodayUse(Integer todayUse) {
+        this.todayUse = todayUse;
+    }
+
+    public Integer getUse() {
+        return use;
+    }
+
+    public void setUse(Integer use) {
+        this.use = use;
     }
 }

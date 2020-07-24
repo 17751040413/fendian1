@@ -787,6 +787,186 @@ public interface ActivitySetMapper {
 
     /************************************** 红包裂变 - END *************************************************/
 
+    /************************************************* 活动计数 - START *********************************************************/
+
+    /**
+     * 抽奖浏览数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE luck_draw_set SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
+    int luckDrawBrowse(@Param("id")String id);
+
+    /**
+     * 优惠券浏览数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE coupon_set SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
+    int couponBrowse(@Param("id")String id);
+
+    /**
+     * 推荐浏览数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE recommend_set SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
+    int recommendBrowse(@Param("id")String id);
+
+    /**
+     * 秒杀浏览数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE seckill_set SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
+    int seckillBrowse(@Param("id")String id);
+
+    /**
+     * 拼团浏览数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE group_buying SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
+    int groupBrowse(@Param("id")String id);
+
+    /**
+     * 砍价浏览数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE bargaining_set SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
+    int bargainingBrowse(@Param("id")String id);
+
+    /**
+     * 红包浏览数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE redenvelopes_set SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
+    int redenvelopesBrowse(@Param("id")String id);
+
+    /**
+     * 抽奖领券数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE luck_draw_set SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
+    int luckDrawCoupon(@Param("id")String id);
+
+    /**
+     * 优惠券领券数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE coupon_set SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
+    int couponCoupon(@Param("id")String id);
+
+    /**
+     * 推荐领券数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE recommend_set SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
+    int recommendCoupon(@Param("id")String id);
+
+    /**
+     * 秒杀领券数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE seckill_set SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
+    int seckillCoupon(@Param("id")String id);
+
+    /**
+     * 拼团领券数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE group_buying SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
+    int groupCoupon(@Param("id")String id);
+
+    /**
+     * 砍价领券数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE bargaining_set SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
+    int bargainingCoupon(@Param("id")String id);
+
+    /**
+     * 红包领券数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE redenvelopes_set SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
+    int redenvelopesCoupon(@Param("id")String id);
+
+    /**
+     * 抽奖使用数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE luck_draw_set SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
+    int luckDrawUse(@Param("id")String id);
+
+    /**
+     * 优惠券使用数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE coupon_set SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
+    int couponUse(@Param("id")String id);
+
+    /**
+     * 推荐使用数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE recommend_set SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
+    int recommendUse(@Param("id")String id);
+
+    /**
+     * 秒杀使用数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE seckill_set SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
+    int seckillUse(@Param("id")String id);
+
+    /**
+     * 拼团使用数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE group_buying SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
+    int groupUse(@Param("id")String id);
+
+    /**
+     * 砍价使用数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE bargaining_set SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
+    int bargainingUse(@Param("id")String id);
+
+    /**
+     * 红包使用数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE redenvelopes_set SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
+    int redenvelopesUse(@Param("id")String id);
+
+    /**
+     * 朋友圈参与数量增加
+     * @param id
+     * @return
+     */
+    @Update("UPDATE share_friends SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
+    int shareFriendsUse(@Param("id")String id);
+
+    /************************************************* 活动计数 - END *********************************************************/
+
     /**
      * 商家-客户订单列表(订单状态筛选)
      *

@@ -341,7 +341,7 @@ public class ActivitySetController {
         if (result) {
             return new Result(200, true, "创建成功", null);
         }
-        return new Result(204, false, "创建成功", null);
+        return new Result(204, false, "创建失败", null);
     }
     /************************************************* 抽奖 - END *********************************************************/
 
@@ -366,7 +366,7 @@ public class ActivitySetController {
         if (result) {
             return new Result(200, true, "创建成功", null);
         }
-        return new Result(204, false, "创建成功", null);
+        return new Result(204, false, "创建失败", null);
     }
     /************************************************* 优惠券 - END *********************************************************/
 
@@ -391,7 +391,7 @@ public class ActivitySetController {
         if (result) {
             return new Result(200, true, "创建成功", null);
         }
-        return new Result(204, false, "创建成功", null);
+        return new Result(204, false, "创建失败", null);
     }
     /************************************************* 拼团 - END *********************************************************/
 
@@ -416,7 +416,7 @@ public class ActivitySetController {
         if (result) {
             return new Result(200, true, "创建成功", null);
         }
-        return new Result(204, false, "创建成功", null);
+        return new Result(204, false, "创建失败", null);
     }
     /************************************************* 推荐 - END *********************************************************/
 
@@ -441,7 +441,7 @@ public class ActivitySetController {
         if (result) {
             return new Result(200, true, "创建成功", null);
         }
-        return new Result(204, false, "创建成功", null);
+        return new Result(204, false, "创建失败", null);
     }
     /************************************************* 砍价 - END *********************************************************/
 
@@ -466,7 +466,7 @@ public class ActivitySetController {
         if (result) {
             return new Result(200, true, "创建成功", null);
         }
-        return new Result(204, false, "创建成功", null);
+        return new Result(204, false, "创建失败", null);
     }
     /************************************************* 朋友圈 - END *********************************************************/
 
@@ -491,7 +491,7 @@ public class ActivitySetController {
         if (result) {
             return new Result(200, true, "创建成功", null);
         }
-        return new Result(204, false, "创建成功", null);
+        return new Result(204, false, "创建失败", null);
     }
     /************************************************* 秒杀 - END *********************************************************/
 
@@ -516,7 +516,47 @@ public class ActivitySetController {
         if (result) {
             return new Result(200, true, "创建成功", null);
         }
-        return new Result(204, false, "创建成功", null);
+        return new Result(204, false, "创建失败", null);
     }
     /************************************************* 红包裂变 - END *********************************************************/
+
+    /************************************************* 活动计数 - START *********************************************************/
+
+    @ApiOperation("活动浏览次数增加")
+    @PostMapping("/addBrowse")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true),
+            @ApiImplicitParam(name = "type", value = "活动类型（4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈）", dataType = "String", required = true)})
+    public Object addBrowse(String id,String type) {
+        boolean result = activitySetService.addBrowse(id,type);
+        if (result) {
+            return new Result(200, true, "增加成功", null);
+        }
+        return new Result(204, false, "增加成功", null);
+    }
+
+    @ApiOperation("活动领券次数增加")
+    @PostMapping("/addCoupon")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true),
+            @ApiImplicitParam(name = "type", value = "活动类型（4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈）", dataType = "String", required = true)})
+    public Object addCoupon(String id,String type) {
+        boolean result = activitySetService.addCoupon(id,type);
+        if (result) {
+            return new Result(200, true, "增加成功", null);
+        }
+        return new Result(204, false, "增加成功", null);
+    }
+
+    @ApiOperation("活动用券次数增加")
+    @PostMapping("/addUse")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true),
+            @ApiImplicitParam(name = "type", value = "活动类型（4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈）", dataType = "String", required = true)})
+    public Object addUse(String id,String type) {
+        boolean result = activitySetService.addUse(id,type);
+        if (result) {
+            return new Result(200, true, "增加成功", null);
+        }
+        return new Result(204, false, "增加成功", null);
+    }
+
+    /************************************************* 活动计数 - END *********************************************************/
 }

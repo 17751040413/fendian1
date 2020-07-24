@@ -72,7 +72,7 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
             case Constants.SECKILL:
                 break;
             //拼团活动
-            case Constants.SPELL:
+            case Constants.GROUP:
                 break;
             //砸金蛋抽奖
             case Constants.LUCKDRAW:

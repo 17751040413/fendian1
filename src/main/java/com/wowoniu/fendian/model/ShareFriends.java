@@ -24,6 +24,12 @@ public class ShareFriends implements Serializable {
     @ApiModelProperty("图片URL（最多9张’；‘隔开）")
     private String pictureUrl;
 
+    @ApiModelProperty("今日用券数")
+    private Integer todayUse;
+
+    @ApiModelProperty("总用券数")
+    private Integer use;
+
     public String getId() {
         return id;
     }
@@ -54,5 +60,21 @@ public class ShareFriends implements Serializable {
 
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
+    }
+
+    public Integer getTodayUse() {
+        return todayUse;
+    }
+
+    public void setTodayUse(Integer todayUse) {
+        this.todayUse = todayUse;
+    }
+
+    public Integer getUse() {
+        return use;
+    }
+
+    public void setUse(Integer use) {
+        this.use = use;
     }
 }
