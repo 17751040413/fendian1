@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * @author yuany
@@ -39,7 +38,7 @@ public class SeckillSet implements Serializable {
     private Integer originalPrice;
 
     @ApiModelProperty("秒杀价格（分）")
-    private Integer sekillPrice;
+    private Integer seckillPrice;
 
     @ApiModelProperty("单人秒杀次数（0和不填为不显示）")
     private Integer frequencyPersonal;
@@ -48,7 +47,7 @@ public class SeckillSet implements Serializable {
     private String paymentType;
 
     @ApiModelProperty("预付金额（分）")
-    private Integer pay_advance;
+    private Integer payAdvance;
 
     @ApiModelProperty("描述")
     private String describe;
@@ -150,12 +149,12 @@ public class SeckillSet implements Serializable {
         this.originalPrice = originalPrice;
     }
 
-    public Integer getSekillPrice() {
-        return sekillPrice;
+    public Integer getSeckillPrice() {
+        return seckillPrice;
     }
 
-    public void setSekillPrice(Integer sekillPrice) {
-        this.sekillPrice = sekillPrice;
+    public void setSeckillPrice(Integer seckillPrice) {
+        this.seckillPrice = seckillPrice;
     }
 
     public Integer getFrequencyPersonal() {
@@ -174,12 +173,12 @@ public class SeckillSet implements Serializable {
         this.paymentType = paymentType;
     }
 
-    public Integer getPay_advance() {
-        return pay_advance;
+    public Integer getPayAdvance() {
+        return payAdvance;
     }
 
-    public void setPay_advance(Integer pay_advance) {
-        this.pay_advance = pay_advance;
+    public void setPayAdvance(Integer payAdvance) {
+        this.payAdvance = payAdvance;
     }
 
     public String getDescribe() {

@@ -1,7 +1,6 @@
 package com.wowoniu.fendian.model;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

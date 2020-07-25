@@ -45,7 +45,7 @@ public class BargainingSet implements Serializable {
     private Integer bargainingFrequency;
 
     @ApiModelProperty("底价购买（N：关闭；Y：开启）")
-    private Integer floorPriceEnable;
+    private String floorPriceEnable;
 
     @ApiModelProperty("支付类型（0：到店支付；1：预付定金；2：底价支付）")
     private String payType;
@@ -166,11 +166,11 @@ public class BargainingSet implements Serializable {
         this.bargainingFrequency = bargainingFrequency;
     }
 
-    public Integer getFloorPriceEnable() {
+    public String getFloorPriceEnable() {
         return floorPriceEnable;
     }
 
-    public void setFloorPriceEnable(Integer floorPriceEnable) {
+    public void setFloorPriceEnable(String floorPriceEnable) {
         this.floorPriceEnable = floorPriceEnable;
     }
 

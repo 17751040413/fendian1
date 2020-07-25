@@ -2,8 +2,6 @@ package com.wowoniu.fendian.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
-import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -46,7 +44,7 @@ public class LuckDrawSet implements Serializable {
     private Integer increaseTimes;
 
     @ApiModelProperty("活动描述")
-    private String describle;
+    private String describe;
 
     @ApiModelProperty("活动图片地址（最多9张‘，’分隔）")
     private String pictureUrl;
@@ -161,12 +159,12 @@ public class LuckDrawSet implements Serializable {
         this.increaseTimes = increaseTimes;
     }
 
-    public String getDescrible() {
-        return describle;
+    public String getDescribe() {
+        return describe;
     }
 
-    public void setDescrible(String describle) {
-        this.describle = describle;
+    public void setDescribe(String describe) {
+        this.describe = describe;
     }
 
     public String getPictureUrl() {

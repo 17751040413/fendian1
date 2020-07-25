@@ -69,78 +69,73 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     /**
      * 新增/更新裂变
      *
-     * @param fissionSet 裂变实体
+     * @param param 裂变实体及详情
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean addOrUpdateFission(FissionSet fissionSet, String userId) {
-        if (fissionSet == null) {
+    public boolean addOrUpdateFission(JSONObject param, String userId) {
+        FissionSet fissionSet = JSONObject.parseObject(param.getJSONObject("fissionSet").toJSONString(), FissionSet.class);
+        List<FissionSetDetail> fissionSetDetailList = JSONArray.parseArray(param.getJSONArray("detail").toJSONString(), FissionSetDetail.class);
+        if (fissionSet == null || CollectionUtils.isEmpty(fissionSetDetailList)) {
             return false;
         }
+
         //新增
         if (StringUtils.isEmpity(fissionSet.getId())) {
             fissionSet.setUserId(userId);
             fissionSet.setId(StringUtils.getUuid());
             activitySetMapper.addFissionSet(fissionSet);
+            for (FissionSetDetail fissionSetDetail : fissionSetDetailList) {
+                fissionSetDetail.setId(StringUtils.getUuid());
+                fissionSetDetail.setLevel(activitySetMapper.getFissionSetDetailList(fissionSetDetail.getFissionId()).size() + 1);
+                fissionSetDetail.setFissionId(fissionSet.getId());
+                activitySetMapper.addFissionSetDetail(fissionSetDetail);
+            }
         } else {
             //更新
             activitySetMapper.updateFissionSet(fissionSet);
-        }
-        return true;
-    }
+            //新增的详情
+            List<FissionSetDetail> adds = new ArrayList<>();
+            //删除的详情
+            List<FissionSetDetail> deletes = new ArrayList<>();
+            //原有详情
+            List<FissionSetDetail> olds = activitySetMapper.getFissionSetDetailList(fissionSet.getId());
+            for (FissionSetDetail fissionSetDetail : fissionSetDetailList) {
+                if (StringUtils.isEmpity(fissionSetDetail.getId())) {
+                    fissionSetDetail.setId(StringUtils.getUuid());
+                    fissionSetDetail.setFissionId(fissionSet.getId());
+                    activitySetMapper.addFissionSetDetail(fissionSetDetail);
+                } else {
+                    activitySetMapper.updateFissionSetDetail(fissionSetDetail);
+                }
+            }
+            for (FissionSetDetail old : olds) {
+                boolean result = true;
+                for (FissionSetDetail fissionSetDetail : fissionSetDetailList) {
+                    if (old.getId().equals(fissionSetDetail.getId())) {
+                        result = false;
+                        break;
+                    }
+                }
+                if (result) {
+                    activitySetMapper.deleteFissionSetDetail(old.getId());
+                }
+            }
 
-    /**
-     * 新增/更新裂变详情
-     *
-     * @param fissionSetDetail 裂变详情实体
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean addOrUpdateFissionDetail(FissionSetDetail fissionSetDetail) {
-        if (fissionSetDetail == null) {
-            return false;
-        }
-        //新增
-        if (StringUtils.isEmpity(fissionSetDetail.getId())) {
-            fissionSetDetail.setId(StringUtils.getUuid());
-            fissionSetDetail.setLevel(activitySetMapper.getFissionSetDetailList(fissionSetDetail.getFissionId()).size() + 1);
-            activitySetMapper.addFissionSetDetail(fissionSetDetail);
-        } else {
-            //更新
-            List<FissionSetDetail> fissionSetDetailList = new ArrayList<>();
-            fissionSetDetailList.add(fissionSetDetail);
-            activitySetMapper.updateFissionSetDetailList(fissionSetDetailList);
-        }
-        return true;
-    }
+            //获取裂变集合 重新排序
+            List<FissionSetDetail> detailList = activitySetMapper.getFissionSetDetailList(fissionSet.getId());
+            if (CollectionUtils.isEmpty(detailList)) {
+                return true;
+            }
+            int level = 0;
+            for (FissionSetDetail fissionSetDetail : detailList) {
+                level++;
+                fissionSetDetail.setLevel(level);
+                activitySetMapper.updateFissionSetDetail(fissionSetDetail);
+            }
 
-    /**
-     * 删除裂变详情
-     *
-     * @param id        裂变详情ID
-     * @param fissionId 裂变ID
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean deleteFissionDetail(String id, String fissionId) {
-        if (StringUtils.isEmpity(id)) {
-            return false;
         }
-        activitySetMapper.deleteFissionSetDetail(id);
-        //获取裂变集合 重新排序
-        List<FissionSetDetail> fissionSetDetailList = activitySetMapper.getFissionSetDetailList(fissionId);
-        if (CollectionUtils.isEmpty(fissionSetDetailList)) {
-            return true;
-        }
-        int level = 0;
-        for (FissionSetDetail fissionSetDetail : fissionSetDetailList) {
-            level++;
-            fissionSetDetail.setLevel(level);
-        }
-        activitySetMapper.updateFissionSetDetailList(fissionSetDetailList);
 
         return true;
     }
@@ -694,7 +689,11 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     @Override
     public JSONObject getLuckDrawSetAndDetail(String id) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("luckDrawSet", activitySetMapper.getLuckDrawSet(id));
+        LuckDrawSet luckDrawSet = activitySetMapper.getLuckDrawSet(id);
+        if (luckDrawSet == null) {
+            return null;
+        }
+        jsonObject.put("luckDrawSet", luckDrawSet);
         jsonObject.put("detail", activitySetMapper.getLuckDrawDetailList(id));
         return jsonObject;
     }
@@ -702,13 +701,15 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     /**
      * 抽奖及详情新增/修改
      *
-     * @param luckDrawSet
-     * @param luckDrawDetailList
+     * @param param
+     * @param userId
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean setLuckDrawSetAndDetail(LuckDrawSet luckDrawSet, List<LuckDrawDetail> luckDrawDetailList) {
+    public boolean setLuckDrawSetAndDetail(JSONObject param, String userId) {
+        LuckDrawSet luckDrawSet = JSONObject.parseObject(param.getJSONObject("luckDrawSet").toJSONString(), LuckDrawSet.class);
+        List<LuckDrawDetail> luckDrawDetailList = JSONArray.parseArray(param.getJSONArray("detail").toJSONString(), LuckDrawDetail.class);
         if (luckDrawSet == null || CollectionUtils.isEmpty(luckDrawDetailList)) {
             return false;
         }
@@ -725,8 +726,6 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         } else {
             //修改
             activitySetMapper.updateLuckDrawSet(luckDrawSet);
-            //修改的详情
-            List<LuckDrawDetail> updates = new ArrayList<>();
             //新增的详情
             List<LuckDrawDetail> adds = new ArrayList<>();
             //删除的详情
@@ -735,9 +734,11 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             List<LuckDrawDetail> olds = activitySetMapper.getLuckDrawDetailList(luckDrawSet.getId());
             for (LuckDrawDetail luckDrawDetail : luckDrawDetailList) {
                 if (StringUtils.isEmpity(luckDrawDetail.getId())) {
+                    luckDrawDetail.setId(StringUtils.getUuid());
+                    luckDrawDetail.setLuckDrawId(luckDrawSet.getId());
                     adds.add(luckDrawDetail);
                 } else {
-                    updates.add(luckDrawDetail);
+                    activitySetMapper.updateLuckDrawDetail(luckDrawDetail);
                 }
             }
             for (LuckDrawDetail old : olds) {
@@ -755,14 +756,10 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             if (!CollectionUtils.isEmpty(adds)) {
                 activitySetMapper.addLuckDrawDetailBatch(adds);
             }
-            if (!CollectionUtils.isEmpty(updates)) {
-                activitySetMapper.updateLuckDrawDetailBatch(updates);
-            }
             if (!CollectionUtils.isEmpty(deletes)) {
                 activitySetMapper.deleteLuckDrawDetailBatch(deletes);
             }
 
-            activitySetMapper.updateLuckDrawDetailBatch(luckDrawDetailList);
         }
         return true;
     }

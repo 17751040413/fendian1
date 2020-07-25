@@ -42,40 +42,18 @@ public class ActivitySetController {
         return activitySetService.getFissionSet((String) request.getAttribute("sysid"), state);
     }
 
-    @ApiOperation("裂变活动设置(新增/修改)")
-    @PostMapping("/setFission")
-    public Object setFission(@RequestBody FissionSet fissionSet, @ApiIgnore HttpServletRequest request) {
+    @ApiOperation("裂变活动设置及详情(新增/修改)")
+    @PostMapping("/setFissionSet")
+    @ApiImplicitParams({@ApiImplicitParam(name = "param", value = " LuckDrawSet实体及LuckDrawDetail集合数据", dataType = "JSONObject", required = true)})
+    public Object setFissionSet(@RequestBody JSONObject param, @ApiIgnore HttpServletRequest request) {
 
-        boolean result = activitySetService.addOrUpdateFission(fissionSet, (String) request.getAttribute("sysid"));
+        boolean result = activitySetService.addOrUpdateFission(param, (String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "设置成功", null);
         }
         return new Result(204, false, "设置失败", null);
     }
 
-    @ApiOperation("裂变详情设置(新增/修改)")
-    @PostMapping("/setFissionDetail")
-    public Object setFissionDetail(@RequestBody FissionSetDetail fissionSetDetail) {
-
-        boolean result = activitySetService.addOrUpdateFissionDetail(fissionSetDetail);
-        if (result) {
-            return new Result(200, true, "设置成功", null);
-        }
-        return new Result(204, false, "设置失败", null);
-    }
-
-    @ApiOperation("删除裂变详情")
-    @PostMapping("/deleteFissionDetail")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "裂变详情ID", dataType = "String", required = true),
-            @ApiImplicitParam(name = "fissionId", value = "裂变ID", dataType = "String", required = true)})
-    public Object deleteFissionDetail(String id, String fissionId) {
-
-        boolean result = activitySetService.deleteFissionDetail(id, fissionId);
-        if (result) {
-            return new Result(200, true, "删除成功", null);
-        }
-        return new Result(204, false, "删除失败", null);
-    }
 
     /************************************************* 裂变 - END *********************************************************/
 
@@ -320,7 +298,7 @@ public class ActivitySetController {
 
     /************************************************* 商城 - END *********************************************************/
 
-    /************************************************* 抽奖 -砸金蛋 转盘 - START *********************************************************/
+    /************************************************* True 抽奖 -砸金蛋 转盘 - START *********************************************************/
 
     @ApiOperation("抽奖ID获取抽奖设置及详情")
     @PostMapping("/getLuckDrawSetAndDetail")
@@ -336,16 +314,18 @@ public class ActivitySetController {
 
     @ApiOperation("抽奖及详情新增/修改")
     @PostMapping("/setLuckDrawSet")
-    public Object setLuckDrawSet(@RequestBody LuckDrawSet luckDrawSet, @RequestBody List<LuckDrawDetail> luckDrawDetailList) {
-        boolean result = activitySetService.setLuckDrawSetAndDetail(luckDrawSet, luckDrawDetailList);
+    @ApiImplicitParams({@ApiImplicitParam(name = "param", value = " LuckDrawSet实体及LuckDrawDetail集合数据", dataType = "JSONObject", required = true)})
+    public Object setLuckDrawSet(@RequestBody JSONObject param, @ApiIgnore HttpServletRequest request) {
+
+        boolean result = activitySetService.setLuckDrawSetAndDetail(param, (String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "创建成功", null);
         }
         return new Result(204, false, "创建失败", null);
     }
-    /************************************************* 抽奖 - END *********************************************************/
+    /************************************************* True 抽奖 - END *********************************************************/
 
-    /************************************************* 优惠券 - START *********************************************************/
+    /************************************************* True 优惠券 - START *********************************************************/
 
     @ApiOperation("优惠券ID获取设置信息")
     @PostMapping("/getCouponSet")
@@ -368,9 +348,9 @@ public class ActivitySetController {
         }
         return new Result(204, false, "创建失败", null);
     }
-    /************************************************* 优惠券 - END *********************************************************/
+    /************************************************* True 优惠券 - END *********************************************************/
 
-    /************************************************* 拼团 - START *********************************************************/
+    /************************************************* True 拼团 - START *********************************************************/
 
     @ApiOperation("拼团ID获取设置信息")
     @PostMapping("/getGroupBuying")
@@ -393,9 +373,9 @@ public class ActivitySetController {
         }
         return new Result(204, false, "创建失败", null);
     }
-    /************************************************* 拼团 - END *********************************************************/
+    /************************************************* True 拼团 - END *********************************************************/
 
-    /************************************************* 推荐 - START *********************************************************/
+    /************************************************* True 推荐 - START *********************************************************/
 
     @ApiOperation("推荐ID获取设置信息")
     @PostMapping("/getRecommendSet")
@@ -418,10 +398,10 @@ public class ActivitySetController {
         }
         return new Result(204, false, "创建失败", null);
     }
-    /************************************************* 推荐 - END *********************************************************/
+    /************************************************* True 推荐 - END *********************************************************/
 
 
-    /************************************************* 砍价 - START *********************************************************/
+    /************************************************* True 砍价 - START *********************************************************/
     @ApiOperation("砍价ID获取设置信息")
     @PostMapping("/getBargainingSet")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "砍价设置ID", dataType = "String", required = true)})
@@ -443,9 +423,9 @@ public class ActivitySetController {
         }
         return new Result(204, false, "创建失败", null);
     }
-    /************************************************* 砍价 - END *********************************************************/
+    /************************************************* True 砍价 - END *********************************************************/
 
-    /************************************************* 朋友圈分享 - START *********************************************************/
+    /************************************************* True 朋友圈分享 - START *********************************************************/
 
     @ApiOperation("朋友圈分享ID获取设置信息")
     @PostMapping("/getShareFriends")
@@ -468,9 +448,9 @@ public class ActivitySetController {
         }
         return new Result(204, false, "创建失败", null);
     }
-    /************************************************* 朋友圈 - END *********************************************************/
+    /************************************************* True 朋友圈 - END *********************************************************/
 
-    /************************************************* 秒杀 - START *********************************************************/
+    /*************************************************  True 秒杀 - START *********************************************************/
 
     @ApiOperation("秒杀ID获取设置信息")
     @PostMapping("/getSeckillSet")
@@ -493,7 +473,7 @@ public class ActivitySetController {
         }
         return new Result(204, false, "创建失败", null);
     }
-    /************************************************* 秒杀 - END *********************************************************/
+    /************************************************* True 秒杀 - END *********************************************************/
 
     /************************************************* 红包裂变 - START *********************************************************/
 
@@ -526,8 +506,8 @@ public class ActivitySetController {
     @PostMapping("/addBrowse")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true),
             @ApiImplicitParam(name = "type", value = "活动类型（4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈）", dataType = "String", required = true)})
-    public Object addBrowse(String id,String type) {
-        boolean result = activitySetService.addBrowse(id,type);
+    public Object addBrowse(String id, String type) {
+        boolean result = activitySetService.addBrowse(id, type);
         if (result) {
             return new Result(200, true, "增加成功", null);
         }
@@ -538,8 +518,8 @@ public class ActivitySetController {
     @PostMapping("/addCoupon")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true),
             @ApiImplicitParam(name = "type", value = "活动类型（4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈）", dataType = "String", required = true)})
-    public Object addCoupon(String id,String type) {
-        boolean result = activitySetService.addCoupon(id,type);
+    public Object addCoupon(String id, String type) {
+        boolean result = activitySetService.addCoupon(id, type);
         if (result) {
             return new Result(200, true, "增加成功", null);
         }
@@ -550,8 +530,8 @@ public class ActivitySetController {
     @PostMapping("/addUse")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true),
             @ApiImplicitParam(name = "type", value = "活动类型（4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈）", dataType = "String", required = true)})
-    public Object addUse(String id,String type) {
-        boolean result = activitySetService.addUse(id,type);
+    public Object addUse(String id, String type) {
+        boolean result = activitySetService.addUse(id, type);
         if (result) {
             return new Result(200, true, "增加成功", null);
         }

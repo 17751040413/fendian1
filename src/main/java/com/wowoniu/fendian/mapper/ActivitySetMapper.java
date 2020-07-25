@@ -87,10 +87,12 @@ public interface ActivitySetMapper {
     /**
      * 批量更新裂变详情
      *
-     * @param fissionSetDetailList
+     * @param fissionSetDetail
      * @return
      */
-    int updateFissionSetDetailList(@Param("fissionSetDetailList") List<FissionSetDetail> fissionSetDetailList);
+    @Update(" UPDATE fission_set_detail SET level_name=#{levelName},equity=#{equity},coupon_type=#{couponType}, discount_money=#{discountMoney}," +
+            "use_threshold=#{useThreshold},month_number=#{monthNumber},use_range=#{useRange}, exchange_coupon_name=#{exchangeCouponName},discount=#{discount} WHERE id =#{id}")
+    int updateFissionSetDetail(FissionSetDetail fissionSetDetail);
 
     /**
      * ID删除裂变详情
@@ -530,7 +532,7 @@ public interface ActivitySetMapper {
      */
     @Insert("UPDATE luck_draw_set SET title = #{title},start_time=#{startTime},end_time=#{endTime},phone_enable=#{phoneEnable},person_day=#{personDay}," +
             "person_frequency=#{personFrequency},probability=#{probability},increase_times=#{increaseTimes},`describe`=#{describe},picture_url=#{pictureUrl}," +
-            "prevent_brush=#{preventBrush},music_id=#{music_id} WHERE id = #{id}")
+            "prevent_brush=#{preventBrush},music_id=#{musicId} WHERE id = #{id}")
     int updateLuckDrawSet(LuckDrawSet luckDrawSet);
 
     /**
@@ -539,9 +541,10 @@ public interface ActivitySetMapper {
     int addLuckDrawDetailBatch(@Param("luckDrawDetailList") List<LuckDrawDetail> luckDrawDetailList);
 
     /**
-     * 修改抽奖详情-批量
+     * 修改抽奖详情
      */
-    int updateLuckDrawDetailBatch(@Param("luckDrawDetailList") List<LuckDrawDetail> luckDrawDetailList);
+    @Update("UPDATE luck_draw_detail SET `name` = #{name},`type`  = #{type},coupon_type = #{couponType},preferential= #{preferential},satisfy = #{satisfy},`range` = #{range},effective_type = #{effectiveType},effective_day = #{effectiveDay},prize_number = #{prizeNumber},day_max = #{dayMax},start_time = #{startTime},end_time = #{endTime},discount = #{discount},prize_name = #{prizeName},picture_url = #{pictureUrl} WHERE id = #{id}")
+    int updateLuckDrawDetail(LuckDrawDetail luckDrawDetail);
 
 
     /**
@@ -568,7 +571,7 @@ public interface ActivitySetMapper {
     @Insert("INSERT INTO coupon_set (id,order_coupon,new_customers,phone_enable,type,money,discount,threshold,effective_type,effective_day," +
             "start_time,end_time,`range`,coupon_number,`describe`,picture_url,prevent_brush,music_url,user_id) " +
             "VALUES (#{id},#{orderCoupon},#{newCustomers},#{phoneEnable},#{type},#{money},#{discount},#{threshold},#{effectiveType},#{effectiveDay}," +
-            "#{startTime},#{endTime},#{range},#{couponNumber},#{describe},#{pictureUrl},#{preventBrush},#{musicUrl},#{user_id}) ")
+            "#{startTime},#{endTime},#{range},#{couponNumber},#{describe},#{pictureUrl},#{preventBrush},#{musicUrl},#{userId}) ")
     int addCouponSet(CouponSet couponSet);
 
     /**
@@ -598,7 +601,7 @@ public interface ActivitySetMapper {
     @Insert("INSERT INTO group_buying (id,head_picture_url,title,start_time,end_time,phone_enable,stock,original_price,group_price,payment_type," +
             "pay_advance,group_number,group_time,time_unit,automatic_group,`describe`,picture_url,rule,prevent_brush,music_url,user_id) " +
             "VALUES (#{id},#{headPictureUrl},#{title},#{startTime},#{endTime},#{phoneEnable},#{stock},#{originalPrice},#{groupPrice},#{paymentType}," +
-            "#{payAdvance},#{groupNumber},#{groupTime},#{timeUnit},#{automaticGroup},#{describe},#{pictureUrl},#{rule},#{preventBrush},#{musicUrl},#{user_id})")
+            "#{payAdvance},#{groupNumber},#{groupTime},#{timeUnit},#{automaticGroup},#{describe},#{pictureUrl},#{rule},#{preventBrush},#{musicUrl},#{userId})")
     int addGroupBuying(GroupBuying groupBuying);
 
     /**
@@ -643,7 +646,7 @@ public interface ActivitySetMapper {
             "music_url = #{musicUrl},recommend_gift_type = #{recommendGiftType},recommend_money = #{recommendMoney},recommend_threshold = #{recommendThreshold}," +
             "recommend_effective_type = #{recommendEffectiveType},recommend_effective_day = #{recommendEffectiveDay},recommend_start_time = #{recommendStartTime}," +
             "recommend_end_time = #{recommendEndTime},recommend_range = #{recommendRange},recommend_gift_number = #{recommendGiftNumber}," +
-            "recommend_discount = #{recommendDiscount},recommend_gift_name = #{recommendGiftName},describe = #{describe},picture_url = #{pictureUrl}," +
+            "recommend_discount = #{recommendDiscount},recommend_gift_name = #{recommendGiftName},`describe`  = #{describe},picture_url = #{pictureUrl}," +
             "rule = #{rule},recommended_gift_type = #{recommendedGiftType},recommended_money = #{recommendedMoney},recommended_threshold = #{recommendedThreshold}," +
             "recommended_effective_type = #{recommendedEffectiveType},recommended_effective_day = #{recommendedEffectiveDay},recommended_start_time = #{recommendedStartTime}," +
             "recommended_end_time = #{recommendedEndTime},recommended_range = #{recommendedRange},recommended_gift_number = #{recommendedGiftNumber}," +
@@ -721,7 +724,7 @@ public interface ActivitySetMapper {
      * @param id
      * @return
      */
-    @Insert("SELECT * FROM seckill_set WHERE id = #{id}")
+    @Select("SELECT * FROM seckill_set WHERE id = #{id}")
     SeckillSet getSeckillSet(String id);
 
     /**
@@ -765,11 +768,10 @@ public interface ActivitySetMapper {
      * @param redenvelopesSet
      * @return
      */
-    @Insert("INSERT INTO redenvelopes_set (id,title,start_time,end_time,phone_enable,new_customers,type,money,discount,threshold,effective_type," +
-            "effective_day,coupon_start_time,coupon_end_time,`range`,reward_peoples,reward_condition,total_activities,`describe`,picture_url," +
-            "prevent_brush,user_id) VALUES (#{id},#{title},#{startTime},#{endTime},#{phoneEnable},#{newCustomers},#{type},#{money},#{discount}," +
-            "#{threshold},#{effectiveType},#{effectiveDay},#{couponStartTime},#{couponEndTime},#{range},#{rewardPeoples},#{rewardCondition}," +
-            "#{totalActivities},#{describe},#{pictureUrl},#{preventBrush},#{userId})")
+    @Insert("INSERT INTO redenvelopes_set (id,title,start_time,end_time,phone_enable,new_customers,type,money,discount,threshold,effective_type,effective_day," +
+            "coupon_start_time,coupon_end_time,`range`,reward_peoples,reward_condition,total_activities,`describe`,picture_url,prevent_brush,user_id) " +
+            "VALUES (#{id},#{title},#{startTime},#{endTime},#{phoneEnable},#{newCustomers},#{type},#{money},#{discount},#{threshold},#{effectiveType}," +
+            "#{effectiveDay},#{couponStartTime},#{couponEndTime},#{range},#{rewardPeoples},#{rewardCondition},#{totalActivities},#{describe},#{pictureUrl},#{preventBrush},#{userId})")
     int addRedenvelopesSet(RedenvelopesSet redenvelopesSet);
 
     /**

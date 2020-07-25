@@ -27,27 +27,11 @@ public interface ActivitySetService {
     /**
      * 新增/更新裂变
      *
-     * @param fissionSet 裂变实体
+     * @param param 裂变实体及详情
      * @return
      */
-    boolean addOrUpdateFission(FissionSet fissionSet, String userId);
+    boolean addOrUpdateFission(JSONObject param, String userId);
 
-    /**
-     * 新增/更新裂变详情
-     *
-     * @param fissionSetDetail 裂变详情实体
-     * @return
-     */
-    boolean addOrUpdateFissionDetail(FissionSetDetail fissionSetDetail);
-
-    /**
-     * 删除裂变详情
-     *
-     * @param id        裂变详情ID
-     * @param fissionId 裂变ID
-     * @return
-     */
-    boolean deleteFissionDetail(String id, String fissionId);
 
     /**
      * 商家ID获取返利及详情
@@ -240,11 +224,11 @@ public interface ActivitySetService {
     /**
      * 抽奖及详情新增/修改
      *
-     * @param luckDrawSet
-     * @param luckDrawDetailList
+     * @param param
+     * @param userId
      * @return
      */
-    boolean setLuckDrawSetAndDetail(LuckDrawSet luckDrawSet, List<LuckDrawDetail> luckDrawDetailList);
+    boolean setLuckDrawSetAndDetail(JSONObject param, String userId);
 
     /**
      * ID获取优惠券设置

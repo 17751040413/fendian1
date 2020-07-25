@@ -45,7 +45,7 @@ public class GroupBuying implements Serializable {
     private String paymentType;
 
     @ApiModelProperty("预付金额（分）")
-    private Integer pay_advance;
+    private Integer payAdvance;
 
     @ApiModelProperty("成团人数")
     private Integer groupNumber;
@@ -175,12 +175,12 @@ public class GroupBuying implements Serializable {
         this.paymentType = paymentType;
     }
 
-    public Integer getPay_advance() {
-        return pay_advance;
+    public Integer getPayAdvance() {
+        return payAdvance;
     }
 
-    public void setPay_advance(Integer pay_advance) {
-        this.pay_advance = pay_advance;
+    public void setPayAdvance(Integer payAdvance) {
+        this.payAdvance = payAdvance;
     }
 
     public Integer getGroupNumber() {
