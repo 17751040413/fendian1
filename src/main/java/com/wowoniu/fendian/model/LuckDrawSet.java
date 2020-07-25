@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * @author yuany
@@ -24,10 +25,10 @@ public class LuckDrawSet implements Serializable {
     private String title;
 
     @ApiModelProperty("开始时间")
-    private DateTime startTime;
+    private Timestamp startTime;
 
     @ApiModelProperty("结束时间")
-    private DateTime endTime;
+    private Timestamp endTime;
 
     @ApiModelProperty("参加活动是否填写手机号（N：否；Y：是）")
     private String phoneEnable;
@@ -104,19 +105,19 @@ public class LuckDrawSet implements Serializable {
         this.title = title;
     }
 
-    public DateTime getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(DateTime startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public DateTime getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(DateTime endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 

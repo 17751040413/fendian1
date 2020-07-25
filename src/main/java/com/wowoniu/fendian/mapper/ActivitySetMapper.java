@@ -172,7 +172,7 @@ public interface ActivitySetMapper {
      * @param rebateSetDetail
      * @return
      */
-    @Insert("INSERT INTO rebate_ret_detail(id,level,level_name,gain_factor,rebate_ratio,rebate_id) VALUES (id,level,levelName,gainFactor,rebateRatio,rebateId)")
+    @Insert("INSERT INTO rebate_ret_detail(id,level,level_name,gain_factor,rebate_ratio,rebate_id) VALUES (#{id},#{level},#{levelName},#{gainFactor},#{rebateRatio},#{rebateId})")
     int addRebateSetDetail(RebateSetDetail rebateSetDetail);
 
     /**
@@ -230,7 +230,7 @@ public interface ActivitySetMapper {
      * @param distributionSet
      * @return
      */
-    @Insert("INSERT INTO distribution_set(id,user_id,state,commission_ratio,prevent_brush) VALUES (id,userId,state,commissionRatio,preventBrush)")
+    @Insert("INSERT INTO distribution_set(id,user_id,state,commission_ratio,prevent_brush) VALUES (#{id},#{userId},#{state},#{commissionRatio},#{preventBrush})")
     int addDistributionSet(DistributionSet distributionSet);
 
     /**
@@ -249,7 +249,7 @@ public interface ActivitySetMapper {
      * @return
      */
     @Insert("INSERT INTO distribution_coupon(id,distribution_id,phone_enable,type,money,discount,threshold,effective_type,effective_day,start_time,end_time,range) " +
-            "VALUES (id,distributionId,phoneEnable,type,money,discount,threshold,effectiveType,effectiveDay,startTime,endTime,range)")
+            "VALUES (#{id},#{distributionId},#{phoneEnable},#{type},#{money},#{discount},#{threshold},#{effectiveType},#{effectiveDay},#{startTime},#{endTime},#{range})")
     int addDistributionCoupon(DistributionCoupon distributionCoupon);
 
     /**
@@ -298,7 +298,7 @@ public interface ActivitySetMapper {
      * @return
      */
     @Insert("INSERT INTO shopping_mall_set(id,user_id,state,self_raising,distribution,freight,recommend,prevent_brush) " +
-            "VALUES (id,userId,state,selfRaising,distribution,freight,recommend,preventBrush)")
+            "VALUES (#{id},#{userId},#{state},#{selfRaising},#{distribution},#{freight},#{ecommend},#{preventBrush})")
     int addShoppingMallSet(ShoppingMallSet shoppingMallSet);
 
     /**
@@ -329,7 +329,7 @@ public interface ActivitySetMapper {
      * @param waresSortSet
      * @return
      */
-    @Insert("INSERT INTO wares_sort_set (user_id,state) VALUES (userId,state)")
+    @Insert("INSERT INTO wares_sort_set (user_id,state) VALUES (#{userId},#{state})")
     int addWaresSortSet(WaresSortSet waresSortSet);
 
     /**
@@ -375,7 +375,7 @@ public interface ActivitySetMapper {
      * @param waresSortDetail
      * @return
      */
-    @Insert("INSERT INTO wares_sort_detail(id,state,name,top_row,sort_id) VALUES (id,state,name,topRow,sortId)")
+    @Insert("INSERT INTO wares_sort_detail(id,state,name,top_row,sort_id) VALUES (#{id},#{state},#{name},#{topRow},#{sortId})")
     int addWaresSortDetail(WaresSortDetail waresSortDetail);
 
     /**
@@ -435,7 +435,7 @@ public interface ActivitySetMapper {
      * @return
      */
     @Insert("INSERT INTO wares(id,title,price,stock,freight,sort_id,distribution_commission,hide,picture_url,on_shelf,sales_volume,shelf_time,user_id) " +
-            "VALUES (id,title,price,stock,freight,sortId,distributionCommission,hide,pictureUrl,onShelf,salesVolume,shelfTime,userId)")
+            "VALUES (#{id},#{title},#{price},#{stock},#{freight},#{sortId},#{distributionCommission},#{hide},#{pictureUrl},#{onShelf},#{salesVolume},#{shelfTime},#{userId})")
     int addWares(Wares wares);
 
     /**
@@ -629,7 +629,7 @@ public interface ActivitySetMapper {
             "recommend_range,recommend_gift_number,recommend_discount,recommend_gift_name,`describe`,picture_url,rule,recommended_gift_type," +
             "recommended_money,recommended_threshold,recommended_effective_type,recommended_effective_day,recommended_start_time,recommended_end_time," +
             "recommended_range,recommended_gift_number,recommended_discount,recommended_gift_name,recommended_new_customers) " +
-            "VALUES (#{id},#{title},#{startTime},#{endTime,#{phoneEnable},#{preventBrush},#{musicUrl},#{userId},#{recommendGiftType},#{recommendMoney," +
+            "VALUES (#{id},#{title},#{startTime},#{endTime},#{phoneEnable},#{preventBrush},#{musicUrl},#{userId},#{recommendGiftType},#{recommendMoney}," +
             "#{recommendThreshold},#{recommendEffectiveType},#{recommendEffectiveDay},#{recommendStartTime},#{recommendEndTime},#{recommendRange},#{recommendGiftNumber}," +
             "#{recommendDiscount},#{recommendGiftName},#{describe},#{pictureUrl},#{rule},#{recommendedGiftType},#{recommendedMoney},#{recommendedThreshold}," +
             "#{recommendedEffectiveType},#{recommendedEffectiveDay},#{recommendedStartTime},#{recommendedEndTime},#{recommendedRange},#{recommendedGiftNumber}," +
@@ -639,8 +639,8 @@ public interface ActivitySetMapper {
     /**
      * 推荐修改
      */
-    @Update("UPDATE recommend_set SET title = #{title},start_time = #{startTime},end_time = #{endTime,phone_enable = #{phoneEnable},prevent_brush = #{preventBrush}," +
-            "music_url = #{musicUrl},recommend_gift_type = #{recommendGiftType},recommend_money = #{recommendMoney,recommend_threshold = #{recommendThreshold}," +
+    @Update("UPDATE recommend_set SET title = #{title},start_time = #{startTime},end_time = #{endTime},phone_enable = #{phoneEnable},prevent_brush = #{preventBrush}," +
+            "music_url = #{musicUrl},recommend_gift_type = #{recommendGiftType},recommend_money = #{recommendMoney},recommend_threshold = #{recommendThreshold}," +
             "recommend_effective_type = #{recommendEffectiveType},recommend_effective_day = #{recommendEffectiveDay},recommend_start_time = #{recommendStartTime}," +
             "recommend_end_time = #{recommendEndTime},recommend_range = #{recommendRange},recommend_gift_number = #{recommendGiftNumber}," +
             "recommend_discount = #{recommendDiscount},recommend_gift_name = #{recommendGiftName},describe = #{describe},picture_url = #{pictureUrl}," +
@@ -769,7 +769,7 @@ public interface ActivitySetMapper {
             "effective_day,coupon_start_time,coupon_end_time,`range`,reward_peoples,reward_condition,total_activities,`describe`,picture_url," +
             "prevent_brush,user_id) VALUES (#{id},#{title},#{startTime},#{endTime},#{phoneEnable},#{newCustomers},#{type},#{money},#{discount}," +
             "#{threshold},#{effectiveType},#{effectiveDay},#{couponStartTime},#{couponEndTime},#{range},#{rewardPeoples},#{rewardCondition}," +
-            "#{totalActivities},#{describe,pictureUrl},#{preventBrush},#{userId})")
+            "#{totalActivities},#{describe},#{pictureUrl},#{preventBrush},#{userId})")
     int addRedenvelopesSet(RedenvelopesSet redenvelopesSet);
 
     /**

@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * @author yuany
@@ -50,7 +51,7 @@ public class Wares implements Serializable {
     private Integer salesVolume;
 
     @ApiModelProperty("上架时间")
-    private DateTime shelfTime;
+    private Timestamp shelfTime;
 
     public String getId() {
         return id;
@@ -148,11 +149,11 @@ public class Wares implements Serializable {
         this.salesVolume = salesVolume;
     }
 
-    public DateTime getShelfTime() {
+    public Timestamp getShelfTime() {
         return shelfTime;
     }
 
-    public void setShelfTime(DateTime shelfTime) {
+    public void setShelfTime(Timestamp shelfTime) {
         this.shelfTime = shelfTime;
     }
 }

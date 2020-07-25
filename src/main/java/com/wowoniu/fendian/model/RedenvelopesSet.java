@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -20,10 +21,10 @@ public class RedenvelopesSet implements Serializable {
     private String title;
 
     @ApiModelProperty("开始时间")
-    private Date startTime;
+    private Timestamp startTime;
 
     @ApiModelProperty("结束时间")
-    private Date endTime;
+    private Timestamp endTime;
 
     @ApiModelProperty("领取是否填写手机号（N：否；Y：是）")
     private String phoneEnable;
@@ -50,10 +51,10 @@ public class RedenvelopesSet implements Serializable {
     private Integer effectiveDay;
 
     @ApiModelProperty("券开始时间")
-    private Date couponStartTime;
+    private Timestamp couponStartTime;
 
     @ApiModelProperty("券结束时间")
-    private Date couponEndTime;
+    private Timestamp couponEndTime;
 
     @ApiModelProperty("适用范围（默认【全店通用】）")
     private String range;
@@ -113,19 +114,19 @@ public class RedenvelopesSet implements Serializable {
         this.title = title;
     }
 
-    public Date getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 
@@ -193,19 +194,19 @@ public class RedenvelopesSet implements Serializable {
         this.effectiveDay = effectiveDay;
     }
 
-    public Date getCouponStartTime() {
+    public Timestamp getCouponStartTime() {
         return couponStartTime;
     }
 
-    public void setCouponStartTime(Date couponStartTime) {
+    public void setCouponStartTime(Timestamp couponStartTime) {
         this.couponStartTime = couponStartTime;
     }
 
-    public Date getCouponEndTime() {
+    public Timestamp getCouponEndTime() {
         return couponEndTime;
     }
 
-    public void setCouponEndTime(Date couponEndTime) {
+    public void setCouponEndTime(Timestamp couponEndTime) {
         this.couponEndTime = couponEndTime;
     }
 

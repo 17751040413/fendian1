@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * @author yuany
@@ -41,10 +42,10 @@ public class DistributionCoupon implements Serializable {
     private Integer effectiveDay;
 
     @ApiModelProperty("开始时间")
-    private DateTime startTime;
+    private Timestamp startTime;
 
     @ApiModelProperty("结束时间")
-    private DateTime endTime;
+    private Timestamp endTime;
 
     @ApiModelProperty("适用范围（默认【全店通用】）")
     private String range;
@@ -121,19 +122,19 @@ public class DistributionCoupon implements Serializable {
         this.effectiveDay = effectiveDay;
     }
 
-    public DateTime getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(DateTime startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public DateTime getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(DateTime endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 

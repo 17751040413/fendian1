@@ -51,7 +51,7 @@
     <!-- 批量更新商品分类置顶排序 -->
     <update id="updateWaresSortDetailBatch">
         <foreach collection="waresSortDetail" item="item" index="index" close="" open="" separator=";">
-            UPDATE wares_sort_detail SET top_row=#{item.topRow}, WHERE id = #{item.id}
+            UPDATE wares_sort_detail SET top_row = #{item.topRow}, WHERE id = #{item.id}
         </foreach>
     </update>
 
@@ -69,10 +69,10 @@
             AND wsd.id = #{sortDetailId}
         </if>
         <if test="time == 1">
-            ORDER BY shelfTime DESC
+            ORDER BY w.shelf_time DESC
         </if>
         <if test="sales == 1">
-            ORDER BY salesVolume DESC
+            ORDER BY sales_volume DESC
         </if>
     </select>
     <!-- 规格ID获取规格详情 -->

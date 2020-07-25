@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -23,10 +24,10 @@ public class BargainingSet implements Serializable {
     private String title;
 
     @ApiModelProperty("开始时间")
-    private Date startTime;
+    private Timestamp startTime;
 
     @ApiModelProperty("结束时间")
-    private Date endTime;
+    private Timestamp endTime;
 
     @ApiModelProperty("砍价是否填写手机号（N：否；Y：是）")
     private String phoneEnable;
@@ -109,19 +110,19 @@ public class BargainingSet implements Serializable {
         this.title = title;
     }
 
-    public Date getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 

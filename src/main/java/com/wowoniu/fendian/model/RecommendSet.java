@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -20,10 +21,10 @@ public class RecommendSet implements Serializable {
     private String title;
 
     @ApiModelProperty("开始时间")
-    private Date startTime;
+    private Timestamp startTime;
 
     @ApiModelProperty("结束时间")
-    private Date endTime;
+    private Timestamp endTime;
 
     @ApiModelProperty("推荐是否填写手机号（N：否；Y：是）")
     private String phoneEnable;
@@ -47,10 +48,10 @@ public class RecommendSet implements Serializable {
     private Integer recommendEffectiveDay;
 
     @ApiModelProperty("推荐人-开始时间")
-    private Date recommendStartTime;
+    private Timestamp recommendStartTime;
 
     @ApiModelProperty("推荐人-结束时间")
-    private Date recommendEndTime;
+    private Timestamp recommendEndTime;
 
     @ApiModelProperty("推荐人-适用范围（默认【全店通用】）")
     private String recommendRange;
@@ -83,10 +84,10 @@ public class RecommendSet implements Serializable {
     private Integer recommendedEffectiveDay;
 
     @ApiModelProperty("被推荐人-开始时间")
-    private Date recommendedStartTime;
+    private Timestamp recommendedStartTime;
 
     @ApiModelProperty("被推荐人-结束时间")
-    private Date recommendedEndTime;
+    private Timestamp recommendedEndTime;
 
     @ApiModelProperty("被推荐人-适用范围（默认【全店通用】）")
     private String recommendedRange;
@@ -149,19 +150,19 @@ public class RecommendSet implements Serializable {
         this.title = title;
     }
 
-    public Date getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 
@@ -221,19 +222,19 @@ public class RecommendSet implements Serializable {
         this.recommendEffectiveDay = recommendEffectiveDay;
     }
 
-    public Date getRecommendStartTime() {
+    public Timestamp getRecommendStartTime() {
         return recommendStartTime;
     }
 
-    public void setRecommendStartTime(Date recommendStartTime) {
+    public void setRecommendStartTime(Timestamp recommendStartTime) {
         this.recommendStartTime = recommendStartTime;
     }
 
-    public Date getRecommendEndTime() {
+    public Timestamp getRecommendEndTime() {
         return recommendEndTime;
     }
 
-    public void setRecommendEndTime(Date recommendEndTime) {
+    public void setRecommendEndTime(Timestamp recommendEndTime) {
         this.recommendEndTime = recommendEndTime;
     }
 
@@ -317,19 +318,19 @@ public class RecommendSet implements Serializable {
         this.recommendedEffectiveDay = recommendedEffectiveDay;
     }
 
-    public Date getRecommendedStartTime() {
+    public Timestamp getRecommendedStartTime() {
         return recommendedStartTime;
     }
 
-    public void setRecommendedStartTime(Date recommendedStartTime) {
+    public void setRecommendedStartTime(Timestamp recommendedStartTime) {
         this.recommendedStartTime = recommendedStartTime;
     }
 
-    public Date getRecommendedEndTime() {
+    public Timestamp getRecommendedEndTime() {
         return recommendedEndTime;
     }
 
-    public void setRecommendedEndTime(Date recommendedEndTime) {
+    public void setRecommendedEndTime(Timestamp recommendedEndTime) {
         this.recommendedEndTime = recommendedEndTime;
     }
 

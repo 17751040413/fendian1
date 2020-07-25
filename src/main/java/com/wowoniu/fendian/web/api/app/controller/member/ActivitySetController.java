@@ -134,7 +134,7 @@ public class ActivitySetController {
     }
 
     @ApiOperation("分销活动设置(新增/修改)")
-    @PostMapping("/setRebate")
+    @PostMapping("/setDistribution")
     public Object setDistribution(@RequestBody DistributionSet distributionSet, @ApiIgnore HttpServletRequest request) {
 
         boolean result = activitySetService.addOrUpdateDistribution(distributionSet, (String) request.getAttribute("sysid"));
@@ -244,7 +244,7 @@ public class ActivitySetController {
     }
 
     @ApiOperation("商品分类置顶上移 下移")
-    @PostMapping("/setWaresSortDetailTop")
+    @PostMapping("/setWaresSortDetailTopMove")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品分类ID", dataType = "String", required = true),
             @ApiImplicitParam(name = "move", value = "移动（0：向上移动一位；1：向下移动一位）", dataType = "int", required = true)})
     public Object setWaresSortDetailTopMove(String id, Integer move) {
@@ -335,7 +335,7 @@ public class ActivitySetController {
     }
 
     @ApiOperation("抽奖及详情新增/修改")
-    @PostMapping("/setWaresSpec")
+    @PostMapping("/setLuckDrawSet")
     public Object setLuckDrawSet(@RequestBody LuckDrawSet luckDrawSet, @RequestBody List<LuckDrawDetail> luckDrawDetailList) {
         boolean result = activitySetService.setLuckDrawSetAndDetail(luckDrawSet, luckDrawDetailList);
         if (result) {

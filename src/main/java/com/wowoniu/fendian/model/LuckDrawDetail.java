@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * @author yuany
@@ -48,10 +49,10 @@ public class LuckDrawDetail implements Serializable {
     private Integer dayMax;
 
     @ApiModelProperty("券有效开始时间")
-    private DateTime startTime;
+    private Timestamp startTime;
 
     @ApiModelProperty("券有效结束时间")
-    private DateTime endTime;
+    private Timestamp endTime;
 
     @ApiModelProperty("折扣（两位小数）")
     private Double discount;
@@ -158,19 +159,19 @@ public class LuckDrawDetail implements Serializable {
         this.dayMax = dayMax;
     }
 
-    public DateTime getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(DateTime startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public DateTime getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(DateTime endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 
