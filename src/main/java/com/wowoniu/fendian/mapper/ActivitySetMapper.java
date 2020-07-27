@@ -178,12 +178,13 @@ public interface ActivitySetMapper {
     int addRebateSetDetail(RebateSetDetail rebateSetDetail);
 
     /**
-     * 批量更新裂变详情
+     * 更新裂变详情
      *
-     * @param rebateSetDetailList
+     * @param rebateSetDetail
      * @return
      */
-    int updateRebateSetDetailList(@Param("rebateSetDetailList") List<RebateSetDetail> rebateSetDetailList);
+    @Update("UPDATE rebate_set_detail SET level_name=#{item.levelName},gain_factor=#{item.gainFactor},rebate_ratio=#{item.rebateRatio},rebate_id=#{item.rebateId} WHERE id =#{id}")
+    int updateRebateSetDetail(RebateSetDetail rebateSetDetail);
 
     /**
      * ID删除返利详情
@@ -268,8 +269,8 @@ public interface ActivitySetMapper {
      * @param id
      * @return
      */
-    @Delete("DELETE FROM distribution_coupon WHERE id = #{id}")
-    int deleteDistributionCoupon(@Param("id") String id);
+    @Delete("UPDATE distribution_coupon SET end_time = now() WHERE id = #{id}")
+    int updateDistributionCouponEndTime(@Param("id") String id);
 
     /************************************** 分销 - END *************************************************/
 
@@ -769,9 +770,9 @@ public interface ActivitySetMapper {
      * @return
      */
     @Insert("INSERT INTO redenvelopes_set (id,title,start_time,end_time,phone_enable,new_customers,type,money,discount,threshold,effective_type,effective_day," +
-            "coupon_start_time,coupon_end_time,`range`,reward_peoples,reward_condition,total_activities,`describe`,picture_url,prevent_brush,user_id) " +
+            "coupon_start_time,coupon_end_time,`range`,reward_peoples,reward_condition,total,`describe`,picture_url,prevent_brush,user_id) " +
             "VALUES (#{id},#{title},#{startTime},#{endTime},#{phoneEnable},#{newCustomers},#{type},#{money},#{discount},#{threshold},#{effectiveType}," +
-            "#{effectiveDay},#{couponStartTime},#{couponEndTime},#{range},#{rewardPeoples},#{rewardCondition},#{totalActivities},#{describe},#{pictureUrl},#{preventBrush},#{userId})")
+            "#{effectiveDay},#{couponStartTime},#{couponEndTime},#{range},#{rewardPeoples},#{rewardCondition},#{total},#{describe},#{pictureUrl},#{preventBrush},#{userId})")
     int addRedenvelopesSet(RedenvelopesSet redenvelopesSet);
 
     /**
@@ -783,7 +784,7 @@ public interface ActivitySetMapper {
     @Update("UPDATE redenvelopes_set SET title = #{title},start_time = #{startTime},end_time = #{endTime},phone_enable = #{phoneEnable},new_customers = #{newCustomers}," +
             "type = #{type},money = #{money},discount = #{discount},threshold = #{threshold},effective_type = #{effectiveType},effective_day = #{effectiveDay}," +
             "coupon_start_time = #{couponStartTime},coupon_end_time = #{couponEndTime},`range` = #{range},reward_peoples = #{rewardPeoples}," +
-            "reward_condition = #{rewardCondition},total_activities = #{totalActivities},`describe` = #{describe},picture_url = #{pictureUrl}," +
+            "reward_condition = #{rewardCondition},total = #{total},`describe` = #{describe},picture_url = #{pictureUrl}," +
             "prevent_brush = #{preventBrush} WHERE id = #{id}")
     int updateRedenvelopesSet(RedenvelopesSet redenvelopesSet);
 
@@ -793,179 +794,201 @@ public interface ActivitySetMapper {
 
     /**
      * 抽奖浏览数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE luck_draw_set SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
-    int luckDrawBrowse(@Param("id")String id);
+    int luckDrawBrowse(@Param("id") String id);
 
     /**
      * 优惠券浏览数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE coupon_set SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
-    int couponBrowse(@Param("id")String id);
+    int couponBrowse(@Param("id") String id);
 
     /**
      * 推荐浏览数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE recommend_set SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
-    int recommendBrowse(@Param("id")String id);
+    int recommendBrowse(@Param("id") String id);
 
     /**
      * 秒杀浏览数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE seckill_set SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
-    int seckillBrowse(@Param("id")String id);
+    int seckillBrowse(@Param("id") String id);
 
     /**
      * 拼团浏览数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE group_buying SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
-    int groupBrowse(@Param("id")String id);
+    int groupBrowse(@Param("id") String id);
 
     /**
      * 砍价浏览数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE bargaining_set SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
-    int bargainingBrowse(@Param("id")String id);
+    int bargainingBrowse(@Param("id") String id);
 
     /**
      * 红包浏览数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE redenvelopes_set SET today_browse = today_browse + 1,browse = browse + 1 WHERE id = #{id}")
-    int redenvelopesBrowse(@Param("id")String id);
+    int redenvelopesBrowse(@Param("id") String id);
 
     /**
      * 抽奖领券数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE luck_draw_set SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
-    int luckDrawCoupon(@Param("id")String id);
+    int luckDrawCoupon(@Param("id") String id);
 
     /**
      * 优惠券领券数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE coupon_set SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
-    int couponCoupon(@Param("id")String id);
+    int couponCoupon(@Param("id") String id);
 
     /**
      * 推荐领券数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE recommend_set SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
-    int recommendCoupon(@Param("id")String id);
+    int recommendCoupon(@Param("id") String id);
 
     /**
      * 秒杀领券数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE seckill_set SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
-    int seckillCoupon(@Param("id")String id);
+    int seckillCoupon(@Param("id") String id);
 
     /**
      * 拼团领券数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE group_buying SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
-    int groupCoupon(@Param("id")String id);
+    int groupCoupon(@Param("id") String id);
 
     /**
      * 砍价领券数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE bargaining_set SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
-    int bargainingCoupon(@Param("id")String id);
+    int bargainingCoupon(@Param("id") String id);
 
     /**
      * 红包领券数量增加
+     *
      * @param id
      * @return
      */
     @Update("UPDATE redenvelopes_set SET today_receive = today_receive + 1,receive = receive + 1 WHERE id = #{id}")
-    int redenvelopesCoupon(@Param("id")String id);
+    int redenvelopesCoupon(@Param("id") String id);
 
     /**
      * 抽奖使用数量增加
+     *
      * @param id
      * @return
      */
-    @Update("UPDATE luck_draw_set SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
-    int luckDrawUse(@Param("id")String id);
+    @Update("UPDATE luck_draw_set SET today_use = today_use + 1,`use` = `use` + 1 WHERE id = #{id}")
+    int luckDrawUse(@Param("id") String id);
 
     /**
      * 优惠券使用数量增加
+     *
      * @param id
      * @return
      */
-    @Update("UPDATE coupon_set SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
-    int couponUse(@Param("id")String id);
+    @Update("UPDATE coupon_set SET today_use = today_use + 1,`use` = `use` + 1 WHERE id = #{id}")
+    int couponUse(@Param("id") String id);
 
     /**
      * 推荐使用数量增加
+     *
      * @param id
      * @return
      */
-    @Update("UPDATE recommend_set SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
-    int recommendUse(@Param("id")String id);
+    @Update("UPDATE recommend_set SET today_use = today_use + 1,`use` = `use` + 1 WHERE id = #{id}")
+    int recommendUse(@Param("id") String id);
 
     /**
      * 秒杀使用数量增加
+     *
      * @param id
      * @return
      */
-    @Update("UPDATE seckill_set SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
-    int seckillUse(@Param("id")String id);
+    @Update("UPDATE seckill_set SET today_use = today_use + 1,`use` = `use` + 1 WHERE id = #{id}")
+    int seckillUse(@Param("id") String id);
 
     /**
      * 拼团使用数量增加
+     *
      * @param id
      * @return
      */
-    @Update("UPDATE group_buying SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
-    int groupUse(@Param("id")String id);
+    @Update("UPDATE group_buying SET today_use = today_use + 1,`use` = `use` + 1 WHERE id = #{id}")
+    int groupUse(@Param("id") String id);
 
     /**
      * 砍价使用数量增加
+     *
      * @param id
      * @return
      */
-    @Update("UPDATE bargaining_set SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
-    int bargainingUse(@Param("id")String id);
+    @Update("UPDATE bargaining_set SET today_use = today_use + 1,`use` = `use` + 1 WHERE id = #{id}")
+    int bargainingUse(@Param("id") String id);
 
     /**
      * 红包使用数量增加
+     *
      * @param id
      * @return
      */
-    @Update("UPDATE redenvelopes_set SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
-    int redenvelopesUse(@Param("id")String id);
+    @Update("UPDATE redenvelopes_set SET today_use = today_use + 1,`use` = `use` + 1 WHERE id = #{id}")
+    int redenvelopesUse(@Param("id") String id);
 
     /**
      * 朋友圈参与数量增加
+     *
      * @param id
      * @return
      */
-    @Update("UPDATE share_friends SET today_use = today_use + 1,use = use + 1 WHERE id = #{id}")
-    int shareFriendsUse(@Param("id")String id);
+    @Update("UPDATE share_friends SET today_use = today_use + 1,`use` = `use` + 1 WHERE id = #{id}")
+    int shareFriendsUse(@Param("id") String id);
 
     /************************************************* 活动计数 - END *********************************************************/
 

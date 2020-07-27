@@ -66,7 +66,7 @@ public class RedenvelopesSet implements Serializable {
     private Integer rewardCondition;
 
     @ApiModelProperty("活动总额（分）")
-    private Integer totalActivities;
+    private Integer total;
 
     @ApiModelProperty("活动描述")
     private String describe;
@@ -234,12 +234,12 @@ public class RedenvelopesSet implements Serializable {
         this.rewardCondition = rewardCondition;
     }
 
-    public Integer getTotalActivities() {
-        return totalActivities;
+    public Integer getTotal() {
+        return total;
     }
 
-    public void setTotalActivities(Integer totalActivities) {
-        this.totalActivities = totalActivities;
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
     public String getDescribe() {

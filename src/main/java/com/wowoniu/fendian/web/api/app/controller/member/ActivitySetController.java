@@ -36,7 +36,6 @@ public class ActivitySetController {
 
     @PostMapping("/getFission")
     @ApiOperation("获取裂变及详情 及启用/禁用")
-    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（N：关；Y：开； null：为Null时 设置过则返回数据，未设置则返回空数据）", dataType = "String", required = true)})
     public Object getFission(String state, @ApiIgnore HttpServletRequest request) {
 
         return activitySetService.getFissionSet((String) request.getAttribute("sysid"), state);
@@ -58,48 +57,26 @@ public class ActivitySetController {
     /************************************************* 裂变 - END *********************************************************/
 
     /************************************************* 返利 - START *********************************************************/
-    @PostMapping("/getRebate")
+    @PostMapping("/getRebateSet")
     @ApiOperation("获取返利设置及详情 及启用/禁用")
     @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（N：关；Y：开； null：为Null时 设置过则返回数据，未设置则返回空数据）", dataType = "String", required = true)})
-    public Object getRebate(String state, @ApiIgnore HttpServletRequest request) {
+    public Object getRebateSet(String state, @ApiIgnore HttpServletRequest request) {
 
-        return activitySetService.getRebate((String) request.getAttribute("sysid"), state);
+        return activitySetService.getRebateSet((String) request.getAttribute("sysid"), state);
     }
 
-    @ApiOperation("返利活动设置(新增/修改)")
-    @PostMapping("/setRebate")
-    public Object setRebate(@RequestBody RebateSet rebateSet, @ApiIgnore HttpServletRequest request) {
+    @ApiOperation("返利活动设置及详情(新增/修改)")
+    @PostMapping("/setRebateSet")
+    @ApiImplicitParams({@ApiImplicitParam(name = "param", value = " RebateSet实体及RebateSetDetail集合数据", dataType = "JSONObject", required = true)})
+    public Object setRebateSet(@RequestBody JSONObject param, @ApiIgnore HttpServletRequest request) {
 
-        boolean result = activitySetService.addOrUpdateRebate(rebateSet, (String) request.getAttribute("sysid"));
+        boolean result = activitySetService.addOrUpdateRebate(param, (String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "设置成功", null);
         }
         return new Result(204, false, "设置失败", null);
     }
 
-    @ApiOperation("返利详情设置(新增/修改)")
-    @PostMapping("/setRebateDetail")
-    public Object setRebateDetail(@RequestBody RebateSetDetail rebateSetDetail) {
-
-        boolean result = activitySetService.addOrUpdateRebateSetDetail(rebateSetDetail);
-        if (result) {
-            return new Result(200, true, "设置成功", null);
-        }
-        return new Result(204, false, "设置失败", null);
-    }
-
-    @ApiOperation("删除返利详情")
-    @PostMapping("/deleteRebateDetail")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "返利详情ID", dataType = "String", required = true),
-            @ApiImplicitParam(name = "rebateId", value = "返利ID", dataType = "String", required = true)})
-    public Object deleteRebateDetail(String id, String rebateId) {
-
-        boolean result = activitySetService.deleteRebateDetail(id, rebateId);
-        if (result) {
-            return new Result(200, true, "删除成功", null);
-        }
-        return new Result(204, false, "删除失败", null);
-    }
     /************************************************* 返利 - END *********************************************************/
 
     /************************************************* 分销 - START *********************************************************/
@@ -133,12 +110,12 @@ public class ActivitySetController {
         return new Result(204, false, "设置失败", null);
     }
 
-    @ApiOperation("删除分销优惠券")
-    @PostMapping("/deleteDistributionCoupon")
+    @ApiOperation("删除(结束)分销优惠券")
+    @PostMapping("/updateDistributionCouponEndTime")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "返利详情ID", dataType = "String", required = true)})
-    public Object deleteDistributionCoupon(String id) {
+    public Object updateDistributionCouponEndTime(String id) {
 
-        boolean result = activitySetService.deleteDistributionCoupon(id);
+        boolean result = activitySetService.updateDistributionCouponEndTime(id);
         if (result) {
             return new Result(200, true, "删除成功", null);
         }
@@ -475,7 +452,7 @@ public class ActivitySetController {
     }
     /************************************************* True 秒杀 - END *********************************************************/
 
-    /************************************************* 红包裂变 - START *********************************************************/
+    /************************************************* True 红包裂变 - START *********************************************************/
 
     @ApiOperation("红包裂变ID获取设置信息")
     @PostMapping("/getRedenvelopesSet")
@@ -498,9 +475,9 @@ public class ActivitySetController {
         }
         return new Result(204, false, "创建失败", null);
     }
-    /************************************************* 红包裂变 - END *********************************************************/
+    /************************************************* True 红包裂变 - END *********************************************************/
 
-    /************************************************* 活动计数 - START *********************************************************/
+    /************************************************* True 活动计数 - START *********************************************************/
 
     @ApiOperation("活动浏览次数增加")
     @PostMapping("/addBrowse")
@@ -538,5 +515,5 @@ public class ActivitySetController {
         return new Result(204, false, "增加成功", null);
     }
 
-    /************************************************* 活动计数 - END *********************************************************/
+    /************************************************* True 活动计数 - END *********************************************************/
 }

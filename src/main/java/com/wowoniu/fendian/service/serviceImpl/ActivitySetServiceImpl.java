@@ -88,7 +88,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             activitySetMapper.addFissionSet(fissionSet);
             for (FissionSetDetail fissionSetDetail : fissionSetDetailList) {
                 fissionSetDetail.setId(StringUtils.getUuid());
-                fissionSetDetail.setLevel(activitySetMapper.getFissionSetDetailList(fissionSetDetail.getFissionId()).size() + 1);
+                fissionSetDetail.setLevel(activitySetMapper.getFissionSetDetailList(fissionSet.getId()).size() + 1);
                 fissionSetDetail.setFissionId(fissionSet.getId());
                 activitySetMapper.addFissionSetDetail(fissionSetDetail);
             }
@@ -149,7 +149,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Result getRebate(String userId, String state) {
+    public Result getRebateSet(String userId, String state) {
         //获取返利
         RebateSet rebateSet = activitySetMapper.getRebateSet(userId);
         if (rebateSet == null) {
@@ -182,78 +182,72 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     /**
      * 新增/更新返利
      *
-     * @param rebateSet 返利实体
+     * @param param 返利实体及详情
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean addOrUpdateRebate(RebateSet rebateSet, String userId) {
-        if (rebateSet == null) {
+    public boolean addOrUpdateRebate(JSONObject param, String userId) {
+        RebateSet rebateSet = JSONObject.parseObject(param.getJSONObject("rebateSet").toJSONString(), RebateSet.class);
+        List<RebateSetDetail> rebateSetDetailList = JSONArray.parseArray(param.getJSONArray("detail").toJSONString(), RebateSetDetail.class);
+        if (rebateSet == null || CollectionUtils.isEmpty(rebateSetDetailList)) {
             return false;
         }
+
         //新增
         if (StringUtils.isEmpity(rebateSet.getId())) {
             rebateSet.setUserId(userId);
             rebateSet.setId(StringUtils.getUuid());
             activitySetMapper.addRebateSet(rebateSet);
+            for (RebateSetDetail rebateSetDetail : rebateSetDetailList) {
+                rebateSetDetail.setId(StringUtils.getUuid());
+                rebateSetDetail.setLevel(activitySetMapper.getFissionSetDetailList(rebateSet.getId()).size() + 1);
+                rebateSetDetail.setRebateId(rebateSet.getId());
+                activitySetMapper.addRebateSetDetail(rebateSetDetail);
+            }
         } else {
             //更新
             activitySetMapper.updateRebateSet(rebateSet);
-        }
-        return true;
-    }
+            //新增的详情
+            List<RebateSetDetail> adds = new ArrayList<>();
+            //删除的详情
+            List<RebateSetDetail> deletes = new ArrayList<>();
+            //原有详情
+            List<RebateSetDetail> olds = activitySetMapper.getRebateSetDetailList(rebateSet.getId());
+            for (RebateSetDetail rebateSetDetail : rebateSetDetailList) {
+                if (StringUtils.isEmpity(rebateSetDetail.getId())) {
+                    rebateSetDetail.setId(StringUtils.getUuid());
+                    rebateSetDetail.setRebateId(rebateSet.getId());
+                    activitySetMapper.addRebateSetDetail(rebateSetDetail);
+                } else {
+                    activitySetMapper.updateRebateSetDetail(rebateSetDetail);
+                }
+            }
+            for (RebateSetDetail old : olds) {
+                boolean result = true;
+                for (RebateSetDetail rebateSetDetail : rebateSetDetailList) {
+                    if (old.getId().equals(rebateSetDetail.getId())) {
+                        result = false;
+                        break;
+                    }
+                }
+                if (result) {
+                    activitySetMapper.deleteRebateSetDetail(old.getId());
+                }
+            }
 
-    /**
-     * 新增/更新返利详情
-     *
-     * @param rebateSetDetail 返利详情实体
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean addOrUpdateRebateSetDetail(RebateSetDetail rebateSetDetail) {
-        if (rebateSetDetail == null) {
-            return false;
+            //返利裂变集合 重新排序
+            List<RebateSetDetail> detailList = activitySetMapper.getRebateSetDetailList(rebateSet.getId());
+            if (CollectionUtils.isEmpty(detailList)) {
+                return true;
+            }
+            int level = 0;
+            for (RebateSetDetail rebateSetDetail : detailList) {
+                level++;
+                rebateSetDetail.setLevel(level);
+                activitySetMapper.updateRebateSetDetail(rebateSetDetail);
+            }
         }
-        //新增
-        if (StringUtils.isEmpity(rebateSetDetail.getId())) {
-            rebateSetDetail.setId(StringUtils.getUuid());
-            rebateSetDetail.setLevel(activitySetMapper.getRebateSetDetailList(rebateSetDetail.getRebateId()).size() + 1);
-            activitySetMapper.addRebateSetDetail(rebateSetDetail);
-        } else {
-            //更新
-            List<RebateSetDetail> rebateSetDetailList = new ArrayList<>();
-            rebateSetDetailList.add(rebateSetDetail);
-            activitySetMapper.updateRebateSetDetailList(rebateSetDetailList);
-        }
-        return true;
-    }
-
-    /**
-     * 删除返利详情
-     *
-     * @param id       返利详情ID
-     * @param rebateId 返利ID
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean deleteRebateDetail(String id, String rebateId) {
-        if (StringUtils.isEmpity(id)) {
-            return false;
-        }
-        activitySetMapper.deleteRebateSetDetail(id);
-        //获取裂变集合 重新排序
-        List<RebateSetDetail> rebateSetDetailList = activitySetMapper.getRebateSetDetailList(rebateId);
-        if (CollectionUtils.isEmpty(rebateSetDetailList)) {
-            return true;
-        }
-        int level = 0;
-        for (RebateSetDetail rebateSetDetail : rebateSetDetailList) {
-            level++;
-            rebateSetDetail.setLevel(level);
-        }
-        activitySetMapper.updateRebateSetDetailList(rebateSetDetailList);
 
         return true;
     }
@@ -345,11 +339,11 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean deleteDistributionCoupon(String id) {
+    public boolean updateDistributionCouponEndTime(String id) {
         if (StringUtils.isEmpity(id)) {
             return false;
         }
-        activitySetMapper.deleteDistributionCoupon(id);
+        activitySetMapper.updateDistributionCouponEndTime(id);
 
         return true;
     }

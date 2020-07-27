@@ -17,15 +17,6 @@
         ORDER BY o.create_time DESC
     </select>
 
-    <!-- 批量更新返利详情 -->
-    <update id="updateRebateSetDetailList">
-        <foreach collection="rebateSetDetailList" item="item" index="index" close="" open="" separator=";">
-            UPDATE rebate_set_detail SET
-            level_name=#{item.levelName},gain_factor=#{item.gainFactor},rebate_ratio=#{item.rebateRatio},rebate_id=#{item.rebateId}
-            WHERE id =#{id}
-        </foreach>
-    </update>
-
     <!-- 批量更新分销优惠券详情 -->
     <update id="updateDistributionCouponList">
         <foreach collection="distributionCouponList" item="item" index="index" close="" open="" separator=";">

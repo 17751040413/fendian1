@@ -40,32 +40,15 @@ public interface ActivitySetService {
      * @param state  状态
      * @return
      */
-    Result getRebate(String userId, String state);
+    Result getRebateSet(String userId, String state);
 
     /**
      * 新增/更新返利
      *
-     * @param rebateSet 返利实体
+     * @param param 返利实体
      * @return
      */
-    boolean addOrUpdateRebate(RebateSet rebateSet, String userId);
-
-    /**
-     * 新增/更新返利详情
-     *
-     * @param rebateSetDetail 返利详情实体
-     * @return
-     */
-    boolean addOrUpdateRebateSetDetail(RebateSetDetail rebateSetDetail);
-
-    /**
-     * 删除返利详情
-     *
-     * @param id       返利详情ID
-     * @param rebateId 返利ID
-     * @return
-     */
-    boolean deleteRebateDetail(String id, String rebateId);
+    boolean addOrUpdateRebate(JSONObject param, String userId);
 
     /**
      * 商家ID获取分销及分销优惠券
@@ -98,7 +81,7 @@ public interface ActivitySetService {
      * @param id 分销优惠券ID
      * @return
      */
-    boolean deleteDistributionCoupon(String id);
+    boolean updateDistributionCouponEndTime(String id);
 
     /**
      * 商家ID获取商城设置
