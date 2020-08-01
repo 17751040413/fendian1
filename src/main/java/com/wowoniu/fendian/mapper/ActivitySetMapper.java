@@ -68,10 +68,10 @@ public interface ActivitySetMapper {
      * @param fissionSetDetail
      * @return
      */
-    @Insert("INSERT INTO fission_set_detail(id,fission_id,level,level_name,equity,coupon_type,discount_money," +
-            "use_threshold,month_number,use_range,exchange_coupon_name,discount) " +
-            "VALUES (#{id},#{fissionId},#{level},#{levelName},#{equity},#{couponType},#{discountMoney},#{useThreshold}," +
-            "#{monthNumber},#{useRange},#{exchangeCouponName},#{discount}) ")
+    @Insert("INSERT INTO fission_set_detail(id,fission_id,level,level_name,coupon_type1,discount_money1,use_threshold1,month_number1,use_range1,exchange_coupon_name1," +
+            "discount1,coupon_type2,discount_money2,use_threshold2,month_number2,use_range2,exchange_coupon_name2,discount2) " +
+            "VALUES (#{id},#{fissionId},#{level},#{levelName},#{couponType1},#{discountMoney1},#{useThreshold1},#{monthNumber1},#{useRange1},#{exchangeCouponName1}," +
+            "#{discount1},#{couponType2},#{discountMoney2},#{useThreshold2},#{monthNumber2},#{useRange2},#{exchangeCouponName2},#{discount2}) ")
     int addFissionSetDetail(FissionSetDetail fissionSetDetail);
 
     /**
@@ -90,8 +90,10 @@ public interface ActivitySetMapper {
      * @param fissionSetDetail
      * @return
      */
-    @Update(" UPDATE fission_set_detail SET level_name=#{levelName},equity=#{equity},coupon_type=#{couponType}, discount_money=#{discountMoney}," +
-            "use_threshold=#{useThreshold},month_number=#{monthNumber},use_range=#{useRange}, exchange_coupon_name=#{exchangeCouponName},discount=#{discount} WHERE id =#{id}")
+    @Update(" UPDATE fission_set_detail SET level_name=#{levelName},coupon_type1=#{couponType1}, discount_money1=#{discountMoney1},use_threshold1=#{useThreshold1}," +
+            "month_number1=#{monthNumber1},use_range1=#{useRange1}, exchange_coupon_name1=#{exchangeCouponName1},discount1=#{discount1},coupon_type2=#{couponType2}, " +
+            "discount_money2=#{discountMoney2},use_threshold2=#{useThreshold2},month_number2=#{monthNumber2},use_range2=#{useRange2}, " +
+            "exchange_coupon_name2=#{exchangeCouponName2},discount2=#{discount2} WHERE id =#{id}")
     int updateFissionSetDetail(FissionSetDetail fissionSetDetail);
 
     /**
@@ -174,7 +176,7 @@ public interface ActivitySetMapper {
      * @param rebateSetDetail
      * @return
      */
-    @Insert("INSERT INTO rebate_ret_detail(id,level,level_name,gain_factor,rebate_ratio,rebate_id) VALUES (#{id},#{level},#{levelName},#{gainFactor},#{rebateRatio},#{rebateId})")
+    @Insert("INSERT INTO rebate_set_detail (id,level,level_name,gain_factor,rebate_ratio,rebate_id) VALUES (#{id},#{level},#{levelName},#{gainFactor},#{rebateRatio},#{rebateId})")
     int addRebateSetDetail(RebateSetDetail rebateSetDetail);
 
     /**
@@ -183,7 +185,7 @@ public interface ActivitySetMapper {
      * @param rebateSetDetail
      * @return
      */
-    @Update("UPDATE rebate_set_detail SET level_name=#{item.levelName},gain_factor=#{item.gainFactor},rebate_ratio=#{item.rebateRatio},rebate_id=#{item.rebateId} WHERE id =#{id}")
+    @Update("UPDATE rebate_set_detail SET level_name=#{levelName},gain_factor=#{gainFactor},rebate_ratio=#{rebateRatio},rebate_id=#{rebateId} WHERE id =#{id}")
     int updateRebateSetDetail(RebateSetDetail rebateSetDetail);
 
     /**
@@ -251,17 +253,19 @@ public interface ActivitySetMapper {
      * @param distributionCoupon
      * @return
      */
-    @Insert("INSERT INTO distribution_coupon(id,distribution_id,phone_enable,type,money,discount,threshold,effective_type,effective_day,start_time,end_time,range) " +
+    @Insert("INSERT INTO distribution_coupon (id,distribution_id,phone_enable,type,money,discount,threshold,effective_type,effective_day,start_time,end_time,`range`) " +
             "VALUES (#{id},#{distributionId},#{phoneEnable},#{type},#{money},#{discount},#{threshold},#{effectiveType},#{effectiveDay},#{startTime},#{endTime},#{range})")
     int addDistributionCoupon(DistributionCoupon distributionCoupon);
 
     /**
      * 批量更新分销优惠券
      *
-     * @param distributionCouponList
+     * @param distributionCoupon
      * @return
      */
-    int updateDistributionCouponList(@Param("distributionCouponList") List<DistributionCoupon> distributionCouponList);
+    @Update("  UPDATE distribution_coupon SET phone_enable=#{phoneEnable},type=#{type},money=#{money},discount=#{discount},threshold=#{threshold}," +
+            "effective_type=#{effectiveType},start_time=#{startTime},end_time=#{endTime},`range`=#{range} WHERE id =#{id}")
+    int updateDistributionCouponList(DistributionCoupon distributionCoupon);
 
     /**
      * ID删除返利详情

@@ -43,14 +43,13 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         if (fissionSet == null) {
             return new Result(200, true, "无裂变设置", null);
         }
-        //设置状态为空 且裂变为禁用状态 直接返回null
-        if (StringUtils.isEmpity(state) && Constants.NO.equals(fissionSet.getState())) {
+        //设置状态为空 或 裂变为禁用状态 直接返回null
+        if (StringUtils.isEmpity(state) || (state.equals(Constants.NO) && Constants.NO.equals(fissionSet.getState()))) {
             return new Result(200, true, "禁用状态", null);
         }
-        if (!StringUtils.isEmpity(state)) {
-            fissionSet.setState(state);
-            activitySetMapper.setFissionState(userId, state);
-        }
+
+        fissionSet.setState(state);
+        activitySetMapper.setFissionState(userId, state);
         //禁用
         if (Constants.NO.equals(state)) {
             return new Result(200, true, "禁用成功", null);
@@ -324,9 +323,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             activitySetMapper.addDistributionCoupon(distributionCoupon);
         } else {
             //更新
-            List<DistributionCoupon> distributionCouponList = new ArrayList<>();
-            distributionCouponList.add(distributionCoupon);
-            activitySetMapper.updateDistributionCouponList(distributionCouponList);
+            activitySetMapper.updateDistributionCouponList(distributionCoupon);
         }
         return true;
     }

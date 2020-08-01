@@ -27,9 +27,6 @@ public class FissionSet implements Serializable {
     @ApiModelProperty("领取时是否填写手机号（N：否；Y：是）")
     private String phoneEnable;
 
-    @ApiModelProperty("手机号")
-    private String phoneNo;
-
     @ApiModelProperty("状态（N：关；Y：开）")
     private String state;
 
@@ -69,15 +66,6 @@ public class FissionSet implements Serializable {
 
     public void setEffectiveTime(Integer effectiveTime) {
         this.effectiveTime = effectiveTime;
-    }
-
-
-    public String getPhoneNo() {
-        return phoneNo;
-    }
-
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
     }
 
     public String getPhoneEnable() {

@@ -2,7 +2,6 @@ package com.wowoniu.fendian.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -18,7 +17,7 @@ public class DistributionCoupon implements Serializable {
     private String id;
 
     @ApiModelProperty("分销ID")
-    private String distrbutionId;
+    private String distributionId;
 
     @ApiModelProperty("领取时是否填写手机号（N：否；Y：是）")
     private String phoneEnable;
@@ -33,7 +32,7 @@ public class DistributionCoupon implements Serializable {
     private Double discount;
 
     @ApiModelProperty("使用门槛（分-满多少可用，0则无门槛）")
-    private Integer treshold;
+    private Integer threshold;
 
     @ApiModelProperty("有效期类型(0:指定日期；1：有效天数）")
     private String effectiveType;
@@ -58,12 +57,12 @@ public class DistributionCoupon implements Serializable {
         this.id = id;
     }
 
-    public String getDistrbutionId() {
-        return distrbutionId;
+    public String getDistributionId() {
+        return distributionId;
     }
 
-    public void setDistrbutionId(String distrbutionId) {
-        this.distrbutionId = distrbutionId;
+    public void setDistributionId(String distributionId) {
+        this.distributionId = distributionId;
     }
 
     public String getPhoneEnable() {
@@ -98,12 +97,12 @@ public class DistributionCoupon implements Serializable {
         this.discount = discount;
     }
 
-    public Integer getTreshold() {
-        return treshold;
+    public Integer getThreshold() {
+        return threshold;
     }
 
-    public void setTreshold(Integer treshold) {
-        this.treshold = treshold;
+    public void setThreshold(Integer threshold) {
+        this.threshold = threshold;
     }
 
     public String getEffectiveType() {

@@ -32,10 +32,11 @@ public class ActivitySetController {
     @Autowired
     private ActivitySetService activitySetService;
 
-    /************************************************* 裂变 - START *********************************************************/
+    /************************************************* True 裂变 - START *********************************************************/
 
     @PostMapping("/getFission")
     @ApiOperation("获取裂变及详情 及启用/禁用")
+    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "关闭：N 开启：Y ", dataType = "String", required = true)})
     public Object getFission(String state, @ApiIgnore HttpServletRequest request) {
 
         return activitySetService.getFissionSet((String) request.getAttribute("sysid"), state);
@@ -54,9 +55,9 @@ public class ActivitySetController {
     }
 
 
-    /************************************************* 裂变 - END *********************************************************/
+    /************************************************* True 裂变 - END *********************************************************/
 
-    /************************************************* 返利 - START *********************************************************/
+    /************************************************* True 返利 - START *********************************************************/
     @PostMapping("/getRebateSet")
     @ApiOperation("获取返利设置及详情 及启用/禁用")
     @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（N：关；Y：开； null：为Null时 设置过则返回数据，未设置则返回空数据）", dataType = "String", required = true)})
@@ -77,9 +78,9 @@ public class ActivitySetController {
         return new Result(204, false, "设置失败", null);
     }
 
-    /************************************************* 返利 - END *********************************************************/
+    /************************************************* True 返利 - END *********************************************************/
 
-    /************************************************* 分销 - START *********************************************************/
+    /************************************************* True 分销 - START *********************************************************/
     @PostMapping("/getDistribution")
     @ApiOperation("获取返利及详情 及启用/禁用")
     @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（N：关；Y：开； null：为null时返回现有状态的数据）", dataType = "String", required = true)})
@@ -121,7 +122,7 @@ public class ActivitySetController {
         }
         return new Result(204, false, "删除失败", null);
     }
-    /************************************************* 分销 - END *********************************************************/
+    /************************************************* True 分销 - END *********************************************************/
 
     /************************************************* 商城 - END *********************************************************/
     @PostMapping("/getShoppingMallSet")

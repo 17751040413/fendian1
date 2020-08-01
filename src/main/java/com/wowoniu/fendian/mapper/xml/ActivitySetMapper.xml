@@ -17,17 +17,6 @@
         ORDER BY o.create_time DESC
     </select>
 
-    <!-- 批量更新分销优惠券详情 -->
-    <update id="updateDistributionCouponList">
-        <foreach collection="distributionCouponList" item="item" index="index" close="" open="" separator=";">
-            UPDATE distribution_coupon
-            SET
-            phone_enable=#{item.phoneEnable},type=#{item.type},money=#{item.money},discount=#{item.discount},threshold=#{item.threshold},
-            effective_type=#{item.effectiveType},start_time=#{item.startTime},end_time=#{item.endTime},range=#{item.range}
-            WHERE id =#{id}
-        </foreach>
-    </update>
-
     <!-- 批量更新商品分类置顶排序 -->
     <update id="updateWaresSortDetailBatch">
         <foreach collection="waresSortDetail" item="item" index="index" close="" open="" separator=";">
