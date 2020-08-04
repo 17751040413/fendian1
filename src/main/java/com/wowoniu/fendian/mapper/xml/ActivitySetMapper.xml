@@ -17,54 +17,37 @@
         ORDER BY o.create_time DESC
     </select>
 
-    <!-- 批量更新商品分类置顶排序 -->
-    <update id="updateWaresSortDetailBatch">
-        <foreach collection="waresSortDetail" item="item" index="index" close="" open="" separator=";">
-            UPDATE wares_sort_detail SET top_row = #{item.topRow}, WHERE id = #{item.id}
-        </foreach>
-    </update>
-
     <!-- 商品条件查询 -->
     <select id="getWaresList" resultType="com.wowoniu.fendian.model.Wares">
-        SELECT w.* FROM wares w
-        LEFT JOIN wares_sort_set wss ON wss.user_id = w.user_id
-        LEFT JOIN wares_sort_detail wsd ON wsd.sort_id = wss.id
-        WHERE w.user_id = #{userId}
-        AND w.hide = 'N'
-        <if test="state != 0">
-            AND w.state = #{state}
+        SELECT * FROM wares
+        WHERE user_id = #{userId}
+        <if test="onShelf != null and onShelf!='' ">
+            AND on_shelf = #{onShelf}
         </if>
-        <if test="sortDetailId != 0 ">
-            AND wsd.id = #{sortDetailId}
+        <if test="sortId != 0 ">
+            AND sort_id = #{sortId}
         </if>
         <if test="time == 1">
-            ORDER BY w.shelf_time DESC
+            ORDER BY shelf_time DESC
         </if>
         <if test="sales == 1">
             ORDER BY sales_volume DESC
         </if>
     </select>
-    <!-- 规格ID获取规格详情 -->
-    <select id="getWaresSpecDetailList" resultType="com.wowoniu.fendian.model.WaresSpecDetail">
-        SELECT * FROM wares_spec_detail WHERE spec_id IN
-        <foreach collection="waresSpecList" item="item" index="index" open="(" close=")" separator=";">
-            #{item.id}
-        </foreach>
-    </select>
 
     <!-- 新增规格详情-批量 -->
     <insert id="addWaresSpecDetailBatch">
-        INSERT INTO wares_spec_detail (id,model,price,stock,spec_id)
+        INSERT INTO wares_spec_detail (id,model,price,stock,spec_id,picture_url)
         VALUES
         <foreach collection="waresSpecDetailList" item="item" index="index" open="" close="" separator=",">
-            (#{item.id},#{item.model},#{item.price},#{item.stock},#{item.specId})
+            (#{item.id},#{item.model},#{item.price},#{item.stock},#{item.specId},#{item.pictureUrl})
         </foreach>
     </insert>
 
     <!-- 修改规格详情-批量 -->
     <update id="updateWaresSpecDetailBatch">
         <foreach collection="waresSpecDetailList" item="item" index="index" open="" close="" separator=";">
-            UPDATE wares_spec_detail SET model = #{item.model},price = #{item.price},stock = #{item.stock} WHERE id =
+            UPDATE wares_spec_detail SET model = #{item.model},price = #{item.price},stock = #{item.stock},picture_url = #{item.pictureUrl} WHERE id =
             #{item.id}
         </foreach>
     </update>

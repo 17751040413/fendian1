@@ -27,6 +27,8 @@ public class WaresSpecDetail implements Serializable {
     @ApiModelProperty("库存（件）")
     private Integer stock;
 
+    @ApiModelProperty("图片地址")
+    private String pictureUrl;
 
     public String getId() {
         return id;
@@ -66,5 +68,13 @@ public class WaresSpecDetail implements Serializable {
 
     public void setSpecId(String specId) {
         this.specId = specId;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 }

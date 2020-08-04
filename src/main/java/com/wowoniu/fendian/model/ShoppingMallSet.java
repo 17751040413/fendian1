@@ -22,7 +22,7 @@ public class ShoppingMallSet implements Serializable {
     private String state;
 
     @ApiModelProperty("自提（N:禁用；Y:启用）")
-    private String shlfRaising;
+    private String selfRaising;
 
     @ApiModelProperty("配送（N:禁用；Y:启用）")
     private String distribution;
@@ -52,12 +52,12 @@ public class ShoppingMallSet implements Serializable {
         this.state = state;
     }
 
-    public String getShlfRaising() {
-        return shlfRaising;
+    public String getSelfRaising() {
+        return selfRaising;
     }
 
-    public void setShlfRaising(String shlfRaising) {
-        this.shlfRaising = shlfRaising;
+    public void setSelfRaising(String selfRaising) {
+        this.selfRaising = selfRaising;
     }
 
     public String getDistribution() {

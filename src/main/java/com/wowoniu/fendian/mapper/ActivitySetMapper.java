@@ -305,7 +305,7 @@ public interface ActivitySetMapper {
      * @return
      */
     @Insert("INSERT INTO shopping_mall_set(id,user_id,state,self_raising,distribution,freight,recommend,prevent_brush) " +
-            "VALUES (#{id},#{userId},#{state},#{selfRaising},#{distribution},#{freight},#{ecommend},#{preventBrush})")
+            "VALUES (#{id},#{userId},#{state},#{selfRaising},#{distribution},#{freight},#{recommend},#{preventBrush})")
     int addShoppingMallSet(ShoppingMallSet shoppingMallSet);
 
     /**
@@ -336,7 +336,7 @@ public interface ActivitySetMapper {
      * @param waresSortSet
      * @return
      */
-    @Insert("INSERT INTO wares_sort_set (user_id,state) VALUES (#{userId},#{state})")
+    @Insert("INSERT INTO wares_sort_set (id,user_id,state) VALUES (#{id},#{userId},#{state})")
     int addWaresSortSet(WaresSortSet waresSortSet);
 
     /**
@@ -364,7 +364,7 @@ public interface ActivitySetMapper {
      * @param sortId
      * @return
      */
-    @Select("SELECT * FROM wares_sort_detail WHERE sort_id = #{sortId} AND top = #{top} ORDER BY top_row ASC")
+    @Select("SELECT * FROM wares_sort_detail WHERE sort_id = #{sortId} AND top_row != null ORDER BY top_row ASC")
     List<WaresSortDetail> getWaresSortDetailListByTop(@Param("sortId") String sortId);
 
     /**
@@ -373,7 +373,7 @@ public interface ActivitySetMapper {
      * @param id
      * @return
      */
-    @Select("SELECT * FROM WHERE wares_sort_detail id = #{id}")
+    @Select("SELECT * FROM  wares_sort_detail WHERE id = #{id}")
     WaresSortDetail getWaresSortDetail(@Param("id") String id);
 
     /**
@@ -382,7 +382,7 @@ public interface ActivitySetMapper {
      * @param waresSortDetail
      * @return
      */
-    @Insert("INSERT INTO wares_sort_detail(id,state,name,top_row,sort_id) VALUES (#{id},#{state},#{name},#{topRow},#{sortId})")
+    @Insert("INSERT INTO wares_sort_detail(id,state,name,top_row,sort_id,row) VALUES (#{id},#{state},#{name},#{topRow},#{sortId},#{row})")
     int addWaresSortDetail(WaresSortDetail waresSortDetail);
 
     /**
@@ -393,14 +393,6 @@ public interface ActivitySetMapper {
      */
     @Update("UPDATE wares_sort_detail SET state = #{state},name=#{name},top_row=#{topRow},sort_id=#{sortId} WHERE id = #{id}")
     int updateWaresSortDetail(WaresSortDetail waresSortDetail);
-
-    /**
-     * 商品分类置顶
-     *
-     * @param waresSortDetail
-     * @return
-     */
-    int updateWaresSortDetailBatch(@Param("waresSortDetail") List<WaresSortDetail> waresSortDetail);
 
     /**
      * 置顶排序获取分类
@@ -426,14 +418,14 @@ public interface ActivitySetMapper {
      * 商品列表条件查询
      *
      * @param userId
-     * @param state
+     * @param onShelf
      * @param time
      * @param sales
-     * @param sortDetailId
+     * @param sortId
      * @return
      */
-    List<Wares> getWaresList(@Param("userId") String userId, @Param("state") String state, @Param("time") String time,
-                             @Param("sales") String sales, @Param("sortDetailId") String sortDetailId);
+    List<Wares> getWaresList(@Param("userId") String userId, @Param("onShelf") String onShelf, @Param("time") String time,
+                             @Param("sales") String sales, @Param("sortId") String sortId);
 
     /**
      * 新增商品
@@ -441,8 +433,8 @@ public interface ActivitySetMapper {
      * @param wares
      * @return
      */
-    @Insert("INSERT INTO wares(id,title,price,stock,freight,sort_id,distribution_commission,hide,picture_url,on_shelf,sales_volume,shelf_time,user_id) " +
-            "VALUES (#{id},#{title},#{price},#{stock},#{freight},#{sortId},#{distributionCommission},#{hide},#{pictureUrl},#{onShelf},#{salesVolume},#{shelfTime},#{userId})")
+    @Insert("INSERT INTO wares(id,title,price,stock,freight,sort_id,distribution_commission,hide,picture_url,on_shelf,shelf_time,user_id) " +
+            "VALUES (#{id},#{title},#{price},#{stock},#{freight},#{sortId},#{distributionCommission},#{hide},#{pictureUrl},#{onShelf},now(),#{userId})")
     int addWares(Wares wares);
 
     /**
@@ -452,8 +444,7 @@ public interface ActivitySetMapper {
      * @return
      */
     @Update("UPDATE wares SET title = #{title},price=#{price},stock=#{stock},freight=#{freight},sort_id=#{sortId}," +
-            "distribution_commission=#{distributionCommission},hide=#{hide},picture_url=#{pictureUrl},on_shelf=#{onShelf}，" +
-            "sales_volume =#{salesVolume},shelf_time=#{shelfTime} WHERE id = #{id}")
+            "distribution_commission=#{distributionCommission},hide=#{hide},picture_url=#{pictureUrl},on_shelf=#{onShelf},shelf_time=now() WHERE id = #{id}")
     int updateWares(Wares wares);
 
     /**
@@ -468,10 +459,11 @@ public interface ActivitySetMapper {
     /**
      * 规格ID获取规格详情
      *
-     * @param waresSpecList
+     * @param specId
      * @return
      */
-    List<WaresSpecDetail> getWaresSpecDetailList(@Param("waresSpecList") List<WaresSpec> waresSpecList);
+    @Select("SELECT * FROM wares_spec_detail WHERE spec_id = #{specId}")
+    List<WaresSpecDetail> getWaresSpecDetailList(@Param("specId") String specId);
 
     /**
      * 新增规格
@@ -494,6 +486,33 @@ public interface ActivitySetMapper {
      * 修改规格详情-批量
      */
     int updateWaresSpecDetailBatch(@Param("waresSpecDetailList") List<WaresSpecDetail> waresSpecDetailList);
+
+    /**
+     * 删除商品规格
+     *
+     * @param id
+     * @return
+     */
+    @Delete("DELETE wares_spec WHERE id = #{id}")
+    int delWaresSpec(String id);
+
+    /**
+     * 删除商品规格详情
+     *
+     * @param id
+     * @return
+     */
+    @Delete("DELETE wares_spec_detail WHERE id = #{id}")
+    int delWaresSpecDetail(String id);
+
+    /**
+     * 更具商品规格ID删除商品规格详情
+     *
+     * @param id
+     * @return
+     */
+    @Delete("DELETE wares_spec_detail WHERE spec_id = #{id}")
+    int delWaresSpecDetailBySpecId(String id);
 
     /************************************** 商城 - END *************************************************/
 

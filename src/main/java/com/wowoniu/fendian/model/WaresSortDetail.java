@@ -16,7 +16,7 @@ public class WaresSortDetail implements Serializable {
     private String id;
 
     @ApiModelProperty("分类ID")
-    private String sordId;
+    private String sortId;
 
     @ApiModelProperty("状态（N：禁用；Y：启用）")
     private String state;
@@ -38,12 +38,12 @@ public class WaresSortDetail implements Serializable {
         this.id = id;
     }
 
-    public String getSordId() {
-        return sordId;
+    public String getSortId() {
+        return sortId;
     }
 
-    public void setSordId(String sordId) {
-        this.sordId = sordId;
+    public void setSortId(String sortId) {
+        this.sortId = sortId;
     }
 
     public String getState() {

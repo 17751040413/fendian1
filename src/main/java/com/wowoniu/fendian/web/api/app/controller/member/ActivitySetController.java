@@ -178,7 +178,7 @@ public class ActivitySetController {
 
     @ApiOperation("商品分类新增/修改")
     @PostMapping("/setWaresSortDetail")
-    public Object getWaresSortDetail(@RequestBody WaresSortDetail waresSortDetail) {
+    public Object setWaresSortDetail(@RequestBody WaresSortDetail waresSortDetail) {
 
         boolean result = activitySetService.setWaresSortDetail(waresSortDetail);
         if (result) {
@@ -221,19 +221,19 @@ public class ActivitySetController {
             return new Result(204, false, "获取失败", null);
         }
 
-        return new Result(200, true, "获取成功", null);
+        return new Result(200, true, "获取成功", waresSortDetailList);
 
     }
 
     @ApiOperation("商品列表条件查询")
     @PostMapping("/getWaresList")
-    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "上架（Y：上架；N：下架;全部：0）", dataType = "String", required = true),
-            @ApiImplicitParam(name = "time", value = "时间查询条件（1:；0：禁用）按时间由近到远排序", dataType = "String", required = true),
+    @ApiImplicitParams({@ApiImplicitParam(name = "onShelf", value = "上架（Y：上架；N：下架;全部：null）", dataType = "String", required = true),
+            @ApiImplicitParam(name = "time", value = "时间查询条件（1:启用；0：禁用）按时间由近到远排序", dataType = "String", required = true),
             @ApiImplicitParam(name = "sales", value = "销量查询条件（1：启用；0：禁用）按时间由多到排序", dataType = "String", required = true),
-            @ApiImplicitParam(name = "sortDetailId", value = "商品分类详情(全部则为0)", dataType = "String", required = true)})
-    public Object getWaresList(String state, String time, String sales, String sortDetailId, @ApiIgnore HttpServletRequest request) {
+            @ApiImplicitParam(name = "sortId", value = "商品分类详情(全部则为0)", dataType = "String", required = true)})
+    public Object getWaresList(String onShelf, String time, String sales, String sortId, @ApiIgnore HttpServletRequest request) {
 
-        List<Wares> waresList = activitySetService.getWaresList((String) request.getAttribute("sysid"), state, time, sales, sortDetailId);
+        List<Wares> waresList = activitySetService.getWaresList((String) request.getAttribute("sysid"), onShelf, time, sales, sortId);
         if (CollectionUtils.isEmpty(waresList)) {
             return new Result(204, false, "获取失败", null);
         }
@@ -265,9 +265,31 @@ public class ActivitySetController {
 
     @ApiOperation("商品规格及详情新增/修改")
     @PostMapping("/setWaresSpec")
-    public Object setWaresSpec(@RequestBody WaresSpec waresSpec, @RequestBody List<WaresSpecDetail> waresSpecDetailList) {
-        boolean result = activitySetService.setWaresSpecAndDetail(waresSpec, waresSpecDetailList);
+    public Object setWaresSpec(@RequestBody JSONObject param) {
+        boolean result = activitySetService.setWaresSpecAndDetail(param);
         if (result) {
+            return new Result(200, true, "创建成功", null);
+        }
+        return new Result(204, false, "创建失败", null);
+    }
+
+    @ApiOperation("删除商品规格及详情")
+    @PostMapping("/delWaresSpec")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品规格ID", dataType = "String", required = true)})
+    public Object delWaresSpec(@RequestBody String id) {
+        boolean result = activitySetService.delWaresSpec(id);
+        if (result) {
+            return new Result(200, true, "创建成功", null);
+        }
+        return new Result(204, false, "创建失败", null);
+    }
+
+    @ApiOperation("删除商品规格详情")
+    @PostMapping("/delWaresSpecDetail")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品规格详情ID", dataType = "String", required = true)})
+    public Object delWaresSpecDetail(@RequestBody String id) {
+        int count = activitySetService.delWaresSpecDetail(id);
+        if (count > 0) {
             return new Result(200, true, "创建成功", null);
         }
         return new Result(204, false, "创建失败", null);

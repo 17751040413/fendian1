@@ -164,12 +164,12 @@ public interface ActivitySetService {
      * 商品列表条件查询
      *
      * @param userId
-     * @param state
+     * @param onShelf
      * @param time
      * @param sales
      * @return
      */
-    List<Wares> getWaresList(String userId, String state, String time, String sales, String sortDetailId);
+    List<Wares> getWaresList(String userId, String onShelf, String time, String sales, String sortId);
 
     /**
      * 发布商品新增
@@ -190,11 +190,26 @@ public interface ActivitySetService {
     /**
      * 商品规格及详情新增/修改
      *
-     * @param waresSpec
-     * @param waresSpecDetailList
+     * @param param
      * @return
      */
-    boolean setWaresSpecAndDetail(WaresSpec waresSpec, List<WaresSpecDetail> waresSpecDetailList);
+    boolean setWaresSpecAndDetail(JSONObject param);
+
+    /**
+     * 删除商品规格及详情
+     *
+     * @param id
+     * @return
+     */
+    boolean delWaresSpec(String id);
+
+    /**
+     * 删除商品规格详情
+     *
+     * @param id
+     * @return
+     */
+    int delWaresSpecDetail(String id);
 
     /**
      * 抽奖ID获取抽奖设置及详情
@@ -337,7 +352,7 @@ public interface ActivitySetService {
      * @param type
      * @return
      */
-    boolean addBrowse(String id,String type);
+    boolean addBrowse(String id, String type);
 
     /**
      * 活动领券次数增加
@@ -346,7 +361,7 @@ public interface ActivitySetService {
      * @param type
      * @return
      */
-    boolean addCoupon(String id,String type);
+    boolean addCoupon(String id, String type);
 
     /**
      * 活动用券次数增加
@@ -355,7 +370,7 @@ public interface ActivitySetService {
      * @param type
      * @return
      */
-    boolean addUse(String id,String type);
+    boolean addUse(String id, String type);
 
 }
 

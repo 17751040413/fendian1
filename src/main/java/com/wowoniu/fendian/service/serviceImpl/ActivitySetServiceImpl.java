@@ -365,7 +365,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         if (StringUtils.isEmpity(state) && Constants.NO.equals(shoppingMallSet.getState())) {
             return new Result(200, true, "禁用状态", null);
         }
-        if (!StringUtils.isEmpity(state)) {
+        if (StringUtils.isNoneEmpty(state)) {
             shoppingMallSet.setState(state);
             activitySetMapper.setShoppingMallSetState(userId, state);
         }
@@ -374,12 +374,10 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             return new Result(200, true, "禁用成功", null);
         }
         //启用-返回商城设置
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("shoppingMall", shoppingMallSet);
-        if (jsonObject == null || jsonObject.size() == 0) {
+        if (shoppingMallSet == null ) {
             return new Result(204, false, "获取失败", null);
         }
-        return new Result(200, false, "获取成功", jsonObject);
+        return new Result(200, true, "获取成功", shoppingMallSet);
     }
 
     /**
@@ -477,7 +475,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     @Override
     public List<WaresSortDetail> getWaresSortDetailListByUserId(String userId) {
 
-        return activitySetMapper.getWaresSortDetailListByUserId(userId, Constants.YES);
+        return activitySetMapper.getWaresSortDetailListByUserId( Constants.YES,"1");
     }
 
     /**
@@ -494,7 +492,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         }
         if (StringUtils.isEmpity(waresSortDetail.getId())) {
             //获取已存在的商品分类
-            List<WaresSortDetail> waresSortDetailList = activitySetMapper.getWaresSortDetailList(waresSortDetail.getSordId());
+            List<WaresSortDetail> waresSortDetailList = activitySetMapper.getWaresSortDetailList(waresSortDetail.getSortId());
             waresSortDetail.setId(StringUtils.getUuid());
             waresSortDetail.setRow(waresSortDetailList.size() + 1);
             activitySetMapper.addWaresSortDetail(waresSortDetail);
@@ -515,7 +513,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     public List<WaresSortDetail> setWaresSortDetailTop(String id) {
         WaresSortDetail waresSortDetail = activitySetMapper.getWaresSortDetail(id);
         //获取置顶的商品分类
-        List<WaresSortDetail> waresSortDetailList = activitySetMapper.getWaresSortDetailListByTop(waresSortDetail.getSordId());
+        List<WaresSortDetail> waresSortDetailList = activitySetMapper.getWaresSortDetailListByTop(waresSortDetail.getSortId());
 
         //重新排序
         int topRow = 0;
@@ -535,7 +533,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         }
 
         //更新并返回列表
-        activitySetMapper.updateWaresSortDetailBatch(waresSortDetailList);
+        activitySetMapper.updateWaresSortDetail(waresSortDetail);
         return waresSortDetailList;
     }
 
@@ -568,9 +566,8 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         Integer interim = waresSortDetail.getTopRow();
         waresSortDetail.setTopRow(waresSortDetail1TopRow.getTopRow());
         waresSortDetail1TopRow.setTopRow(interim);
-        waresSortDetailList.add(waresSortDetail);
-        waresSortDetailList.add(waresSortDetail1TopRow);
-        activitySetMapper.updateWaresSortDetailBatch(waresSortDetailList);
+        activitySetMapper.updateWaresSortDetail(waresSortDetail);
+        activitySetMapper.updateWaresSortDetail(waresSortDetail1TopRow);
         return true;
     }
 
@@ -578,15 +575,15 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      * 商品列表条件查询
      *
      * @param userId
-     * @param state
+     * @param onShelf
      * @param time
      * @param sales
      * @return
      */
     @Override
-    public List<Wares> getWaresList(String userId, String state, String time, String sales, String sortDetailId) {
+    public List<Wares> getWaresList(String userId, String onShelf, String time, String sales, String sortId) {
 
-        return activitySetMapper.getWaresList(userId, state, time, sales, sortDetailId);
+        return activitySetMapper.getWaresList(userId, onShelf, time, sales, sortId);
     }
 
     /**
@@ -621,35 +618,30 @@ public class ActivitySetServiceImpl implements ActivitySetService {
 
         //规格集合
         List<WaresSpec> waresSpecList = activitySetMapper.getWaresSpecList(waresId);
-        //规格详情集合
-        List<WaresSpecDetail> waresSpecDetailList = activitySetMapper.getWaresSpecDetailList(waresSpecList);
-
-        JSONArray array = new JSONArray();
-        for (WaresSpec waresSpec : waresSpecList) {
+        JSONArray jsonArray = new JSONArray();
+        for (WaresSpec waresSpec : waresSpecList){
             JSONObject jsonObject = new JSONObject();
-            JSONArray jsonArray = new JSONArray();
-            jsonObject.put("spec", waresSpec);
-            for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
-                if (waresSpec.getId().equals(waresSpecDetail.getSpecId())) {
-                    jsonArray.add(waresSpecDetail);
-                }
-            }
-            jsonObject.put("detail", jsonArray);
-            array.add(jsonObject);
+            jsonObject.put("waresSpec",waresSpec);
+            //规格详情集合
+            List<WaresSpecDetail> waresSpecDetailList = activitySetMapper.getWaresSpecDetailList(waresSpec.getId());
+            jsonObject.put("detail",waresSpecDetailList);
+            jsonArray.add(jsonObject);
         }
-        return array;
+
+        return jsonArray;
     }
 
     /**
      * 商品规格及详情新增/修改
      *
-     * @param waresSpec
-     * @param waresSpecDetailList
+     * @param param
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean setWaresSpecAndDetail(WaresSpec waresSpec, List<WaresSpecDetail> waresSpecDetailList) {
+    public boolean setWaresSpecAndDetail(JSONObject param) {
+        WaresSpec waresSpec = JSONObject.parseObject(param.getJSONObject("waresSpec").toJSONString(), WaresSpec.class);
+        List<WaresSpecDetail> waresSpecDetailList = JSONArray.parseArray(param.getJSONArray("detail").toJSONString(), WaresSpecDetail.class);
         if (waresSpec == null || CollectionUtils.isEmpty(waresSpecDetailList)) {
             return false;
         }
@@ -666,9 +658,53 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         } else {
             //修改
             activitySetMapper.updateWaresSpec(waresSpec);
-            activitySetMapper.updateWaresSpecDetailBatch(waresSpecDetailList);
+            List<WaresSpecDetail> add = new ArrayList<>();
+            List<WaresSpecDetail> update = new ArrayList<>();
+            for (WaresSpecDetail waresSpecDetail : waresSpecDetailList){
+                if (StringUtils.isEmpity(waresSpecDetail.getId())){
+                    waresSpecDetail.setId(StringUtils.getUuid());
+                    waresSpecDetail.setSpecId(waresSpec.getId());
+                    add.add(waresSpecDetail);
+                }else {
+                    update.add(waresSpecDetail);
+                }
+            }
+            if (!CollectionUtils.isEmpty(add)){
+                activitySetMapper.addWaresSpecDetailBatch(add);
+            }
+            if (!CollectionUtils.isEmpty(update)){
+                activitySetMapper.updateWaresSpecDetailBatch(update);
+            }
         }
         return true;
+    }
+
+    /**
+     * 删除商品规格及详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean delWaresSpec(String id) {
+        int count = activitySetMapper.delWaresSpec(id);
+        if (count > 0 ){
+            activitySetMapper.delWaresSpecDetailBySpecId(id);
+        }else {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 删除商品规格详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public int delWaresSpecDetail(String id) {
+        return delWaresSpecDetail(id);
     }
 
     /**
