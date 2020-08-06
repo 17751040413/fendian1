@@ -14,7 +14,7 @@ public interface MemberStatisticService {
      * @param userId 会员ID
      * @return
      */
-    Object getTotalDataAndActivity(String userId,String type);
+    Object getTotalDataAndActivity(String userId, String type);
 
     /**
      * 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量
@@ -24,4 +24,12 @@ public interface MemberStatisticService {
      * @return
      */
     Object getMemberList(String userId, Integer limit);
+
+    /**
+     * 活动列表
+     *
+     * @param userId
+     * @return
+     */
+    Object getActivity(String userId);
 }

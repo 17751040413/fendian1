@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.service.serviceImpl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
 import com.wowoniu.fendian.mapper.MemberStatisticMapper;
@@ -100,5 +101,40 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
     public Object getMemberList(String userId, Integer limit) {
 
         return memberStatisticMapper.getMemberList(userId, limit);
+    }
+
+    /**
+     * 活动列表
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public Object getActivity(String userId) {
+        JSONObject jsonObject = new JSONObject();
+//        //裂变
+//        jsonObject.put("fission",activitySetMapper.getFissionSet(userId));
+//        //返利
+//        jsonObject.put("rebate",activitySetMapper.getRebateSet(userId));
+//        //分销
+//        jsonObject.put("distribution",activitySetMapper.getDistributionSet(userId));
+        //抽奖
+        jsonObject.put("luckDraw", activitySetMapper.getLuckDrawSet(userId));
+        //优惠券
+        jsonObject.put("coupon", activitySetMapper.getCouponSet(userId));
+        //拼团
+        jsonObject.put("groupBuying", activitySetMapper.getGroupBuying(userId));
+        //推荐
+        jsonObject.put("recommend", activitySetMapper.getRebateSet(userId));
+        //砍价
+        jsonObject.put("bargaining", activitySetMapper.getBargainingSet(userId));
+        //朋友圈
+        jsonObject.put("shareFriends", activitySetMapper.getShareFriends(userId));
+        //秒杀
+        jsonObject.put("seckill", activitySetMapper.getSeckillSet(userId));
+        //红包裂变
+        jsonObject.put("redenvelopes", activitySetMapper.getRedenvelopesSet(userId));
+
+        return jsonObject;
     }
 }
