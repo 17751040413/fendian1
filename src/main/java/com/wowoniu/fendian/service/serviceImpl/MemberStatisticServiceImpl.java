@@ -9,9 +9,6 @@ import com.wowoniu.fendian.service.MemberStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * 会员统计Service实现
  *
@@ -35,30 +32,30 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
      * @return
      */
     @Override
-    public Object getTotalDataAndActivity(String userId, String type) {
-        Map<String, Object> map = new HashMap<>();
+    public JSONObject getTotalDataAndActivity(String userId, String type) {
+        JSONObject object = new JSONObject();
         //统计数据-类型区分
-        map.put("total", memberStatisticMapper.getMemberTotalData(userId, type));
+        object.put("total", memberStatisticMapper.getMemberTotalData(userId, type));
         switch (type) {
             //会员裂变
             case Constants.FISSION:
-                map.put("activity", activitySetMapper.getFissionSetDetailByUserId(userId));
+                object.put("activity", activitySetMapper.getFissionSetDetailByUserId(userId));
                 break;
             //会员返利
             case Constants.REBATE:
-                map.put("activity", activitySetMapper.getRebateSetList(userId));
+                object.put("activity", activitySetMapper.getRebateSetList(userId));
                 break;
             //店铺分销
             case Constants.DISTRIBUTION:
                 DistributionSet distributionSet = activitySetMapper.getDistributionSet(userId);
                 distributionSet.setDistributionCouponList(activitySetMapper.getDistributionCouponList(userId));
-                map.put("activity", distributionSet);
+                object.put("activity", distributionSet);
                 break;
             //在线商城
             case Constants.SHOPPINGMALL:
                 //查询状态非未付款和已取消的订单
                 String[] states = {Constants.ORDER_STATE_PAID, Constants.ORDER_STATE_NOT_SHIPPED, Constants.ORDER_STATE_SHIPPED, Constants.ORDER_STATE_COMPLETE};
-                map.put("activity", activitySetMapper.getWaresOrder(userId, states));
+                object.put("activity", activitySetMapper.getWaresOrder(userId, states));
                 break;
             //幸运转盘
             case Constants.TURNTABLE:
@@ -87,7 +84,7 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
             default:
                 break;
         }
-        return map;
+        return object;
     }
 
     /**
@@ -110,7 +107,7 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
      * @return
      */
     @Override
-    public Object getActivity(String userId) {
+    public JSONObject getActivity(String userId) {
         JSONObject jsonObject = new JSONObject();
 //        //裂变
 //        jsonObject.put("fission",activitySetMapper.getFissionSet(userId));

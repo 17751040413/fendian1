@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.web.api.app.controller.member;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.service.MemberStatisticService;
 import com.wowoniu.fendian.utils.Result;
 import io.swagger.annotations.Api;
@@ -36,8 +37,8 @@ public class MemberController {
     @RequestMapping("/getTotalDataAndActivity")
     @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "引流活动类型", dataType = "String", required = true)})
     public Object getTotalDataAndActivity(@ApiIgnore HttpServletRequest request, String type) {
-        Object object = memberStatisticService.getTotalDataAndActivity((String) request.getAttribute("sysid"), type);
-        if (object == null) {
+        JSONObject object = memberStatisticService.getTotalDataAndActivity((String) request.getAttribute("sysid"), type);
+        if (object == null && object.size() == 0) {
             return new Result(204, false, "无数据", null);
         }
         return new Result(200, true, "查询成功", object);
@@ -67,8 +68,8 @@ public class MemberController {
      * @return
      */
     public Object getMemberList(@ApiIgnore HttpServletRequest request) {
-        Object object = memberStatisticService.getActivity((String) request.getAttribute("sysid"));
-        if (object == null) {
+        JSONObject object = memberStatisticService.getActivity((String) request.getAttribute("sysid"));
+        if (object == null && object.size() == 0) {
             return new Result(204, false, "无数据", null);
         }
         return new Result(200, true, "查询成功", object);

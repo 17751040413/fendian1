@@ -1,5 +1,7 @@
 package com.wowoniu.fendian.service;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * 会员统计Service
  *
@@ -14,7 +16,7 @@ public interface MemberStatisticService {
      * @param userId 会员ID
      * @return
      */
-    Object getTotalDataAndActivity(String userId, String type);
+    JSONObject getTotalDataAndActivity(String userId, String type);
 
     /**
      * 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量
@@ -31,5 +33,5 @@ public interface MemberStatisticService {
      * @param userId
      * @return
      */
-    Object getActivity(String userId);
+    JSONObject getActivity(String userId);
 }
