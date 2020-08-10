@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wowoniu.fendian.mapper.ShopCaseMapper">
+  <resultMap id="BaseResultMap" type="com.wowoniu.fendian.model.ShopCase">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="industyr_id" jdbcType="VARCHAR" property="industyrId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="type_id" jdbcType="VARCHAR" property="typeId" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, industyr_id, title, content, type_id, create_by, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_case
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="queryCaseCountByInid" resultType="java.lang.Integer">
+
+      select count(1) from shop_case
+      where
+      <if test="industyId != 0">
+        industyr_id = #{industyId}
+      </if>
+
+
+    </select>
+  <select id="queryCaseByInid" resultType="com.wowoniu.fendian.model.ShopCase">
+    select <include refid="Base_Column_List"/> from shop_case
+    where
+    <if test="industyId != null and industyId != ''">
+      industyr_id = #{industyId}
+    </if>
+    order by create_time desc
+    limit #{startRow},#{pageSize}
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from shop_case
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.ShopCase" useGeneratedKeys="true">
+    insert into shop_case (industyr_id, title, content, 
+      type_id, create_by, create_time
+      )
+    values (#{industyrId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{typeId,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.ShopCase" useGeneratedKeys="true">
+    insert into shop_case
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="industyrId != null">
+        industyr_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="industyrId != null">
+        #{industyrId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wowoniu.fendian.model.ShopCase">
+    update shop_case
+    <set>
+      <if test="industyrId != null">
+        industyr_id = #{industyrId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wowoniu.fendian.model.ShopCase">
+    update shop_case
+    set industyr_id = #{industyrId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

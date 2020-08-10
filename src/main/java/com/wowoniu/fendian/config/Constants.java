@@ -45,5 +45,9 @@ public class Constants {
     public static final String ORDER_STATE_COMPLETE = "4";
     public static final String ORDER_STATE_CLOSE = "5";
 
+    /*********************配置**************/
+    public static final int PAGESIZE = 20;
+
+
 
 }

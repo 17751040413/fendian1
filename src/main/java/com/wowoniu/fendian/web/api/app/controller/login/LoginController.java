@@ -1,6 +1,7 @@
 package com.wowoniu.fendian.web.api.app.controller.login;
 
 import com.wowoniu.fendian.model.UseUser;
+import com.wowoniu.fendian.model.pack.LoginPack;
 import com.wowoniu.fendian.service.UseUserService;
 import com.wowoniu.fendian.service.UserLoginService;
 import com.wowoniu.fendian.utils.Result;
@@ -32,7 +33,7 @@ public class LoginController {
             @ApiImplicitParam(name = "photo", value = "头像", dataType = "String", required = true),
             @ApiImplicitParam(name = "nickname", value = "昵称", dataType = "String", required = true),
             @ApiImplicitParam(name = "identification", value = "设备码", dataType = "String", required = true) })
-    public Result wechatLogin(String openId, String photo, String nickname, String identification) throws IOException {
+    public Result<LoginPack> wechatLogin(String openId, String photo, String nickname, String identification) throws IOException {
 
 
         return new Result(200,true,"登录成功",useUserService.weChatLogin(openId,photo,
@@ -48,9 +49,8 @@ public class LoginController {
             @ApiImplicitParam(name = "identification",value = "设备码",dataType = "String",required = true)
 
     })
-    public Result smsLogin(String code, String phone, String identification,
-                           @ApiIgnore HttpSession httpSession){
-
+    public Result<LoginPack> smsLogin(String code, String phone, String identification,
+                                      @ApiIgnore HttpSession httpSession){
 
         return useUserService.smsLogin(code,phone,identification,httpSession);
     }

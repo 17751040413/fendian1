@@ -21,12 +21,13 @@
         <result column="balance" jdbcType="INTEGER" property="balance" />
         <result column="promotion_code" jdbcType="VARCHAR" property="promotionCode" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="identification" jdbcType="VARCHAR" property="identification"/>
         <result column="state" jdbcType="INTEGER" property="state" />
     </resultMap>
     <sql id="Base_Column_List">
     id, login_name, wechat_id, nick_name, head_img, parent_id, parent_name, `hierarchy`,
     role_id1, role_id2, team_number, system_number, today_term_number, open_system_flg,
-    promotion_income, balance, promotion_code, create_time, `state`
+    promotion_income, balance, promotion_code, create_time, `state`,identification
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
@@ -49,24 +50,27 @@ WHERE wechat_id = #{openId} AND state = 0
     where id = #{id,jdbcType=VARCHAR}
   </delete>
 <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UseUser" useGeneratedKeys="true">
-    insert into use_user (login_name, wechat_id, nick_name,
+    insert into use_user (id,login_name, wechat_id, nick_name,
       head_img, parent_id, parent_name,
       `hierarchy`, role_id1, role_id2,
       team_number, system_number, today_term_number,
       open_system_flg, promotion_income, balance,
-      promotion_code, create_time, `state`
+      promotion_code, create_time, `state`,identification
       )
-    values (#{loginName,jdbcType=VARCHAR}, #{wechatId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
+    values (#{id},#{loginName,jdbcType=VARCHAR}, #{wechatId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
       #{headImg,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{parentName,jdbcType=VARCHAR},
       #{hierarchy,jdbcType=INTEGER}, #{roleId1,jdbcType=VARCHAR}, #{roleId2,jdbcType=VARCHAR},
       #{teamNumber,jdbcType=INTEGER}, #{systemNumber,jdbcType=INTEGER}, #{todayTermNumber,jdbcType=INTEGER},
       #{openSystemFlg,jdbcType=INTEGER}, #{promotionIncome,jdbcType=INTEGER}, #{balance,jdbcType=INTEGER},
-      #{promotionCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}
+      #{promotionCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER},#{identification}
       )
   </insert>
 <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UseUser" useGeneratedKeys="true">
 insert into use_user
 <trim prefix="(" suffix=")" suffixOverrides=",">
+    <if test="id != null">
+        id,
+    </if>
     <if test="loginName != null">
         login_name,
     </if>
@@ -121,8 +125,14 @@ insert into use_user
     <if test="state != null">
         `state`,
     </if>
+    <if test="identification != null">
+        identification,
+    </if>
 </trim>
 <trim prefix="values (" suffix=")" suffixOverrides=",">
+    <if test="id != null">
+        #{id},
+    </if>
     <if test="loginName != null">
         #{loginName,jdbcType=VARCHAR},
     </if>
@@ -176,6 +186,9 @@ insert into use_user
     </if>
     <if test="state != null">
         #{state,jdbcType=INTEGER},
+    </if>
+    <if test="identification != null">
+        #{identification}
     </if>
 </trim>
 </insert>
@@ -236,6 +249,9 @@ update use_user
     <if test="state != null">
         `state` = #{state,jdbcType=INTEGER},
     </if>
+    <if test="identification != null">
+        identification = #{identification}
+    </if>
 </set>
 where id = #{id,jdbcType=VARCHAR}
 </update>
@@ -258,7 +274,8 @@ where id = #{id,jdbcType=VARCHAR}
       balance = #{balance,jdbcType=INTEGER},
       promotion_code = #{promotionCode,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      `state` = #{state,jdbcType=INTEGER}
+      `state` = #{state,jdbcType=INTEGER},
+      identification = #{identification}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 

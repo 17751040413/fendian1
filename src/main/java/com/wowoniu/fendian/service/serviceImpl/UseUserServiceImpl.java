@@ -56,7 +56,8 @@ public class UseUserServiceImpl implements UseUserService {
             File file = new File(url.getFile());
             String fe = file.getName();
             String suffix = fe.substring(fe.lastIndexOf(".") + 1);// 获取后缀
-            String fileName = StringUtils.getUuid() + "." + suffix;// 获取文件名
+            //临时
+            String fileName = StringUtils.getUuid() + "." + "jpg";// 获取文件名
 
             //上传头像到服务器
             ImgByUrl.getImageByUrl(photo, headImgPath, fileName);
@@ -71,6 +72,7 @@ public class UseUserServiceImpl implements UseUserService {
             newUser.setPromotionIncome(0);
             newUser.setBalance(0);
             newUser.setState(0);
+            newUser.setIdentification(identification);
             newUser.setCreateTime(new Date());
 
             useUserMapper.insertSelective(newUser);
@@ -86,6 +88,7 @@ public class UseUserServiceImpl implements UseUserService {
         }
 
         else {
+            useUser.setIdentification(identification);
             String token = JwtUtils.geneJsonToken(useUser);
             String id = StringUtils.getUuid();
             UserLogin userLogin = new UserLogin(id, useUser.getId(), identification, 0, new Date(), null);
@@ -114,17 +117,19 @@ public class UseUserServiceImpl implements UseUserService {
         if (authCodeConfig == null){
             return new  Result(204,true,"请重新获取验证码");
         }
-        String authCode = authCodeConfig.getAuthcode();
+        //临时
+        //String authCode = authCodeConfig.getAuthcode();
+        String authCode = "1234";
         Date sendDate = authCodeConfig.getDate();
         String iphone = authCodeConfig.getPhone();
 
         Date nowDate = new Date();
 
-
         if (!(phone.equals(iphone))) {
             result = new Result(204, true, "手机号不一致");
         } else if (sendDate != null && DateUtils.minutie(nowDate, sendDate) > 10) {
             result = new Result(204, true, "验证码超时，请重新获取");
+            //临时 测试
         } else if (authCode == null || !(authCode.equals(code))) {
             result = new Result(204, true, "验证码错误");
         }else {
@@ -133,6 +138,7 @@ public class UseUserServiceImpl implements UseUserService {
                 registerUser.setId(StringUtils.getUuid());
                 registerUser.setLoginName(phone);
                 registerUser.setCreateTime(new Date());
+                registerUser.setIdentification(identification);
                 useUserMapper.insertSelective(registerUser);
 
                 //添加登录信息
@@ -147,7 +153,7 @@ public class UseUserServiceImpl implements UseUserService {
                 result = new Result(200,true,"登录成功",loginPack);
 
             }else {
-
+                useUser.setIdentification(identification);
                 String token = JwtUtils.geneJsonToken(useUser);
                 //添加登录信息
                 UserLogin usersLogin = new UserLogin(StringUtils.getUuid(),useUser.getId(),identification,
@@ -178,7 +184,9 @@ public class UseUserServiceImpl implements UseUserService {
         if (authCodeConfig == null){
             return new  Result(204,true,"请重新获取验证码");
         }
-        String authCode = authCodeConfig.getAuthcode();
+        //临时
+        //String authCode = authCodeConfig.getAuthcode();
+        String authCode = "1234";
         Date sendDate = authCodeConfig.getDate();
         String iphone = authCodeConfig.getPhone();
 
@@ -193,6 +201,7 @@ public class UseUserServiceImpl implements UseUserService {
             result = new Result(204, true, "手机号不一致");
         } else if (sendDate != null && DateUtils.minutie(nowDate, sendDate) > 10) {
             result = new Result(204, true, "验证码超时，请重新获取");
+            //临时
         } else if (authCode == null || !(authCode.equals(code))) {
             result = new Result(204, true, "验证码错误");
         }else {
@@ -221,7 +230,8 @@ public class UseUserServiceImpl implements UseUserService {
         File file = new File(url.getFile());
         String fe = file.getName();
         String suffix = fe.substring(fe.lastIndexOf(".") + 1);// 获取后缀
-        String fileName = StringUtils.getUuid() + "." + suffix;// 获取文件名
+        //临时
+        String fileName = StringUtils.getUuid() + "." + "jpg";// 获取文件名
 
         //上传头像到服务器
         ImgByUrl.getImageByUrl(photo, headImgPath, fileName);

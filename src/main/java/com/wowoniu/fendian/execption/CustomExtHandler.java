@@ -22,6 +22,7 @@ public class CustomExtHandler {
         Map<String,Object> map = new HashMap<>();
         map.put("code",100);
         map.put("message",e.getMessage());
+        map.put("success",false);
         map.put("url",request.getRequestURI());
         return map;
 

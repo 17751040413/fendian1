@@ -37,7 +37,7 @@ public class AliSms {
         request.putQueryParameter("PhoneNumbers", phone);
         request.putQueryParameter("SignName", aliSmsConfig.signName);
         request.putQueryParameter("TemplateCode", aliSmsConfig.tempId);
-        request.putQueryParameter("TemplateParam", "{\"code\":"+code+"}");
+        request.putQueryParameter("TemplateParam", "{\"code\":"+"'"+code+"'"+"}");
         try {
             CommonResponse response = client.getCommonResponse(request);
             System.out.println(response.getData());

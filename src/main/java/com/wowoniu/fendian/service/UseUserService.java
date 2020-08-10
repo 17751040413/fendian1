@@ -25,7 +25,7 @@ public interface UseUserService {
      * @param httpSession
      * @return
      */
-    Result smsLogin(String code, String phone, String identification, HttpSession httpSession);
+    Result<LoginPack> smsLogin(String code, String phone, String identification, HttpSession httpSession);
 
     /**
      * 绑定手机号

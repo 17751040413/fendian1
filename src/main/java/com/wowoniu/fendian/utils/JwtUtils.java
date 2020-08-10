@@ -25,7 +25,7 @@ public class JwtUtils {
             return null;
         }
         String token = Jwts.builder().setSubject(SUBJECT)
-                .claim("id",useUser.getId())//加入id
+                .claim("sysid",useUser.getId())//加入id
                 .claim("identification",useUser.getIdentification())//加入设备码
                 .setIssuedAt(new Date())//设置发放时间
                 .setExpiration(new Date(System.currentTimeMillis()+EXPIRE))//设置过期时间

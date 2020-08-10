@@ -31,7 +31,7 @@ public class UserController {
     })
     public Result bindPhone(String phone, String code, @ApiIgnore HttpSession httpSession,
                             @ApiIgnore HttpServletRequest request){
-        String userid = (String) request.getAttribute("id");
+        String userid = (String) request.getAttribute("sysid");
 
         return useUserService.bindPhone(phone,code,httpSession,userid);
     }
@@ -56,7 +56,7 @@ public class UserController {
     @ApiOperation("个人中心")
     public Result getUserInfo(@ApiIgnore HttpServletRequest request){
 
-        String userid = (String) request.getAttribute("id");
+        String userid = (String) request.getAttribute("sysid");
         return new Result(200,true,"获取成功",useUserService.getUserInfo(userid));
 
     }

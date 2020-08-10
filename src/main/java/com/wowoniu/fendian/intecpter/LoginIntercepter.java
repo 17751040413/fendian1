@@ -49,7 +49,7 @@ public class LoginIntercepter implements HandlerInterceptor {
                 }
                 userLogin.setConnectionTime(new Date());
                 userLoginService.updateConTimeUserLoginById(userLogin);
-                request.setAttribute("id",id);
+                request.setAttribute("sysid",id);
                 return true;
             }
         }
