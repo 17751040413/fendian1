@@ -35,14 +35,14 @@ public class ActivitySetController {
     /************************************************* True 裂变 - START *********************************************************/
 
     @PostMapping("/getFission")
-    @ApiOperation("获取裂变及详情 及启用/禁用")
+    @ApiOperation("裂变--获取裂变及详情 及启用/禁用")
     @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "关闭：N 开启：Y ", dataType = "String", required = true)})
     public Object getFission(String state, @ApiIgnore HttpServletRequest request) {
 
         return activitySetService.getFissionSet((String) request.getAttribute("sysid"), state);
     }
 
-    @ApiOperation("裂变活动设置及详情(新增/修改)")
+    @ApiOperation("裂变--裂变活动设置及详情(新增/修改)")
     @PostMapping("/setFissionSet")
     @ApiImplicitParams({@ApiImplicitParam(name = "param", value = " LuckDrawSet实体及LuckDrawDetail集合数据", dataType = "JSONObject", required = true)})
     public Object setFissionSet(@RequestBody JSONObject param, @ApiIgnore HttpServletRequest request) {
@@ -59,14 +59,14 @@ public class ActivitySetController {
 
     /************************************************* True 返利 - START *********************************************************/
     @PostMapping("/getRebateSet")
-    @ApiOperation("获取返利设置及详情 及启用/禁用")
+    @ApiOperation("返利--获取返利设置及详情 及启用/禁用")
     @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（N：关；Y：开； null：为Null时 设置过则返回数据，未设置则返回空数据）", dataType = "String", required = true)})
     public Object getRebateSet(String state, @ApiIgnore HttpServletRequest request) {
 
         return activitySetService.getRebateSet((String) request.getAttribute("sysid"), state);
     }
 
-    @ApiOperation("返利活动设置及详情(新增/修改)")
+    @ApiOperation("返利--返利活动设置及详情(新增/修改)")
     @PostMapping("/setRebateSet")
     @ApiImplicitParams({@ApiImplicitParam(name = "param", value = " RebateSet实体及RebateSetDetail集合数据", dataType = "JSONObject", required = true)})
     public Object setRebateSet(@RequestBody JSONObject param, @ApiIgnore HttpServletRequest request) {
@@ -82,14 +82,14 @@ public class ActivitySetController {
 
     /************************************************* True 分销 - START *********************************************************/
     @PostMapping("/getDistribution")
-    @ApiOperation("获取返利及详情 及启用/禁用")
+    @ApiOperation("分销--获取返利及详情 及启用/禁用")
     @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（N：关；Y：开； null：为null时返回现有状态的数据）", dataType = "String", required = true)})
     public Object getDistribution(String state, @ApiIgnore HttpServletRequest request) {
 
         return activitySetService.getDistribution((String) request.getAttribute("sysid"), state);
     }
 
-    @ApiOperation("分销活动设置(新增/修改)")
+    @ApiOperation("分销--分销活动设置(新增/修改)")
     @PostMapping("/setDistribution")
     public Object setDistribution(@RequestBody DistributionSet distributionSet, @ApiIgnore HttpServletRequest request) {
 
@@ -100,7 +100,7 @@ public class ActivitySetController {
         return new Result(204, false, "设置失败", null);
     }
 
-    @ApiOperation("分销优惠券设置(新增/修改)")
+    @ApiOperation("分销--分销优惠券设置(新增/修改)")
     @PostMapping("/setDistributionCoupon")
     public Object setDistributionCoupon(@RequestBody DistributionCoupon distributionCoupon) {
 
@@ -111,7 +111,7 @@ public class ActivitySetController {
         return new Result(204, false, "设置失败", null);
     }
 
-    @ApiOperation("删除(结束)分销优惠券")
+    @ApiOperation("分销--删除(结束)分销优惠券")
     @PostMapping("/updateDistributionCouponEndTime")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "返利详情ID", dataType = "String", required = true)})
     public Object updateDistributionCouponEndTime(String id) {
@@ -126,14 +126,14 @@ public class ActivitySetController {
 
     /************************************************* True 商城 - END *********************************************************/
     @PostMapping("/getShoppingMallSet")
-    @ApiOperation("商家ID获取商城设置")
+    @ApiOperation("商城--商家ID获取商城设置")
     @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（N：关；Y：开； null：为Null时 设置过则返回数据，未设置则返回空数据）", dataType = "String", required = true)})
     public Object getShoppingMallSet(String state, @ApiIgnore HttpServletRequest request) {
 
         return activitySetService.getShoppingMallSet((String) request.getAttribute("sysid"), state);
     }
 
-    @ApiOperation("商城设置(新增/修改)")
+    @ApiOperation("商城--商城设置(新增/修改)")
     @PostMapping("/setShoppingMall")
     public Object setShoppingMall(@RequestBody ShoppingMallSet shoppingMallSet, @ApiIgnore HttpServletRequest request) {
 
@@ -144,7 +144,7 @@ public class ActivitySetController {
         return new Result(204, false, "设置失败", null);
     }
 
-    @ApiOperation("订单状态获取订单列表")
+    @ApiOperation("商城--订单状态获取订单列表")
     @PostMapping("/getWaresOrder")
     @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "订单状态（0：待付款；1：待发货；2：已发货；3：已完成；4：已关闭）", dataType = "String", required = true)})
     public Object getWaresOrder(String state, @ApiIgnore HttpServletRequest request) {
@@ -156,7 +156,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", waresOrderList);
     }
 
-    @ApiOperation("商品分类启用/禁用设置 并返回分类列表")
+    @ApiOperation("商城--商品分类启用/禁用设置 并返回分类列表")
     @PostMapping("/getWaresShortSet")
     @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "分类N:禁用；Y:启用", dataType = "String", required = true)})
     public Object getWaresShortSet(String state, @ApiIgnore HttpServletRequest request) {
@@ -164,7 +164,7 @@ public class ActivitySetController {
         return activitySetService.getWaresShortSet((String) request.getAttribute("sysid"), state);
     }
 
-    @ApiOperation("商品分类ID获取分类信息")
+    @ApiOperation("商城--商品分类ID获取分类信息")
     @PostMapping("/getWaresSortDetail")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品分类ID", dataType = "String", required = true)})
     public Object getWaresSortDetail(String id) {
@@ -176,7 +176,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", waresSortDetail);
     }
 
-    @ApiOperation("商品分类新增/修改")
+    @ApiOperation("商城--商品分类新增/修改")
     @PostMapping("/setWaresSortDetail")
     public Object setWaresSortDetail(@RequestBody WaresSortDetail waresSortDetail) {
 
@@ -187,7 +187,7 @@ public class ActivitySetController {
         return new Result(204, false, "设置失败", null);
     }
 
-    @ApiOperation("商品分类置顶设置")
+    @ApiOperation("商城--商品分类置顶设置")
     @PostMapping("/setWaresSortDetailTop")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品分类ID", dataType = "String", required = true)})
     public Object setWaresSortDetailTop(String id) {
@@ -199,7 +199,7 @@ public class ActivitySetController {
         return new Result(200, true, "设置成功", waresSortDetailList);
     }
 
-    @ApiOperation("商品分类置顶上移 下移")
+    @ApiOperation("商城--商品分类置顶上移 下移")
     @PostMapping("/setWaresSortDetailTopMove")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品分类ID", dataType = "String", required = true),
             @ApiImplicitParam(name = "move", value = "移动（0：向上移动一位；1：向下移动一位）", dataType = "int", required = true)})
@@ -212,7 +212,7 @@ public class ActivitySetController {
         return new Result(204, false, "设置失败", null);
     }
 
-    @ApiOperation("商品分类列表")
+    @ApiOperation("商城--商品分类列表")
     @PostMapping("/getWaresSortDetailList")
     public Object getWaresSortDetailList(@ApiIgnore HttpServletRequest request) {
 
@@ -225,7 +225,7 @@ public class ActivitySetController {
 
     }
 
-    @ApiOperation("商品列表条件查询")
+    @ApiOperation("商城--商品列表条件查询")
     @PostMapping("/getWaresList")
     @ApiImplicitParams({@ApiImplicitParam(name = "onShelf", value = "上架（Y：上架；N：下架;全部：null）", dataType = "String", required = true),
             @ApiImplicitParam(name = "time", value = "时间查询条件（1:启用；0：禁用）按时间由近到远排序", dataType = "String", required = true),
@@ -241,7 +241,7 @@ public class ActivitySetController {
 
     }
 
-    @ApiOperation("发布商品新增/修改")
+    @ApiOperation("商城--发布商品新增/修改")
     @PostMapping("/setWares")
     public Object setWares(@RequestBody Wares wares, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setWares(wares, (String) request.getAttribute("sysid"));
@@ -251,7 +251,7 @@ public class ActivitySetController {
         return new Result(204, false, "发布失败", null);
     }
 
-    @ApiOperation("商品ID获取规格及规格详情")
+    @ApiOperation("商城--商品ID获取规格及规格详情")
     @PostMapping("/getWaresSpecAndDetail")
     @ApiImplicitParams({@ApiImplicitParam(name = "waresId", value = "商品ID", dataType = "String", required = true)})
     public Object getWaresSpecAndDetail(String waresId) {
@@ -263,7 +263,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", jsonArray);
     }
 
-    @ApiOperation("商品规格及详情新增/修改")
+    @ApiOperation("商城--商品规格及详情新增/修改")
     @PostMapping("/setWaresSpec")
     public Object setWaresSpec(@RequestBody JSONObject param) {
         boolean result = activitySetService.setWaresSpecAndDetail(param);
@@ -273,7 +273,7 @@ public class ActivitySetController {
         return new Result(204, false, "创建失败", null);
     }
 
-    @ApiOperation("删除商品规格及详情")
+    @ApiOperation("商城--删除商品规格及详情")
     @PostMapping("/delWaresSpec")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品规格ID", dataType = "String", required = true)})
     public Object delWaresSpec(@RequestBody String id) {
@@ -284,7 +284,7 @@ public class ActivitySetController {
         return new Result(204, false, "创建失败", null);
     }
 
-    @ApiOperation("删除商品规格详情")
+    @ApiOperation("商城--删除商品规格详情")
     @PostMapping("/delWaresSpecDetail")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品规格详情ID", dataType = "String", required = true)})
     public Object delWaresSpecDetail(@RequestBody String id) {
@@ -300,7 +300,7 @@ public class ActivitySetController {
 
     /************************************************* True 抽奖 -砸金蛋 转盘 - START *********************************************************/
 
-    @ApiOperation("抽奖ID获取抽奖设置及详情")
+    @ApiOperation("抽奖（砸金蛋 转盘）--抽奖ID获取抽奖设置及详情")
     @PostMapping("/getLuckDrawSetAndDetail")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "抽奖设置ID", dataType = "String", required = true)})
     public Object getLuckDrawSetAndDetail(String id) {
@@ -312,7 +312,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", jsonObject);
     }
 
-    @ApiOperation("抽奖及详情新增/修改")
+    @ApiOperation("抽奖（砸金蛋 转盘）--抽奖及详情新增/修改")
     @PostMapping("/setLuckDrawSet")
     @ApiImplicitParams({@ApiImplicitParam(name = "param", value = " LuckDrawSet实体及LuckDrawDetail集合数据", dataType = "JSONObject", required = true)})
     public Object setLuckDrawSet(@RequestBody JSONObject param, @ApiIgnore HttpServletRequest request) {
@@ -327,7 +327,7 @@ public class ActivitySetController {
 
     /************************************************* True 优惠券 - START *********************************************************/
 
-    @ApiOperation("优惠券ID获取设置信息")
+    @ApiOperation("优惠券--优惠券ID获取设置信息")
     @PostMapping("/getCouponSet")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "优惠券设置ID", dataType = "String", required = true)})
     public Object getCouponSet(String id) {
@@ -339,7 +339,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", couponSet);
     }
 
-    @ApiOperation("优惠券新增/修改")
+    @ApiOperation("优惠券--优惠券新增/修改")
     @PostMapping("/setCouponSet")
     public Object setCouponSet(@RequestBody CouponSet couponSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setCouponSet(couponSet, (String) request.getAttribute("sysid"));
@@ -352,7 +352,7 @@ public class ActivitySetController {
 
     /************************************************* True 拼团 - START *********************************************************/
 
-    @ApiOperation("拼团ID获取设置信息")
+    @ApiOperation("拼团--拼团ID获取设置信息")
     @PostMapping("/getGroupBuying")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "拼团设置ID", dataType = "String", required = true)})
     public Object getGroupBuying(String id) {
@@ -364,7 +364,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", groupBuying);
     }
 
-    @ApiOperation("优惠券新增/修改")
+    @ApiOperation("拼团--优惠券新增/修改")
     @PostMapping("/setGroupBuying")
     public Object setGroupBuying(@RequestBody GroupBuying groupBuying, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setGroupBuying(groupBuying, (String) request.getAttribute("sysid"));
@@ -377,7 +377,7 @@ public class ActivitySetController {
 
     /************************************************* True 推荐 - START *********************************************************/
 
-    @ApiOperation("推荐ID获取设置信息")
+    @ApiOperation("推荐--推荐ID获取设置信息")
     @PostMapping("/getRecommendSet")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "推荐设置ID", dataType = "String", required = true)})
     public Object getRecommendSet(String id) {
@@ -389,7 +389,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", recommendSet);
     }
 
-    @ApiOperation("优惠券新增/修改")
+    @ApiOperation("推荐--优惠券新增/修改")
     @PostMapping("/setRecommendSet")
     public Object setRecommendSet(@RequestBody RecommendSet recommendSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setRecommendSet(recommendSet, (String) request.getAttribute("sysid"));
@@ -402,7 +402,7 @@ public class ActivitySetController {
 
 
     /************************************************* True 砍价 - START *********************************************************/
-    @ApiOperation("砍价ID获取设置信息")
+    @ApiOperation("砍价--砍价ID获取设置信息")
     @PostMapping("/getBargainingSet")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "砍价设置ID", dataType = "String", required = true)})
     public Object getBargainingSet(String id) {
@@ -414,7 +414,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", bargainingSet);
     }
 
-    @ApiOperation("砍价设置新增/修改")
+    @ApiOperation("砍价--砍价设置新增/修改")
     @PostMapping("/setBargainingSet")
     public Object setBargainingSet(@RequestBody BargainingSet bargainingSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setBargainingSet(bargainingSet, (String) request.getAttribute("sysid"));
@@ -427,7 +427,7 @@ public class ActivitySetController {
 
     /************************************************* True 朋友圈分享 - START *********************************************************/
 
-    @ApiOperation("朋友圈分享ID获取设置信息")
+    @ApiOperation("朋友圈分享--朋友圈分享ID获取设置信息")
     @PostMapping("/getShareFriends")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "砍价设置ID", dataType = "String", required = true)})
     public Object getShareFriends(String id) {
@@ -439,7 +439,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", shareFriends);
     }
 
-    @ApiOperation("朋友圈分享设置新增/修改")
+    @ApiOperation("朋友圈分享--设置新增/修改")
     @PostMapping("/setShareFriends")
     public Object setShareFriends(@RequestBody ShareFriends shareFriends, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setShareFriends(shareFriends, (String) request.getAttribute("sysid"));
@@ -452,7 +452,7 @@ public class ActivitySetController {
 
     /*************************************************  True 秒杀 - START *********************************************************/
 
-    @ApiOperation("秒杀ID获取设置信息")
+    @ApiOperation("秒杀--秒杀ID获取设置信息")
     @PostMapping("/getSeckillSet")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "砍价设置ID", dataType = "String", required = true)})
     public Object getSeckillSet(String id) {
@@ -464,7 +464,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", seckillSet);
     }
 
-    @ApiOperation("秒杀设置新增/修改")
+    @ApiOperation("秒杀--秒杀设置新增/修改")
     @PostMapping("/setSeckillSet")
     public Object setSeckillSet(@RequestBody SeckillSet seckillSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setSeckillSet(seckillSet, (String) request.getAttribute("sysid"));
@@ -477,7 +477,7 @@ public class ActivitySetController {
 
     /************************************************* True 红包裂变 - START *********************************************************/
 
-    @ApiOperation("红包裂变ID获取设置信息")
+    @ApiOperation("红包裂变--红包裂变ID获取设置信息")
     @PostMapping("/getRedenvelopesSet")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "砍价设置ID", dataType = "String", required = true)})
     public Object getRedenvelopesSet(String id) {
@@ -489,7 +489,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", redenvelopesSet);
     }
 
-    @ApiOperation("红包裂变设置新增/修改")
+    @ApiOperation("红包裂变--红包裂变设置新增/修改")
     @PostMapping("/setRedenvelopesSet")
     public Object setRedenvelopesSet(@RequestBody RedenvelopesSet redenvelopesSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setRedenvelopesSet(redenvelopesSet, (String) request.getAttribute("sysid"));
@@ -502,7 +502,7 @@ public class ActivitySetController {
 
     /************************************************* True 活动计数 - START *********************************************************/
 
-    @ApiOperation("活动浏览次数增加")
+    @ApiOperation("活动计数--活动浏览次数增加")
     @PostMapping("/addBrowse")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true),
             @ApiImplicitParam(name = "type", value = "活动类型（4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈）", dataType = "String", required = true)})
@@ -514,7 +514,7 @@ public class ActivitySetController {
         return new Result(204, false, "增加成功", null);
     }
 
-    @ApiOperation("活动领券次数增加")
+    @ApiOperation("活动计数--活动领券次数增加")
     @PostMapping("/addCoupon")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true),
             @ApiImplicitParam(name = "type", value = "活动类型（4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈）", dataType = "String", required = true)})
@@ -526,7 +526,7 @@ public class ActivitySetController {
         return new Result(204, false, "增加成功", null);
     }
 
-    @ApiOperation("活动用券次数增加")
+    @ApiOperation("活动计数--活动用券次数增加")
     @PostMapping("/addUse")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true),
             @ApiImplicitParam(name = "type", value = "活动类型（4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈）", dataType = "String", required = true)})

@@ -33,7 +33,7 @@ public class MemberController {
      *
      * @return
      */
-    @ApiOperation(value = "会员统计数据,及活动列表", tags = "根据用户ID获取其会员及当日数据统计")
+    @ApiOperation(value = "会员管理--会员统计数据,及活动列表", tags = "根据用户ID获取其会员及当日数据统计")
     @RequestMapping("/getTotalDataAndActivity")
     @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "引流活动类型", dataType = "String", required = true)})
     public Object getTotalDataAndActivity(@ApiIgnore HttpServletRequest request, String type) {
@@ -50,11 +50,11 @@ public class MemberController {
      * @param limit 数据量
      * @return
      */
-    @ApiOperation(value = "父级用户ID获取会员用户集合", tags = "limit为获取数据条数")
-    @RequestMapping("/getMemberList")
+    @ApiOperation(value = "会员管理--父级用户ID获取会员用户集合", tags = "limit为获取数据条数")
+    @RequestMapping("/getUseUserList")
     @ApiImplicitParams({@ApiImplicitParam(name = "limit", value = "数据量", dataType = "Integer", required = true)})
-    public Object getMemberList(@ApiIgnore HttpServletRequest request, Integer limit) {
-        Object object = memberStatisticService.getMemberList((String) request.getAttribute("sysid"), limit);
+    public Object getUseUserList(@ApiIgnore HttpServletRequest request, Integer limit) {
+        Object object = memberStatisticService.getUseUserList((String) request.getAttribute("sysid"), limit);
         if (object == null) {
             return new Result(204, false, "无数据", null);
         }
@@ -67,6 +67,8 @@ public class MemberController {
      * @param request
      * @return
      */
+    @ApiOperation(value = "会员管理--活动列表", tags = "limit为获取数据条数")
+    @RequestMapping("/getMemberList")
     public Object getMemberList(@ApiIgnore HttpServletRequest request) {
         JSONObject object = memberStatisticService.getActivity((String) request.getAttribute("sysid"));
         if (object == null && object.size() == 0) {

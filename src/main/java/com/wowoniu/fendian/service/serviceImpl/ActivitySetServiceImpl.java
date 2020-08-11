@@ -12,7 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import sun.misc.BASE64Decoder;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1185,6 +1189,42 @@ public class ActivitySetServiceImpl implements ActivitySetService {
                 break;
         }
         return result;
+    }
+
+    /**
+     * 图片上传
+     */
+    public static String generateImage(String imgStr, String pk, HttpServletRequest request) {
+        System.out.print("已经收到了把字节码转化为图片的方法");
+        //对字节数组字符串进行Base64解码并生成图片
+        if (imgStr == null) //图像数据为空
+            return "error";
+
+        //解析base64码，获取图片格式
+        String str[] = imgStr.split(",");
+        imgStr = str[1];
+        String imgInfo = str[0];
+        String imgExt = imgInfo.split("/")[1].split(";")[0];
+
+        BASE64Decoder decoder = new BASE64Decoder();
+        try {
+            //Base64解码
+            byte[] b = decoder.decodeBuffer(imgStr);
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {//调整异常数据
+                    b[i] += 256;
+                }
+            }
+            String imgFilePath = "/SCApp/images/" + pk + "." + imgExt;//新生成的图片
+            System.out.println(imgFilePath);
+            OutputStream out = new FileOutputStream(imgFilePath);
+            out.write(b);
+            out.flush();
+            out.close();
+            return imgExt;
+        } catch (Exception e) {
+            return "error";
+        }
     }
 
 

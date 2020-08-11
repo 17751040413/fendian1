@@ -3,7 +3,7 @@
 <mapper namespace="com.wowoniu.fendian.mapper.MemberStatisticMapper">
 
     <!-- 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量 -->
-    <select id="getMemberList" resultType="com.wowoniu.fendian.model.UseUser">
+    <select id="getUseUserList" resultType="com.wowoniu.fendian.model.UseUser">
         SELECT * FROM Use_User WHERE parent_id = #{parentId} ORDER BY team_number DESC
         <if test="limit != null">
             LIMIT #{limit}

@@ -95,9 +95,9 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
      * @return
      */
     @Override
-    public Object getMemberList(String userId, Integer limit) {
+    public Object getUseUserList(String userId, Integer limit) {
 
-        return memberStatisticMapper.getMemberList(userId, limit);
+        return memberStatisticMapper.getUseUserList(userId, limit);
     }
 
     /**

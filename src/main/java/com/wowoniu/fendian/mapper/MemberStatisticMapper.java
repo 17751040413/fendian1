@@ -31,5 +31,5 @@ public interface MemberStatisticMapper {
      * @param limit    数据量
      * @return
      */
-    List<UseUser> getMemberList(@Param("parentId") String parentId, @Param("limit") Integer limit);
+    List<UseUser> getUseUserList(@Param("parentId") String parentId, @Param("limit") Integer limit);
 }
