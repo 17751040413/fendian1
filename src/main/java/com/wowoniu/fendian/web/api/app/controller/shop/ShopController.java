@@ -30,7 +30,7 @@ public class ShopController {
     @ApiOperation("获取店铺首页信息")
     @PostMapping("getHomePage")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "industyrId",value = "店铺分类id 全部传空",dataType = "String",required = true),
+            @ApiImplicitParam(name = "industyrId",value = "店铺分类id 全部传空",dataType = "String",required = false),
             @ApiImplicitParam(name = "currentPage",value = "页码",dataType = "int",required = true)
     })
     @ApiResponses({
@@ -64,10 +64,32 @@ public class ShopController {
     @ApiOperation("获取所有店铺类型 关键字查询")
     @PostMapping("getShopType")
     @ApiImplicitParam(name = "keyWords",value = "关键字",dataType = "String",required = false)
+    @ApiResponses({
+            @ApiResponse(code = 200,message = "行业",response = ShopIndustry.class),
+            @ApiResponse(code = 200,message = "店铺",response = ShopCase.class)
+    })
     public Result getShopType(String keyWords){
+        //获取所有店铺
+        List<Map<ShopIndustry,List>> shopList = new ArrayList<>();
+        //获取所有行业
+        List<ShopIndustry> shopIndustries = shopService.getShopIndustry();
+        for (ShopIndustry shopIndustry:shopIndustries){
+            Map map = new HashMap();
+            List<ShopCase> shopCases = shopService.getShopCase(shopIndustry.getId(),keyWords);
+            map.put("shopIndustrie",shopIndustry);
+            map.put("shopCases",shopCases);
+            shopList.add(map);
+        }
+
+        return new Result(200,true,"获取成功",shopList);
+    }
+
+    @ApiOperation("获取策划师二维码")
+    @PostMapping("getCeHuaImg")
+    public Result getCeHuaImg(){
 
 
-        return new Result();
+        return new Result(200,true,"获取成功","img/cehua.jpg");
     }
 
 

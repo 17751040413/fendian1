@@ -2,13 +2,13 @@ package com.wowoniu.fendian.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
+
 
 /**
  * activity
  * @author 
  */
-@Data
+
 public class Activity implements Serializable {
     private Integer id;
 
@@ -26,5 +26,43 @@ public class Activity implements Serializable {
 
     private Date createTime;
 
-    private static final long serialVersionUID = 1L;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getObjective() {
+        return objective;
+    }
+
+    public void setObjective(String objective) {
+        this.objective = objective;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 }

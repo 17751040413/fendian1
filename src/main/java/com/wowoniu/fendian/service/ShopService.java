@@ -28,4 +28,12 @@ public interface ShopService {
      * @return
      */
     PageUtil<ShopCase> getShopCasePage(int currentPage,int pageSize,String industyId);
+
+    /**
+     * 根据行业id和关键字查询店铺
+     * @param industyId
+     * @param keyWords
+     * @return
+     */
+    List<ShopCase> getShopCase(String inid,String keyWords);
 }

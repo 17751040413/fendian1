@@ -49,4 +49,9 @@ public class ShopServiceImpl implements ShopService {
         pageUtil.setLists(shopCases);
         return pageUtil;
     }
+
+    @Override
+    public List<ShopCase> getShopCase(String inid,String keyWords) {
+        return shopCaseMapper.queryCaseByKeyWord(keyWords,inid);
+    }
 }

@@ -1,6 +1,7 @@
 package com.wowoniu.fendian.mapper;
 
 import com.wowoniu.fendian.model.ShopCase;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -31,4 +32,12 @@ public interface ShopCaseMapper {
      * @return
      */
     List<ShopCase> queryCaseByInid(Map map);
+
+    /**
+     * 根据关键字和行业id查询方案
+     * @param inid
+     * @param keyWords
+     * @return
+     */
+    List<ShopCase> queryCaseByKeyWord(@Param("keyWords") String keyWords,@Param("inid") String inid);
 }

@@ -22,9 +22,9 @@
     <select id="queryCaseCountByInid" resultType="java.lang.Integer">
 
       select count(1) from shop_case
-      where
-      <if test="industyId != 0">
-        industyr_id = #{industyId}
+      where 1 = 1
+      <if test="industyId != 0 and industyId != null and industyId != ''">
+      and  industyr_id = #{industyId}
       </if>
 
 
@@ -32,14 +32,26 @@
   <select id="queryCaseByInid" resultType="com.wowoniu.fendian.model.ShopCase">
     select <include refid="Base_Column_List"/> from shop_case
     where
-    <if test="industyId != null and industyId != ''">
-      industyr_id = #{industyId}
+    1 = 1
+    <if test="industyId != 0 and industyId != null and industyId != ''">
+     and industyr_id = #{industyId}
     </if>
     order by create_time desc
     limit #{startRow},#{pageSize}
 
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="queryCaseByKeyWord" resultType="com.wowoniu.fendian.model.ShopCase">
+      select <include refid="Base_Column_List"/> from shop_case
+      where 1=1
+      <if test="keyWords != null and keyWords != ''">
+       and title like CONCAT('%',#{keyWords},'%')
+      </if>
+      <if test="inid != null and inid != ''">
+        and industyr_id = #{inid}
+      </if>
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from shop_case
     where id = #{id,jdbcType=VARCHAR}
   </delete>
