@@ -43,9 +43,16 @@ public class UseUser {
     private String identification;
     @ApiModelProperty("创建时间")
     private java.util.Date createTime;
+    @ApiModelProperty("是否删除")
     private int state;
-
-
+    @ApiModelProperty("店铺logo")
+    private String shopLogo;
+    @ApiModelProperty("店铺名称")
+    private String shopName;
+    @ApiModelProperty("纬度")
+    private Double lat;
+    @ApiModelProperty("经度")
+    private Double lng;
 
     public int getState() {
         return state;
@@ -224,4 +231,35 @@ public class UseUser {
         this.createTime = createTime;
     }
 
+    public String getShopLogo() {
+        return shopLogo;
+    }
+
+    public void setShopLogo(String shopLogo) {
+        this.shopLogo = shopLogo;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
 }
