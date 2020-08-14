@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.wowoniu.fendian.model.ResponseResult;
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -22,7 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @author yuany
  * @date 2020-08-11
  */
-@Controller
+@Api(value = "图片上传工具类", tags = "图片上传工具类")
+@RestController
 @RequestMapping("/image")
 public class UploaderController extends BaseController{
     @ResponseBody
