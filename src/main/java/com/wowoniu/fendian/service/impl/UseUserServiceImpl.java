@@ -1,4 +1,4 @@
-package com.wowoniu.fendian.service.serviceImpl;
+package com.wowoniu.fendian.service.impl;
 
 import com.wowoniu.fendian.config.AuthCodeConfig;
 import com.wowoniu.fendian.mapper.UseUserMapper;
@@ -10,7 +10,6 @@ import com.wowoniu.fendian.model.pack.LoginPack;
 import com.wowoniu.fendian.model.pack.UserInfoPack;
 import com.wowoniu.fendian.service.UseUserService;
 import com.wowoniu.fendian.utils.*;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

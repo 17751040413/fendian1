@@ -53,6 +53,8 @@ public class UseUser {
     private Double lat;
     @ApiModelProperty("经度")
     private Double lng;
+    @ApiModelProperty("店铺类别（0：服饰；1：零食；2：餐饮；3：水果；4：生鲜）")
+    private String type;
 
     public int getState() {
         return state;
@@ -261,5 +263,13 @@ public class UseUser {
 
     public void setLng(Double lng) {
         this.lng = lng;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

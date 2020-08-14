@@ -1,4 +1,4 @@
-package com.wowoniu.fendian.service.serviceImpl;
+package com.wowoniu.fendian.service.impl;
 
 import com.wowoniu.fendian.mapper.ShopCaseMapper;
 import com.wowoniu.fendian.mapper.ShopIndustryMapper;

@@ -1,4 +1,4 @@
-package com.wowoniu.fendian.service.serviceImpl;
+package com.wowoniu.fendian.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -378,7 +378,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             return new Result(200, true, "禁用成功", null);
         }
         //启用-返回商城设置
-        if (shoppingMallSet == null ) {
+        if (shoppingMallSet == null) {
             return new Result(204, false, "获取失败", null);
         }
         return new Result(200, true, "获取成功", shoppingMallSet);
@@ -479,7 +479,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     @Override
     public List<WaresSortDetail> getWaresSortDetailListByUserId(String userId) {
 
-        return activitySetMapper.getWaresSortDetailListByUserId( Constants.YES,"1");
+        return activitySetMapper.getWaresSortDetailListByUserId(Constants.YES, "1");
     }
 
     /**
@@ -623,12 +623,12 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         //规格集合
         List<WaresSpec> waresSpecList = activitySetMapper.getWaresSpecList(waresId);
         JSONArray jsonArray = new JSONArray();
-        for (WaresSpec waresSpec : waresSpecList){
+        for (WaresSpec waresSpec : waresSpecList) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("waresSpec",waresSpec);
+            jsonObject.put("waresSpec", waresSpec);
             //规格详情集合
             List<WaresSpecDetail> waresSpecDetailList = activitySetMapper.getWaresSpecDetailList(waresSpec.getId());
-            jsonObject.put("detail",waresSpecDetailList);
+            jsonObject.put("detail", waresSpecDetailList);
             jsonArray.add(jsonObject);
         }
 
@@ -664,19 +664,19 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             activitySetMapper.updateWaresSpec(waresSpec);
             List<WaresSpecDetail> add = new ArrayList<>();
             List<WaresSpecDetail> update = new ArrayList<>();
-            for (WaresSpecDetail waresSpecDetail : waresSpecDetailList){
-                if (StringUtils.isEmpity(waresSpecDetail.getId())){
+            for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
+                if (StringUtils.isEmpity(waresSpecDetail.getId())) {
                     waresSpecDetail.setId(StringUtils.getUuid());
                     waresSpecDetail.setSpecId(waresSpec.getId());
                     add.add(waresSpecDetail);
-                }else {
+                } else {
                     update.add(waresSpecDetail);
                 }
             }
-            if (!CollectionUtils.isEmpty(add)){
+            if (!CollectionUtils.isEmpty(add)) {
                 activitySetMapper.addWaresSpecDetailBatch(add);
             }
-            if (!CollectionUtils.isEmpty(update)){
+            if (!CollectionUtils.isEmpty(update)) {
                 activitySetMapper.updateWaresSpecDetailBatch(update);
             }
         }
@@ -692,9 +692,9 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     @Override
     public boolean delWaresSpec(String id) {
         int count = activitySetMapper.delWaresSpec(id);
-        if (count > 0 ){
+        if (count > 0) {
             activitySetMapper.delWaresSpecDetailBySpecId(id);
-        }else {
+        } else {
             return false;
         }
         return true;
@@ -1195,11 +1195,12 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      * 图片上传
      */
     public static String generateImage(String imgStr, String pk, HttpServletRequest request) {
-        System.out.print("已经收到了把字节码转化为图片的方法");
         //对字节数组字符串进行Base64解码并生成图片
-        if (imgStr == null) //图像数据为空
+        System.out.print("已经收到了把字节码转化为图片的方法");
+        //图像数据为空
+        if (imgStr == null) {
             return "error";
-
+        }
         //解析base64码，获取图片格式
         String str[] = imgStr.split(",");
         imgStr = str[1];

@@ -1,4 +1,4 @@
-package com.wowoniu.fendian.service.serviceImpl;
+package com.wowoniu.fendian.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.Constants;

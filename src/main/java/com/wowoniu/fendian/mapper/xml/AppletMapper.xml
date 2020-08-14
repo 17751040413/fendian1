@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wowoniu.fendian.mapper.AppletMapper">
+    <!-- 条件搜索店铺 -->
+    <select id="searchUseUser" resultType="com.wowoniu.fendian.model.UseUser">
+        SELECT * FROM use_user WHERE
+        sqrt(
+        (
+        ((113.914619-#{lng})*PI()*12656*cos(((22.50128+#{lat})/2)*PI()/180)/180)
+        *
+        ((113.914619-#{lng})*PI()*12656*cos (((22.50128+#{lat})/2)*PI()/180)/180)
+        )
+        +
+        (
+        ((22.50128-#{lat})*PI()*12656/180)
+        *
+        ((22.50128-#{lat})*PI()*12656/180)
+        )
+        ) lt #{range}
+        <if test="type != null and type != ''">
+            AND 'type' = #{type}
+        </if>
+        ORDER BY lng,lat
+        LIMIT #{startRow},#{pageSize}
+    </select>
+
+    <!-- 条件搜索店铺的条数 -->
+    <select id="searchUseUserCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM use_user WHERE
+        sqrt(
+        (
+        ((113.914619-#{lng})*PI()*12656*cos(((22.50128+#{lat})/2)*PI()/180)/180)
+        *
+        ((113.914619-#{lng})*PI()*12656*cos (((22.50128+#{lat})/2)*PI()/180)/180)
+        )
+        +
+        (
+        ((22.50128-#{lat})*PI()*12656/180)
+        *
+        ((22.50128-#{lat})*PI()*12656/180)
+        )
+        ) lt #{range}
+        <if test="type != null and type != ''">
+            AND 'type' = #{type}
+        </if>
+    </select>
+
+</mapper>
