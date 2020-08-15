@@ -18,7 +18,7 @@ public class Constants {
      * 引流类型【
      * 0：会员裂变；1：会员返利；2：店铺分销；3：在线商城；
      * 4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；
-     * 9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈
+     * 9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈 13:联盟 14:排队
      * 】
      ***************/
     public static final String FISSION = "0";
@@ -34,6 +34,8 @@ public class Constants {
     public static final String BARGAINING = "10";
     public static final String REDENVELOPES = "11";
     public static final String SHAREFRIENDS = "12";
+    public static final String UNION = "13";
+    public static final String lineUp = "14";
 
     /***************
      * 订单状态（0：待付款；1：已付款；2：代发货；3：已发货；4：已完成；5：已关闭）
@@ -47,6 +49,22 @@ public class Constants {
 
     /*********************配置**************/
     public static final int PAGESIZE = 20;
+
+    /**********图片地址******************/
+    /**
+     * 策划师微信二维码
+     */
+    public static final String CEHUAIMG = "img/cehua.jpg";
+
+    /**
+     * 招商经理微信二维码
+     */
+    public static final String ATTACTIMG = "img/attract.jpg";
+
+    /**
+     * 图片服务器地址
+     */
+    public static final String IMGPATH = "http://localhost:8082/";
 
 
 

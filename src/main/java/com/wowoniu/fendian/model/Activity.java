@@ -1,5 +1,8 @@
 package com.wowoniu.fendian.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,29 +11,31 @@ import java.util.Date;
  * activity
  * @author 
  */
-
+@ApiModel("活动详情")
 public class Activity implements Serializable {
-    private Integer id;
-
+    private String id;
+    @ApiModelProperty("活动名")
     private String name;
 
     /**
      * 目的
      */
+    @ApiModelProperty("目的")
     private String objective;
 
     /**
      * 图片地址
      */
+    @ApiModelProperty("图片")
     private String img;
-
+    @ApiModelProperty("创建时间")
     private Date createTime;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -17,7 +17,13 @@
     from activity
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="queryAll" resultType="com.wowoniu.fendian.model.Activity">
+
+      select <include refid="Base_Column_List"/>
+      from activity
+      where is_del = 0
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from activity
     where id = #{id,jdbcType=INTEGER}
   </delete>

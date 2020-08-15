@@ -1,6 +1,7 @@
 package com.wowoniu.fendian.model;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,12 +16,13 @@ public class ShopIndustry implements Serializable {
     /**
      * 行业表
      */
+    @ApiModelProperty("id")
     private String id;
 
     /**
      * 行业名
      */
-
+    @ApiModelProperty("行业名")
     private String name;
 
     /**
