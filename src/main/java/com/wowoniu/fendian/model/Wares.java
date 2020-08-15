@@ -2,7 +2,6 @@ package com.wowoniu.fendian.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -52,6 +51,9 @@ public class Wares implements Serializable {
 
     @ApiModelProperty("上架时间")
     private Timestamp shelfTime;
+
+    @ApiModelProperty("描述")
+    private String describe;
 
     public String getId() {
         return id;
@@ -155,5 +157,13 @@ public class Wares implements Serializable {
 
     public void setShelfTime(Timestamp shelfTime) {
         this.shelfTime = shelfTime;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
     }
 }

@@ -45,4 +45,28 @@
         </if>
     </select>
 
+    <!-- 条件搜索商家的商品 -->
+    <select id="searchGoods" resultType="com.wowoniu.fendian.model.Wares">
+        SELECT * FROM wares WHERE user_id = #{userId} AND hide = "Y"
+        <if test="sortId != null and sortId != ''">
+            AND 'sort_id' = #{sortId}
+        </if>
+
+        <if test="priceSort == -1">
+            ORDER BY price DESC
+        </if>
+        <if test="priceSort == 1">
+            ORDER BY price ASC
+        </if>
+        LIMIT #{startRow},#{pageSize}
+    </select>
+
+    <!-- 条件搜索商家的商品数量 -->
+    <select id="searchGoodsCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) wares WHERE user_id = #{userId} AND hide = "Y"
+        <if test="sortId != null and sortId != ''">
+            AND 'sort_id' = #{sortId}
+        </if>
+    </select>
+
 </mapper>
