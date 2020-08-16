@@ -26,7 +26,7 @@ import java.util.List;
  * @author yuany
  * @date 2020-07-08
  */
-@Service("activitySetService")
+@Service
 public class ActivitySetServiceImpl implements ActivitySetService {
 
     @Autowired

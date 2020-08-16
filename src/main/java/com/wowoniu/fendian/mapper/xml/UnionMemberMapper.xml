@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wowoniu.fendian.mapper.UnionMemberMapper">
+  <resultMap id="BaseResultMap" type="com.wowoniu.fendian.model.UnionMember">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_img" jdbcType="VARCHAR" property="userImg" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId" />
+    <result column="union_name" jdbcType="VARCHAR" property="unionName" />
+    <result column="union_logo" jdbcType="VARCHAR" property="unionLogo" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, user_name, user_img, union_id, union_name, union_logo, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from union_member
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from union_member
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionMember" useGeneratedKeys="true">
+    insert into union_member (user_id, user_name, user_img, 
+      union_id, union_name, union_logo, 
+      create_time)
+    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userImg,jdbcType=VARCHAR}, 
+      #{unionId,jdbcType=VARCHAR}, #{unionName,jdbcType=VARCHAR}, #{unionLogo,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionMember" useGeneratedKeys="true">
+    insert into union_member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userImg != null">
+        user_img,
+      </if>
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="unionName != null">
+        union_name,
+      </if>
+      <if test="unionLogo != null">
+        union_logo,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userImg != null">
+        #{userImg,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionName != null">
+        #{unionName,jdbcType=VARCHAR},
+      </if>
+      <if test="unionLogo != null">
+        #{unionLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wowoniu.fendian.model.UnionMember">
+    update union_member
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userImg != null">
+        user_img = #{userImg,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionName != null">
+        union_name = #{unionName,jdbcType=VARCHAR},
+      </if>
+      <if test="unionLogo != null">
+        union_logo = #{unionLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wowoniu.fendian.model.UnionMember">
+    update union_member
+    set user_id = #{userId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_img = #{userImg,jdbcType=VARCHAR},
+      union_id = #{unionId,jdbcType=VARCHAR},
+      union_name = #{unionName,jdbcType=VARCHAR},
+      union_logo = #{unionLogo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

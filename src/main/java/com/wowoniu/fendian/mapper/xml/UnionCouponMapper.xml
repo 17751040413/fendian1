@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wowoniu.fendian.mapper.UnionCouponMapper">
+  <resultMap id="BaseResultMap" type="com.wowoniu.fendian.model.UnionCoupon">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId" />
+    <result column="union_name" jdbcType="VARCHAR" property="unionName" />
+    <result column="union_logo" jdbcType="VARCHAR" property="unionLogo" />
+    <result column="coupon_type" jdbcType="INTEGER" property="couponType" />
+    <result column="discount" jdbcType="DOUBLE" property="discount" />
+    <result column="dis_price" jdbcType="DOUBLE" property="disPrice" />
+    <result column="dis_man" jdbcType="DOUBLE" property="disMan" />
+    <result column="gift_name" jdbcType="VARCHAR" property="giftName" />
+    <result column="trem_date_type" jdbcType="INTEGER" property="tremDateType" />
+    <result column="term_date" jdbcType="INTEGER" property="termDate" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="limit_count" jdbcType="INTEGER" property="limitCount" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="yong_type" jdbcType="INTEGER" property="yongType" />
+    <result column="yong_pro" jdbcType="DOUBLE" property="yongPro" />
+    <result column="yong_price" jdbcType="DOUBLE" property="yongPrice" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, union_id, union_name, union_logo, coupon_type, discount, dis_price, dis_man, 
+    gift_name, trem_date_type, term_date, start_date, end_date, limit_count, remarks, 
+    yong_type, yong_pro, yong_price, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from union_coupon
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from union_coupon
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionCoupon" useGeneratedKeys="true">
+    insert into union_coupon (union_id, union_name, union_logo, 
+      coupon_type, discount, dis_price, 
+      dis_man, gift_name, trem_date_type, 
+      term_date, start_date, end_date, 
+      limit_count, remarks, yong_type, 
+      yong_pro, yong_price, create_time
+      )
+    values (#{unionId,jdbcType=VARCHAR}, #{unionName,jdbcType=VARCHAR}, #{unionLogo,jdbcType=VARCHAR}, 
+      #{couponType,jdbcType=INTEGER}, #{discount,jdbcType=DOUBLE}, #{disPrice,jdbcType=DOUBLE}, 
+      #{disMan,jdbcType=DOUBLE}, #{giftName,jdbcType=VARCHAR}, #{tremDateType,jdbcType=INTEGER}, 
+      #{termDate,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{limitCount,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, #{yongType,jdbcType=INTEGER}, 
+      #{yongPro,jdbcType=DOUBLE}, #{yongPrice,jdbcType=DOUBLE}, #{createTime,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionCoupon" useGeneratedKeys="true">
+    insert into union_coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="unionName != null">
+        union_name,
+      </if>
+      <if test="unionLogo != null">
+        union_logo,
+      </if>
+      <if test="couponType != null">
+        coupon_type,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="disPrice != null">
+        dis_price,
+      </if>
+      <if test="disMan != null">
+        dis_man,
+      </if>
+      <if test="giftName != null">
+        gift_name,
+      </if>
+      <if test="tremDateType != null">
+        trem_date_type,
+      </if>
+      <if test="termDate != null">
+        term_date,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="limitCount != null">
+        limit_count,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="yongType != null">
+        yong_type,
+      </if>
+      <if test="yongPro != null">
+        yong_pro,
+      </if>
+      <if test="yongPrice != null">
+        yong_price,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionName != null">
+        #{unionName,jdbcType=VARCHAR},
+      </if>
+      <if test="unionLogo != null">
+        #{unionLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="couponType != null">
+        #{couponType,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="disPrice != null">
+        #{disPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="disMan != null">
+        #{disMan,jdbcType=DOUBLE},
+      </if>
+      <if test="giftName != null">
+        #{giftName,jdbcType=VARCHAR},
+      </if>
+      <if test="tremDateType != null">
+        #{tremDateType,jdbcType=INTEGER},
+      </if>
+      <if test="termDate != null">
+        #{termDate,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="limitCount != null">
+        #{limitCount,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="yongType != null">
+        #{yongType,jdbcType=INTEGER},
+      </if>
+      <if test="yongPro != null">
+        #{yongPro,jdbcType=DOUBLE},
+      </if>
+      <if test="yongPrice != null">
+        #{yongPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wowoniu.fendian.model.UnionCoupon">
+    update union_coupon
+    <set>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionName != null">
+        union_name = #{unionName,jdbcType=VARCHAR},
+      </if>
+      <if test="unionLogo != null">
+        union_logo = #{unionLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="couponType != null">
+        coupon_type = #{couponType,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="disPrice != null">
+        dis_price = #{disPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="disMan != null">
+        dis_man = #{disMan,jdbcType=DOUBLE},
+      </if>
+      <if test="giftName != null">
+        gift_name = #{giftName,jdbcType=VARCHAR},
+      </if>
+      <if test="tremDateType != null">
+        trem_date_type = #{tremDateType,jdbcType=INTEGER},
+      </if>
+      <if test="termDate != null">
+        term_date = #{termDate,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="limitCount != null">
+        limit_count = #{limitCount,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="yongType != null">
+        yong_type = #{yongType,jdbcType=INTEGER},
+      </if>
+      <if test="yongPro != null">
+        yong_pro = #{yongPro,jdbcType=DOUBLE},
+      </if>
+      <if test="yongPrice != null">
+        yong_price = #{yongPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wowoniu.fendian.model.UnionCoupon">
+    update union_coupon
+    set union_id = #{unionId,jdbcType=VARCHAR},
+      union_name = #{unionName,jdbcType=VARCHAR},
+      union_logo = #{unionLogo,jdbcType=VARCHAR},
+      coupon_type = #{couponType,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=DOUBLE},
+      dis_price = #{disPrice,jdbcType=DOUBLE},
+      dis_man = #{disMan,jdbcType=DOUBLE},
+      gift_name = #{giftName,jdbcType=VARCHAR},
+      trem_date_type = #{tremDateType,jdbcType=INTEGER},
+      term_date = #{termDate,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      limit_count = #{limitCount,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      yong_type = #{yongType,jdbcType=INTEGER},
+      yong_pro = #{yongPro,jdbcType=DOUBLE},
+      yong_price = #{yongPrice,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=DATE}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

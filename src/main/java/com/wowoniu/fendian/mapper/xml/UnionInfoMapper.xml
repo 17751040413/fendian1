@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wowoniu.fendian.mapper.UnionInfoMapper">
+  <resultMap id="BaseResultMap" type="com.wowoniu.fendian.model.UnionInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="union_name" jdbcType="VARCHAR" property="unionName" />
+    <result column="union_leader_id" jdbcType="VARCHAR" property="unionLeaderId" />
+    <result column="union_leader_name" jdbcType="VARCHAR" property="unionLeaderName" />
+    <result column="union_leader_phone" jdbcType="VARCHAR" property="unionLeaderPhone" />
+    <result column="union_logo" jdbcType="VARCHAR" property="unionLogo" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="rule" jdbcType="VARCHAR" property="rule" />
+    <result column="receive_type" jdbcType="INTEGER" property="receiveType" />
+    <result column="lng" jdbcType="DOUBLE" property="lng" />
+    <result column="lat" jdbcType="DOUBLE" property="lat" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, union_name, union_leader_id, union_leader_name, union_leader_phone, union_logo, 
+    brief, `rule`, receive_type, lng, lat, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from union_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="queryUnionInfoByLeadeid" resultType="com.wowoniu.fendian.model.UnionInfo">
+      select <include refid="Base_Column_List"/> from union_info
+      where union_leader_id = #{leaderId}
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from union_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionInfo" useGeneratedKeys="true">
+    insert into union_info (union_name, union_leader_id, union_leader_name, 
+      union_leader_phone, union_logo, brief, 
+      `rule`, receive_type, lng, 
+      lat, create_time)
+    values (#{unionName,jdbcType=VARCHAR}, #{unionLeaderId,jdbcType=VARCHAR}, #{unionLeaderName,jdbcType=VARCHAR}, 
+      #{unionLeaderPhone,jdbcType=VARCHAR}, #{unionLogo,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, 
+      #{rule,jdbcType=VARCHAR}, #{receiveType,jdbcType=INTEGER}, #{lng,jdbcType=DOUBLE}, 
+      #{lat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionInfo" useGeneratedKeys="true">
+    insert into union_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="unionName != null">
+        union_name,
+      </if>
+      <if test="unionLeaderId != null">
+        union_leader_id,
+      </if>
+      <if test="unionLeaderName != null">
+        union_leader_name,
+      </if>
+      <if test="unionLeaderPhone != null">
+        union_leader_phone,
+      </if>
+      <if test="unionLogo != null">
+        union_logo,
+      </if>
+      <if test="brief != null">
+        brief,
+      </if>
+      <if test="rule != null">
+        `rule`,
+      </if>
+      <if test="receiveType != null">
+        receive_type,
+      </if>
+      <if test="lng != null">
+        lng,
+      </if>
+      <if test="lat != null">
+        lat,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="unionName != null">
+        #{unionName,jdbcType=VARCHAR},
+      </if>
+      <if test="unionLeaderId != null">
+        #{unionLeaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionLeaderName != null">
+        #{unionLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="unionLeaderPhone != null">
+        #{unionLeaderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="unionLogo != null">
+        #{unionLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null">
+        #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="rule != null">
+        #{rule,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveType != null">
+        #{receiveType,jdbcType=INTEGER},
+      </if>
+      <if test="lng != null">
+        #{lng,jdbcType=DOUBLE},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wowoniu.fendian.model.UnionInfo">
+    update union_info
+    <set>
+      <if test="unionName != null">
+        union_name = #{unionName,jdbcType=VARCHAR},
+      </if>
+      <if test="unionLeaderId != null">
+        union_leader_id = #{unionLeaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionLeaderName != null">
+        union_leader_name = #{unionLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="unionLeaderPhone != null">
+        union_leader_phone = #{unionLeaderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="unionLogo != null">
+        union_logo = #{unionLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null">
+        brief = #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="rule != null">
+        `rule` = #{rule,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveType != null">
+        receive_type = #{receiveType,jdbcType=INTEGER},
+      </if>
+      <if test="lng != null">
+        lng = #{lng,jdbcType=DOUBLE},
+      </if>
+      <if test="lat != null">
+        lat = #{lat,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wowoniu.fendian.model.UnionInfo">
+    update union_info
+    set union_name = #{unionName,jdbcType=VARCHAR},
+      union_leader_id = #{unionLeaderId,jdbcType=VARCHAR},
+      union_leader_name = #{unionLeaderName,jdbcType=VARCHAR},
+      union_leader_phone = #{unionLeaderPhone,jdbcType=VARCHAR},
+      union_logo = #{unionLogo,jdbcType=VARCHAR},
+      brief = #{brief,jdbcType=VARCHAR},
+      `rule` = #{rule,jdbcType=VARCHAR},
+      receive_type = #{receiveType,jdbcType=INTEGER},
+      lng = #{lng,jdbcType=DOUBLE},
+      lat = #{lat,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

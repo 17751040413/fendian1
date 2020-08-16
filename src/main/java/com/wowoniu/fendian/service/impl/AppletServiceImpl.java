@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@Service("appletService")
+@Service
 public class AppletServiceImpl implements AppletService {
 
     @Autowired
