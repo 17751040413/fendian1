@@ -23,11 +23,19 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
         <result column="identification" jdbcType="VARCHAR" property="identification"/>
         <result column="state" jdbcType="INTEGER" property="state" />
+        <result column="take_money" jdbcType="DOUBLE" property="takeMoney"/>
+        <result column="shop_logo" jdbcType="VARCHAR" property="shopLogo"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="lat" jdbcType="DOUBLE" property="lat"/>
+        <result column="lng" jdbcType="DOUBLE" property="lng"/>
+        <result column="type" jdbcType="CHAR" property="type"/>
+
     </resultMap>
     <sql id="Base_Column_List">
     id, login_name, wechat_id, nick_name, head_img, parent_id, parent_name, `hierarchy`,
     role_id1, role_id2, team_number, system_number, today_term_number, open_system_flg,
-    promotion_income, balance, promotion_code, create_time, `state`,identification
+    promotion_income, balance, promotion_code, create_time, `state`,identification,take_money,
+    shop_logo,shop_name,lat,lng,type
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select

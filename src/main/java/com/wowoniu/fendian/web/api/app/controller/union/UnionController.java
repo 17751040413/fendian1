@@ -1,12 +1,14 @@
 package com.wowoniu.fendian.web.api.app.controller.union;
 
 
+import com.wowoniu.fendian.service.UnionService;
 import com.wowoniu.fendian.utils.Result;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +20,14 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("app/union")
 public class UnionController {
+    @Autowired
+    UnionService unionService;
 
     @ApiOperation("获取我的商圈联盟信息")
     @PostMapping("getUnionInfo")
     public Result getUnionInfo(@ApiIgnore HttpServletRequest request){
         String id = (String) request.getAttribute("id");
-        return new Result();
+        return unionService.getUnionInfo(id);
     }
 
     @ApiOperation("盟主管理")

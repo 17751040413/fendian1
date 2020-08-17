@@ -14,4 +14,11 @@ public interface UnionCustomerMapper {
     int updateByPrimaryKeySelective(UnionCustomer record);
 
     int updateByPrimaryKey(UnionCustomer record);
+
+    /**
+     * 根据联盟id查询数量
+     * @param unionId
+     * @return
+     */
+    int queryCustomerCountByUnionId(String unionId);
 }

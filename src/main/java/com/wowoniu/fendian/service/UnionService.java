@@ -1,6 +1,7 @@
 package com.wowoniu.fendian.service;
 
 import com.wowoniu.fendian.model.UnionInfo;
+import com.wowoniu.fendian.utils.Result;
 
 import java.util.Map;
 
@@ -10,5 +11,5 @@ public interface UnionService {
      * @param leaderId
      * @return
      */
-    Map getUnionInfo(String leaderId);
+    Result getUnionInfo( String leaderId);
 }

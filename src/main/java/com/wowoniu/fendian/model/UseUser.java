@@ -55,6 +55,16 @@ public class UseUser {
     private Double lng;
     @ApiModelProperty("店铺类别（0：服饰；1：零食；2：餐饮；3：水果；4：生鲜）")
     private String type;
+    @ApiModelProperty("提货金")
+    private Double takeMoney;
+
+    public Double getTakeMoney() {
+        return takeMoney;
+    }
+
+    public void setTakeMoney(Double takeMoney) {
+        this.takeMoney = takeMoney;
+    }
 
     public int getState() {
         return state;

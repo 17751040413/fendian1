@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wowoniu.fendian.mapper.UoionSeparateLogMapper">
+  <resultMap id="BaseResultMap" type="com.wowoniu.fendian.model.UoionSeparateLog">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="sep_price" jdbcType="DOUBLE" property="sepPrice" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="data" jdbcType="VARCHAR" property="data" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, sep_price, user_id, `data`, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from uoion_separate_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="queryUnionSepPriceByUserId" resultType="java.lang.Double">
+      select round(sum(sep_price),2) from uoion_separate_log where user_id = #{userid}
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from uoion_separate_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UoionSeparateLog" useGeneratedKeys="true">
+    insert into uoion_separate_log (order_id, sep_price, user_id, 
+      `data`, create_time)
+    values (#{orderId,jdbcType=VARCHAR}, #{sepPrice,jdbcType=DOUBLE}, #{userId,jdbcType=VARCHAR}, 
+      #{data,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UoionSeparateLog" useGeneratedKeys="true">
+    insert into uoion_separate_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="sepPrice != null">
+        sep_price,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="data != null">
+        `data`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="sepPrice != null">
+        #{sepPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="data != null">
+        #{data,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wowoniu.fendian.model.UoionSeparateLog">
+    update uoion_separate_log
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="sepPrice != null">
+        sep_price = #{sepPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="data != null">
+        `data` = #{data,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wowoniu.fendian.model.UoionSeparateLog">
+    update uoion_separate_log
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      sep_price = #{sepPrice,jdbcType=DOUBLE},
+      user_id = #{userId,jdbcType=VARCHAR},
+      `data` = #{data,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

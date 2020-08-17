@@ -20,7 +20,11 @@
     from union_shop
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="queryShopCountByUnionId" resultType="java.lang.Integer">
+      select count(1) from union_shop where union_id = #{unionId}
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from union_shop
     where id = #{id,jdbcType=VARCHAR}
   </delete>

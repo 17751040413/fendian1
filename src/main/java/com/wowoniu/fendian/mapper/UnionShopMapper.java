@@ -14,4 +14,11 @@ public interface UnionShopMapper {
     int updateByPrimaryKeySelective(UnionShop record);
 
     int updateByPrimaryKey(UnionShop record);
+
+    /**
+     * 根据联盟id查询店铺数
+     * @param unionId
+     * @return
+     */
+    int queryShopCountByUnionId(String unionId);
 }
