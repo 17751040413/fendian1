@@ -70,6 +70,15 @@ public interface AppletService {
      * 购物车添加
      *
      * @param waresCart
+     * @return
      */
     Boolean setGoodsCart(WaresCart waresCart);
+
+    /**
+     * 买家ID获取购物车列表
+     *
+     * @param buyerId
+     * @return
+     */
+    List<WaresCart> getGoodsCartById(String buyerId);
 }

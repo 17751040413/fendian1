@@ -9,12 +9,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -102,4 +104,17 @@ public class AppletController {
         }
         return new Result<>(204, false, "添加失败", null);
     }
+
+    @PostMapping("/getGoodsCartById")
+    @ApiOperation("5-2-5 买家ID获取购物车列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家ID ", dataType = "String", required = true)})
+    public Object getGoodsCartById(String buyerId) {
+
+        List<WaresCart> waresCartList = appletService.getGoodsCartById(buyerId);
+        if (CollectionUtils.isEmpty(waresCartList)) {
+            return new Result<>(204, false, "获取失败", null);
+        }
+        return new Result<>(200, true, "获取成功", waresCartList);
+    }
+
 }

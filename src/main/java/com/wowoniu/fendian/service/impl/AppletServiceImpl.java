@@ -152,4 +152,15 @@ public class AppletServiceImpl implements AppletService {
             return true;
         }
     }
+
+    /**
+     * 买家ID获取购物车列表
+     *
+     * @param buyerId
+     * @return
+     */
+    @Override
+    public List<WaresCart> getGoodsCartById(String buyerId) {
+        return appletMapper.getGoodsCartById(buyerId);
+    }
 }

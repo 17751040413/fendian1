@@ -87,6 +87,7 @@ public interface AppletMapper {
 
     /**
      * 更新购物车的数量
+     *
      * @param number
      * @param id
      * @return
@@ -96,9 +97,21 @@ public interface AppletMapper {
 
     /**
      * 购物车添加
+     *
      * @param waresCart
      * @return
      */
     @Insert("INSERT INTO wares_cart (id,user_id,buyer_id,wares_id,spec_id,spec_detail_id,number) VALUES (id,userId,buyerId,waresId,specId,specDetailId,number)")
     int addWaresCart(WaresCart waresCart);
+
+    /**
+     * 买家ID获取购物车列表
+     *
+     * @param buyerId
+     * @return
+     */
+    @Select("SELECT * FROM wares_cart WHERE buyer_id = #{buyerId} GROUP BY user_id")
+    List<WaresCart> getGoodsCartById(String buyerId);
+
+
 }
