@@ -26,7 +26,7 @@ public class UnionController {
     @ApiOperation("获取我的商圈联盟信息")
     @PostMapping("getUnionInfo")
     public Result getUnionInfo(@ApiIgnore HttpServletRequest request){
-        String id = (String) request.getAttribute("id");
+        String id = (String) request.getAttribute("sysid");
         return unionService.getUnionInfo(id);
     }
 

@@ -37,7 +37,7 @@ public class LoginIntercepter implements HandlerInterceptor {
         if(token != null){
             Claims claims = JwtUtils.checkJWT(token);
             if (claims != null) {
-                String id = (String) claims.get("id");
+                String id = (String) claims.get("sysid");
                 String identification = (String) claims.get("identification");
                 UserLogin userLogin = userLoginService.queryUserLoginById(id);
 

@@ -27,6 +27,9 @@ public class UnionServiceImpl implements UnionService {
     public Result getUnionInfo(String leaderId) {
 
         UnionInfo unionInfo = unionInfoMapper.queryUnionInfoByLeadeid(leaderId);
+        if (null == unionInfo){
+            return new Result(204,true,"您当前没有联盟");
+        }
         UseUser useUser = useUserMapper.selectByPrimaryKey(leaderId);
 
         Map map = new HashMap();
