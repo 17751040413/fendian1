@@ -1,20 +1,25 @@
 package com.wowoniu.fendian.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
 import com.wowoniu.fendian.mapper.AppletMapper;
-import com.wowoniu.fendian.model.UseUser;
-import com.wowoniu.fendian.model.Wares;
-import com.wowoniu.fendian.model.WaresSortSet;
+import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.AppletService;
 import com.wowoniu.fendian.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 小程序Service实现
+ *
+ * @author yuany
+ * @date 2020-08-19
+ */
 @Service
 public class AppletServiceImpl implements AppletService {
 
@@ -103,5 +108,48 @@ public class AppletServiceImpl implements AppletService {
     @Override
     public Wares getWaresById(String waresId) {
         return appletMapper.getWaresById(waresId);
+    }
+
+    /**
+     * 商品ID获取规格
+     *
+     * @param waresId
+     * @return
+     */
+    @Override
+    public JSONObject getWaresSpec(String waresId) {
+
+        List<WaresSpec> waresSpecList = activitySetMapper.getWaresSpecList(waresId);
+        JSONObject jsonObject = new JSONObject();
+        for (WaresSpec waresSpec : waresSpecList) {
+            List<WaresSpecDetail> waresSpecDetailList = activitySetMapper.getWaresSpecDetailList(waresSpec.getId());
+            jsonObject.put(waresSpec.getSpec(), waresSpecDetailList);
+        }
+        return jsonObject;
+    }
+
+    /**
+     * 购物车添加
+     *
+     * @param waresCart
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean setGoodsCart(WaresCart waresCart) {
+
+        if (waresCart == null) {
+            return false;
+        }
+        //获取同买家卖家的同件规格的同种商品
+        WaresCart wc = appletMapper.getWaresCartByWares(waresCart);
+        if (wc != null) {
+            wc.setNumber(wc.getNumber() + waresCart.getNumber());
+            appletMapper.updateWaresCart(wc.getNumber(), wc.getId());
+            return true;
+        } else {
+            appletMapper.addWaresCart(waresCart);
+            return true;
+        }
     }
 }

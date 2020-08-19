@@ -2,9 +2,12 @@ package com.wowoniu.fendian.mapper;
 
 import com.wowoniu.fendian.model.UseUser;
 import com.wowoniu.fendian.model.Wares;
+import com.wowoniu.fendian.model.WaresCart;
 import com.wowoniu.fendian.model.WaresSortSet;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Map;
@@ -72,4 +75,30 @@ public interface AppletMapper {
      */
     @Select("SELECT * FROM wares WHERE id = #{waresId}")
     Wares getWaresById(@Param("waresId") String waresId);
+
+    /**
+     * 获取同买家卖家的同件规格的同种商品
+     *
+     * @param waresCart
+     * @return
+     */
+    @Select("SELECT * FROM waresCart WHERE user_id = #{userId} AND buyer_id = #{buyerId} AND wares_id = #{waresId} AND spec_detail_id = #{specDetailId}")
+    WaresCart getWaresCartByWares(WaresCart waresCart);
+
+    /**
+     * 更新购物车的数量
+     * @param number
+     * @param id
+     * @return
+     */
+    @Update("UPDATE wares_cart SET number = #{number} WHERE id = #{id}")
+    int updateWaresCart(@Param("number") Integer number, @Param("id") String id);
+
+    /**
+     * 购物车添加
+     * @param waresCart
+     * @return
+     */
+    @Insert("INSERT INTO wares_cart (id,user_id,buyer_id,wares_id,spec_id,spec_detail_id,number) VALUES (id,userId,buyerId,waresId,specId,specDetailId,number)")
+    int addWaresCart(WaresCart waresCart);
 }
