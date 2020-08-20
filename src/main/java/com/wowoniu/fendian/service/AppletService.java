@@ -1,10 +1,7 @@
 package com.wowoniu.fendian.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wowoniu.fendian.model.UseUser;
-import com.wowoniu.fendian.model.Wares;
-import com.wowoniu.fendian.model.WaresCart;
-import com.wowoniu.fendian.model.WaresSortSet;
+import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.utils.PageUtil;
 
 import java.util.List;
@@ -80,5 +77,13 @@ public interface AppletService {
      * @param buyerId
      * @return
      */
-    List<WaresCart> getGoodsCartById(String buyerId);
+    List<WaresCart> getGoodsCartById(String buyerId,String userId);
+
+    /**
+     * 订单结算
+     *
+     * @param waresOrder
+     * @return
+     */
+    boolean settlementOrder(WaresOrder waresOrder);
 }

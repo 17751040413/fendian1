@@ -14,16 +14,24 @@ public class WaresCart implements Serializable {
 
     @ApiModelProperty("主键ID")
     private String id;
+
     @ApiModelProperty("商家ID")
     private String userId;
+
     @ApiModelProperty("买家ID")
     private String buyerId;
+
     @ApiModelProperty("商品ID")
     private String waresId;
+
     @ApiModelProperty("规格详情ID")
     private String specDetailId;
+
     @ApiModelProperty("数量ID")
     private Integer number;
+
+    @ApiModelProperty("订单ID")
+    private String orderId;
 
     public String getId() {
         return id;
@@ -71,5 +79,13 @@ public class WaresCart implements Serializable {
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }

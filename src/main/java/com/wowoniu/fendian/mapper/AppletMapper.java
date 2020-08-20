@@ -1,9 +1,6 @@
 package com.wowoniu.fendian.mapper;
 
-import com.wowoniu.fendian.model.UseUser;
-import com.wowoniu.fendian.model.Wares;
-import com.wowoniu.fendian.model.WaresCart;
-import com.wowoniu.fendian.model.WaresSortSet;
+import com.wowoniu.fendian.model.*;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -108,10 +105,28 @@ public interface AppletMapper {
      * 买家ID获取购物车列表
      *
      * @param buyerId
+     * @param userId
      * @return
      */
-    @Select("SELECT * FROM wares_cart WHERE buyer_id = #{buyerId} GROUP BY user_id")
-    List<WaresCart> getGoodsCartById(String buyerId);
+    @Select("SELECT * FROM wares_cart WHERE buyer_id = #{buyerId} AND user_id = #{userId} AND order_id IS NULL")
+    List<WaresCart> getGoodsCartById(@Param("buyerId") String buyerId, @Param("userId") String userId);
 
+    /**
+     * 订单新增
+     *
+     * @param waresOrder
+     * @return
+     */
+    @Insert("INSERT INTO wares_order (id,user_id,buyer_id,state,create_time,address_id,delivery_method,coupon_id,freight,price,self_name,self_phone) " +
+            "VALUES (id,userId,buyerId,state,NOW(),addressId,deliveryMethod,couponId,freight,price,selfName,selfPhone)")
+    int addWaresOrder(WaresOrder waresOrder);
 
+    /**
+     * 购物车货物添加订单ID
+     *
+     * @param ids
+     * @param orderId
+     * @return
+     */
+    int updateWaresCarByOrder(@Param("ids") List<String> ids, @Param("orderId") String orderId);
 }

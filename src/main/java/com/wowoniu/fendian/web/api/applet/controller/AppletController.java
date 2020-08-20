@@ -2,6 +2,7 @@ package com.wowoniu.fendian.web.api.applet.controller;
 
 import com.wowoniu.fendian.config.StaticConfig;
 import com.wowoniu.fendian.model.WaresCart;
+import com.wowoniu.fendian.model.WaresOrder;
 import com.wowoniu.fendian.service.AppletService;
 import com.wowoniu.fendian.utils.Result;
 import io.swagger.annotations.Api;
@@ -107,14 +108,26 @@ public class AppletController {
 
     @PostMapping("/getGoodsCartById")
     @ApiOperation("5-2-5 买家ID获取购物车列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家ID ", dataType = "String", required = true)})
-    public Object getGoodsCartById(String buyerId) {
+    @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家ID ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true)})
+    public Object getGoodsCartById(String buyerId,String userId) {
 
-        List<WaresCart> waresCartList = appletService.getGoodsCartById(buyerId);
+        List<WaresCart> waresCartList = appletService.getGoodsCartById(buyerId,userId);
         if (CollectionUtils.isEmpty(waresCartList)) {
             return new Result<>(204, false, "获取失败", null);
         }
         return new Result<>(200, true, "获取成功", waresCartList);
+    }
+
+    @PostMapping("/settlementOrder")
+    @ApiOperation("5-2-6 订单结算")
+    public Object settlementOrder(@RequestBody WaresOrder waresOrder) {
+
+        Boolean result = appletService.settlementOrder(waresOrder);
+        if (result) {
+            return new Result<>(200, true, "结算成功", null);
+        }
+        return new Result<>(204, false, "结算失败", null);
     }
 
 }

@@ -34,6 +34,15 @@ public class WaresOrder implements Serializable {
     @ApiModelProperty("创建时间")
     private DateTime createTime;
 
+    @ApiModelProperty("自提人名称")
+    private String selfName;
+
+    @ApiModelProperty("自提人手机号")
+    private String selfPhone;
+
+    @ApiModelProperty("购物车ID 多个，隔开")
+    private String cartId;
+
     public String getId() {
         return id;
     }
@@ -88,5 +97,37 @@ public class WaresOrder implements Serializable {
 
     public void setCreateTime(DateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public String getSpecDetailId() {
+        return specDetailId;
+    }
+
+    public void setSpecDetailId(String specDetailId) {
+        this.specDetailId = specDetailId;
+    }
+
+    public String getSelfName() {
+        return selfName;
+    }
+
+    public void setSelfName(String selfName) {
+        this.selfName = selfName;
+    }
+
+    public String getSelfPhone() {
+        return selfPhone;
+    }
+
+    public void setSelfPhone(String selfPhone) {
+        this.selfPhone = selfPhone;
+    }
+
+    public String getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
     }
 }

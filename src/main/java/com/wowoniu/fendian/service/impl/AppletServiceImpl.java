@@ -7,12 +7,15 @@ import com.wowoniu.fendian.mapper.AppletMapper;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.AppletService;
 import com.wowoniu.fendian.utils.PageUtil;
+import com.wowoniu.fendian.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 小程序Service实现
@@ -160,7 +163,33 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
-    public List<WaresCart> getGoodsCartById(String buyerId) {
-        return appletMapper.getGoodsCartById(buyerId);
+    public List<WaresCart> getGoodsCartById(String buyerId, String userId) {
+        return appletMapper.getGoodsCartById(buyerId, userId);
+    }
+
+    /**
+     * 订单结算
+     *
+     * @param waresOrder
+     * @return
+     */
+    @Override
+    public boolean settlementOrder(WaresOrder waresOrder) {
+        if (waresOrder == null) {
+            return false;
+        }
+        //调用付款接口
+        boolean result = true;
+        if (result) {
+            //保存订单
+            waresOrder.setId(StringUtils.getUuid());
+            appletMapper.addWaresOrder(waresOrder);
+            List<String> cartIds = Arrays.asList(waresOrder.getCartId().split(","));
+            //购物车数据添加订单ID
+            appletMapper.updateWaresCarByOrder(cartIds, waresOrder.getId());
+
+        }
+
+        return false;
     }
 }
