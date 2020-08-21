@@ -5,7 +5,7 @@ import com.wowoniu.fendian.model.UnionInfo;
 public interface UnionInfoMapper {
     int deleteByPrimaryKey(String id);
 
-    int insert(UnionInfo record);
+    int insertAdd(UnionInfo record);
 
     int insertSelective(UnionInfo record);
 
@@ -21,4 +21,5 @@ public interface UnionInfoMapper {
      * @return
      */
     UnionInfo queryUnionInfoByLeadeid(String leaderId);
+
 }

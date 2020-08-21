@@ -7,10 +7,12 @@
     <result column="sep_price" jdbcType="DOUBLE" property="sepPrice" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="data" jdbcType="VARCHAR" property="data" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId"/>
+    <result column="is_entry" jdbcType="INTEGER" property="isEntry"/>
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_id, sep_price, user_id, `data`, create_time
+    id, order_id, sep_price, user_id, `data`, create_time,union_id,is_entry
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -19,18 +21,24 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
     <select id="queryUnionSepPriceByUserId" resultType="java.lang.Double">
-      select round(sum(sep_price),2) from uoion_separate_log where user_id = #{userid}
+      select round(sum(sep_price),2) from uoion_separate_log
+      where user_id = #{userid} and union_id = #{unionId}
 
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <select id="queryUnionPriceByUnionAndIsEntry" resultType="java.lang.Double">
+    select round(sum (sep_price),2) from uoion_separate_log
+    where union_id = #{unionId} and is_entry = #{isEntry}
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from uoion_separate_log
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UoionSeparateLog" useGeneratedKeys="true">
     insert into uoion_separate_log (order_id, sep_price, user_id, 
-      `data`, create_time)
+      `data`, create_time,union_id,is_entry)
     values (#{orderId,jdbcType=VARCHAR}, #{sepPrice,jdbcType=DOUBLE}, #{userId,jdbcType=VARCHAR}, 
-      #{data,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+      #{data,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{unionId},#{isEntry})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UoionSeparateLog" useGeneratedKeys="true">
     insert into uoion_separate_log
@@ -50,6 +58,12 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="isEntry != null">
+        is_entry,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orderId != null">
@@ -66,6 +80,12 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unionId != null">
+        #{unionId},
+      </if>
+      <if test="isEntry != null">
+        #{isEntry},
       </if>
     </trim>
   </insert>
@@ -87,6 +107,12 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="unionId != null">
+        union_id = #{unionId},
+      </if>
+      <if test="isEntry != null">
+        is_entry = #{isEntry},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -96,7 +122,9 @@
       sep_price = #{sepPrice,jdbcType=DOUBLE},
       user_id = #{userId,jdbcType=VARCHAR},
       `data` = #{data,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      union_id = #{unionId},
+      is_entry = #{isEntry},
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

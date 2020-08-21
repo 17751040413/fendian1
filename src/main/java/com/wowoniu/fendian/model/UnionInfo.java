@@ -65,10 +65,31 @@ public class UnionInfo implements Serializable {
      */
     private Double lat;
 
+    private String unionLeaderWechatImg;
+
+    private int isOpen;
+
     /**
      * 创建时间
      */
     private Date createTime;
+
+
+    public int getIsOpen() {
+        return isOpen;
+    }
+
+    public void setIsOpen(int isOpen) {
+        this.isOpen = isOpen;
+    }
+
+    public String getUnionLeaderWechatImg() {
+        return unionLeaderWechatImg;
+    }
+
+    public void setUnionLeaderWechatImg(String unionLeaderWechatImg) {
+        this.unionLeaderWechatImg = unionLeaderWechatImg;
+    }
 
     public String getId() {
         return id;

@@ -30,18 +30,21 @@ public class UnionController {
         return unionService.getUnionInfo(id);
     }
 
-    @ApiOperation("盟主管理")
+    @ApiOperation("商圈3-1")
     @PostMapping("getUnionLeaderMan")
     public Result getUnionLeaderMan(@ApiIgnore HttpServletRequest request){
+        //获取我的商圈联盟
+        String id = (String) request.getAttribute("sysid");
 
-        return new Result();
+        //获取我加入的联盟信息
+        return unionService.getUnionLeaderMan(id);
     }
 
-    @ApiOperation("联盟订单--盟主")
+    @ApiOperation("商圈订单--盟主 3-2-1")
     @PostMapping("unionOrder")
-    public Result unionOrder(@ApiIgnore HttpServletRequest request){
-
-        return new Result();
+    public Result unionOrder(@ApiIgnore HttpServletRequest request,String unionId){
+        String id = (String) request.getAttribute("sysid");
+        return unionService.unionOrder(id,unionId);
     }
 
     @ApiOperation("所有联盟券 -- 盟主")
@@ -50,7 +53,7 @@ public class UnionController {
             @ApiImplicitParam(name = "couponType",value = "优惠券类型 0--待审核 1--派发中 2--已下架",dataType = "int",required = true),
             @ApiImplicitParam(name = "shopName",value = "店铺名",dataType = "String",required = true)
     })
-    public Result unionCoupon(@ApiIgnore HttpServletRequest request,int couponType,String shopName){
+    public Result unionCoupon(@ApiIgnore HttpServletRequest request,int couponType,String shopName,String unionId){
 
         return new Result();
     }

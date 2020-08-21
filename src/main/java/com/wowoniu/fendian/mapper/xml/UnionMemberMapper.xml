@@ -20,7 +20,12 @@
     from union_member
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="queryMemberByUserId" resultType="com.wowoniu.fendian.model.UnionMember">
+      select <include refid="Base_Column_List"/> from union_member
+      where user_id = #{userid}
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from union_member
     where id = #{id,jdbcType=VARCHAR}
   </delete>

@@ -1,6 +1,7 @@
 package com.wowoniu.fendian.mapper;
 
 import com.wowoniu.fendian.model.UoionSeparateLog;
+import org.apache.ibatis.annotations.Param;
 
 public interface UoionSeparateLogMapper {
     int deleteByPrimaryKey(String id);
@@ -20,5 +21,13 @@ public interface UoionSeparateLogMapper {
      * @param userid
      * @return
      */
-    double queryUnionSepPriceByUserId(String userid);
+    double queryUnionSepPriceByUserId(@Param("userid") String userid, @Param("unionId") String unionId);
+
+    /**
+     * 根据联盟id和入账状态查询分账金额
+     * @param unionId
+     * @param isEntry
+     * @return
+     */
+    double queryUnionPriceByUnionAndIsEntry(@Param("unionId") String unionId,@Param("isEntry") int isEntry);
 }

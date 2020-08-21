@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wowoniu.fendian.mapper.UserPaySystemMapper">
+  <resultMap id="BaseResultMap" type="com.wowoniu.fendian.model.UserPaySystem">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="system_id" jdbcType="VARCHAR" property="systemId" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="total_money" jdbcType="INTEGER" property="totalMoney" />
+    <result column="pay_id" jdbcType="VARCHAR" property="payId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, system_id, `count`, total_money, pay_id, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_pay_system
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="queryMoneyByPaid" resultType="java.lang.Double">
+      select sum(total_money) from user_pay_system
+      where pay_id = #{payId}
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user_pay_system
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UserPaySystem" useGeneratedKeys="true">
+    insert into user_pay_system (user_id, system_id, `count`, 
+      total_money, pay_id, create_time
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{systemId,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
+      #{totalMoney,jdbcType=INTEGER}, #{payId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UserPaySystem" useGeneratedKeys="true">
+    insert into user_pay_system
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="systemId != null">
+        system_id,
+      </if>
+      <if test="count != null">
+        `count`,
+      </if>
+      <if test="totalMoney != null">
+        total_money,
+      </if>
+      <if test="payId != null">
+        pay_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null">
+        #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="totalMoney != null">
+        #{totalMoney,jdbcType=INTEGER},
+      </if>
+      <if test="payId != null">
+        #{payId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wowoniu.fendian.model.UserPaySystem">
+    update user_pay_system
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null">
+        system_id = #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        `count` = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="totalMoney != null">
+        total_money = #{totalMoney,jdbcType=INTEGER},
+      </if>
+      <if test="payId != null">
+        pay_id = #{payId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wowoniu.fendian.model.UserPaySystem">
+    update user_pay_system
+    set user_id = #{userId,jdbcType=VARCHAR},
+      system_id = #{systemId,jdbcType=VARCHAR},
+      `count` = #{count,jdbcType=INTEGER},
+      total_money = #{totalMoney,jdbcType=INTEGER},
+      pay_id = #{payId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

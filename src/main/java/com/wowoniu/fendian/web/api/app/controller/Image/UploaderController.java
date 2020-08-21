@@ -71,6 +71,8 @@ public class UploaderController extends BaseController{
                 }
             }
         }
+
+        url = url.substring(0,url.length()-1);
         map.put("url",url);
         return new Result(200,true,"上传成功",map);
     }

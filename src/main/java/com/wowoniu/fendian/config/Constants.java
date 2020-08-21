@@ -54,12 +54,12 @@ public class Constants {
     /**
      * 策划师微信二维码
      */
-    public static final String CEHUAIMG = "img/cehua.jpg";
+    public static final String CEHUAIMG = "http://39.105.40.234:8082/img/cehua.jpg";
 
     /**
      * 招商经理微信二维码
      */
-    public static final String ATTACTIMG = "img/attract.jpg";
+    public static final String ATTACTIMG = "http://39.105.40.234:8082/img/attract.jpg";
 
     /**
      * 图片服务器地址

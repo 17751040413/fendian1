@@ -85,16 +85,18 @@ public class ShopController {
     @ApiOperation("获取策划师二维码")
     @PostMapping("getCeHuaImg")
     public Result getCeHuaImg(){
+        Map map = new HashMap();
+        map.put("url",Constants.CEHUAIMG);
 
-
-        return new Result(200,true,"获取成功",Constants.CEHUAIMG);
+        return new Result(200,true,"获取成功",map);
     }
 
     @ApiOperation("获取招商经理二维码")
     @PostMapping("getAttract")
     public Result getAttract(){
-
-        return new Result(200,true,"获取成功",Constants.ATTACTIMG);
+        Map map = new HashMap();
+        map.put("url",Constants.ATTACTIMG);
+        return new Result(200,true,"获取成功",map);
     }
 
     @ApiOperation("获取所有活动")

@@ -12,4 +12,24 @@ public interface UnionService {
      * @return
      */
     Result getUnionInfo( String leaderId);
+
+    /**
+     * 商圈3-1
+     * @param id
+     * @return
+     */
+    Result getUnionLeaderMan(String id);
+
+    /**
+     * 商圈订单 3-2-1
+     * @return
+     */
+    Result unionOrder(String userid,String unionId);
+
+    /**
+     * 所有联盟券 3-3-1
+     * @param couponType
+     * @return
+     */
+    Result unionCoupon(int couponType,String shopName,String unionId);
 }

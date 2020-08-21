@@ -35,12 +35,35 @@ public class UoionSeparateLog implements Serializable {
      */
     private String data;
 
+    private String unionId;
+
+    /**
+     * 是否入账
+     */
+    private int isEntry;
+
     /**
      * 分账日期
      */
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
+
+    public int getIsEntry() {
+        return isEntry;
+    }
+
+    public void setIsEntry(int isEntry) {
+        this.isEntry = isEntry;
+    }
+
+    public String getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
+    }
 
     public String getId() {
         return id;

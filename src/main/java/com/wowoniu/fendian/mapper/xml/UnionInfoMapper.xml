@@ -13,11 +13,13 @@
     <result column="receive_type" jdbcType="INTEGER" property="receiveType" />
     <result column="lng" jdbcType="DOUBLE" property="lng" />
     <result column="lat" jdbcType="DOUBLE" property="lat" />
+    <result column="is_open" jdbcType="INTEGER" property="isOpen"/>
+    <result column="union_leader_wechat_img" jdbcType="VARCHAR" property="unionLeaderWechatImg"/>
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
     id, union_name, union_leader_id, union_leader_name, union_leader_phone, union_logo, 
-    brief, `rule`, receive_type, lng, lat, create_time
+    brief, `rule`, receive_type, lng, lat, create_time,union_leader_wechat_img,is_open
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -34,15 +36,15 @@
     delete from union_info
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionInfo" useGeneratedKeys="true">
+  <insert id="insertAdd" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionInfo" useGeneratedKeys="true">
     insert into union_info (union_name, union_leader_id, union_leader_name, 
       union_leader_phone, union_logo, brief, 
       `rule`, receive_type, lng, 
-      lat, create_time)
+      lat, create_time,union_leader_wechat_img,is_open)
     values (#{unionName,jdbcType=VARCHAR}, #{unionLeaderId,jdbcType=VARCHAR}, #{unionLeaderName,jdbcType=VARCHAR}, 
       #{unionLeaderPhone,jdbcType=VARCHAR}, #{unionLogo,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, 
       #{rule,jdbcType=VARCHAR}, #{receiveType,jdbcType=INTEGER}, #{lng,jdbcType=DOUBLE}, 
-      #{lat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP})
+      #{lat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP},#{unionLeaderWechatImg},#{isOpen})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionInfo" useGeneratedKeys="true">
     insert into union_info
@@ -80,6 +82,12 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="isOpen != null">
+        is_open,
+      </if>
+      <if test="unionLeaderWechatImg != null">
+        union_leader_wechat_img,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="unionName != null">
@@ -114,6 +122,12 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isOpen != null">
+        #{isOpen},
+      </if>
+      <if test="unionLeaderWechatImg != null">
+        #{unionLeaderWechatImg},
       </if>
     </trim>
   </insert>
@@ -153,6 +167,12 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isOpen != null">
+        is_open = #{isOpen},
+      </if>
+      <if test="unionLeaderWechatImg != null">
+        union_leader_wechat_img = #{unionLeaderWechatImg},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -168,7 +188,9 @@
       receive_type = #{receiveType,jdbcType=INTEGER},
       lng = #{lng,jdbcType=DOUBLE},
       lat = #{lat,jdbcType=DOUBLE},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_open = #{isOpen},
+      union_leader_wechat_img = #{unionLeaderWechatImg}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

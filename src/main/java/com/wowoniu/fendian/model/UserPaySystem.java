@@ -1,74 +1,109 @@
 package com.wowoniu.fendian.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
-@ApiModel("系统购买表")
-public class UserPaySystem {
-
-  private String id;
-  @ApiModelProperty("用户id")
-  private String userId;
-  @ApiModelProperty("系统id")
-  private String systemId;
-  @ApiModelProperty("购买数量")
-  private Integer count;
-  @ApiModelProperty("总金额")
-  private Integer totalMoney;
-  @ApiModelProperty("创建时间")
-  private java.util.Date createTime;
+import java.io.Serializable;
+import java.util.Date;
 
 
-  public String getId() {
-    return id;
-  }
+/**
+ * user_pay_system
+ * @author 
+ */
 
-  public void setId(String id) {
-    this.id = id;
-  }
+public class UserPaySystem implements Serializable {
+    /**
+     * id
+     */
+    private String id;
 
+    /**
+     * 用户id
+     */
+    private String userId;
 
-  public String getUserId() {
-    return userId;
-  }
+    /**
+     * 系统ud
+     */
+    private String systemId;
 
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
+    /**
+     * 购买数量
+     */
+    private Integer count;
 
+    /**
+     * 金额
+     */
+    private Integer totalMoney;
 
-  public String getSystemId() {
-    return systemId;
-  }
+    /**
+     * 购买人
+     */
+    private String payId;
 
-  public void setSystemId(String systemId) {
-    this.systemId = systemId;
-  }
+    /**
+     * 购买时间
+     */
+    private Date createTime;
 
+    private static final long serialVersionUID = 1L;
 
-  public Integer getCount() {
-    return count;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public void setCount(Integer count) {
-    this.count = count;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
+    public String getUserId() {
+        return userId;
+    }
 
-  public Integer getTotalMoney() {
-    return totalMoney;
-  }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-  public void setTotalMoney(Integer totalMoney) {
-    this.totalMoney = totalMoney;
-  }
+    public String getSystemId() {
+        return systemId;
+    }
 
-  public java.util.Date getCreateTime() {
-    return createTime;
-  }
+    public void setSystemId(String systemId) {
+        this.systemId = systemId;
+    }
 
-  public void setCreateTime(java.util.Date createTime) {
-    this.createTime = createTime;
-  }
+    public Integer getCount() {
+        return count;
+    }
 
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public Integer getTotalMoney() {
+        return totalMoney;
+    }
+
+    public void setTotalMoney(Integer totalMoney) {
+        this.totalMoney = totalMoney;
+    }
+
+    public String getPayId() {
+        return payId;
+    }
+
+    public void setPayId(String payId) {
+        this.payId = payId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 }
