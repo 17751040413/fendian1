@@ -1,6 +1,8 @@
 package com.wowoniu.fendian.web.api.applet.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.StaticConfig;
+import com.wowoniu.fendian.model.ShippingAddress;
 import com.wowoniu.fendian.model.WaresCart;
 import com.wowoniu.fendian.model.WaresOrder;
 import com.wowoniu.fendian.service.AppletService;
@@ -110,9 +112,9 @@ public class AppletController {
     @ApiOperation("5-2-5 买家ID获取购物车列表")
     @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家ID ", dataType = "String", required = true),
             @ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true)})
-    public Object getGoodsCartById(String buyerId,String userId) {
+    public Object getGoodsCartById(String buyerId, String userId) {
 
-        List<WaresCart> waresCartList = appletService.getGoodsCartById(buyerId,userId);
+        List<WaresCart> waresCartList = appletService.getGoodsCartById(buyerId, userId);
         if (CollectionUtils.isEmpty(waresCartList)) {
             return new Result<>(204, false, "获取失败", null);
         }
@@ -120,14 +122,62 @@ public class AppletController {
     }
 
     @PostMapping("/settlementOrder")
-    @ApiOperation("5-2-6 订单结算")
+    @ApiOperation("5-2-6 订单结算-结算之前调用支付接口，支付成功后订单结算")
     public Object settlementOrder(@RequestBody WaresOrder waresOrder) {
 
-        Boolean result = appletService.settlementOrder(waresOrder);
+        boolean result = appletService.settlementOrder(waresOrder);
         if (result) {
             return new Result<>(200, true, "结算成功", null);
         }
         return new Result<>(204, false, "结算失败", null);
+    }
+
+    @PostMapping("/getShippingAddressList")
+    @ApiOperation("5-2-8 收货地址列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家ID ", dataType = "String", required = true)})
+    public Object getShippingAddressList(String buyerId) {
+
+        List<ShippingAddress> shippingAddressList = appletService.getShippingAddressList(buyerId);
+        if (CollectionUtils.isEmpty(shippingAddressList)) {
+            return new Result<>(204, false, "获取失败", null);
+        }
+        return new Result<>(200, true, "获取成功", shippingAddressList);
+    }
+
+    @PostMapping("/setShippingAddress")
+    @ApiOperation("5-2-8 收货地址新增/修改（无ID为新增，有ID为修改）")
+    public Object setShippingAddress(@RequestBody ShippingAddress shippingAddress) {
+
+        boolean result = appletService.setShippingAddress(shippingAddress);
+        if (result) {
+            return new Result<>(200, true, "添加成功", null);
+        }
+        return new Result<>(204, false, "添加失败", null);
+    }
+
+    @PostMapping("/getWaresOrderList")
+    @ApiOperation("5-2-9 当前店铺订单列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家ID ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true)})
+    public Object getWaresOrderList(String buyerId, String userId) {
+
+        JSONObject jsonObject = appletService.getWaresOrderList(buyerId, userId);
+        if (jsonObject == null || jsonObject.size() <= 0) {
+            return new Result<>(204, false, "获取失败", null);
+        }
+        return new Result<>(200, true, "获取成功", jsonObject);
+    }
+
+    @PostMapping("/getWaresOrderById")
+    @ApiOperation("5-2-9 订单ID获取订单明细")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID ", dataType = "String", required = true)})
+    public Object getWaresOrderById(String id) {
+
+        JSONObject jsonObject = appletService.getWaresOrderById(id);
+        if (jsonObject == null || jsonObject.size() <= 0) {
+            return new Result<>(204, false, "获取失败", null);
+        }
+        return new Result<>(200, true, "获取成功", jsonObject);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.mapper;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.model.*;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -112,6 +113,14 @@ public interface AppletMapper {
     List<WaresCart> getGoodsCartById(@Param("buyerId") String buyerId, @Param("userId") String userId);
 
     /**
+     * 获取最大订单编码
+     *
+     * @return
+     */
+    @Select("SELECT MAX(order_code) FROM wares_order")
+    String getMaxOrderCode();
+
+    /**
      * 订单新增
      *
      * @param waresOrder
@@ -129,4 +138,71 @@ public interface AppletMapper {
      * @return
      */
     int updateWaresCarByOrder(@Param("ids") List<String> ids, @Param("orderId") String orderId);
+
+    /**
+     * 收货地址列表
+     *
+     * @param buyerId
+     * @return
+     */
+    @Select("SELECT * FROM shipping_address WHERE buyer_id = #{buyerId}")
+    List<ShippingAddress> getShippingAddressList(String buyerId);
+
+    /**
+     * 收货地址新增
+     *
+     * @param shippingAddress
+     * @return
+     */
+    @Insert("INSERT INTO shipping_address (id,buyer_id,name,phone,address,tab) VALUES (#{id},#{buyerId},#{name},#{phone},#{address},#{tab})")
+    int addShippingAddress(ShippingAddress shippingAddress);
+
+    /**
+     * 收货地址更新
+     *
+     * @param shippingAddress
+     * @return
+     */
+    @Update("UPDATE shipping_address SET name = #{name},phone = #{phone},address = #{address} WHERE id = #{id}")
+    int updateShippingAddress(ShippingAddress shippingAddress);
+
+    /**
+     * 更改去除默认地址
+     *
+     * @return
+     */
+    @Update("UPDATE shipping_address SET tab = 'N' WHERE tab = 'Y'")
+    int updateAddressDefaultN();
+
+    /**
+     * 当前店铺的订单列表
+     *
+     * @param buyerId
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM wares_order w LEFT JOIN use_user uu ON w.user_id = uu.id  LEFT JOIN use_buyer ub ON w.buyer_id = ub.id  WHERE buyer_id = #{buyerId} AND user_id = #{userId}")
+    JSONObject getWaresOrderList(@Param("buyerId") String buyerId, @Param("userId") String userId);
+
+    /**
+     * 订单ID获取购物车数据
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM wares_cart c LEFT JOIN use_user uu ON c.user_id = uu.id  " +
+            "LEFT JOIN use_buyer ub ON c.buyer_id = ub.id LEFT JOIN wares w ON c.wares_id = w.id " +
+            "LEFT JOIN wares_spec ws ON ws.id = c.wares_id LEFT JOIN wares_spec_detail wsd ON wsd.id = c.spec_detail_id LEFT JOIN wares_order wo ON wo.id = c.order_id  WHERE order_id = #{id}")
+    List<WaresCart> getWaresCartByOrderId(@Param("id") String id);
+
+    /**
+     * 订单ID获取订单信息
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM wares_order wo LEFT JOIN use_user uu ON c.user_id = uu.id LEFT JOIN use_buyer ub ON c.buyer_id = ub.id " +
+            "LEFT JOIN shipping_address sa ON sa.address_id = wo.address_id LEFT JOIN coupon_set cs ON wo.coupon_id = cs.id  WHERE id = #{id} ")
+    WaresOrder getWaresOrderById(@Param("id") String id);
+
 }

@@ -12,10 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * 小程序Service实现
@@ -178,18 +179,96 @@ public class AppletServiceImpl implements AppletService {
         if (waresOrder == null) {
             return false;
         }
-        //调用付款接口
-        boolean result = true;
-        if (result) {
-            //保存订单
-            waresOrder.setId(StringUtils.getUuid());
-            appletMapper.addWaresOrder(waresOrder);
-            List<String> cartIds = Arrays.asList(waresOrder.getCartId().split(","));
-            //购物车数据添加订单ID
-            appletMapper.updateWaresCarByOrder(cartIds, waresOrder.getId());
+        //保存订单
+        waresOrder.setId(StringUtils.getUuid());
+        waresOrder.setOrderCode(getOrderMaxCode());
+        appletMapper.addWaresOrder(waresOrder);
+        List<String> cartIds = Arrays.asList(waresOrder.getCartId().split(","));
+        //购物车数据添加订单ID
+        appletMapper.updateWaresCarByOrder(cartIds, waresOrder.getId());
 
+        return true;
+    }
+
+    /**
+     * 获取最大订单编码
+     *
+     * @return
+     */
+    private String getOrderMaxCode() {
+        //格式化日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String today = sdf.format(new Date());
+        //获取当前最大收货单编码
+        String maxCode = appletMapper.getMaxOrderCode();
+        //当前最大收获编码若为空 则返回DT-日期-00000001,否则递增
+        if (StringUtils.isEmpty(maxCode)) {
+            return "DT-" + today + "-00000001";
+        } else {
+            //序列递增，8位，例：00000001
+            String format = String.format("%08d", Integer.valueOf(maxCode.split("-")[2]) + 1);
+            return String.format("DT-" + today + "-" + format);
         }
+    }
 
-        return false;
+    /**
+     * 收货地址列表
+     *
+     * @param buyerId
+     * @return
+     */
+    @Override
+    public List<ShippingAddress> getShippingAddressList(String buyerId) {
+        return appletMapper.getShippingAddressList(buyerId);
+    }
+
+    /**
+     * 收货地址新增/修改
+     *
+     * @param shippingAddress
+     * @return
+     */
+    @Override
+    public boolean setShippingAddress(ShippingAddress shippingAddress) {
+        if (shippingAddress == null) {
+            return false;
+        }
+        if (shippingAddress.getId() == null) {
+            shippingAddress.setId(StringUtils.getUuid());
+            appletMapper.addShippingAddress(shippingAddress);
+        } else {
+            appletMapper.updateShippingAddress(shippingAddress);
+        }
+        if (shippingAddress.getTab().equals(Constants.YES)) {
+            //去除原有默认地址
+            appletMapper.updateAddressDefaultN();
+        }
+        return true;
+    }
+
+    /**
+     * 当前店铺的订单列表
+     *
+     * @param buyerId
+     * @param userId
+     * @return
+     */
+    @Override
+    public JSONObject getWaresOrderList(String buyerId, String userId) {
+        return appletMapper.getWaresOrderList(buyerId, userId);
+    }
+
+    /**
+     * 订单ID获取订单明细
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public JSONObject getWaresOrderById(String id) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("detail", appletMapper.getWaresCartByOrderId(id));
+        jsonObject.put("order", appletMapper.getWaresOrderById(id));
+        return jsonObject;
     }
 }

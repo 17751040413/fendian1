@@ -43,6 +43,18 @@ public class WaresOrder implements Serializable {
     @ApiModelProperty("购物车ID 多个，隔开")
     private String cartId;
 
+    @ApiModelProperty("订单编号")
+    private String orderCode;
+
+    @ApiModelProperty("实付款")
+    private String actualPayment;
+
+    @ApiModelProperty("发货时间")
+    private String sendTime;
+
+    @ApiModelProperty("收货时间")
+    private String sureTime;
+
     public String getId() {
         return id;
     }
@@ -129,5 +141,37 @@ public class WaresOrder implements Serializable {
 
     public void setCartId(String cartId) {
         this.cartId = cartId;
+    }
+
+    public String getActualPayment() {
+        return actualPayment;
+    }
+
+    public void setActualPayment(String actualPayment) {
+        this.actualPayment = actualPayment;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
+    public String getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(String sendTime) {
+        this.sendTime = sendTime;
+    }
+
+    public String getSureTime() {
+        return sureTime;
+    }
+
+    public void setSureTime(String sureTime) {
+        this.sureTime = sureTime;
     }
 }

@@ -77,7 +77,7 @@ public interface AppletService {
      * @param buyerId
      * @return
      */
-    List<WaresCart> getGoodsCartById(String buyerId,String userId);
+    List<WaresCart> getGoodsCartById(String buyerId, String userId);
 
     /**
      * 订单结算
@@ -86,4 +86,37 @@ public interface AppletService {
      * @return
      */
     boolean settlementOrder(WaresOrder waresOrder);
+
+    /**
+     * 收货地址列表
+     *
+     * @param buyerId
+     * @return
+     */
+    List<ShippingAddress> getShippingAddressList(String buyerId);
+
+    /**
+     * 收货地址新增
+     *
+     * @param shippingAddress
+     * @return
+     */
+    boolean setShippingAddress(ShippingAddress shippingAddress);
+
+    /**
+     * 当前店铺的订单列表
+     *
+     * @param buyerId
+     * @param userId
+     * @return
+     */
+    JSONObject getWaresOrderList(String buyerId, String userId);
+
+    /**
+     * 订单ID获取订单明细
+     *
+     * @param id
+     * @return
+     */
+    JSONObject getWaresOrderById(String id);
 }
