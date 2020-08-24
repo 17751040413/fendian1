@@ -514,6 +514,27 @@ public interface ActivitySetMapper {
     @Delete("DELETE wares_spec_detail WHERE spec_id = #{id}")
     int delWaresSpecDetailBySpecId(String id);
 
+    /**
+     * 订单状态及快单号和取件码更新
+     *
+     * @param takeCode
+     * @param courierNumber
+     * @param state
+     * @return
+     */
+    @Update("UPDATE wares_order SET take_code = #{takeCode},courier_number = #{courierNumber},state = #{state} WHERE id = #{id}")
+    int updateWaresOrderState(@Param("takeCode") String takeCode, @Param("courierNumber") String courierNumber, @Param("state") String state , @Param("id") String id);
+
+    /**
+     * ID和userID获取订单
+     *
+     * @param id
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM wares_order WHERE id = #{id} AND user_id = #{userId}")
+    WaresOrder getWaresOrderById(@Param("id") String id, @Param("userId") String userId);
+
     /************************************** 商城 - END *************************************************/
 
     /************************************** 抽奖 - START *************************************************/

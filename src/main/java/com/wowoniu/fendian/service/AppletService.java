@@ -1,8 +1,7 @@
 package com.wowoniu.fendian.service;
 
-import com.wowoniu.fendian.model.UseUser;
-import com.wowoniu.fendian.model.Wares;
-import com.wowoniu.fendian.model.WaresSortSet;
+import com.alibaba.fastjson.JSONObject;
+import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.utils.PageUtil;
 
 import java.util.List;
@@ -55,4 +54,93 @@ public interface AppletService {
      * @return
      */
     Wares getWaresById(String waresId);
+
+    /**
+     * 商品ID获取规格
+     *
+     * @param waresId
+     * @return
+     */
+    JSONObject getWaresSpec(String waresId);
+
+    /**
+     * 购物车添加
+     *
+     * @param waresCart
+     * @return
+     */
+    Boolean setGoodsCart(WaresCart waresCart);
+
+    /**
+     * 买家ID获取购物车列表
+     *
+     * @param buyerId
+     * @return
+     */
+    List<WaresCart> getGoodsCartById(String buyerId, String userId);
+
+    /**
+     * 订单结算
+     *
+     * @param waresOrder
+     * @return
+     */
+    boolean settlementOrder(WaresOrder waresOrder);
+
+    /**
+     * 收货地址列表
+     *
+     * @param buyerId
+     * @return
+     */
+    List<ShippingAddress> getShippingAddressList(String buyerId);
+
+    /**
+     * 收货地址新增
+     *
+     * @param shippingAddress
+     * @return
+     */
+    boolean setShippingAddress(ShippingAddress shippingAddress);
+
+    /**
+     * 当前店铺的订单列表
+     *
+     * @param buyerId
+     * @param userId
+     * @return
+     */
+    JSONObject getWaresOrderList(String buyerId, String userId);
+
+    /**
+     * 订单ID获取订单明细
+     *
+     * @param id
+     * @return
+     */
+    JSONObject getWaresOrderById(String id);
+
+    /**
+     * 订单ID获取取货码
+     *
+     * @param id
+     * @return
+     */
+    String getTakeCodeById(String id);
+
+    /**
+     * 订单状态更新
+     *
+     * @param id
+     * @return
+     */
+    int updateOrderState(String id, String state);
+
+    /**
+     * 买家优惠券列表
+     *
+     * @param id
+     * @return
+     */
+    List<CouponBuyer> getCouponBuyerList(String id);
 }

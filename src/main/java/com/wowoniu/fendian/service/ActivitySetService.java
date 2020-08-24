@@ -212,6 +212,22 @@ public interface ActivitySetService {
     int delWaresSpecDetail(String id);
 
     /**
+     * 订单发货确认
+     *
+     * @param id
+     * @return
+     */
+    int sendWaresSure(String id,String code);
+
+    /**
+     * 订单取货确认
+     *
+     * @param id
+     * @return
+     */
+    boolean takeWaresSure(String id,String code,String userId);
+
+    /**
      * 抽奖ID获取抽奖设置及详情
      *
      * @param id

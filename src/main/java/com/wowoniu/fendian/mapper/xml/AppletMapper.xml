@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wowoniu.fendian.mapper.AppletMapper">
+
     <!-- 条件搜索店铺 -->
     <select id="searchUseUser" resultType="com.wowoniu.fendian.model.UseUser">
         SELECT * FROM use_user WHERE
@@ -68,5 +69,13 @@
             AND 'sort_id' = #{sortId}
         </if>
     </select>
+
+    <!-- 购物车货物添加订单ID -->
+    <update id="updateWaresCarByOrder">
+        UPDATE wares_cart SET order_id = #{orderId} WHERE id IN
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+    </update>
 
 </mapper>
