@@ -1,6 +1,7 @@
 package com.wowoniu.fendian.web.api.app.controller.union;
 
 
+import com.wowoniu.fendian.model.UnionCoupon;
 import com.wowoniu.fendian.service.UnionService;
 import com.wowoniu.fendian.utils.Result;
 
@@ -47,85 +48,103 @@ public class UnionController {
         return unionService.unionOrder(id,unionId);
     }
 
-    @ApiOperation("所有联盟券 -- 盟主")
+    @ApiOperation("所有联盟券 -- 盟主 3-3-1")
     @PostMapping("unionCoupon")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "couponType",value = "优惠券类型 0--待审核 1--派发中 2--已下架",dataType = "int",required = true),
-            @ApiImplicitParam(name = "shopName",value = "店铺名",dataType = "String",required = true)
+            @ApiImplicitParam(name = "shopName",value = "店铺名",dataType = "String",required = true),
+            @ApiImplicitParam(name = "id",value = "联盟id",dataType = "String",required = true)
     })
-    public Result unionCoupon(@ApiIgnore HttpServletRequest request,int couponType,String shopName,String unionId){
+    public Result unionCoupon(@ApiIgnore HttpServletRequest request,int couponType,String shopName,String id){
 
-        return new Result();
+        return unionService.unionCoupon(couponType,shopName,id);
     }
 
-    @ApiOperation("联盟券详情--盟主")
+    @ApiOperation("结束派发 3-3-1")
+    @PostMapping("endDisCoupon")
+    @ApiImplicitParam(name = "id",value = "联盟优惠券id",dataType = "String",required = true)
+    public Result endDisCoupon(String id){
+
+        return unionService.endDisCoupon(id);
+    }
+
+    @ApiOperation("联盟券详情--盟主 3-3-2")
     @PostMapping("unionCouponInfo")
-    @ApiImplicitParam(name = "unionCouponId",value = "联盟券id",dataType = "String",required = true)
-    public Result unionCouponInfo(String unionCouponId){
-
-        return new Result();
+    @ApiImplicitParam(name = "id",value = "联盟券id",dataType = "String",required = true)
+    public Result unionCouponInfo(String id){
+        return unionService.unionCouponInfo(id);
     }
 
-    @ApiOperation("联盟券审核--盟主")
+    @ApiOperation("联盟券审核--盟主 3-3-2")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "unionCouponId",value = "联盟券id",dataType = "String",required = true),
-            @ApiImplicitParam(name = "examType",value = "审核状态 0--审核成功 1--审核失败",dataType = "int",required = true)
+            @ApiImplicitParam(name = "id",value = "联盟券id",dataType = "String",required = true),
+            @ApiImplicitParam(name = "examType",value = "审核状态 0--审核成功 1--驳回",dataType = "int",required = true)
     })
     @PostMapping("unionCouponExamine")
-    public Result unionCouponExamine(String unionCouponId,int examType){
+    public Result unionCouponExamine(String id,int examType){
 
-        return new Result();
+        return unionService.unionCouponExamine(id,examType);
     }
 
-    @ApiOperation("商圈联盟设置--盟主")
+    @ApiOperation("商圈联盟设置--盟主 3-4-1")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "unionName",value = "联盟名",dataType = "String",required = true),
-            @ApiImplicitParam(name = "leaderPhone",value = "盟主手机号",dataType = "String",required = true)
+            @ApiImplicitParam(name = "leaderPhone",value = "盟主手机号",dataType = "String",required = true),
+            @ApiImplicitParam(name = "id",value = "联盟id",dataType = "String",required = true)
     })
     @PostMapping("unionSet")
-    public Result unionSet(@ApiIgnore HttpServletRequest request,String unionName,String leaderPhone){
+    public Result unionSet(@ApiIgnore HttpServletRequest request,String id,String unionName,String leaderPhone){
 
-        return new Result();
+        return unionService.unionSet(id,unionName,leaderPhone);
 
     }
 
-    @ApiOperation("联盟规则设置--盟主")
+    @ApiOperation("联盟规则设置--盟主 3-4-2")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "brief",value = "简介",dataType = "String",required = true),
-            @ApiImplicitParam(name = "rule",value = "规则",dataType = "String",required = true)
+            @ApiImplicitParam(name = "rule",value = "规则",dataType = "String",required = true),
+            @ApiImplicitParam(name = "id",value = "联盟id",dataType = "String",required = true)
     })
     @PostMapping("unionRule")
-    public Result unionRule(@ApiIgnore HttpServletRequest request,String brief,String rule){
-        return new Result();
+    public Result unionRule(@ApiIgnore HttpServletRequest request,String brief,String rule,String id){
+
+
+        return unionService.unionRule(brief,rule,id);
     }
 
-    @ApiOperation("联盟位置设置--盟主")
+    @ApiOperation("联盟位置设置--盟主 3-4-3")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "lng",value = "double",dataType = "double",required = true),
-            @ApiImplicitParam(name = "lat",value = "double",dataType = "double",required = true)
+            @ApiImplicitParam(name = "lng",value = "经度",dataType = "double",required = true),
+            @ApiImplicitParam(name = "lat",value = "纬度",dataType = "double",required = true),
+            @ApiImplicitParam(name = "id",value = "联盟id",dataType = "String",required = true)
     })
     @PostMapping("unionPositionSet")
-    public Result unionPositionSet(@ApiIgnore HttpServletRequest request,double lat,double lng){
+    public Result unionPositionSet(@ApiIgnore HttpServletRequest request,double lat,double lng,String id){
 
-        return new Result();
+        return unionService.unionPositionSet(lng,lat,id);
     }
 
-    @ApiOperation("领取规则设置--盟主")
+    @ApiOperation("领取规则设置--盟主 3-4-4")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "type",value = "0--无条件 1--加微信",dataType = "int",required = true)
+            @ApiImplicitParam(name = "type",value = "0--无条件 1--加微信",dataType = "int",required = true),
+            @ApiImplicitParam(name = "id",value = "联盟id",dataType = "String",required = true)
     })
     @PostMapping("unionMemberReceive")
-    public Result unionMemberReceive(@ApiIgnore HttpServletRequest request,int type){
+    public Result unionMemberReceive(@ApiIgnore HttpServletRequest request,int type,String id){
 
-        return new Result();
+        return unionService.unionMemberReceive(type,id);
     }
 
-    @ApiOperation("联盟商家列表")
-    @ApiImplicitParam(name = "unionId",value = "联盟id",dataType = "String",required = true)
-    @PostMapping("unionShops")
-    public Result unionShops(String unionId){
+    @ApiOperation("联盟商家列表 3-5-1")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "联盟id",dataType = "String",required = true),
+            @ApiImplicitParam(name = "shopName",value = "店铺名",dataType = "String",required = true)
+    })
 
-        return new Result();
+    @PostMapping("unionShops")
+    public Result unionShops(String id,String shopName){
+
+        return unionService.unionShops(id,shopName);
     }
 
     @ApiOperation("联盟店铺详情")

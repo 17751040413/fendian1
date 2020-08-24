@@ -100,10 +100,40 @@ public class UnionCoupon implements Serializable {
      */
     private Double yongPrice;
 
+    private int isState;
+
     /**
      * 创建时间
      */
     private Date createTime;
+
+    private String shopId;
+
+    private String shopName;
+
+    public int getIsState() {
+        return isState;
+    }
+
+    public void setIsState(int isState) {
+        this.isState = isState;
+    }
+
+    public String getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
 
     private static final long serialVersionUID = 1L;
 

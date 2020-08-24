@@ -28,7 +28,7 @@
   <select id="queryWriteByUserId" resultType="com.wowoniu.fendian.model.WriteOff">
     select a.*,b.nick_name as customerName,b.head_img as customerImg from write_off a
     left join use_user b on a.customer_id = b.id
-    where a.user_id = #{userId}
+    where a.user_id = #{userId} and activity_id = 13
 
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

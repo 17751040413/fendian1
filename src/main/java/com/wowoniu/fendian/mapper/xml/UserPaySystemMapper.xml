@@ -20,7 +20,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
     <select id="queryMoneyByPaid" resultType="java.lang.Double">
-      select sum(total_money) from user_pay_system
+      select COALESCE(sum(total_money),0) from user_pay_system
       where pay_id = #{payId}
 
     </select>

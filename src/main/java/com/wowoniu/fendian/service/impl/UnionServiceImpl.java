@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.service.impl;
 
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Union;
 import com.wowoniu.fendian.mapper.*;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.UnionService;
@@ -31,6 +32,8 @@ public class UnionServiceImpl implements UnionService {
     WriteOffMapper writeOffMapper;
     @Autowired
     UnionMemberMapper unionMemberMapper;
+    @Autowired
+    UnionCouponMapper unionCouponMapper;
 
     @Override
     public Result getUnionInfo(String leaderId) {
@@ -74,6 +77,7 @@ public class UnionServiceImpl implements UnionService {
             myUnionMap.put("balance",useUser.getTakeMoney());
             myUnionMap.put("expenditure",userPaySystemMapper.queryMoneyByPaid(id)/100.0);
             myUnionMap.put("orderCount",writeOffMapper.countByUserId(id));
+            myUnionMap.put("unionId",unionInfo.getId());
         }
         map.put("myUnion",myUnionMap);
         //获取我加入的商圈联盟
@@ -98,6 +102,7 @@ public class UnionServiceImpl implements UnionService {
         double isEntryPrice = uoionSeparateLogMapper.queryUnionPriceByUnionAndIsEntry(unionId,1);
         List<WriteOff> writeOffs = writeOffMapper.queryWriteByUserId(unionId);
         Map map = new HashMap();
+        map.put("unionId",unionInfo.getId());
         map.put("unionName",unionInfo.getUnionName());
         map.put("unionLeaderName",unionInfo.getUnionLeaderName());
         map.put("waitEntryPrice",waitEntryPrice);
@@ -110,6 +115,100 @@ public class UnionServiceImpl implements UnionService {
     @Override
     public Result unionCoupon(int couponType, String shopName,String unionId) {
         UnionInfo unionInfo = unionInfoMapper.selectByPrimaryKey(unionId);
+        Map map = new HashMap();
+        map.put("unionId",unionId);
+        map.put("isState",couponType);
+        map.put("shopName",shopName);
+        List list =unionCouponMapper.queryUnionByParm(map);
+        int count = unionCouponMapper.queryUnionCountByParm(map);
+        Map reMap = new HashMap();
+        reMap.put("count",count);
+        reMap.put("list",list);
+        return new Result(200,true,"获取成功",reMap);
+    }
+
+    @Override
+    public Result endDisCoupon(String id) {
+        UnionCoupon unionCoupon = new UnionCoupon();
+        unionCoupon.setId(id);
+        unionCoupon.setIsState(2);
+        unionCouponMapper.updateByPrimaryKeySelective(unionCoupon);
+
+        return new Result(200,true,"结束成功");
+    }
+
+    @Override
+    public Result unionCouponInfo(String id) {
+        return new Result(200,true,"获取成功",unionCouponMapper.selectByPrimaryKey(id));
+    }
+
+    @Override
+    public Result unionCouponExamine(String id, int exmType) {
+        int isState;
+        if (exmType == 0){
+            isState = 1;
+        }else {
+            isState = -1;
+        }
+        UnionCoupon unionCoupon = new UnionCoupon();
+        unionCoupon.setId(id);
+        unionCoupon.setIsState(isState);
+        unionCouponMapper.updateByPrimaryKeySelective(unionCoupon);
+        return new Result(200,true,"操作成功");
+    }
+
+    @Override
+    public Result unionSet(String id, String unionName, String leaderPhone) {
+        UnionInfo unionInfo = new UnionInfo();
+        unionInfo.setId(id);
+        unionInfo.setUnionLeaderPhone(leaderPhone);
+        unionInfo.setUnionName(unionName);
+        unionInfoMapper.updateByPrimaryKeySelective(unionInfo);
+        return new Result(200,true,"保存成功");
+    }
+
+    @Override
+    public Result unionRule(String brief, String rule,String id) {
+        UnionInfo unionInfo = new UnionInfo();
+        unionInfo.setId(id);
+        unionInfo.setBrief(brief);
+        unionInfo.setRule(rule);
+        unionInfoMapper.insertSelective(unionInfo);
+        return new Result(200,true,"修改成功");
+    }
+
+    @Override
+    public Result unionPositionSet(double lng, double lat, String id) {
+        UnionInfo unionInfo = new UnionInfo();
+        unionInfo.setId(id);
+        unionInfo.setLng(lng);
+        unionInfo.setLat(lat);
+        unionInfoMapper.updateByPrimaryKeySelective(unionInfo);
+        return new Result(200,true,"修改成功");
+    }
+
+    @Override
+    public Result unionMemberReceive(int type, String id) {
+        UnionInfo unionInfo = new UnionInfo();
+        unionInfo.setId(id);
+        unionInfo.setReceiveType(type);
+        unionInfoMapper.updateByPrimaryKeySelective(unionInfo);
+        return new Result(200,true,"设置成功");
+    }
+
+    @Override
+    public Result unionShops(String id, String shopName) {
+        List<UnionShop> unionShops = unionShopMapper.queryUnionShops(id,shopName);
+
+        return new Result(200,true,"获取成功",unionShops);
+    }
+
+    @Override
+    public Result unionShopInfo(String unionShopId, int grantType) {
+        int sendCount;
+        if(grantType == 0){
+
+        }
 
         return null;
     }

@@ -21,12 +21,12 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
     <select id="queryUnionSepPriceByUserId" resultType="java.lang.Double">
-      select round(sum(sep_price),2) from uoion_separate_log
+      select COALESCE(round(sum(sep_price),2),0) from uoion_separate_log
       where user_id = #{userid} and union_id = #{unionId}
 
     </select>
   <select id="queryUnionPriceByUnionAndIsEntry" resultType="java.lang.Double">
-    select round(sum (sep_price),2) from uoion_separate_log
+    select COALESCE(round(sum(sep_price),2),0) from uoion_separate_log
     where union_id = #{unionId} and is_entry = #{isEntry}
 
   </select>

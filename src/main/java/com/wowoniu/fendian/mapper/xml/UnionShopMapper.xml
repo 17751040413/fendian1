@@ -24,6 +24,14 @@
       select count(1) from union_shop where union_id = #{unionId}
 
     </select>
+    <select id="queryUnionShops" resultType="com.wowoniu.fendian.model.UnionShop">
+      select <include refid="Base_Column_List"/> from union_shop
+      where union_id = #{unionId}
+      <if test="shopName != null and shopName != ''">
+        and shop_name like concat('%',#{shopName},'%')
+      </if>
+
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from union_shop
     where id = #{id,jdbcType=VARCHAR}

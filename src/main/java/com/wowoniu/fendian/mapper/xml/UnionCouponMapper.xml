@@ -21,17 +21,35 @@
     <result column="yong_pro" jdbcType="DOUBLE" property="yongPro" />
     <result column="yong_price" jdbcType="DOUBLE" property="yongPrice" />
     <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="shop_id" jdbcType="VARCHAR" property="shopId"/>
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+    <result column="is_state" jdbcType="VARCHAR" property="isState"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, union_id, union_name, union_logo, coupon_type, discount, dis_price, dis_man, 
     gift_name, trem_date_type, term_date, start_date, end_date, limit_count, remarks, 
-    yong_type, yong_pro, yong_price, create_time
+    yong_type, yong_pro, yong_price, create_time,shop_id,shop_name,is_state
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from union_coupon
     where id = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="queryUnionByParm" resultType="com.wowoniu.fendian.model.UnionCoupon">
+      select <include refid="Base_Column_List"/> from union_coupon
+      where is_state = #{isState} and union_id = #{unionId}
+      <if test="shopName != null and shopName != ''">
+        and shop_name like concat('%',#{shopName},'%')
+      </if>
+      order by create_time desc
+    </select>
+  <select id="queryUnionCountByParm" resultType="java.lang.Integer">
+    select count(1) from union_coupon
+    where is_state = #{isState} and union_id = #{unionId}
+    <if test="shopName != null and shopName != ''">
+      and shop_name like concat('%',#{shopName},'%')
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from union_coupon
@@ -43,14 +61,14 @@
       dis_man, gift_name, trem_date_type, 
       term_date, start_date, end_date, 
       limit_count, remarks, yong_type, 
-      yong_pro, yong_price, create_time
+      yong_pro, yong_price, create_time,shop_id,shop_name,is_state
       )
     values (#{unionId,jdbcType=VARCHAR}, #{unionName,jdbcType=VARCHAR}, #{unionLogo,jdbcType=VARCHAR}, 
       #{couponType,jdbcType=INTEGER}, #{discount,jdbcType=DOUBLE}, #{disPrice,jdbcType=DOUBLE}, 
       #{disMan,jdbcType=DOUBLE}, #{giftName,jdbcType=VARCHAR}, #{tremDateType,jdbcType=INTEGER}, 
       #{termDate,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
       #{limitCount,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, #{yongType,jdbcType=INTEGER}, 
-      #{yongPro,jdbcType=DOUBLE}, #{yongPrice,jdbcType=DOUBLE}, #{createTime,jdbcType=DATE}
+      #{yongPro,jdbcType=DOUBLE}, #{yongPrice,jdbcType=DOUBLE}, #{createTime,jdbcType=DATE},#{shopId},#{shopName},#{isState}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionCoupon" useGeneratedKeys="true">
@@ -110,6 +128,15 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="shopName != null">
+        shop_name,
+      </if>
+      <if test="isState != null">
+        is_state,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="unionId != null">
@@ -165,6 +192,15 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=DATE},
+      </if>
+      <if test="shopId != null">
+        #{shopId},
+      </if>
+      <if test="shopName != null">
+        #{shopName},
+      </if>
+      <if test="isState != null">
+        #{isState},
       </if>
     </trim>
   </insert>
@@ -225,6 +261,15 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=DATE},
       </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+      <if test="shopName != null">
+        shop_name = #{shopName},
+      </if>
+      <if test="isState != null">
+        is_state = #{isState},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -247,7 +292,10 @@
       yong_type = #{yongType,jdbcType=INTEGER},
       yong_pro = #{yongPro,jdbcType=DOUBLE},
       yong_price = #{yongPrice,jdbcType=DOUBLE},
-      create_time = #{createTime,jdbcType=DATE}
+      create_time = #{createTime,jdbcType=DATE},
+      shop_id = #{shopId},
+      shop_name = #{shopName},
+      is_state = #{isState}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
