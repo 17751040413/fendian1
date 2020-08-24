@@ -205,4 +205,25 @@ public interface AppletMapper {
             "LEFT JOIN shipping_address sa ON sa.address_id = wo.address_id LEFT JOIN coupon_set cs ON wo.coupon_id = cs.id  WHERE id = #{id} ")
     WaresOrder getWaresOrderById(@Param("id") String id);
 
+    /**
+     * 订单ID获取取货码
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT take_code FROM wares_order WHERE id = #{id}")
+    String getTakeCodeById(@Param("id") String id);
+
+    /**
+     * 订单状态更新
+     *
+     * @param id
+     * @return
+     */
+    @Update("UPDATE wares_order SET state = #{state} WHERE id = #{id}")
+    int updateOrderState(@Param("id") String id, @Param("state") String state);
+
+    @Select("SELECT * FROM coupon_buyer WHERE buyer_id = #{id} ORDER BY effective DESC")
+    List<CouponBuyer> getCouponBuyerList(String id);
+
 }

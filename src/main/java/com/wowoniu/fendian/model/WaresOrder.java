@@ -28,7 +28,7 @@ public class WaresOrder implements Serializable {
     @ApiModelProperty("规格ID")
     private String specDetailId;
 
-    @ApiModelProperty("状态（0：待付款；1：待发货；2：已发货；3：已完成；4：已关闭）")
+    @ApiModelProperty("状态（0：待付款；1：已付款，2：待发货；3：已发货；4：已完成；5：已关闭）")
     private String state;
 
     @ApiModelProperty("创建时间")
@@ -40,7 +40,7 @@ public class WaresOrder implements Serializable {
     @ApiModelProperty("自提人手机号")
     private String selfPhone;
 
-    @ApiModelProperty("购物车ID 多个，隔开")
+    @ApiModelProperty("购物车选中结算货物的ID 多个，隔开")
     private String cartId;
 
     @ApiModelProperty("订单编号")
@@ -54,6 +54,12 @@ public class WaresOrder implements Serializable {
 
     @ApiModelProperty("收货时间")
     private String sureTime;
+
+    @ApiModelProperty("取货码")
+    private String takeCode;
+
+    @ApiModelProperty("快递单号")
+    private String courierNumber;
 
     public String getId() {
         return id;
@@ -173,5 +179,21 @@ public class WaresOrder implements Serializable {
 
     public void setSureTime(String sureTime) {
         this.sureTime = sureTime;
+    }
+
+    public String getTakeCode() {
+        return takeCode;
+    }
+
+    public void setTakeCode(String takeCode) {
+        this.takeCode = takeCode;
+    }
+
+    public String getCourierNumber() {
+        return courierNumber;
+    }
+
+    public void setCourierNumber(String courierNumber) {
+        this.courierNumber = courierNumber;
     }
 }

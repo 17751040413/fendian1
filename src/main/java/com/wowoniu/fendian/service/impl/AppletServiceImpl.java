@@ -271,4 +271,38 @@ public class AppletServiceImpl implements AppletService {
         jsonObject.put("order", appletMapper.getWaresOrderById(id));
         return jsonObject;
     }
+
+    /**
+     * 订单ID获取取货码
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public String getTakeCodeById(String id) {
+
+        return appletMapper.getTakeCodeById(id);
+    }
+
+    /**
+     * 订单状态更新
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public int updateOrderState(String id, String state) {
+        return appletMapper.updateOrderState(id, state);
+    }
+
+    /**
+     * 买家优惠券列表
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public List<CouponBuyer> getCouponBuyerList(String id) {
+        return appletMapper.getCouponBuyerList(id);
+    }
 }

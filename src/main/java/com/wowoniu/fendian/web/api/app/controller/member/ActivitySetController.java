@@ -295,6 +295,30 @@ public class ActivitySetController {
         return new Result(204, false, "创建失败", null);
     }
 
+    @ApiOperation("商城--订单发货确认")
+    @PostMapping("/sendWaresSure")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID", dataType = "String", required = true),
+            @ApiImplicitParam(name = "code", value = "快递单号", dataType = "String", required = true)})
+    public Object sendWaresSure(String id, String code) {
+        int count = activitySetService.sendWaresSure(id, code);
+        if (count > 0) {
+            return new Result(200, true, "确认成功", null);
+        }
+        return new Result(204, false, "确认失败", null);
+    }
+
+    @ApiOperation("商城--取货码确认")
+    @PostMapping("/takeWaresSure")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID", dataType = "long", required = true),
+            @ApiImplicitParam(name = "code", value = "取货码", dataType = "String", required = true)})
+    public Object takeWaresSure(String id, String code, @ApiIgnore HttpServletRequest request) {
+        boolean result = activitySetService.takeWaresSure(id, code, (String) request.getAttribute("sysid"));
+        if (result) {
+            return new Result(200, true, "确认成功", null);
+        }
+        return new Result(204, false, "确认失败", null);
+    }
+
 
     /************************************************* True 商城 - END *********************************************************/
 

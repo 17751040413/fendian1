@@ -1,12 +1,15 @@
 package com.wowoniu.fendian.web.api.applet.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.config.StaticConfig;
+import com.wowoniu.fendian.model.CouponBuyer;
 import com.wowoniu.fendian.model.ShippingAddress;
 import com.wowoniu.fendian.model.WaresCart;
 import com.wowoniu.fendian.model.WaresOrder;
 import com.wowoniu.fendian.service.AppletService;
 import com.wowoniu.fendian.utils.Result;
+import com.wowoniu.fendian.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -53,7 +56,7 @@ public class AppletController {
     }
 
     @PostMapping("/getUseUserById")
-    @ApiOperation("5-2-1 店铺ID获取店铺信息")
+    @ApiOperation("5-2-1  店铺ID获取店铺信息 (5-2-9 联系店主)")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "店铺ID ", dataType = "String", required = true)})
     public Object getUseUserById(String id) {
         return new Result<>(200, true, "获取成功", appletService.getUseUserById(id));
@@ -122,7 +125,7 @@ public class AppletController {
     }
 
     @PostMapping("/settlementOrder")
-    @ApiOperation("5-2-6 订单结算-结算之前调用支付接口，支付成功后订单结算")
+    @ApiOperation("5-2-6 订单结算 生成订单-结算之前调用支付接口，无论是否成功生成订单，状态：state:0为待付款，1已付款，若未付款，则付款后调用5-2-9的付款更新订单状态接口")
     public Object settlementOrder(@RequestBody WaresOrder waresOrder) {
 
         boolean result = appletService.settlementOrder(waresOrder);
@@ -169,7 +172,7 @@ public class AppletController {
     }
 
     @PostMapping("/getWaresOrderById")
-    @ApiOperation("5-2-9 订单ID获取订单明细")
+    @ApiOperation("5-2-9 订单ID获取订单详情")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID ", dataType = "String", required = true)})
     public Object getWaresOrderById(String id) {
 
@@ -179,5 +182,54 @@ public class AppletController {
         }
         return new Result<>(200, true, "获取成功", jsonObject);
     }
+
+    @PostMapping("/getTakeCodeById")
+    @ApiOperation("5-2-9 订单ID获取取货码")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID ", dataType = "String", required = true)})
+    public Object getTakeCodeById(String id) {
+
+        String code = appletService.getTakeCodeById(id);
+        if (StringUtils.isEmpity(code)) {
+            return new Result<>(204, false, "获取失败", null);
+        }
+        return new Result<>(200, true, "获取成功", code);
+    }
+
+    @PostMapping("/updateOrderState")
+    @ApiOperation("5-2-9 订单ID更新订单状态 待付款订单付款成功后调用")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID ", dataType = "String", required = true)})
+    public Object updateOrderState(String id) {
+
+        int cont = appletService.updateOrderState(id, Constants.ORDER_STATE_NOT_SHIPPED);
+        if (cont == 0) {
+            return new Result<>(204, false, "更新失败", null);
+        }
+        return new Result<>(200, true, "更新成功", null);
+    }
+
+    @PostMapping("/sureOrderState")
+    @ApiOperation("5-2-10 收货确认")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID ", dataType = "String", required = true)})
+    public Object sureOrderState(String id) {
+
+        int cont = appletService.updateOrderState(id, Constants.ORDER_STATE_COMPLETE);
+        if (cont == 0) {
+            return new Result<>(204, false, "确认失败", null);
+        }
+        return new Result<>(200, true, "确认成功", null);
+    }
+
+    @PostMapping("/couponChoice")
+    @ApiOperation("5-2-11 优惠券列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "买家ID", dataType = "String", required = true)})
+    public Object couponChoice(String id) {
+
+        List<CouponBuyer> couponBuyerList = appletService.getCouponBuyerList(id);
+        if (CollectionUtils.isEmpty(couponBuyerList)) {
+            return new Result<>(204, false, "获取失败", null);
+        }
+        return new Result<>(200, true, "获取成功", couponBuyerList);
+    }
+
 
 }

@@ -119,4 +119,28 @@ public interface AppletService {
      * @return
      */
     JSONObject getWaresOrderById(String id);
+
+    /**
+     * 订单ID获取取货码
+     *
+     * @param id
+     * @return
+     */
+    String getTakeCodeById(String id);
+
+    /**
+     * 订单状态更新
+     *
+     * @param id
+     * @return
+     */
+    int updateOrderState(String id, String state);
+
+    /**
+     * 买家优惠券列表
+     *
+     * @param id
+     * @return
+     */
+    List<CouponBuyer> getCouponBuyerList(String id);
 }

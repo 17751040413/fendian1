@@ -8,6 +8,7 @@ import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.ActivitySetService;
 import com.wowoniu.fendian.utils.Result;
 import com.wowoniu.fendian.utils.StringUtils;
+import com.wowoniu.fendian.utils.VerifyCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -708,7 +709,39 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      */
     @Override
     public int delWaresSpecDetail(String id) {
-        return delWaresSpecDetail(id);
+        return activitySetMapper.delWaresSpecDetail(id);
+    }
+
+    /**
+     * 订单发货确认
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public int sendWaresSure(String id, String code) {
+        //生成发货码
+        String takeCode = VerifyCodeUtil.generateVerifyCode(6);
+        //更新订单状态为已发货及添加收货码
+        activitySetMapper.updateWaresOrderState(takeCode, code, Constants.ORDER_STATE_SHIPPED, id);
+        return 0;
+    }
+
+    /**
+     * 订单取货确认
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean takeWaresSure(String id, String code, String userId) {
+        //获取订单
+        WaresOrder waresOrder = activitySetMapper.getWaresOrderById(id, userId);
+        if (code.equals(waresOrder.getTakeCode())) {
+//            activitySetMapper.updateWaresOrderState(waresOrder.getTakeCode(), waresOrder.getCourierNumber(), Constants.ORDER_STATE_COMPLETE, id);
+            return true;
+        }
+        return false;
     }
 
     /**
