@@ -32,6 +32,10 @@ public class CouponBuyer implements Serializable {
     private Double discount;
     @ApiModelProperty("优惠金额（单位分）")
     private String discountAmount;
+    @ApiModelProperty(" 0：会员裂变；1：会员返利；2：店铺分销；3：在线商城；4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈 13:联盟 14:排队")
+    private String activityType;
+    @ApiModelProperty("活动ID")
+    private String activityId;
 
     public String getId() {
         return id;
@@ -111,5 +115,21 @@ public class CouponBuyer implements Serializable {
 
     public void setDiscountAmount(String discountAmount) {
         this.discountAmount = discountAmount;
+    }
+
+    public String getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(String activityType) {
+        this.activityType = activityType;
+    }
+
+    public String getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
     }
 }

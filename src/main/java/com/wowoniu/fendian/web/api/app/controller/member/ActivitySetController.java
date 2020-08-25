@@ -49,9 +49,9 @@ public class ActivitySetController {
 
         boolean result = activitySetService.addOrUpdateFission(param, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "设置成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "设置失败", null);
+        return new Result(204, false, "操作失败", null);
     }
 
 
@@ -73,9 +73,9 @@ public class ActivitySetController {
 
         boolean result = activitySetService.addOrUpdateRebate(param, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "设置成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "设置失败", null);
+        return new Result(204, false, "操作失败", null);
     }
 
     /************************************************* True 返利 - END *********************************************************/
@@ -95,9 +95,9 @@ public class ActivitySetController {
 
         boolean result = activitySetService.addOrUpdateDistribution(distributionSet, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "设置成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "设置失败", null);
+        return new Result(204, false, "操作失败", null);
     }
 
     @ApiOperation("分销--分销优惠券设置(新增/修改)")
@@ -106,9 +106,9 @@ public class ActivitySetController {
 
         boolean result = activitySetService.addOrUpdateDistributionCoupon(distributionCoupon);
         if (result) {
-            return new Result(200, true, "设置成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "设置失败", null);
+        return new Result(204, false, "操作失败", null);
     }
 
     @ApiOperation("分销--删除(结束)分销优惠券")
@@ -139,9 +139,9 @@ public class ActivitySetController {
 
         boolean result = activitySetService.addOrUpdateShoppingMall(shoppingMallSet, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "设置成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "设置失败", null);
+        return new Result(204, false, "操作失败", null);
     }
 
     @ApiOperation("商城--订单状态获取订单列表")
@@ -182,9 +182,9 @@ public class ActivitySetController {
 
         boolean result = activitySetService.setWaresSortDetail(waresSortDetail);
         if (result) {
-            return new Result(200, true, "设置成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "设置失败", null);
+        return new Result(204, false, "操作失败", null);
     }
 
     @ApiOperation("商城--商品分类置顶设置")
@@ -194,9 +194,9 @@ public class ActivitySetController {
 
         List<WaresSortDetail> waresSortDetailList = activitySetService.setWaresSortDetailTop(id);
         if (CollectionUtils.isEmpty(waresSortDetailList)) {
-            return new Result(204, false, "设置失败", null);
+            return new Result(204, false, "操作失败", null);
         }
-        return new Result(200, true, "设置成功", waresSortDetailList);
+        return new Result(200, true, "操作成功", waresSortDetailList);
     }
 
     @ApiOperation("商城--商品分类置顶上移 下移")
@@ -207,9 +207,9 @@ public class ActivitySetController {
 
         boolean result = activitySetService.setWaresSortDetailTopMove(id, move);
         if (result) {
-            return new Result(200, true, "设置成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "设置失败", null);
+        return new Result(204, false, "操作失败", null);
     }
 
     @ApiOperation("商城--商品分类列表")
@@ -246,9 +246,9 @@ public class ActivitySetController {
     public Object setWares(@RequestBody Wares wares, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setWares(wares, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "发布成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "发布失败", null);
+        return new Result(204, false, "操作失败", null);
     }
 
     @ApiOperation("商城--商品ID获取规格及规格详情")
@@ -268,9 +268,9 @@ public class ActivitySetController {
     public Object setWaresSpec(@RequestBody JSONObject param) {
         boolean result = activitySetService.setWaresSpecAndDetail(param);
         if (result) {
-            return new Result(200, true, "创建成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "创建失败", null);
+        return new Result(204, false, "操作失败", null);
     }
 
     @ApiOperation("商城--删除商品规格及详情")
@@ -279,9 +279,9 @@ public class ActivitySetController {
     public Object delWaresSpec(@RequestBody String id) {
         boolean result = activitySetService.delWaresSpec(id);
         if (result) {
-            return new Result(200, true, "创建成功", null);
+            return new Result(200, true, "删除成功", null);
         }
-        return new Result(204, false, "创建失败", null);
+        return new Result(204, false, "删除失败", null);
     }
 
     @ApiOperation("商城--删除商品规格详情")
@@ -290,9 +290,9 @@ public class ActivitySetController {
     public Object delWaresSpecDetail(@RequestBody String id) {
         int count = activitySetService.delWaresSpecDetail(id);
         if (count > 0) {
-            return new Result(200, true, "创建成功", null);
+            return new Result(200, true, "删除成功", null);
         }
-        return new Result(204, false, "创建失败", null);
+        return new Result(204, false, "删除失败", null);
     }
 
     @ApiOperation("商城--订单发货确认")
@@ -343,9 +343,9 @@ public class ActivitySetController {
 
         boolean result = activitySetService.setLuckDrawSetAndDetail(param, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "创建成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "创建失败", null);
+        return new Result(204, false, "操作失败", null);
     }
     /************************************************* True 抽奖 - END *********************************************************/
 
@@ -368,9 +368,9 @@ public class ActivitySetController {
     public Object setCouponSet(@RequestBody CouponSet couponSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setCouponSet(couponSet, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "创建成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "创建失败", null);
+        return new Result(204, false, "操作失败", null);
     }
     /************************************************* True 优惠券 - END *********************************************************/
 
@@ -393,9 +393,9 @@ public class ActivitySetController {
     public Object setGroupBuying(@RequestBody GroupBuying groupBuying, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setGroupBuying(groupBuying, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "创建成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "创建失败", null);
+        return new Result(204, false, "操作失败", null);
     }
     /************************************************* True 拼团 - END *********************************************************/
 
@@ -418,9 +418,9 @@ public class ActivitySetController {
     public Object setRecommendSet(@RequestBody RecommendSet recommendSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setRecommendSet(recommendSet, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "创建成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "创建失败", null);
+        return new Result(204, false, "操作失败", null);
     }
     /************************************************* True 推荐 - END *********************************************************/
 
@@ -443,9 +443,9 @@ public class ActivitySetController {
     public Object setBargainingSet(@RequestBody BargainingSet bargainingSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setBargainingSet(bargainingSet, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "创建成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "创建失败", null);
+        return new Result(204, false, "操作失败", null);
     }
     /************************************************* True 砍价 - END *********************************************************/
 
@@ -468,9 +468,9 @@ public class ActivitySetController {
     public Object setShareFriends(@RequestBody ShareFriends shareFriends, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setShareFriends(shareFriends, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "创建成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "创建失败", null);
+        return new Result(204, false, "操作失败", null);
     }
     /************************************************* True 朋友圈 - END *********************************************************/
 
@@ -493,9 +493,9 @@ public class ActivitySetController {
     public Object setSeckillSet(@RequestBody SeckillSet seckillSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setSeckillSet(seckillSet, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "创建成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "创建失败", null);
+        return new Result(204, false, "操作失败", null);
     }
     /************************************************* True 秒杀 - END *********************************************************/
 
@@ -518,9 +518,9 @@ public class ActivitySetController {
     public Object setRedenvelopesSet(@RequestBody RedenvelopesSet redenvelopesSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setRedenvelopesSet(redenvelopesSet, (String) request.getAttribute("sysid"));
         if (result) {
-            return new Result(200, true, "创建成功", null);
+            return new Result(200, true, "操作成功", null);
         }
-        return new Result(204, false, "创建失败", null);
+        return new Result(204, false, "操作失败", null);
     }
     /************************************************* True 红包裂变 - END *********************************************************/
 
@@ -535,7 +535,7 @@ public class ActivitySetController {
         if (result) {
             return new Result(200, true, "增加成功", null);
         }
-        return new Result(204, false, "增加成功", null);
+        return new Result(204, false, "增加失败", null);
     }
 
     @ApiOperation("活动计数--活动领券次数增加")
@@ -547,7 +547,7 @@ public class ActivitySetController {
         if (result) {
             return new Result(200, true, "增加成功", null);
         }
-        return new Result(204, false, "增加成功", null);
+        return new Result(204, false, "增加失败", null);
     }
 
     @ApiOperation("活动计数--活动用券次数增加")
@@ -559,7 +559,7 @@ public class ActivitySetController {
         if (result) {
             return new Result(200, true, "增加成功", null);
         }
-        return new Result(204, false, "增加成功", null);
+        return new Result(204, false, "增加失败", null);
     }
 
     /************************************************* True 活动计数 - END *********************************************************/
