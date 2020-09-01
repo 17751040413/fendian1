@@ -46,7 +46,7 @@ public class LuckDrawSet implements Serializable {
     @ApiModelProperty("活动描述")
     private String describe;
 
-    @ApiModelProperty("活动图片地址（最多9张‘，’分隔）")
+    @ApiModelProperty("活动图片地址（最多9张‘;’分隔）")
     private String pictureUrl;
 
     @ApiModelProperty("活动规则")

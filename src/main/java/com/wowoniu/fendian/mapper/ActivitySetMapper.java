@@ -523,7 +523,7 @@ public interface ActivitySetMapper {
      * @return
      */
     @Update("UPDATE wares_order SET take_code = #{takeCode},courier_number = #{courierNumber},state = #{state} WHERE id = #{id}")
-    int updateWaresOrderState(@Param("takeCode") String takeCode, @Param("courierNumber") String courierNumber, @Param("state") String state , @Param("id") String id);
+    int updateWaresOrderState(@Param("takeCode") String takeCode, @Param("courierNumber") String courierNumber, @Param("state") String state, @Param("id") String id);
 
     /**
      * ID和userID获取订单
@@ -739,6 +739,15 @@ public interface ActivitySetMapper {
     /************************************** 朋友圈分享 - START *************************************************/
 
     /**
+     * 朋友圈模板列表
+     *
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM share_friends WHERE user_id = #{userId}")
+    List<ShareFriends> getShareFriendList(@Param("userId") String userId);
+
+    /**
      * 朋友圈分享ID获取设置信息
      *
      * @param id
@@ -758,6 +767,15 @@ public interface ActivitySetMapper {
      */
     @Update("UPDATE share_friends SET copywriting = #{copywriting},picture_url = #{pictureUrl} WHERE id = #{id}")
     int updateShareFriends(ShareFriends shareFriends);
+
+    /**
+     * 朋友圈模板ID删除o
+     *
+     * @param id
+     * @return
+     */
+    @Delete("DELETE FROM share_friends WHERE id = #{id}")
+    int delShareFriends(String id);
 
     /************************************** 朋友圈分享 - END *************************************************/
 

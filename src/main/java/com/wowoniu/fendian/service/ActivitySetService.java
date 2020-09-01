@@ -217,7 +217,7 @@ public interface ActivitySetService {
      * @param id
      * @return
      */
-    int sendWaresSure(String id,String code);
+    int sendWaresSure(String id, String code);
 
     /**
      * 订单取货确认
@@ -225,7 +225,7 @@ public interface ActivitySetService {
      * @param id
      * @return
      */
-    boolean takeWaresSure(String id,String code,String userId);
+    boolean takeWaresSure(String id, String code, String userId);
 
     /**
      * 抽奖ID获取抽奖设置及详情
@@ -311,6 +311,13 @@ public interface ActivitySetService {
     boolean setBargainingSet(BargainingSet bargainingSet, String userId);
 
     /**
+     * 朋友圈模板列表
+     *
+     * @return
+     */
+    List<ShareFriends> getShareFriendList(String userId);
+
+    /**
      * 朋友圈分享ID获取设置信息
      *
      * @param id
@@ -326,6 +333,14 @@ public interface ActivitySetService {
      * @return
      */
     boolean setShareFriends(ShareFriends shareFriends, String userId);
+
+    /**
+     * 朋友圈模板ID删除
+     *
+     * @param id
+     * @return
+     */
+    int delShareFriends(String id);
 
     /**
      * 秒杀ID获取设置信息

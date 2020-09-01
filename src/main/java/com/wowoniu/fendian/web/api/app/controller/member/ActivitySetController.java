@@ -450,10 +450,18 @@ public class ActivitySetController {
     /************************************************* True 砍价 - END *********************************************************/
 
     /************************************************* True 朋友圈分享 - START *********************************************************/
+    @ApiOperation("朋友圈分享--朋友圈模板列表")
+    @PostMapping("/getShareFriendList")
+    public Object getShareFriendList(@ApiIgnore HttpServletRequest request) {
+
+        List<ShareFriends> shareFriendsList = activitySetService.getShareFriendList((String) request.getAttribute("sysid"));
+
+        return new Result(200, true, "获取成功", shareFriendsList);
+    }
 
     @ApiOperation("朋友圈分享--朋友圈分享ID获取设置信息")
     @PostMapping("/getShareFriends")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "砍价设置ID", dataType = "String", required = true)})
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "朋友圈模板ID", dataType = "String", required = true)})
     public Object getShareFriends(String id) {
 
         ShareFriends shareFriends = activitySetService.getShareFriends(id);
@@ -468,6 +476,17 @@ public class ActivitySetController {
     public Object setShareFriends(@RequestBody ShareFriends shareFriends, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setShareFriends(shareFriends, (String) request.getAttribute("sysid"));
         if (result) {
+            return new Result(200, true, "操作成功", null);
+        }
+        return new Result(204, false, "操作失败", null);
+    }
+
+    @ApiOperation("朋友圈分享--删除")
+    @PostMapping("/delShareFriends")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "朋友圈模板ID", dataType = "String", required = true)})
+    public Object delShareFriends(String id) {
+        int count = activitySetService.delShareFriends(id);
+        if (count > 0) {
             return new Result(200, true, "操作成功", null);
         }
         return new Result(204, false, "操作失败", null);

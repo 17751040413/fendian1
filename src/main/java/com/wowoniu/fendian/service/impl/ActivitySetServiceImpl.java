@@ -964,6 +964,17 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     }
 
     /**
+     * 朋友圈模板列表
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<ShareFriends> getShareFriendList(String userId) {
+        return activitySetMapper.getShareFriendList(userId);
+    }
+
+    /**
      * 朋友圈分享ID获取设置信息
      *
      * @param id
@@ -995,6 +1006,18 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             activitySetMapper.updateShareFriends(shareFriends);
         }
         return true;
+    }
+
+    /**
+     * 朋友圈模板ID删除
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public int delShareFriends(String id) {
+
+        return activitySetMapper.delShareFriends(id);
     }
 
     /**
