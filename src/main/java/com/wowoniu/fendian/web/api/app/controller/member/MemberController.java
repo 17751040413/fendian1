@@ -50,7 +50,7 @@ public class MemberController {
      * @param limit 数据量
      * @return
      */
-    @ApiOperation(value = "会员管理--父级用户ID获取会员用户集合", tags = "limit为获取数据条数")
+    @ApiOperation(value = "会员管理--父级用户ID获取会员用户集合", tags = "会员管理--父级用户ID获取会员用户集合 - limit为获取数据条数")
     @RequestMapping("/getUseUserList")
     @ApiImplicitParams({@ApiImplicitParam(name = "limit", value = "数据量", dataType = "Integer", required = true)})
     public Object getUseUserList(@ApiIgnore HttpServletRequest request, Integer limit) {
@@ -67,7 +67,7 @@ public class MemberController {
      * @param request
      * @return
      */
-    @ApiOperation(value = "会员管理--活动列表", tags = "limit为获取数据条数")
+    @ApiOperation(value = "会员管理--活动列表", tags = "活动列表 - limit为获取数据条数")
     @RequestMapping("/getMemberList")
     public Object getMemberList(@ApiIgnore HttpServletRequest request) {
         JSONObject object = memberStatisticService.getActivity((String) request.getAttribute("sysid"));
