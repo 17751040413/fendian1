@@ -3,6 +3,7 @@ package com.wowoniu.fendian.web.api.applet.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.config.StaticConfig;
+import com.wowoniu.fendian.mapper.UserMapper;
 import com.wowoniu.fendian.model.CouponBuyer;
 import com.wowoniu.fendian.model.ShippingAddress;
 import com.wowoniu.fendian.model.WaresCart;
@@ -36,6 +37,9 @@ public class AppletController {
 
     @Autowired
     private AppletService appletService;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @PostMapping("/nearbyShop")
     @ApiOperation("5-1-1-1 附近商铺")
@@ -112,11 +116,11 @@ public class AppletController {
     }
 
     @PostMapping("/getGoodsCartById")
-    @ApiOperation("5-2-5 买家ID获取购物车列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家ID ", dataType = "String", required = true),
+    @ApiOperation("5-2-5 买家skey获取购物车列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家skey ", dataType = "String", required = true),
             @ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true)})
-    public Object getGoodsCartById(String buyerId, String userId) {
-
+    public Object getGoodsCartById(String skey, String userId) {
+        String buyerId = userMapper.selectBySkey(skey).getOpenId();
         List<WaresCart> waresCartList = appletService.getGoodsCartById(buyerId, userId);
         if (CollectionUtils.isEmpty(waresCartList)) {
             return new Result<>(204, false, "获取失败", null);
@@ -137,9 +141,9 @@ public class AppletController {
 
     @PostMapping("/getShippingAddressList")
     @ApiOperation("5-2-8 收货地址列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家ID ", dataType = "String", required = true)})
-    public Object getShippingAddressList(String buyerId) {
-
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey ", dataType = "String", required = true)})
+    public Object getShippingAddressList(String skey) {
+        String buyerId = userMapper.selectBySkey(skey).getOpenId();
         List<ShippingAddress> shippingAddressList = appletService.getShippingAddressList(buyerId);
         if (CollectionUtils.isEmpty(shippingAddressList)) {
             return new Result<>(204, false, "获取失败", null);
@@ -160,10 +164,10 @@ public class AppletController {
 
     @PostMapping("/getWaresOrderList")
     @ApiOperation("5-2-9 当前店铺订单列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家ID ", dataType = "String", required = true),
+    @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家skey ", dataType = "String", required = true),
             @ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true)})
-    public Object getWaresOrderList(String buyerId, String userId) {
-
+    public Object getWaresOrderList(String skey, String userId) {
+        String buyerId = userMapper.selectBySkey(skey).getOpenId();
         JSONObject jsonObject = appletService.getWaresOrderList(buyerId, userId);
         if (jsonObject == null || jsonObject.size() <= 0) {
             return new Result<>(204, false, "获取失败", null);
@@ -221,10 +225,10 @@ public class AppletController {
 
     @PostMapping("/couponChoice")
     @ApiOperation("5-2-11 优惠券列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "买家ID", dataType = "String", required = true)})
-    public Object couponChoice(String id) {
-
-        List<CouponBuyer> couponBuyerList = appletService.getCouponBuyerList(id);
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey", dataType = "String", required = true)})
+    public Object couponChoice(String skey) {
+        String buyerId = userMapper.selectBySkey(skey).getOpenId();
+        List<CouponBuyer> couponBuyerList = appletService.getCouponBuyerList(buyerId);
         if (CollectionUtils.isEmpty(couponBuyerList)) {
             return new Result<>(204, false, "获取失败", null);
         }
