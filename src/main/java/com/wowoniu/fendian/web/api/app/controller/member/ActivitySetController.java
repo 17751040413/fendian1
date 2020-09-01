@@ -150,9 +150,7 @@ public class ActivitySetController {
     public Object getWaresOrder(String state, @ApiIgnore HttpServletRequest request) {
 
         List<WaresOrder> waresOrderList = activitySetService.getWaresOrderList((String) request.getAttribute("sysid"), state);
-        if (CollectionUtils.isEmpty(waresOrderList)) {
-            return new Result(204, false, "获取失败", null);
-        }
+
         return new Result(200, true, "获取成功", waresOrderList);
     }
 
