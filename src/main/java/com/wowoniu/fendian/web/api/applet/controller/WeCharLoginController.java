@@ -37,7 +37,7 @@ public class WeCharLoginController {
     @ApiOperation("微信登陆验证 ")
     @PostMapping("/login")
     @ApiImplicitParams({@ApiImplicitParam(name = "code", value = "code ", dataType = "String", required = true),
-            @ApiImplicitParam(name = "rawData", value = "用户非敏感信息：rawData ", dataType = "String"),
+            @ApiImplicitParam(name = "rawData", value = "用户非敏感信息：rawData【nickName：昵称；avatarUrl：头像地址；gender：性别；city：市；country：国家；province：省；】 ", dataType = "String"),
             @ApiImplicitParam(name = "signature", value = "签名：signature ", dataType = "String"),
             @ApiImplicitParam(name = "encrypteData", value = "encrypteData比rowData多了appid和openid（备用 暂时用不到） ", dataType = "String"),
             @ApiImplicitParam(name = "iv", value = "偏移（备用 暂时用不到） ", dataType = "String")})
