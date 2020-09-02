@@ -330,6 +330,17 @@ public class AppletServiceImpl implements AppletService {
     }
 
     /**
+     * 券详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public LuckBuyer luckWinningDetail(String id) {
+        return appletMapper.luckWinningDetail(id);
+    }
+
+    /**
      * 参与的砍价活动
      *
      * @param buyerId

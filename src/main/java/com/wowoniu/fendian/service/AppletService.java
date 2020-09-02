@@ -159,7 +159,15 @@ public interface AppletService {
      * @param buyerId
      * @return
      */
-    List<LuckBuyer> luckWinning(String buyerId,int state);
+    List<LuckBuyer> luckWinning(String buyerId, int state);
+
+    /**
+     * 券详情
+     *
+     * @param id
+     * @return
+     */
+    LuckBuyer luckWinningDetail(String id);
 
     /**
      * 参与的砍价活动

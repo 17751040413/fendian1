@@ -253,8 +253,19 @@ public interface AppletMapper {
      */
     @Select("SELECT b.*,uu.shop_name,uu.shop_address,ldd.`name`,ldd.`range`,ldd.prize_name,ldd.picture_url FROM luck_buyer b " +
             "LEFT JOIN luck_draw_detail ldd ON b.luck_id = ldd.id LEFT JOIN luck_draw_set lds ON lds.id = ldd.luck_draw_id " +
-            "LEFT JOIN use_user uu ON uu.id = lds.user_id  WHERE buyer_id = #{buyerId} AND state = #{state}")
+            "LEFT JOIN use_user uu ON uu.id = lds.user_id  WHERE b.buyer_id = #{buyerId} AND b.state = #{state}")
     List<LuckBuyer> luckWinning(@Param("buyerId") String buyerId, @Param("state") int state);
+
+    /**
+     * 券详情
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT b.*,uu.shop_name,uu.shop_address,ldd.`name`,ldd.`range`,ldd.prize_name,ldd.picture_url FROM luck_buyer b " +
+            "LEFT JOIN luck_draw_detail ldd ON b.luck_id = ldd.id LEFT JOIN luck_draw_set lds ON lds.id = ldd.luck_draw_id " +
+            "LEFT JOIN use_user uu ON uu.id = lds.user_id  WHERE b.id = #{id}")
+    LuckBuyer luckWinningDetail(String id);
 
     /**
      * 参与的砍价活动

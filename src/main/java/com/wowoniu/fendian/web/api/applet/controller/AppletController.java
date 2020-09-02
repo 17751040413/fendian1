@@ -254,8 +254,17 @@ public class AppletController {
         return new Result<>(200, true, "获取成功", luckBuyerList);
     }
 
+    @PostMapping("/luckWinningDetail")
+    @ApiOperation("5-3-2 券详情")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "券ID", dataType = "String", required = true)})
+    public Object luckWinningDetail(String id) {
+        LuckBuyer LuckBuyer = appletService.luckWinningDetail(id);
+
+        return new Result<>(200, true, "获取成功", LuckBuyer);
+    }
+
     @PostMapping("/bargainParticipate")
-    @ApiOperation("5-3-1 我的砍价")
+    @ApiOperation("5-3-2 我的砍价")
     @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey", dataType = "String", required = true),
             @ApiImplicitParam(name = "state", value = "状态：0砍价中；1成功；2失败", dataType = "int", required = true)})
     public Object bargainParticipate(String skey, int state) {
