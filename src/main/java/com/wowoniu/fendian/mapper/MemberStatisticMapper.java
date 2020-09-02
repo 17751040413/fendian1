@@ -2,6 +2,7 @@ package com.wowoniu.fendian.mapper;
 
 import com.wowoniu.fendian.model.MemberStatistic;
 import com.wowoniu.fendian.model.UseUser;
+import com.wowoniu.fendian.model.User;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -25,11 +26,11 @@ public interface MemberStatisticMapper {
     MemberStatistic getMemberTotalData(@Param("userId") String userId, @Param("type") String type);
 
     /**
-     * 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量
+     * 商家ID获取会员 limit 取数据量
      *
-     * @param parentId 父级用户ID
+     * @param userId 商家ID
      * @param limit    数据量
      * @return
      */
-    List<UseUser> getUseUserList(@Param("parentId") String parentId, @Param("limit") Integer limit);
+    List<User> getUserList(@Param("userId") String userId, @Param("limit") Integer limit);
 }

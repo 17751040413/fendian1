@@ -25,7 +25,7 @@ public interface MemberStatisticService {
      * @param limit  数据量
      * @return
      */
-    Object getUseUserList(String userId, Integer limit);
+    Object getUserList(String userId, Integer limit);
 
     /**
      * 活动列表
@@ -33,5 +33,5 @@ public interface MemberStatisticService {
      * @param userId
      * @return
      */
-    JSONObject getActivity(String userId);
+    JSONObject getActivity(String userId, String type);
 }

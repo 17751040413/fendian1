@@ -45,16 +45,16 @@ public class MemberController {
     }
 
     /**
-     * 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量
+     * 商家ID获取会员用户集合 以团队人数倒叙 limit 取数据量
      *
      * @param limit 数据量
      * @return
      */
-    @ApiOperation(value = "会员管理--父级用户ID获取会员用户集合", tags = "会员管理--父级用户ID获取会员用户集合 - limit为获取数据条数")
+    @ApiOperation(value = "会员管理--商家ID获取会员用户集合", tags = "会员管理--商家ID获取会员用户集合 - limit为获取数据条数")
     @RequestMapping("/getUseUserList")
     @ApiImplicitParams({@ApiImplicitParam(name = "limit", value = "数据量", dataType = "Integer", required = true)})
     public Object getUseUserList(@ApiIgnore HttpServletRequest request, Integer limit) {
-        Object object = memberStatisticService.getUseUserList((String) request.getAttribute("sysid"), limit);
+        Object object = memberStatisticService.getUserList((String) request.getAttribute("sysid"), limit);
         if (object == null) {
             return new Result(204, false, "无数据", null);
         }
@@ -67,10 +67,11 @@ public class MemberController {
      * @param request
      * @return
      */
-    @ApiOperation(value = "会员管理--活动列表", tags = "活动列表 - limit为获取数据条数")
-    @RequestMapping("/getMemberList")
-    public Object getMemberList(@ApiIgnore HttpServletRequest request) {
-        JSONObject object = memberStatisticService.getActivity((String) request.getAttribute("sysid"));
+    @ApiOperation(value = "会员管理--活动列表", tags = " 获取已创建的优惠券 type 0：会员裂变；1：会员返利；2：店铺分销； - limit为获取数据条数")
+    @RequestMapping("/getCouponList")
+    @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "引流活动类型", dataType = "String", required = true)})
+    public Object getCouponList(@ApiIgnore HttpServletRequest request, String type) {
+        JSONObject object = memberStatisticService.getActivity((String) request.getAttribute("sysid"), type);
         if (object == null && object.size() == 0) {
             return new Result(204, false, "无数据", null);
         }

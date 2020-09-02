@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * @author lastwhisper
@@ -25,6 +24,8 @@ public class User {
     private Timestamp lastVisitTime;
     @ApiModelProperty("session_key")
     private String sessionKey;
+    @ApiModelProperty("手机号")
+    private String phone;
     @ApiModelProperty("市")
     private String city;
     @ApiModelProperty("省")
@@ -37,6 +38,10 @@ public class User {
     private Integer gender;
     @ApiModelProperty("网名")
     private String nickName;
+    @ApiModelProperty("邀请人数")
+    private Integer inviterNum;
+    @ApiModelProperty("最后消费")
+    private Integer lastBuy;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -128,6 +133,30 @@ public class User {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public Integer getLastBuy() {
+        return lastBuy;
+    }
+
+    public void setLastBuy(Integer lastBuy) {
+        this.lastBuy = lastBuy;
+    }
+
+    public Integer getInviterNum() {
+        return inviterNum;
+    }
+
+    public void setInviterNum(Integer inviterNum) {
+        this.inviterNum = inviterNum;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
 

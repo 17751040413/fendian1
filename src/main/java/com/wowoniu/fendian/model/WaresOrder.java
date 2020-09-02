@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * @author yuany
@@ -19,8 +20,8 @@ public class WaresOrder implements Serializable {
     @ApiModelProperty("用户ID")
     private String userId;
 
-    @ApiModelProperty("商家ID")
-    private String storeUserId;
+    @ApiModelProperty("买家ID")
+    private String buyerId;
 
     @ApiModelProperty("商品ID")
     private String waresId;
@@ -32,7 +33,7 @@ public class WaresOrder implements Serializable {
     private String state;
 
     @ApiModelProperty("创建时间")
-    private DateTime createTime;
+    private Timestamp createTime;
 
     @ApiModelProperty("自提人名称")
     private String selfName;
@@ -43,8 +44,17 @@ public class WaresOrder implements Serializable {
     @ApiModelProperty("购物车选中结算货物的ID 多个，隔开")
     private String cartId;
 
+    @ApiModelProperty("优惠券ID")
+    private String couponId;
+
     @ApiModelProperty("订单编号")
     private String orderCode;
+
+    @ApiModelProperty("运费 ")
+    private String freight;
+
+    @ApiModelProperty("总额 ")
+    private String price;
 
     @ApiModelProperty("实付款")
     private String actualPayment;
@@ -60,6 +70,12 @@ public class WaresOrder implements Serializable {
 
     @ApiModelProperty("快递单号")
     private String courierNumber;
+
+    @ApiModelProperty("配送方式（0:自提 1:快递）")
+    private String deliveryMethod;
+
+    @ApiModelProperty("收货地址ID ")
+    private String addressId;
 
     public String getId() {
         return id;
@@ -77,13 +93,6 @@ public class WaresOrder implements Serializable {
         this.userId = userId;
     }
 
-    public String getStoreUserId() {
-        return storeUserId;
-    }
-
-    public void setStoreUserId(String storeUserId) {
-        this.storeUserId = storeUserId;
-    }
 
     public String getWaresId() {
         return waresId;
@@ -109,12 +118,8 @@ public class WaresOrder implements Serializable {
         this.state = state;
     }
 
-    public DateTime getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
-    }
-
-    public void setCreateTime(DateTime createTime) {
-        this.createTime = createTime;
     }
 
     public String getSpecDetailId() {
@@ -195,5 +200,57 @@ public class WaresOrder implements Serializable {
 
     public void setCourierNumber(String courierNumber) {
         this.courierNumber = courierNumber;
+    }
+
+    public String getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(String buyerId) {
+        this.buyerId = buyerId;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCouponId() {
+        return couponId;
+    }
+
+    public void setCouponId(String couponId) {
+        this.couponId = couponId;
+    }
+
+    public String getFreight() {
+        return freight;
+    }
+
+    public void setFreight(String freight) {
+        this.freight = freight;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getDeliveryMethod() {
+        return deliveryMethod;
+    }
+
+    public void setDeliveryMethod(String deliveryMethod) {
+        this.deliveryMethod = deliveryMethod;
+    }
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
     }
 }

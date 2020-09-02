@@ -95,9 +95,9 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
      * @return
      */
     @Override
-    public Object getUseUserList(String userId, Integer limit) {
+    public Object getUserList(String userId, Integer limit) {
 
-        return memberStatisticMapper.getUseUserList(userId, limit);
+        return memberStatisticMapper.getUserList(userId, limit);
     }
 
     /**
@@ -107,30 +107,27 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
      * @return
      */
     @Override
-    public JSONObject getActivity(String userId) {
+    public JSONObject getActivity(String userId, String type) {
         JSONObject jsonObject = new JSONObject();
-//        //裂变
-//        jsonObject.put("fission",activitySetMapper.getFissionSet(userId));
-//        //返利
-//        jsonObject.put("rebate",activitySetMapper.getRebateSet(userId));
-//        //分销
-//        jsonObject.put("distribution",activitySetMapper.getDistributionSet(userId));
-        //抽奖
-        jsonObject.put("luckDraw", activitySetMapper.getLuckDrawSet(userId));
-        //优惠券
-        jsonObject.put("coupon", activitySetMapper.getCouponSet(userId));
-        //拼团
-        jsonObject.put("groupBuying", activitySetMapper.getGroupBuying(userId));
-        //推荐
-        jsonObject.put("recommend", activitySetMapper.getRebateSet(userId));
-        //砍价
-        jsonObject.put("bargaining", activitySetMapper.getBargainingSet(userId));
-        //朋友圈
-        jsonObject.put("shareFriends", activitySetMapper.getShareFriends(userId));
-        //秒杀
-        jsonObject.put("seckill", activitySetMapper.getSeckillSet(userId));
-        //红包裂变
-        jsonObject.put("redenvelopes", activitySetMapper.getRedenvelopesSet(userId));
+        switch (type) {
+            //会员裂变
+            case Constants.FISSION:
+                //裂变
+                jsonObject.put("fissionDetail", activitySetMapper.getFissionSetDetailByUserId(userId));
+                break;
+            //会员返利
+            case Constants.REBATE:
+                //返利
+                jsonObject.put("rebate", activitySetMapper.getRebateSet(userId));
+                //分销
+                break;
+            //店铺分销
+            case Constants.DISTRIBUTION:
+                jsonObject.put("distributionDetail", activitySetMapper.getDistributionCouponList(userId));
+                break;
+            default:
+                break;
+        }
 
         return jsonObject;
     }
