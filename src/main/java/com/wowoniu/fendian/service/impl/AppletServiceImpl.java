@@ -305,4 +305,39 @@ public class AppletServiceImpl implements AppletService {
     public List<CouponBuyer> getCouponBuyerList(String id) {
         return appletMapper.getCouponBuyerList(id);
     }
+
+    /**
+     * 参与的拼团活动
+     *
+     * @param buyerId
+     * @param state
+     * @return
+     */
+    @Override
+    public List<GroupBuyer> groupParticipate(String buyerId, int state) {
+        return appletMapper.groupParticipate(buyerId, state);
+    }
+
+    /**
+     * 我的奖券
+     *
+     * @param buyerId
+     * @return
+     */
+    @Override
+    public List<LuckBuyer> luckWinning(String buyerId, int state) {
+        return appletMapper.luckWinning(buyerId, state);
+    }
+
+    /**
+     * 参与的砍价活动
+     *
+     * @param buyerId
+     * @param state
+     * @return
+     */
+    @Override
+    public List<BargainBuyer> bargainParticipate(String buyerId, int state) {
+        return appletMapper.bargainParticipate(buyerId, state);
+    }
 }

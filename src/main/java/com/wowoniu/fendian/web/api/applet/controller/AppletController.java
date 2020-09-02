@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.config.StaticConfig;
 import com.wowoniu.fendian.mapper.UserMapper;
-import com.wowoniu.fendian.model.CouponBuyer;
-import com.wowoniu.fendian.model.ShippingAddress;
-import com.wowoniu.fendian.model.WaresCart;
-import com.wowoniu.fendian.model.WaresOrder;
+import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.AppletService;
 import com.wowoniu.fendian.utils.Result;
 import com.wowoniu.fendian.utils.StringUtils;
@@ -235,5 +232,37 @@ public class AppletController {
         return new Result<>(200, true, "获取成功", couponBuyerList);
     }
 
+    @PostMapping("/groupParticipate")
+    @ApiOperation("5-3-1 我的拼团")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey", dataType = "String", required = true),
+            @ApiImplicitParam(name = "state", value = "状态：0拼团中；1成功；2失败", dataType = "int", required = true)})
+    public Object groupParticipate(String skey, int state) {
+        String buyerId = userMapper.selectBySkey(skey).getOpenId();
+        List<GroupBuyer> groupBuyerList = appletService.groupParticipate(buyerId, state);
+
+        return new Result<>(200, true, "获取成功", groupBuyerList);
+    }
+
+    @PostMapping("/luckWinning")
+    @ApiOperation("5-3-1 我的奖券")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey", dataType = "String", required = true),
+            @ApiImplicitParam(name = "state", value = "状态：0未兑换；1已兑换;2过期", dataType = "int", required = true)})
+    public Object luckWinning(String skey, int state) {
+        String buyerId = userMapper.selectBySkey(skey).getOpenId();
+        List<LuckBuyer> luckBuyerList = appletService.luckWinning(buyerId, state);
+
+        return new Result<>(200, true, "获取成功", luckBuyerList);
+    }
+
+    @PostMapping("/bargainParticipate")
+    @ApiOperation("5-3-1 我的砍价")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey", dataType = "String", required = true),
+            @ApiImplicitParam(name = "state", value = "状态：0砍价中；1成功；2失败", dataType = "int", required = true)})
+    public Object bargainParticipate(String skey, int state) {
+        String buyerId = userMapper.selectBySkey(skey).getOpenId();
+        List<BargainBuyer> bargainBuyerList = appletService.bargainParticipate(buyerId, state);
+
+        return new Result<>(200, true, "获取成功", bargainBuyerList);
+    }
 
 }

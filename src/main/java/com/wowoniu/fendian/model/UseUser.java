@@ -47,6 +47,8 @@ public class UseUser {
     private int state;
     @ApiModelProperty("店铺logo")
     private String shopLogo;
+    @ApiModelProperty("店铺地址")
+    private String shopAddress;
     @ApiModelProperty("店铺名称")
     private String shopName;
     @ApiModelProperty("纬度")
@@ -281,5 +283,13 @@ public class UseUser {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getShopAddress() {
+        return shopAddress;
+    }
+
+    public void setShopAddress(String shopAddress) {
+        this.shopAddress = shopAddress;
     }
 }

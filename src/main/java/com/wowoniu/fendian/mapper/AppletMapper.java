@@ -223,7 +223,48 @@ public interface AppletMapper {
     @Update("UPDATE wares_order SET state = #{state} WHERE id = #{id}")
     int updateOrderState(@Param("id") String id, @Param("state") String state);
 
+    /**
+     * 买家优惠券列表
+     *
+     * @param id
+     * @return
+     */
     @Select("SELECT * FROM coupon_buyer WHERE buyer_id = #{id} ORDER BY effective DESC")
     List<CouponBuyer> getCouponBuyerList(String id);
 
+    /**
+     * 参与的拼团活动
+     *
+     * @param buyerId
+     * @param state
+     * @return
+     */
+    @Select("SELECT gb.*,uu.shop_name FROM group_buyer gb " +
+            "LEFT JOIN group_buying g ON g.id = gb.group_id LEFT JOIN use_user uu ON uu.id = g.user_id " +
+            "WHERE CONTAINS(gb.users,#{buyerId}) AND gb.state = #{state}")
+    List<GroupBuyer> groupParticipate(@Param("buyerId") String buyerId, @Param("state") int state);
+
+    /**
+     * 我的奖券
+     *
+     * @param buyerId
+     * @param state
+     * @return
+     */
+    @Select("SELECT b.*,uu.shop_name,uu.shop_address,ldd.`name`,ldd.`range`,ldd.prize_name,ldd.picture_url FROM luck_buyer b " +
+            "LEFT JOIN luck_draw_detail ldd ON b.luck_id = ldd.id LEFT JOIN luck_draw_set lds ON lds.id = ldd.luck_draw_id " +
+            "LEFT JOIN use_user uu ON uu.id = lds.user_id  WHERE buyer_id = #{buyerId} AND state = #{state}")
+    List<LuckBuyer> luckWinning(@Param("buyerId") String buyerId, @Param("state") int state);
+
+    /**
+     * 参与的砍价活动
+     *
+     * @param buyerId
+     * @param state
+     * @return
+     */
+    @Select("SELECT bb.*,uu.shop_name FROM bargain_buyer bb " +
+            "LEFT JOIN bargaining_set bs ON bs.id = bb.bargain_id LEFT JOIN use_user uu ON uu.id = bs.user_id " +
+            "WHERE gb.buyer_id = #{buyerId} AND gb.state = #{state}")
+    List<BargainBuyer> bargainParticipate(String buyerId, int state);
 }

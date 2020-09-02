@@ -143,4 +143,30 @@ public interface AppletService {
      * @return
      */
     List<CouponBuyer> getCouponBuyerList(String id);
+
+    /**
+     * 参与的拼团活动
+     *
+     * @param buyerId
+     * @param state
+     * @return
+     */
+    List<GroupBuyer> groupParticipate(String buyerId, int state);
+
+    /**
+     * 我的奖券
+     *
+     * @param buyerId
+     * @return
+     */
+    List<LuckBuyer> luckWinning(String buyerId,int state);
+
+    /**
+     * 参与的砍价活动
+     *
+     * @param buyerId
+     * @param state
+     * @return
+     */
+    List<BargainBuyer> bargainParticipate(String buyerId, int state);
 }
