@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
@@ -35,9 +36,10 @@ public class MemberController {
      */
     @ApiOperation(value = "会员管理--会员统计数据,及活动列表", tags = "根据用户ID获取其会员及当日数据统计")
     @RequestMapping("/getTotalDataAndActivity")
-    @ApiImplicitParam(name = "type", value = "引流活动类型", dataType = "String", required = false)
+    @ApiImplicitParam(name = "type", value = "引流活动类型", dataType = "String", required = true)
     public Object getTotalDataAndActivity(@ApiIgnore HttpServletRequest request, String type) {
-        JSONObject object = memberStatisticService.getTotalDataAndActivity((String) request.getAttribute("sysid"), type);
+
+        JSONObject object = memberStatisticService.getTotalDataAndActivity((String) request.getAttribute("sysid"), request.getParameterMap().get("type").toString());
         if (object == null && object.size() == 0) {
             return new Result(204, false, "无数据", null);
         }

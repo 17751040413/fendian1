@@ -27,6 +27,22 @@ public interface UserMapper {
     User selectBySkey(@Param("skey") String skey);
 
     /**
+     * openId 获取微信用户
+     * @param openId
+     * @return
+     */
+    @Select("SELECT * FROM user WHERE opend = #{openId}")
+    User selectByOpenId(@Param("openId") String openId);
+
+    /**
+     * 登陆退出 清除skey
+     * @param openId
+     * @return
+     */
+    @Update("UPDATE user SET skey = null WHERE open_id = #{openId}")
+    int signOut(@Param("openId") String openId);
+
+    /**
      * 微信用户新增
      */
     @Insert("INSERT INTO `user` (open_id,skey,create_time,last_visit_time,session_key,city,province,country,avatar_url,gender,nick_name) " +

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.common.GlobalResult;
 import com.wowoniu.fendian.mapper.UserMapper;
 import com.wowoniu.fendian.model.User;
+import com.wowoniu.fendian.utils.StringUtils;
 import com.wowoniu.fendian.utils.WechatUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -23,7 +24,7 @@ import java.util.UUID;
  * @author yuany
  * @date 2020-09-01
  */
-@Api(value = "微信登陆", tags = "微信登陆")
+@Api(value = "微信登陆", tags = "小程序-微信登陆")
 @RestController
 @RequestMapping("/weChar")
 public class WeCharLoginController {
@@ -96,6 +97,41 @@ public class WeCharLoginController {
         //6. 把新的skey返回给小程序
         GlobalResult result = GlobalResult.build(200, null, skey);
         return result;
+    }
+
+    @ApiOperation("获取skey")
+    @PostMapping("/getSkey")
+    @ApiImplicitParams({@ApiImplicitParam(name = "code", value = "code ", dataType = "String", required = true)})
+    public GlobalResult getSkey(String code) {
+        if (StringUtils.isEmpity(code)) {
+            return GlobalResult.build(204, "未获code取参数", null);
+        }
+        // 开发者服务器 登录凭证校验接口 appi + appsecret + code
+        JSONObject SessionKeyOpenId = WechatUtil.getSessionKeyOrOpenId(code);
+        //接收微信接口服务 获取返回的参数
+        String openid = SessionKeyOpenId.getString("openid");
+        if (openid == null) {
+            return GlobalResult.build(204, "未找到用户信息", null);
+        }
+        User user = userMapper.selectByOpenId(openid);
+        if (user == null) {
+            return GlobalResult.build(204, "未找到用户信息", null);
+        }
+        return GlobalResult.build(200, "获取成功", user.getSkey());
+    }
+
+    @ApiOperation("退出登陆")
+    @PostMapping("/signOut")
+    @ApiImplicitParams({@ApiImplicitParam(name = "code", value = "code ", dataType = "String", required = true)})
+    public GlobalResult signOut(String code) {
+        if (StringUtils.isEmpity(code)) {
+            return GlobalResult.build(204, "未获code取参数", null);
+        }
+        // 开发者服务器 登录凭证校验接口 appi + appsecret + code
+        JSONObject SessionKeyOpenId = WechatUtil.getSessionKeyOrOpenId(code);
+        String openid = SessionKeyOpenId.getString("openid");
+        userMapper.signOut(openid);
+        return GlobalResult.build(200, "退出成功", null);
     }
 }
 
