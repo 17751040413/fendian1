@@ -970,8 +970,8 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      * @return
      */
     @Override
-    public List<ShareFriends> getShareFriendList(String userId) {
-        return activitySetMapper.getShareFriendList(userId);
+    public List<ShareFriends> getShareFriendList(String userId, Integer limit) {
+        return activitySetMapper.getShareFriendList(userId,limit);
     }
 
     /**

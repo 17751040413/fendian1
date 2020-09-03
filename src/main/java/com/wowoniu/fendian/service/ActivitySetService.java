@@ -315,7 +315,7 @@ public interface ActivitySetService {
      *
      * @return
      */
-    List<ShareFriends> getShareFriendList(String userId);
+    List<ShareFriends> getShareFriendList(String userId, Integer limit);
 
     /**
      * 朋友圈分享ID获取设置信息

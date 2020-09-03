@@ -35,6 +35,14 @@
         </if>
     </select>
 
+    <!-- 朋友圈模板列表 -->
+    <select id="getShareFriendList" resultType="com.wowoniu.fendian.model.ShareFriends">
+        SELECT * FROM share_friends WHERE user_id = #{userId}
+        <if test="limit != null">
+            LIMIT #{limit}
+        </if>
+    </select>
+
     <!-- 新增规格详情-批量 -->
     <insert id="addWaresSpecDetailBatch">
         INSERT INTO wares_spec_detail (id,model,price,stock,spec_id,picture_url)
@@ -47,7 +55,8 @@
     <!-- 修改规格详情-批量 -->
     <update id="updateWaresSpecDetailBatch">
         <foreach collection="waresSpecDetailList" item="item" index="index" open="" close="" separator=";">
-            UPDATE wares_spec_detail SET model = #{item.model},price = #{item.price},stock = #{item.stock},picture_url = #{item.pictureUrl} WHERE id =
+            UPDATE wares_spec_detail SET model = #{item.model},price = #{item.price},stock = #{item.stock},picture_url =
+            #{item.pictureUrl} WHERE id =
             #{item.id}
         </foreach>
     </update>

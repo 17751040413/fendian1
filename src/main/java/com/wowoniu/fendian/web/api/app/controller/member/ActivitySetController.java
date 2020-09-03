@@ -450,9 +450,10 @@ public class ActivitySetController {
     /************************************************* True 朋友圈分享 - START *********************************************************/
     @ApiOperation("朋友圈分享--朋友圈模板列表")
     @PostMapping("/getShareFriendList")
-    public Object getShareFriendList(@ApiIgnore HttpServletRequest request) {
+    @ApiImplicitParams({@ApiImplicitParam(name = "limit", value = "数据量", dataType = "Integer", required = true)})
+    public Object getShareFriendList(@ApiIgnore HttpServletRequest request, Integer limit) {
 
-        List<ShareFriends> shareFriendsList = activitySetService.getShareFriendList((String) request.getAttribute("sysid"));
+        List<ShareFriends> shareFriendsList = activitySetService.getShareFriendList((String) request.getAttribute("sysid"),limit);
 
         return new Result(200, true, "获取成功", shareFriendsList);
     }

@@ -35,7 +35,7 @@ public class MemberController {
      */
     @ApiOperation(value = "会员管理--会员统计数据,及活动列表", tags = "根据用户ID获取其会员及当日数据统计")
     @RequestMapping("/getTotalDataAndActivity")
-    @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "引流活动类型", dataType = "String", required = true)})
+    @ApiImplicitParam(name = "type", value = "引流活动类型", dataType = "String", required = false)
     public Object getTotalDataAndActivity(@ApiIgnore HttpServletRequest request, String type) {
         JSONObject object = memberStatisticService.getTotalDataAndActivity((String) request.getAttribute("sysid"), type);
         if (object == null && object.size() == 0) {

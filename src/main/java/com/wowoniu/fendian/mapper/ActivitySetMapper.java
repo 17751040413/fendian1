@@ -744,8 +744,8 @@ public interface ActivitySetMapper {
      * @param userId
      * @return
      */
-    @Select("SELECT * FROM share_friends WHERE user_id = #{userId}")
-    List<ShareFriends> getShareFriendList(@Param("userId") String userId);
+//    @Select("SELECT * FROM share_friends WHERE user_id = #{userId}")
+    List<ShareFriends> getShareFriendList(@Param("userId") String userId,@Param("limit")Integer limit);
 
     /**
      * 朋友圈分享ID获取设置信息
