@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * @author yuany
@@ -29,6 +30,8 @@ public class ShareFriends implements Serializable {
 
     @ApiModelProperty("总用券数")
     private Integer use;
+
+    private Timestamp createTime;
 
     public String getId() {
         return id;
@@ -76,5 +79,13 @@ public class ShareFriends implements Serializable {
 
     public void setUse(Integer use) {
         this.use = use;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 }
