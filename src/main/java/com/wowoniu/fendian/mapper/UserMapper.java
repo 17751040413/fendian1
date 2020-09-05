@@ -31,7 +31,7 @@ public interface UserMapper {
      * @param openId
      * @return
      */
-    @Select("SELECT * FROM user WHERE opend = #{openId}")
+    @Select("SELECT * FROM user WHERE open_id = #{openId}")
     User selectByOpenId(@Param("openId") String openId);
 
     /**
