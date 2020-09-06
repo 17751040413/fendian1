@@ -44,7 +44,7 @@ public class ActivitySetController {
 
     @ApiOperation("裂变--裂变活动设置及详情(新增/修改)")
     @PostMapping("/setFissionSet")
-    @ApiImplicitParams({@ApiImplicitParam(name = "param", value = " LuckDrawSet实体及LuckDrawDetail集合数据", dataType = "JSONObject", required = true)})
+    @ApiImplicitParams({@ApiImplicitParam(name = "param", value = " 裂变活动设置FissionSet实体 FissionSetDetail详情", dataType = "JSONObject", required = true)})
     public Object setFissionSet(@RequestBody JSONObject param, @ApiIgnore HttpServletRequest request) {
 
         boolean result = activitySetService.addOrUpdateFission(param, (String) request.getAttribute("sysid"));
