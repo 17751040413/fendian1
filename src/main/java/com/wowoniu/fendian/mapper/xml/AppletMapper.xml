@@ -4,22 +4,10 @@
 
     <!-- 条件搜索店铺 -->
     <select id="searchUseUser" resultType="com.wowoniu.fendian.model.UseUser">
-        SELECT * FROM use_user WHERE
-        sqrt(
-        (
-        ((113.914619-#{lng})*PI()*12656*cos(((22.50128+#{lat})/2)*PI()/180)/180)
-        *
-        ((113.914619-#{lng})*PI()*12656*cos (((22.50128+#{lat})/2)*PI()/180)/180)
-        )
-        +
-        (
-        ((22.50128-#{lat})*PI()*12656/180)
-        *
-        ((22.50128-#{lat})*PI()*12656/180)
-        )
-        ) lt #{range}
+        SELECT * FROM use_user
+        WHERE ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{lat}*PI()/180-lat*PI()/180)/2),2)+COS(#{lat}*PI()/180)*COS(lat*PI()/180)*POW(SIN((#{lng}*PI()/180-lng*PI()/180)/2),2)))*1000) &lt;= 5000
         <if test="type != null and type != ''">
-            AND 'type' = #{type}
+            AND type = #{type}
         </if>
         ORDER BY lng,lat
         LIMIT #{startRow},#{pageSize}
@@ -27,30 +15,18 @@
 
     <!-- 条件搜索店铺的条数 -->
     <select id="searchUseUserCount" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM use_user WHERE
-        sqrt(
-        (
-        ((113.914619-#{lng})*PI()*12656*cos(((22.50128+#{lat})/2)*PI()/180)/180)
-        *
-        ((113.914619-#{lng})*PI()*12656*cos (((22.50128+#{lat})/2)*PI()/180)/180)
-        )
-        +
-        (
-        ((22.50128-#{lat})*PI()*12656/180)
-        *
-        ((22.50128-#{lat})*PI()*12656/180)
-        )
-        ) lt #{range}
+        SELECT COUNT(*) FROM use_user
+        WHERE ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{lat}*PI()/180-lat*PI()/180)/2),2)+COS(#{lat}*PI()/180)*COS(lat*PI()/180)*POW(SIN((#{lng}*PI()/180-lng*PI()/180)/2),2)))*1000) &lt;= 5000
         <if test="type != null and type != ''">
-            AND 'type' = #{type}
+            AND type = #{type}
         </if>
     </select>
 
     <!-- 条件搜索商家的商品 -->
     <select id="searchGoods" resultType="com.wowoniu.fendian.model.Wares">
-        SELECT * FROM wares WHERE user_id = #{userId} AND hide = "Y"
+        SELECT * FROM wares WHERE user_id = #{userId} AND hide = 'N'
         <if test="sortId != null and sortId != ''">
-            AND 'sort_id' = #{sortId}
+            AND sort_id = #{sortId}
         </if>
 
         <if test="priceSort == -1">
@@ -64,9 +40,9 @@
 
     <!-- 条件搜索商家的商品数量 -->
     <select id="searchGoodsCount" resultType="java.lang.Integer">
-        SELECT COUNT(*) wares WHERE user_id = #{userId} AND hide = "Y"
+        SELECT COUNT(*) FROM wares WHERE user_id = #{userId} AND hide = 'N'
         <if test="sortId != null and sortId != ''">
-            AND 'sort_id' = #{sortId}
+            AND sort_id = #{sortId}
         </if>
     </select>
 

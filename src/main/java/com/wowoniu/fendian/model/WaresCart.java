@@ -24,6 +24,9 @@ public class WaresCart implements Serializable {
     @ApiModelProperty("商品ID")
     private String waresId;
 
+    @ApiModelProperty("规格ID")
+    private String specId;
+
     @ApiModelProperty("规格详情ID")
     private String specDetailId;
 
@@ -32,6 +35,9 @@ public class WaresCart implements Serializable {
 
     @ApiModelProperty("订单ID")
     private String orderId;
+
+    @ApiModelProperty("skey")
+    private String skey;
 
     public String getId() {
         return id;
@@ -87,5 +93,21 @@ public class WaresCart implements Serializable {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public String getSpecId() {
+        return specId;
+    }
+
+    public void setSpecId(String specId) {
+        this.specId = specId;
+    }
+
+    public String getSkey() {
+        return skey;
+    }
+
+    public void setSkey(String skey) {
+        this.skey = skey;
     }
 }

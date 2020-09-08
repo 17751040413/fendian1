@@ -14,20 +14,20 @@ import javax.annotation.PostConstruct;
 @Configuration
 public class StaticConfig {
 
-    private static String shop_range;
+    private static Integer shop_range;
 
     /**
      * 附近商铺的获取范围（KM）
      */
     @Value("${shop.range}")
-    private String getShopRange;
+    private Integer getShopRange;
 
     @PostConstruct
     public void getApiToken() {
         shop_range = this.getShopRange;
     }
 
-    public static String getShopRange() {
+    public static Integer getShopRange() {
         return shop_range;
     }
 

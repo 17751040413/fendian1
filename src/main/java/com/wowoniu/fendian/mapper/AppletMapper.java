@@ -53,7 +53,7 @@ public interface AppletMapper {
      * @param id
      * @return
      */
-    @Select("SELECT * FROM use_user WHERE id = #{{id}")
+    @Select("SELECT * FROM use_user WHERE id = #{id}")
     UseUser getUseUserById(@Param("id") String id);
 
     /**
@@ -80,7 +80,7 @@ public interface AppletMapper {
      * @param waresCart
      * @return
      */
-    @Select("SELECT * FROM waresCart WHERE user_id = #{userId} AND buyer_id = #{buyerId} AND wares_id = #{waresId} AND spec_detail_id = #{specDetailId}")
+    @Select("SELECT * FROM wares_cart WHERE user_id = #{userId} AND buyer_id = #{buyerId} AND wares_id = #{waresId} AND spec_detail_id = #{specDetailId}")
     WaresCart getWaresCartByWares(WaresCart waresCart);
 
     /**
@@ -99,7 +99,8 @@ public interface AppletMapper {
      * @param waresCart
      * @return
      */
-    @Insert("INSERT INTO wares_cart (id,user_id,buyer_id,wares_id,spec_id,spec_detail_id,number) VALUES (id,userId,buyerId,waresId,specId,specDetailId,number)")
+    @Insert("INSERT INTO wares_cart (id,user_id,buyer_id,wares_id,spec_id,spec_detail_id,number) " +
+            "VALUES (#{id},#{userId},#{buyerId},#{waresId},#{specId},#{specDetailId},#{number})")
     int addWaresCart(WaresCart waresCart);
 
     /**
@@ -127,7 +128,7 @@ public interface AppletMapper {
      * @return
      */
     @Insert("INSERT INTO wares_order (id,user_id,buyer_id,state,create_time,address_id,delivery_method,coupon_id,freight,price,self_name,self_phone) " +
-            "VALUES (id,userId,buyerId,state,NOW(),addressId,deliveryMethod,couponId,freight,price,selfName,selfPhone)")
+            "VALUES (#{id},#{userId},#{buyerId},#{state},NOW(),#{addressId},#{deliveryMethod},#{couponId},#{freight},#{price},#{selfName},#{selfPhone})")
     int addWaresOrder(WaresOrder waresOrder);
 
     /**

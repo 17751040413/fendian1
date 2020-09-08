@@ -47,8 +47,6 @@ public class AppletServiceImpl implements AppletService {
         pageUtil.setTotalCount(count);
         pageUtil.setPageSize((Integer) map.get("pageSize"));
         pageUtil.setCurrentPage((Integer) map.get("pageSize"));
-        map.put("pageSize", pageUtil.getPageSize());
-        map.put("startRow", pageUtil.getStartRow());
         List<UseUser> useUsers = appletMapper.searchUseUser(map);
         pageUtil.setLists(useUsers);
 
@@ -95,8 +93,6 @@ public class AppletServiceImpl implements AppletService {
         pageUtil.setTotalCount(count);
         pageUtil.setPageSize((Integer) map.get("pageSize"));
         pageUtil.setCurrentPage((Integer) map.get("pageSize"));
-        map.put("pageSize", pageUtil.getPageSize());
-        map.put("startRow", pageUtil.getStartRow());
         List<Wares> wares = appletMapper.searchGoods(map);
         pageUtil.setLists(wares);
 
@@ -152,6 +148,7 @@ public class AppletServiceImpl implements AppletService {
             appletMapper.updateWaresCart(wc.getNumber(), wc.getId());
             return true;
         } else {
+            waresCart.setId(StringUtils.getUuid());
             appletMapper.addWaresCart(waresCart);
             return true;
         }

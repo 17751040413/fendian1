@@ -39,7 +39,7 @@ public class AppletController {
     private UserMapper userMapper;
 
     @PostMapping("/nearbyShop")
-    @ApiOperation("5-1-1-1 附近商铺")
+    @ApiOperation("5-1-1-1 附近商铺 /返回 use_user实体列表")
     @ApiImplicitParams({@ApiImplicitParam(name = "lat", value = "纬度 ", dataType = "Double", required = true),
             @ApiImplicitParam(name = "lng", value = "经度 ", dataType = "Double", required = true),
             @ApiImplicitParam(name = "type", value = "根据店铺类别查询，当此字段为空时为查所有：店铺类别（0：服饰；1：零食；2：餐饮；3：水果；4：生鲜） ", dataType = "String", required = true),
@@ -90,7 +90,7 @@ public class AppletController {
     @PostMapping("/getGoodsById")
     @ApiOperation("5-2-3 商品ID获取商品信息")
     @ApiImplicitParams({@ApiImplicitParam(name = "waresId", value = "商品ID ", dataType = "String", required = true)})
-    public Object getGoodsPage(String waresId) {
+    public Object getGoodsById(String waresId) {
         return new Result<>(200, true, "获取成功", appletService.getWaresById(waresId));
     }
 
@@ -104,7 +104,7 @@ public class AppletController {
     @PostMapping("/setGoodsCart")
     @ApiOperation("5-2-4 商品添加购物车")
     public Object setGoodsCart(@RequestBody WaresCart waresCart) {
-
+        waresCart.setBuyerId(userMapper.selectBySkey(waresCart.getSkey()).getOpenId());
         boolean result = appletService.setGoodsCart(waresCart);
         if (result) {
             return new Result<>(200, true, "添加成功", null);
