@@ -126,12 +126,13 @@ public class AppletController {
     }
 
     @PostMapping("/settlementOrder")
-    @ApiOperation("5-2-6 订单结算 生成订单-结算之前调用支付接口，无论是否成功生成订单，状态：state:0为待付款，1已付款，若未付款，则付款后调用5-2-9的付款更新订单状态接口")
+    @ApiOperation("5-2-6 订单结算 生成订单-调用本接口后返回订单ID 此时订单状态为0：待付款， 付款后调用5-2-9的付款更新订单状态接口")
     public Object settlementOrder(@RequestBody WaresOrder waresOrder) {
-
-        boolean result = appletService.settlementOrder(waresOrder);
-        if (result) {
-            return new Result<>(200, true, "结算成功", null);
+        waresOrder.setBuyerId(userMapper.selectBySkey(waresOrder.getSkey()).getOpenId());
+        waresOrder.setState(Constants.ORDER_STATE_PENDING_PAYMENT);
+        String id = appletService.settlementOrder(waresOrder);
+        if (StringUtils.isNotEmpty(id)) {
+            return new Result<>(200, true, "结算成功", id);
         }
         return new Result<>(204, false, "结算失败", null);
     }
@@ -151,7 +152,7 @@ public class AppletController {
     @PostMapping("/setShippingAddress")
     @ApiOperation("5-2-8 收货地址新增/修改（无ID为新增，有ID为修改）")
     public Object setShippingAddress(@RequestBody ShippingAddress shippingAddress) {
-
+        shippingAddress.setBuyerId(userMapper.selectBySkey(shippingAddress.getSkey()).getOpenId());
         boolean result = appletService.setShippingAddress(shippingAddress);
         if (result) {
             return new Result<>(200, true, "添加成功", null);
@@ -161,7 +162,7 @@ public class AppletController {
 
     @PostMapping("/getWaresOrderList")
     @ApiOperation("5-2-9 当前店铺订单列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家skey ", dataType = "String", required = true),
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey ", dataType = "String", required = true),
             @ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true)})
     public Object getWaresOrderList(String skey, String userId) {
         String buyerId = userMapper.selectBySkey(skey).getOpenId();
@@ -197,27 +198,17 @@ public class AppletController {
     }
 
     @PostMapping("/updateOrderState")
-    @ApiOperation("5-2-9 订单ID更新订单状态 待付款订单付款成功后调用")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID ", dataType = "String", required = true)})
-    public Object updateOrderState(String id) {
+    @ApiOperation("5-2-9 5-2-10 订单ID更新订单状态 待付款订单付款成功后调用")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "state", value = " 订单状态（0：待付款；1：已付款；2：代发货；3：已发货；4：已完成；5：已关闭）", dataType = "String", required = true),
+            @ApiImplicitParam(name = "courierNumber", value = "快递单号(state 状态为3已发货时 必填  其余状态码时不传参)", dataType = "String", required = true)})
+    public Object updateOrderState(String id, String state, String courierNumber) {
 
-        int cont = appletService.updateOrderState(id, Constants.ORDER_STATE_NOT_SHIPPED);
-        if (cont == 0) {
-            return new Result<>(204, false, "更新失败", null);
+        boolean result = appletService.updateOrderState(id, state, courierNumber);
+        if (result) {
+            return new Result<>(200, true, "更新成功", null);
         }
-        return new Result<>(200, true, "更新成功", null);
-    }
-
-    @PostMapping("/sureOrderState")
-    @ApiOperation("5-2-10 收货确认")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID ", dataType = "String", required = true)})
-    public Object sureOrderState(String id) {
-
-        int cont = appletService.updateOrderState(id, Constants.ORDER_STATE_COMPLETE);
-        if (cont == 0) {
-            return new Result<>(204, false, "确认失败", null);
-        }
-        return new Result<>(200, true, "确认成功", null);
+        return new Result<>(204, false, "更新失败", null);
     }
 
     @PostMapping("/couponChoice")

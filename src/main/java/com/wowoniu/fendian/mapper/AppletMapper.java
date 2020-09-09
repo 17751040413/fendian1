@@ -127,8 +127,8 @@ public interface AppletMapper {
      * @param waresOrder
      * @return
      */
-    @Insert("INSERT INTO wares_order (id,user_id,buyer_id,state,create_time,address_id,delivery_method,coupon_id,freight,price,self_name,self_phone) " +
-            "VALUES (#{id},#{userId},#{buyerId},#{state},NOW(),#{addressId},#{deliveryMethod},#{couponId},#{freight},#{price},#{selfName},#{selfPhone})")
+    @Insert("INSERT INTO wares_order (id,user_id,buyer_id,state,create_time,address_id,delivery_method,coupon_id,freight,price,self_name,self_phone,cart_id) " +
+            "VALUES (#{id},#{userId},#{buyerId},#{state},NOW(),#{addressId},#{deliveryMethod},#{couponId},#{freight},#{price},#{selfName},#{selfPhone},#{cartId})")
     int addWaresOrder(WaresOrder waresOrder);
 
     /**
@@ -182,7 +182,7 @@ public interface AppletMapper {
      * @param userId
      * @return
      */
-    @Select("SELECT * FROM wares_order w LEFT JOIN use_user uu ON w.user_id = uu.id  LEFT JOIN use_buyer ub ON w.buyer_id = ub.id  WHERE buyer_id = #{buyerId} AND user_id = #{userId}")
+    @Select("SELECT * FROM wares_order w LEFT JOIN use_user uu ON w.user_id = uu.id  WHERE w.buyer_id = #{buyerId} AND w.user_id = #{userId}")
     JSONObject getWaresOrderList(@Param("buyerId") String buyerId, @Param("userId") String userId);
 
     /**
@@ -191,10 +191,10 @@ public interface AppletMapper {
      * @param id
      * @return
      */
-    @Select("SELECT * FROM wares_cart c LEFT JOIN use_user uu ON c.user_id = uu.id  " +
-            "LEFT JOIN use_buyer ub ON c.buyer_id = ub.id LEFT JOIN wares w ON c.wares_id = w.id " +
-            "LEFT JOIN wares_spec ws ON ws.id = c.wares_id LEFT JOIN wares_spec_detail wsd ON wsd.id = c.spec_detail_id LEFT JOIN wares_order wo ON wo.id = c.order_id  WHERE order_id = #{id}")
-    List<WaresCart> getWaresCartByOrderId(@Param("id") String id);
+    @Select("SELECT * FROM wares_cart c LEFT JOIN use_user uu ON c.user_id = uu.id LEFT JOIN `user` u ON c.buyer_id = u.open_id " +
+            "LEFT JOIN wares w ON c.wares_id = w.id LEFT JOIN wares_spec ws ON ws.id = c.wares_id LEFT JOIN wares_spec_detail wsd ON wsd.id = c.spec_detail_id " +
+            "LEFT JOIN wares_order wo ON wo.id = c.order_id  WHERE order_id = #{id}")
+    JSONObject getWaresCartByOrderId(@Param("id") String id);
 
     /**
      * 订单ID获取订单信息
@@ -202,9 +202,9 @@ public interface AppletMapper {
      * @param id
      * @return
      */
-    @Select("SELECT * FROM wares_order wo LEFT JOIN use_user uu ON c.user_id = uu.id LEFT JOIN use_buyer ub ON c.buyer_id = ub.id " +
-            "LEFT JOIN shipping_address sa ON sa.address_id = wo.address_id LEFT JOIN coupon_set cs ON wo.coupon_id = cs.id  WHERE id = #{id} ")
-    WaresOrder getWaresOrderById(@Param("id") String id);
+    @Select("SELECT * FROM wares_order wo LEFT JOIN use_user uu ON wo.user_id = uu.id LEFT JOIN `user` u ON wo.buyer_id = u.open_id " +
+            "LEFT JOIN shipping_address sa ON sa.id = wo.address_id LEFT JOIN coupon_set cs ON wo.coupon_id = cs.id  WHERE wo.id = #{id} ")
+    JSONObject getWaresOrderById(@Param("id") String id);
 
     /**
      * 订单ID获取取货码
@@ -216,13 +216,29 @@ public interface AppletMapper {
     String getTakeCodeById(@Param("id") String id);
 
     /**
+     * 取件码更新
+     *
+     * @param id
+     */
+    @Update("UPDATE wares_order SET take_code = #{takeCode} WHERE id = #{id}")
+    void updateOrderTakeCode(@Param("id") String id, @Param("takeCode") String takeCode);
+
+    /**
+     * 取件码更新
+     *
+     * @param id
+     * @param courierNumber
+     */
+    @Update("UPDATE wares_order SET courier_number = #{courierNumber} WHERE id = #{id}")
+    void updateOrderCourierNumber(@Param("id") String id, @Param("courierNumber") String courierNumber);
+
+    /**
      * 订单状态更新
      *
      * @param id
-     * @return
      */
     @Update("UPDATE wares_order SET state = #{state} WHERE id = #{id}")
-    int updateOrderState(@Param("id") String id, @Param("state") String state);
+    void updateOrderState(@Param("id") String id, @Param("state") String state);
 
     /**
      * 买家优惠券列表
@@ -242,7 +258,7 @@ public interface AppletMapper {
      */
     @Select("SELECT gb.*,uu.shop_name FROM group_buyer gb " +
             "LEFT JOIN group_buying g ON g.id = gb.group_id LEFT JOIN use_user uu ON uu.id = g.user_id " +
-            "WHERE CONTAINS(gb.users,#{buyerId}) AND gb.state = #{state}")
+            "WHERE gb.users LIKE CONCAT('%',#{buyerId},'%') AND gb.state = #{state}")
     List<GroupBuyer> groupParticipate(@Param("buyerId") String buyerId, @Param("state") int state);
 
     /**
@@ -277,6 +293,6 @@ public interface AppletMapper {
      */
     @Select("SELECT bb.*,uu.shop_name FROM bargain_buyer bb " +
             "LEFT JOIN bargaining_set bs ON bs.id = bb.bargain_id LEFT JOIN use_user uu ON uu.id = bs.user_id " +
-            "WHERE gb.buyer_id = #{buyerId} AND gb.state = #{state}")
+            "WHERE bb.buyer_id = #{buyerId} AND bb.state = #{state}")
     List<BargainBuyer> bargainParticipate(String buyerId, int state);
 }

@@ -8,6 +8,7 @@ import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.AppletService;
 import com.wowoniu.fendian.utils.PageUtil;
 import com.wowoniu.fendian.utils.StringUtils;
+import com.wowoniu.fendian.utils.VerifyCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -172,9 +173,10 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
-    public boolean settlementOrder(WaresOrder waresOrder) {
+    @Transactional(rollbackFor = Exception.class)
+    public String settlementOrder(WaresOrder waresOrder) {
         if (waresOrder == null) {
-            return false;
+            return null;
         }
         //保存订单
         waresOrder.setId(StringUtils.getUuid());
@@ -184,7 +186,7 @@ public class AppletServiceImpl implements AppletService {
         //购物车数据添加订单ID
         appletMapper.updateWaresCarByOrder(cartIds, waresOrder.getId());
 
-        return true;
+        return waresOrder.getId();
     }
 
     /**
@@ -288,8 +290,19 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
-    public int updateOrderState(String id, String state) {
-        return appletMapper.updateOrderState(id, state);
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateOrderState(String id, String state, String courierNumber) {
+        if (state.equals(Constants.ORDER_STATE_PAID) || state.equals(Constants.ORDER_STATE_NOT_SHIPPED)) {
+            appletMapper.updateOrderTakeCode(id, VerifyCodeUtil.generateVerifyCode(6));
+        } else if (state.equals(Constants.ORDER_STATE_SHIPPED)) {
+            if (StringUtils.isEmpity(courierNumber)) {
+                return false;
+            }
+            appletMapper.updateOrderCourierNumber(id, courierNumber);
+        }
+        appletMapper.updateOrderState(id, state);
+
+        return true;
     }
 
     /**

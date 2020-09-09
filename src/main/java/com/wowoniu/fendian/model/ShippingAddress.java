@@ -25,6 +25,9 @@ public class ShippingAddress implements Serializable {
     @ApiModelProperty("默认地址（N;否 Y：是）")
     private String tab;
 
+    @ApiModelProperty("skey")
+    private String skey;
+
     public String getId() {
         return id;
     }
@@ -71,5 +74,13 @@ public class ShippingAddress implements Serializable {
 
     public void setTab(String tab) {
         this.tab = tab;
+    }
+
+    public String getSkey() {
+        return skey;
+    }
+
+    public void setSkey(String skey) {
+        this.skey = skey;
     }
 }

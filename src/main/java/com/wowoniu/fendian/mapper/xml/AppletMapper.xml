@@ -50,7 +50,7 @@
     <update id="updateWaresCarByOrder">
         UPDATE wares_cart SET order_id = #{orderId} WHERE id IN
         <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
-            #{item.id}
+            #{item}
         </foreach>
     </update>
 

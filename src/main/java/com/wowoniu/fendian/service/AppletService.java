@@ -85,7 +85,7 @@ public interface AppletService {
      * @param waresOrder
      * @return
      */
-    boolean settlementOrder(WaresOrder waresOrder);
+    String settlementOrder(WaresOrder waresOrder);
 
     /**
      * 收货地址列表
@@ -134,7 +134,7 @@ public interface AppletService {
      * @param id
      * @return
      */
-    int updateOrderState(String id, String state);
+    boolean updateOrderState(String id, String state,String courierNumber);
 
     /**
      * 买家优惠券列表

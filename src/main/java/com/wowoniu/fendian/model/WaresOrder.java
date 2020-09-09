@@ -2,7 +2,6 @@ package com.wowoniu.fendian.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -17,17 +16,11 @@ public class WaresOrder implements Serializable {
     @ApiModelProperty("主键ID")
     private String id;
 
-    @ApiModelProperty("用户ID")
+    @ApiModelProperty("商家ID")
     private String userId;
 
     @ApiModelProperty("买家ID")
     private String buyerId;
-
-    @ApiModelProperty("商品ID")
-    private String waresId;
-
-    @ApiModelProperty("规格ID")
-    private String specDetailId;
 
     @ApiModelProperty("状态（0：待付款；1：已付款，2：待发货；3：已发货；4：已完成；5：已关闭）")
     private String state;
@@ -77,6 +70,9 @@ public class WaresOrder implements Serializable {
     @ApiModelProperty("收货地址ID ")
     private String addressId;
 
+    @ApiModelProperty("skey")
+    private String skey;
+
     public String getId() {
         return id;
     }
@@ -93,23 +89,6 @@ public class WaresOrder implements Serializable {
         this.userId = userId;
     }
 
-
-    public String getWaresId() {
-        return waresId;
-    }
-
-    public void setWaresId(String waresId) {
-        this.waresId = waresId;
-    }
-
-    public String getSpecId() {
-        return specDetailId;
-    }
-
-    public void setSpecId(String specId) {
-        this.specDetailId = specId;
-    }
-
     public String getState() {
         return state;
     }
@@ -120,14 +99,6 @@ public class WaresOrder implements Serializable {
 
     public Timestamp getCreateTime() {
         return createTime;
-    }
-
-    public String getSpecDetailId() {
-        return specDetailId;
-    }
-
-    public void setSpecDetailId(String specDetailId) {
-        this.specDetailId = specDetailId;
     }
 
     public String getSelfName() {
@@ -252,5 +223,13 @@ public class WaresOrder implements Serializable {
 
     public void setAddressId(String addressId) {
         this.addressId = addressId;
+    }
+
+    public String getSkey() {
+        return skey;
+    }
+
+    public void setSkey(String skey) {
+        this.skey = skey;
     }
 }
