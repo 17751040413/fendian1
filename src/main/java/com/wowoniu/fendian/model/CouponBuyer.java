@@ -26,8 +26,24 @@ public class CouponBuyer implements Serializable {
     private String endTime;
     @ApiModelProperty("领券时间")
     private String createTime;
+    @ApiModelProperty("消费门槛")
+    private String condition;
+    @ApiModelProperty("使用范围")
+    private String range;
+    @ApiModelProperty("兑换数量")
+    private Integer exchangeNumber;
+    @ApiModelProperty("兑换内容 / 奖品名称")
+    private String exchangeContent;
+    @ApiModelProperty("原价")
+    private Integer price;
+    @ApiModelProperty("活动价")
+    private String activityPrice;
+    @ApiModelProperty("已支付")
+    private String payPrice;
     @ApiModelProperty("可用（Y:可用 N：过期）")
     private String effective;
+    @ApiModelProperty("券类型（0：折扣 1：优惠 2：兑换）")
+    private String type;
     @ApiModelProperty("折扣")
     private Double discount;
     @ApiModelProperty("优惠金额（单位分）")
@@ -131,5 +147,69 @@ public class CouponBuyer implements Serializable {
 
     public void setActivityId(String activityId) {
         this.activityId = activityId;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public String getRange() {
+        return range;
+    }
+
+    public void setRange(String range) {
+        this.range = range;
+    }
+
+    public Integer getExchangeNumber() {
+        return exchangeNumber;
+    }
+
+    public void setExchangeNumber(Integer exchangeNumber) {
+        this.exchangeNumber = exchangeNumber;
+    }
+
+    public String getExchangeContent() {
+        return exchangeContent;
+    }
+
+    public void setExchangeContent(String exchangeContent) {
+        this.exchangeContent = exchangeContent;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public String getActivityPrice() {
+        return activityPrice;
+    }
+
+    public void setActivityPrice(String activityPrice) {
+        this.activityPrice = activityPrice;
+    }
+
+    public String getPayPrice() {
+        return payPrice;
+    }
+
+    public void setPayPrice(String payPrice) {
+        this.payPrice = payPrice;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

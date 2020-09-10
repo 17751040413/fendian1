@@ -211,18 +211,6 @@ public class AppletController {
         return new Result<>(204, false, "更新失败", null);
     }
 
-    @PostMapping("/couponChoice")
-    @ApiOperation("5-2-11 优惠券列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey", dataType = "String", required = true)})
-    public Object couponChoice(String skey) {
-        String buyerId = userMapper.selectBySkey(skey).getOpenId();
-        List<CouponBuyer> couponBuyerList = appletService.getCouponBuyerList(buyerId);
-        if (CollectionUtils.isEmpty(couponBuyerList)) {
-            return new Result<>(204, false, "获取失败", null);
-        }
-        return new Result<>(200, true, "获取成功", couponBuyerList);
-    }
-
     @PostMapping("/groupParticipate")
     @ApiOperation("5-3-1 我的拼团")
     @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey", dataType = "String", required = true),
@@ -263,6 +251,29 @@ public class AppletController {
         List<BargainBuyer> bargainBuyerList = appletService.bargainParticipate(buyerId, state);
 
         return new Result<>(200, true, "获取成功", bargainBuyerList);
+    }
+
+    @PostMapping("/couponChoice")
+    @ApiOperation("5-2-11 6-1-1优惠券列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey", dataType = "String", required = true)})
+    public Object couponChoice(String skey) {
+        String buyerId = userMapper.selectBySkey(skey).getOpenId();
+        List<CouponBuyer> couponBuyerList = appletService.getCouponBuyerList(buyerId);
+        if (CollectionUtils.isEmpty(couponBuyerList)) {
+            return new Result<>(204, false, "获取失败", null);
+        }
+        return new Result<>(200, true, "获取成功", couponBuyerList);
+    }
+
+    @PostMapping("/couponDetail")
+    @ApiOperation("6-1-2 优惠券详情")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "优惠券ID", dataType = "String", required = true)})
+    public Object couponDetail(String id) {
+        CouponBuyer couponBuyer = appletService.getCouponBuyerById(id);
+        if (couponBuyer == null) {
+            return new Result<>(204, false, "获取失败", null);
+        }
+        return new Result<>(200, true, "获取成功", couponBuyer);
     }
 
 }

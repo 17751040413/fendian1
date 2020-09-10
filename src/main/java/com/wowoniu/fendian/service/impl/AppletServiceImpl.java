@@ -317,6 +317,17 @@ public class AppletServiceImpl implements AppletService {
     }
 
     /**
+     * 优惠券详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public CouponBuyer getCouponBuyerById(String id) {
+        return appletMapper.getCouponBuyerById(id);
+    }
+
+    /**
      * 参与的拼团活动
      *
      * @param buyerId

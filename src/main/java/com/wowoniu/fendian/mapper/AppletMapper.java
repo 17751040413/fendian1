@@ -250,6 +250,15 @@ public interface AppletMapper {
     List<CouponBuyer> getCouponBuyerList(String id);
 
     /**
+     * 优惠券详情
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM coupon_buyer WHERE id = #{id}")
+    CouponBuyer getCouponBuyerById(String id);
+
+    /**
      * 参与的拼团活动
      *
      * @param buyerId
