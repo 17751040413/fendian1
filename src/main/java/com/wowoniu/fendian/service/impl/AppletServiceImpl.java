@@ -372,4 +372,37 @@ public class AppletServiceImpl implements AppletService {
     public List<BargainBuyer> bargainParticipate(String buyerId, int state) {
         return appletMapper.bargainParticipate(buyerId, state);
     }
+
+    /**
+     * ID获取用户信息
+     *
+     * @param openId
+     * @return
+     */
+    @Override
+    public User getUserByOpenId(String openId) {
+        return appletMapper.getUserByOpenId(openId);
+    }
+
+    /**
+     * 当前用户所有订单
+     *
+     * @param openId
+     * @return
+     */
+    @Override
+    public List<JSONObject> getWaresOrderAll(String openId) {
+        return appletMapper.getWaresOrderAll(openId);
+    }
+
+    /**
+     * ID获取订单详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public JSONObject getOrderById(String id) {
+        return appletMapper.getOrderById(id);
+    }
 }

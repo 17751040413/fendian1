@@ -304,4 +304,32 @@ public interface AppletMapper {
             "LEFT JOIN bargaining_set bs ON bs.id = bb.bargain_id LEFT JOIN use_user uu ON uu.id = bs.user_id " +
             "WHERE bb.buyer_id = #{buyerId} AND bb.state = #{state}")
     List<BargainBuyer> bargainParticipate(String buyerId, int state);
+
+    /**
+     * ID获取用户信息
+     *
+     * @param openId
+     * @return
+     */
+    @Select("SELECT * FROM user WHERE open_id = #{openId}")
+    User getUserByOpenId(String openId);
+
+    /**
+     * 当前用户所有订单
+     *
+     * @param openId
+     * @return
+     */
+    @Select("SELECT wo.create_time,wo.state,wo.price,wo.actual_payment,uu.shop_name,uu.shop_logo FROM wares_order wo LEFT JOIN use_user uu ON uu.id = wo.user_id WHERE wo.buyer_id = #{openId}")
+    List<JSONObject> getWaresOrderAll(@Param("openId") String openId);
+
+    /**
+     * ID获取订单详情
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT wo.*,uu.shop_name,uu.shop_logo,uu.shop_address FROM wares_order wo LEFT JOIN use_user uu ON uu.id = wo.user_id WHERE wo.id = #{id}")
+    JSONObject getOrderById(String id);
+
 }

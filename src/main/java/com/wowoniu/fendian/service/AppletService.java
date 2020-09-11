@@ -134,7 +134,7 @@ public interface AppletService {
      * @param id
      * @return
      */
-    boolean updateOrderState(String id, String state,String courierNumber);
+    boolean updateOrderState(String id, String state, String courierNumber);
 
     /**
      * 买家优惠券列表
@@ -185,4 +185,28 @@ public interface AppletService {
      * @return
      */
     List<BargainBuyer> bargainParticipate(String buyerId, int state);
+
+    /**
+     * ID获取用户信息
+     *
+     * @param openId
+     * @return
+     */
+    User getUserByOpenId(String openId);
+
+    /**
+     * 当前用户所有订单
+     *
+     * @param openId
+     * @return
+     */
+    List<JSONObject> getWaresOrderAll(String openId);
+
+    /**
+     * ID获取订单详情
+     *
+     * @param id
+     * @return
+     */
+    JSONObject getOrderById(String id);
 }
