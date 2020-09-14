@@ -209,4 +209,12 @@ public interface AppletService {
      * @return
      */
     JSONObject getOrderById(String id);
+
+    /**
+     * 浏览过的店铺
+     *
+     * @param openId
+     * @return
+     */
+    List<ShopRecord> getShopRecordList(String openId);
 }

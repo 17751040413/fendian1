@@ -52,6 +52,11 @@ public class CouponBuyer implements Serializable {
     private String activityType;
     @ApiModelProperty("活动ID")
     private String activityId;
+    @ApiModelProperty("活动名称")
+    private String activityName;
+    @ApiModelProperty("用户上传的活动图片")
+    private String activityUrl;
+
 
     public String getId() {
         return id;
@@ -211,5 +216,21 @@ public class CouponBuyer implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
+    }
+
+    public String getActivityUrl() {
+        return activityUrl;
+    }
+
+    public void setActivityUrl(String activityUrl) {
+        this.activityUrl = activityUrl;
     }
 }

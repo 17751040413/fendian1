@@ -1,6 +1,5 @@
 package com.wowoniu.fendian.web.api.applet.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.config.StaticConfig;
@@ -267,7 +266,7 @@ public class AppletController {
     }
 
     @PostMapping("/couponDetail")
-    @ApiOperation("6-1-2 8-2-3 8-2-4-4 优惠券详情")
+    @ApiOperation("6-1-2 8-2-3 8-2-4-4 7-1-2-2 7-1-2-3 优惠券详情")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "优惠券ID ", dataType = "String", required = true)})
     public Object couponDetail(String id) {
         CouponBuyer couponBuyer = appletService.getCouponBuyerById(id);
@@ -294,7 +293,7 @@ public class AppletController {
     @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "Skey ", dataType = "String", required = true)})
     public Object getWaresOrderAll(String skey) {
         String openId = userMapper.selectBySkey(skey).getOpenId();
-        List<JSONObject>  orders = appletService.getWaresOrderAll(openId);
+        List<JSONObject> orders = appletService.getWaresOrderAll(openId);
         if (CollectionUtils.isEmpty(orders)) {
             return new Result<>(204, false, "获取失败", null);
         }
@@ -302,14 +301,26 @@ public class AppletController {
     }
 
     @PostMapping("/getOrderById")
-    @ApiOperation("7-1-2-2 订单详情")
+    @ApiOperation("7-1-2-2 7-1-2-3 订单详情 （调用 couponDetail 接口 传参：coupon_id 获取优惠券及活动数据）)")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID ", dataType = "String", required = true)})
     public Object getOrderById(String id) {
-        JSONObject  order = appletService.getOrderById(id);
+        JSONObject order = appletService.getOrderById(id);
         if (order == null) {
             return new Result<>(204, false, "获取失败", null);
         }
         return new Result<>(200, true, "获取成功", order);
+    }
+
+    @PostMapping("/getShopRecordList")
+    @ApiOperation("7-1-4 浏览过的店铺")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "Skey ", dataType = "String", required = true)})
+    public Object getShopRecordList(String skey) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        List<ShopRecord> shopRecordList = appletService.getShopRecordList(openId);
+        if (CollectionUtils.isEmpty(shopRecordList)) {
+            return new Result<>(204, false, "获取失败", null);
+        }
+        return new Result<>(200, true, "获取成功", shopRecordList);
     }
 
 }

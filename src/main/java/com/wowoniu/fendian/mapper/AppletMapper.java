@@ -332,4 +332,13 @@ public interface AppletMapper {
     @Select("SELECT wo.*,uu.shop_name,uu.shop_logo,uu.shop_address FROM wares_order wo LEFT JOIN use_user uu ON uu.id = wo.user_id WHERE wo.id = #{id}")
     JSONObject getOrderById(String id);
 
+    /**
+     * 浏览过的店铺
+     *
+     * @param openId
+     * @return
+     */
+    @Select("SELECT * FROM shop_record WHERE buyer_id = #{openId} ORDER BY last_time DESC")
+    List<ShopRecord> getShopRecordList(@Param("openId") String openId);
+
 }

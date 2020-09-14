@@ -405,4 +405,15 @@ public class AppletServiceImpl implements AppletService {
     public JSONObject getOrderById(String id) {
         return appletMapper.getOrderById(id);
     }
+
+    /**
+     * 浏览过的店铺
+     *
+     * @param openId
+     * @return
+     */
+    @Override
+    public List<ShopRecord> getShopRecordList(String openId) {
+        return appletMapper.getShopRecordList(openId);
+    }
 }
