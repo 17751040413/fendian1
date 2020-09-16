@@ -57,6 +57,33 @@ public interface AppletMapper {
     UseUser getUseUserById(@Param("id") String id);
 
     /**
+     * 商家ID和用户ID获取浏览记录
+     *
+     * @param userId
+     * @param buyerId
+     * @return
+     */
+    @Select("SELECT * FROM shop_record WHERE user_id = #{userId} AND buyer_id = #{buyerId}")
+    ShopRecord getShopRecordByUserId(@Param("userId") String userId, @Param("buyerId") String buyerId);
+
+    /**
+     * 新增浏览记录
+     *
+     * @param shopRecord
+     */
+    @Insert("INSERT INTO shop_record (id,user_id,buyer_id,shop_name,shop_logo,last_time) " +
+            "VALUES (#{id},#{userId},#{buyerId},#{shopName},#{shopLogo},now())")
+    void addShopRecord(ShopRecord shopRecord);
+
+    /**
+     * ID更新最后浏览时间
+     *
+     * @param id
+     */
+    @Update("UPDATE shop_record SET last_time = now() WHERE id = #{id}")
+    void updateShopRecordLastTime(@Param("id") String id);
+
+    /**
      * ID 获取商品分类
      *
      * @param id

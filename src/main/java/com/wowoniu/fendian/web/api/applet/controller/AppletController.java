@@ -58,9 +58,11 @@ public class AppletController {
 
     @PostMapping("/getUseUserById")
     @ApiOperation("5-2-1  店铺ID获取店铺信息 (5-2-9 联系店主)")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "店铺ID ", dataType = "String", required = true)})
-    public Object getUseUserById(String id) {
-        return new Result<>(200, true, "获取成功", appletService.getUseUserById(id));
+    @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "skey", value = "skey ", dataType = "String", required = true)})
+    public Object getUseUserById(String userId,String skey) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        return new Result<>(200, true, "获取成功", appletService.getUseUserById(userId,openId));
     }
 
     @PostMapping("/getSortByUseUserId")

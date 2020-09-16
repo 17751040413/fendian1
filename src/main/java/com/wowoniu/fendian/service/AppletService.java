@@ -29,7 +29,7 @@ public interface AppletService {
      * @param id
      * @return
      */
-    UseUser getUseUserById(String id);
+    UseUser getUseUserById(String id,String openId);
 
     /**
      * 商家ID获取商品分类

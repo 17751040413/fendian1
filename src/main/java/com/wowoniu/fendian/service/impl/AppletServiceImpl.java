@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -61,8 +62,24 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
-    public UseUser getUseUserById(String id) {
-        return appletMapper.getUseUserById(id);
+    public UseUser getUseUserById(String id, String openId) {
+        //添加浏览记录
+        UseUser useUser = appletMapper.getUseUserById(id);
+        ShopRecord shopRecord = appletMapper.getShopRecordByUserId(id, openId);
+        if (shopRecord == null) {
+            shopRecord = new ShopRecord();
+            shopRecord.setBuyerId(openId);
+            shopRecord.setUserId(id);
+            shopRecord.setId(StringUtils.getUuid());
+            shopRecord.setLastTime(new Timestamp(System.currentTimeMillis()));
+            shopRecord.setShopLogo(useUser.getShopLogo());
+            shopRecord.setShopName(useUser.getShopName());
+            appletMapper.addShopRecord(shopRecord);
+        } else {
+            appletMapper.updateShopRecordLastTime(shopRecord.getId());
+        }
+
+        return useUser;
     }
 
     /**
