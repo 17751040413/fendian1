@@ -33,5 +33,5 @@ public interface MemberStatisticService {
      * @param userId
      * @return
      */
-    JSONObject getActivity(String userId, String type);
+    JSONObject getActivity(String userId, int type);
 }

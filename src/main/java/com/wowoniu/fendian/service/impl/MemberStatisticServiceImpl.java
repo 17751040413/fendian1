@@ -107,9 +107,11 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
      * @return
      */
     @Override
-    public JSONObject getActivity(String userId, String type) {
+    public JSONObject getActivity(String userId, int type) {
+
+        String t = type+"";
         JSONObject jsonObject = new JSONObject();
-        switch (type) {
+        switch (t) {
             //会员裂变
             case Constants.FISSION:
                 //裂变
