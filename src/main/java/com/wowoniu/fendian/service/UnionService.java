@@ -102,4 +102,7 @@ public interface UnionService {
      * @return
      */
     Result unionShopInfo(String unionShopId,int grantType);
+
+
+
 }

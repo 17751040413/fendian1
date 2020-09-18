@@ -21,7 +21,7 @@ public interface ActivitySetMapper {
      * @param userId
      * @return
      */
-    @Select("SELECT * FROM fission_set_detail WHERE fission_id = (SELECT id FROM fission_set WHERE user_id = #{userId}) ORDER BY level")
+    @Select("SELECT * FROM fission_set_detail WHERE fission_id in (SELECT id FROM fission_set WHERE user_id = #{userId}) ORDER BY level")
     List<FissionSetDetail> getFissionSetDetailByUserId(@Param("userId") String userId);
 
     /**

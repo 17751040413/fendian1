@@ -59,6 +59,16 @@ public class UseUser {
     private String type;
     @ApiModelProperty("提货金")
     private Double takeMoney;
+    @ApiModelProperty("粉丝")
+    private Integer fans;
+
+    public Integer getFans() {
+        return fans;
+    }
+
+    public void setFans(Integer fans) {
+        this.fans = fans;
+    }
 
     public Double getTakeMoney() {
         return takeMoney;

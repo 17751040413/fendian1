@@ -24,11 +24,12 @@
     <result column="shop_id" jdbcType="VARCHAR" property="shopId"/>
     <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
     <result column="is_state" jdbcType="VARCHAR" property="isState"/>
+    <result column="shop_logo" jdbcType="VARCHAR" property="shopLogo"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, union_id, union_name, union_logo, coupon_type, discount, dis_price, dis_man, 
     gift_name, trem_date_type, term_date, start_date, end_date, limit_count, remarks, 
-    yong_type, yong_pro, yong_price, create_time,shop_id,shop_name,is_state
+    yong_type, yong_pro, yong_price, create_time,shop_id,shop_name,is_state,shop_logo
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -61,14 +62,14 @@
       dis_man, gift_name, trem_date_type, 
       term_date, start_date, end_date, 
       limit_count, remarks, yong_type, 
-      yong_pro, yong_price, create_time,shop_id,shop_name,is_state
+      yong_pro, yong_price, create_time,shop_id,shop_name,is_state,shop_logo
       )
     values (#{unionId,jdbcType=VARCHAR}, #{unionName,jdbcType=VARCHAR}, #{unionLogo,jdbcType=VARCHAR}, 
       #{couponType,jdbcType=INTEGER}, #{discount,jdbcType=DOUBLE}, #{disPrice,jdbcType=DOUBLE}, 
       #{disMan,jdbcType=DOUBLE}, #{giftName,jdbcType=VARCHAR}, #{tremDateType,jdbcType=INTEGER}, 
       #{termDate,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
       #{limitCount,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, #{yongType,jdbcType=INTEGER}, 
-      #{yongPro,jdbcType=DOUBLE}, #{yongPrice,jdbcType=DOUBLE}, #{createTime,jdbcType=DATE},#{shopId},#{shopName},#{isState}
+      #{yongPro,jdbcType=DOUBLE}, #{yongPrice,jdbcType=DOUBLE}, #{createTime,jdbcType=DATE},#{shopId},#{shopName},#{isState},#{shopLogo}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionCoupon" useGeneratedKeys="true">
@@ -137,6 +138,9 @@
       <if test="isState != null">
         is_state,
       </if>
+      <if test="shopLogo != null">
+        shop_logo,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="unionId != null">
@@ -201,6 +205,9 @@
       </if>
       <if test="isState != null">
         #{isState},
+      </if>
+      <if test="shopLogo != null">
+        #{shopLogo},
       </if>
     </trim>
   </insert>
@@ -270,6 +277,9 @@
       <if test="isState != null">
         is_state = #{isState},
       </if>
+      <if test="shopLogo != null">
+        shop_logo = #{shopLogo},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -295,7 +305,8 @@
       create_time = #{createTime,jdbcType=DATE},
       shop_id = #{shopId},
       shop_name = #{shopName},
-      is_state = #{isState}
+      is_state = #{isState},
+      shop_logo = #{shopLogo}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

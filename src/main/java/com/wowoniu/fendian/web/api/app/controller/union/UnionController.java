@@ -147,7 +147,7 @@ public class UnionController {
         return unionService.unionShops(id,shopName);
     }
 
-    @ApiOperation("联盟店铺详情")
+    @ApiOperation("联盟店铺详情 3-5-2")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "unionShopId",value = "联盟店铺id",dataType = "String",required = true),
             @ApiImplicitParam(name = "grantType",value = "派券 0--店铺帮联盟 1--联盟帮店铺",dataType = "int",required = true)

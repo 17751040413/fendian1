@@ -49,6 +49,9 @@
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionInfo" useGeneratedKeys="true">
     insert into union_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+      id,
+      </if>
       <if test="unionName != null">
         union_name,
       </if>
@@ -90,6 +93,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
       <if test="unionName != null">
         #{unionName,jdbcType=VARCHAR},
       </if>

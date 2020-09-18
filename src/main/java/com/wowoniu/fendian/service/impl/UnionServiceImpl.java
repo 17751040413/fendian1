@@ -1,6 +1,5 @@
 package com.wowoniu.fendian.service.impl;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Union;
 import com.wowoniu.fendian.mapper.*;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.UnionService;
@@ -34,6 +33,8 @@ public class UnionServiceImpl implements UnionService {
     UnionMemberMapper unionMemberMapper;
     @Autowired
     UnionCouponMapper unionCouponMapper;
+    @Autowired
+    UnionCouponUserMapper unionCouponUserMapper;
 
     @Override
     public Result getUnionInfo(String leaderId) {
@@ -173,7 +174,7 @@ public class UnionServiceImpl implements UnionService {
         unionInfo.setId(id);
         unionInfo.setBrief(brief);
         unionInfo.setRule(rule);
-        unionInfoMapper.insertSelective(unionInfo);
+        unionInfoMapper.updateByPrimaryKeySelective(unionInfo);
         return new Result(200,true,"修改成功");
     }
 
@@ -205,9 +206,20 @@ public class UnionServiceImpl implements UnionService {
 
     @Override
     public Result unionShopInfo(String unionShopId, int grantType) {
+        //发放
         int sendCount;
-        if(grantType == 0){
+        //使用
+        int useCount;
+        //佣金
+        double commission;
 
+        //联盟店铺
+        UnionShop unionShop = unionShopMapper.selectByPrimaryKey(unionShopId);
+        //联盟信息
+        UnionInfo unionInfo = unionInfoMapper.selectByPrimaryKey(unionShop.getUnionId());
+
+        if(grantType == 0){
+           // unionCouponUserMapper.
         }
 
         return null;

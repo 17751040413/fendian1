@@ -111,6 +111,49 @@ public class UnionCoupon implements Serializable {
 
     private String shopName;
 
+    private String shopLogo;
+
+    /**
+     * 已使用
+     */
+    private int isuse = 2;
+
+    private int isReceive = 3;
+
+    private double commission = 8.8;
+
+    public int getIsuse() {
+        return isuse;
+    }
+
+    public void setIsuse(int isuse) {
+        this.isuse = isuse;
+    }
+
+    public int getIsReceive() {
+        return isReceive;
+    }
+
+    public void setIsReceive(int isReceive) {
+        this.isReceive = isReceive;
+    }
+
+    public double getCommission() {
+        return commission;
+    }
+
+    public void setCommission(double commission) {
+        this.commission = commission;
+    }
+
+    public String getShopLogo() {
+        return shopLogo;
+    }
+
+    public void setShopLogo(String shopLogo) {
+        this.shopLogo = shopLogo;
+    }
+
     public int getIsState() {
         return isState;
     }

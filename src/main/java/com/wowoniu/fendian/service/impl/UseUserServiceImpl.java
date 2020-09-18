@@ -51,18 +51,18 @@ public class UseUserServiceImpl implements UseUserService {
             newUser.setId(StringUtils.getUuid());
             newUser.setNickName(nickname);
             newUser.setWechatId(openId);
-            URL url = new URL(photo);
-            File file = new File(url.getFile());
-            String fe = file.getName();
-            String suffix = fe.substring(fe.lastIndexOf(".") + 1);// 获取后缀
-            //临时
-            String fileName = StringUtils.getUuid() + "." + "jpg";// 获取文件名
-
-            //上传头像到服务器
-            ImgByUrl.getImageByUrl(photo, headImgPath, fileName);
-            //获取头像访问地址
-            String imgVisit = headImgVisit+fileName;
-            newUser.setHeadImg(imgVisit);
+//            URL url = new URL(photo);
+//            File file = new File(url.getFile());
+//            String fe = file.getName();
+//            String suffix = fe.substring(fe.lastIndexOf(".") + 1);// 获取后缀
+//            //临时
+//            String fileName = StringUtils.getUuid() + "." + "jpg";// 获取文件名
+//
+//            //上传头像到服务器
+//            ImgByUrl.getImageByUrl(photo, headImgPath, fileName);
+//            //获取头像访问地址
+//            String imgVisit = headImgVisit+fileName;
+            newUser.setHeadImg(photo);
             newUser.setHierarchy(1);
             newUser.setTeamNumber(0);
             newUser.setSystemNumber(0);

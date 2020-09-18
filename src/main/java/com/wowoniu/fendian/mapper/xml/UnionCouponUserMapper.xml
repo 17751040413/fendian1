@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wowoniu.fendian.mapper.UnionCouponUserMapper">
+  <resultMap id="BaseResultMap" type="com.wowoniu.fendian.model.UnionCouponUser">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="receive_time" jdbcType="INTEGER" property="receiveTime" />
+    <result column="union_coupon_id" jdbcType="VARCHAR" property="unionCouponId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="is_use" jdbcType="INTEGER" property="isUse" />
+    <result column="is_use_time" jdbcType="INTEGER" property="isUseTime" />
+    <result column="overdue_time" jdbcType="INTEGER" property="overdueTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, receive_time, union_coupon_id, order_id, is_use, is_use_time, overdue_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from union_coupon_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="queryShopUnionCount" resultType="java.lang.Integer">
+      select count(1) from union_coupon_user
+      where unio
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from union_coupon_user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionCouponUser" useGeneratedKeys="true">
+    insert into union_coupon_user (user_id, receive_time, union_coupon_id, 
+      order_id, is_use, is_use_time, 
+      overdue_time)
+    values (#{userId,jdbcType=VARCHAR}, #{receiveTime,jdbcType=INTEGER}, #{unionCouponId,jdbcType=VARCHAR}, 
+      #{orderId,jdbcType=VARCHAR}, #{isUse,jdbcType=INTEGER}, #{isUseTime,jdbcType=INTEGER}, 
+      #{overdueTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionCouponUser" useGeneratedKeys="true">
+    insert into union_coupon_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="receiveTime != null">
+        receive_time,
+      </if>
+      <if test="unionCouponId != null">
+        union_coupon_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="isUse != null">
+        is_use,
+      </if>
+      <if test="isUseTime != null">
+        is_use_time,
+      </if>
+      <if test="overdueTime != null">
+        overdue_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveTime != null">
+        #{receiveTime,jdbcType=INTEGER},
+      </if>
+      <if test="unionCouponId != null">
+        #{unionCouponId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="isUse != null">
+        #{isUse,jdbcType=INTEGER},
+      </if>
+      <if test="isUseTime != null">
+        #{isUseTime,jdbcType=INTEGER},
+      </if>
+      <if test="overdueTime != null">
+        #{overdueTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wowoniu.fendian.model.UnionCouponUser">
+    update union_coupon_user
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveTime != null">
+        receive_time = #{receiveTime,jdbcType=INTEGER},
+      </if>
+      <if test="unionCouponId != null">
+        union_coupon_id = #{unionCouponId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="isUse != null">
+        is_use = #{isUse,jdbcType=INTEGER},
+      </if>
+      <if test="isUseTime != null">
+        is_use_time = #{isUseTime,jdbcType=INTEGER},
+      </if>
+      <if test="overdueTime != null">
+        overdue_time = #{overdueTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wowoniu.fendian.model.UnionCouponUser">
+    update union_coupon_user
+    set user_id = #{userId,jdbcType=VARCHAR},
+      receive_time = #{receiveTime,jdbcType=INTEGER},
+      union_coupon_id = #{unionCouponId,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      is_use = #{isUse,jdbcType=INTEGER},
+      is_use_time = #{isUseTime,jdbcType=INTEGER},
+      overdue_time = #{overdueTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
