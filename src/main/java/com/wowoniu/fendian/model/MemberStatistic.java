@@ -45,6 +45,8 @@ public class MemberStatistic implements Serializable {
             "9：砸金蛋抽奖；10：砍价大战；11：红包裂变券）")
     private Integer type;
 
+    @ApiModelProperty("规则文案")
+    private String rule;
 
     public String getId() {
         return id;
@@ -132,5 +134,13 @@ public class MemberStatistic implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getRule() {
+        return rule;
+    }
+
+    public void setRule(String rule) {
+        this.rule = rule;
     }
 }
