@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.model;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * @author yuany
  * @date 2020-08-21
  */
+@ApiModel("收货地址")
 public class ShippingAddress implements Serializable {
 
     @ApiModelProperty("主键ID")

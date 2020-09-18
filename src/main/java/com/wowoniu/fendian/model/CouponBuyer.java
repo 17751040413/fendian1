@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.model;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * @author yuany
  * @date 2020-08-24
  */
+@ApiModel("买家领取的优惠券")
 public class CouponBuyer implements Serializable {
 
     @ApiModelProperty("主键ID")

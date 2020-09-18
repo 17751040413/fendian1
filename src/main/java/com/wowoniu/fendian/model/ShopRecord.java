@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.model;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.sql.Timestamp;
  * @author yuany
  * @date 2020-09-14
  */
+@ApiModel("店铺浏览记录")
 public class ShopRecord implements Serializable {
 
     @ApiModelProperty("主键ID")

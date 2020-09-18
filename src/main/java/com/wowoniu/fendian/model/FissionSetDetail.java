@@ -66,6 +66,9 @@ public class FissionSetDetail implements Serializable {
     @ApiModelProperty("权益2：折扣数")
     private double discount2;
 
+    @ApiModelProperty("获取条件")
+    private String factor;
+
     public String getId() {
         return id;
     }
@@ -208,5 +211,13 @@ public class FissionSetDetail implements Serializable {
 
     public void setDiscount2(double discount2) {
         this.discount2 = discount2;
+    }
+
+    public String getFactor() {
+        return factor;
+    }
+
+    public void setFactor(String factor) {
+        this.factor = factor;
     }
 }
