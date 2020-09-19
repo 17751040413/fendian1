@@ -2,6 +2,8 @@ package com.wowoniu.fendian.service;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.Map;
+
 /**
  * 会员统计Service
  *
@@ -21,11 +23,10 @@ public interface MemberStatisticService {
     /**
      * 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量
      *
-     * @param userId 用户ID
-     * @param limit  数据量
+     * @param map 分页
      * @return
      */
-    Object getUserList(String userId, Integer limit);
+    Object getUserList(Map<String, Object> map);
 
     /**
      * 活动列表

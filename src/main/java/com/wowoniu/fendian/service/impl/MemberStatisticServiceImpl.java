@@ -5,9 +5,13 @@ import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
 import com.wowoniu.fendian.mapper.MemberStatisticMapper;
 import com.wowoniu.fendian.model.DistributionSet;
+import com.wowoniu.fendian.model.UseUser;
 import com.wowoniu.fendian.service.MemberStatisticService;
+import com.wowoniu.fendian.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * 会员统计Service实现
@@ -90,14 +94,17 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
     /**
      * 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量
      *
-     * @param userId 用户ID
-     * @param limit  数据量
+     * @param map  分页
      * @return
      */
     @Override
-    public Object getUserList(String userId, Integer limit) {
-
-        return memberStatisticMapper.getUserList(userId, limit);
+    public Object getUserList(Map<String, Object> map ) {
+        PageUtil<UseUser> pageUtil = new PageUtil();
+        int count = memberStatisticMapper.searchUserCount(map);
+        pageUtil.setTotalCount(count);
+        pageUtil.setPageSize((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
+        return memberStatisticMapper.getUserList(map);
     }
 
     /**

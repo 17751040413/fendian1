@@ -3,17 +3,19 @@ package com.wowoniu.fendian.web.api.app.controller.member;
 import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.service.MemberStatisticService;
 import com.wowoniu.fendian.utils.Result;
+import com.wowoniu.fendian.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 会员管理控制层
@@ -49,18 +51,34 @@ public class MemberController {
     /**
      * 商家ID获取会员用户集合 以团队人数倒叙 limit 取数据量
      *
-     * @param limit 数据量
+     * @param request
+     * @param pageSize
+     * @param startRow
      * @return
      */
     @ApiOperation(value = "会员管理--商家ID获取会员用户集合", tags = "会员管理--商家ID获取会员用户集合 - limit为获取数据条数")
     @RequestMapping("/getUseUserList")
-    @ApiImplicitParams({@ApiImplicitParam(name = "limit", value = "数据量", dataType = "Integer", required = true)})
-    public Object getUseUserList(@ApiIgnore HttpServletRequest request, Integer limit) {
-        Object object = memberStatisticService.getUserList((String) request.getAttribute("sysid"), limit);
-        if (object == null) {
-            return new Result(204, false, "无数据", null);
+    @ApiImplicitParams({@ApiImplicitParam(name = "search", value = "搜索条件", dataType = "int", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
+            @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
+    public Object getUseUserList(@ApiIgnore HttpServletRequest request, int pageSize, int startRow, String search) {
+        String phone = null;
+        String name = null;
+        if (StringUtils.isNotEmpty(search)) {
+            if (StringUtils.isNumeric(search)) {
+                phone = search;
+            } else {
+                name = search;
+            }
         }
-        return new Result(200, true, "查询成功", object);
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("pageSize", pageSize);
+        map.put("startRow", startRow);
+        map.put("phone", phone);
+        map.put("name", name);
+        map.put("userId", request.getAttribute("sysid"));
+
+        return new Result(200, true, "查询成功", memberStatisticService.getUserList(map));
     }
 
     /**

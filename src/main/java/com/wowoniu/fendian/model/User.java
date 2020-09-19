@@ -42,6 +42,8 @@ public class User {
     private Integer inviterNum;
     @ApiModelProperty("最后消费")
     private Integer lastBuy;
+    @ApiModelProperty("余额")
+    private Integer balance;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -157,6 +159,14 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
     }
 }
 

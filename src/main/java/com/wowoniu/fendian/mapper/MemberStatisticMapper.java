@@ -1,12 +1,12 @@
 package com.wowoniu.fendian.mapper;
 
 import com.wowoniu.fendian.model.MemberStatistic;
-import com.wowoniu.fendian.model.UseUser;
 import com.wowoniu.fendian.model.User;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 会员统计DAO层
@@ -28,9 +28,16 @@ public interface MemberStatisticMapper {
     /**
      * 商家ID获取会员 limit 取数据量
      *
-     * @param userId 商家ID
-     * @param limit    数据量
+     * @param map
      * @return
      */
-    List<User> getUserList(@Param("userId") String userId, @Param("limit") Integer limit);
+    List<User> getUserList(Map<String, Object> map);
+
+    /**
+     * 条件搜索用户数量
+     *
+     * @param map
+     * @return
+     */
+    int searchUserCount(Map<String, Object> map);
 }

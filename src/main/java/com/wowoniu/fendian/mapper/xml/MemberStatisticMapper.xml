@@ -4,10 +4,27 @@
 
     <!-- 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量 -->
     <select id="getUserList" resultType="com.wowoniu.fendian.model.User">
-        SELECT u.* FROM `user` u LEFT JOIN link_member_user lmu ON lmu.buy_id = u.open_id  WHERE lmu.user_id = #{userId}  ORDER BY u.create_time DESC
-        <if test="limit != null">
-            LIMIT #{limit}
+        SELECT u.* FROM `user` u LEFT JOIN link_member_user lmu ON lmu.buy_id = u.open_id WHERE lmu.user_id = #{userId}
+        <if test="phone != null">
+           AND u.phone = #{phone}
         </if>
+        <if test="name != null">
+           AND u.nick_name LIKE #{name}
+        </if>
+        ORDER BY u.create_time DESC
+        LIMIT #{startRow},#{pageSize}
+    </select>
+
+    <!-- 用户总数 -->
+    <select id="searchUserCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `user` u LEFT JOIN link_member_user lmu ON lmu.buy_id = u.open_id
+        <if test="phone != null">
+            AND u.phone = #{phone}
+        </if>
+        <if test="name != null">
+            AND u.nick_name LIKE #{name}
+        </if>
+        WHERE lmu.user_id = #{userId}
     </select>
 
 </mapper>
