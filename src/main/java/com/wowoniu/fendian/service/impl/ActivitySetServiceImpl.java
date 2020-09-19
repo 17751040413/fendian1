@@ -62,7 +62,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         List<FissionSetDetail> fissionSetDetailList = activitySetMapper.getFissionSetDetailList(fissionSet.getId());
         //启用-获取裂变详情并返回
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("fission", fissionSet);
+        jsonObject.put("fissionSet", fissionSet);
         jsonObject.put("detail", fissionSetDetailList);
         if (jsonObject == null || jsonObject.size() == 0) {
             return new Result(204, false, "获取失败", null);
@@ -174,7 +174,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         List<RebateSetDetail> rebateSetDetailList = activitySetMapper.getRebateSetDetailList(rebateSet.getId());
         //启用-获取返利详情并返回
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("rebate", rebateSet);
+        jsonObject.put("rebateSet", rebateSet);
         jsonObject.put("detail", rebateSetDetailList);
         if (jsonObject == null || jsonObject.size() == 0) {
             return new Result(204, false, "获取失败", null);
@@ -278,7 +278,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         List<DistributionCoupon> distributionCouponList = activitySetMapper.getDistributionCouponList(distributionSet.getId());
         //启用-获取分销详情并返回
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("distribution", distributionSet);
+        jsonObject.put("distributionSet", distributionSet);
         jsonObject.put("detail", distributionCouponList);
         if (jsonObject == null || jsonObject.size() == 0) {
             return new Result(204, false, "获取失败", null);
