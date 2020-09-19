@@ -5,12 +5,13 @@ import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
 import com.wowoniu.fendian.mapper.MemberStatisticMapper;
 import com.wowoniu.fendian.model.DistributionSet;
-import com.wowoniu.fendian.model.UseUser;
+import com.wowoniu.fendian.model.User;
 import com.wowoniu.fendian.service.MemberStatisticService;
 import com.wowoniu.fendian.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -94,17 +95,19 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
     /**
      * 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量
      *
-     * @param map  分页
+     * @param map 分页
      * @return
      */
     @Override
-    public Object getUserList(Map<String, Object> map ) {
-        PageUtil<UseUser> pageUtil = new PageUtil();
+    public PageUtil<User> getUserList(Map<String, Object> map) {
+        PageUtil<User> pageUtil = new PageUtil();
         int count = memberStatisticMapper.searchUserCount(map);
         pageUtil.setTotalCount(count);
         pageUtil.setPageSize((Integer) map.get("pageSize"));
         pageUtil.setCurrentPage((Integer) map.get("pageSize"));
-        return memberStatisticMapper.getUserList(map);
+        List<User> userList = memberStatisticMapper.getUserList(map);
+        pageUtil.setLists(userList);
+        return pageUtil;
     }
 
     /**
@@ -116,7 +119,7 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
     @Override
     public JSONObject getActivity(String userId, int type) {
 
-        String t = type+"";
+        String t = type + "";
         JSONObject jsonObject = new JSONObject();
         switch (t) {
             //会员裂变

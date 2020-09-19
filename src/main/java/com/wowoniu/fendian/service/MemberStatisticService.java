@@ -1,6 +1,8 @@
 package com.wowoniu.fendian.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wowoniu.fendian.model.User;
+import com.wowoniu.fendian.utils.PageUtil;
 
 import java.util.Map;
 
@@ -26,7 +28,7 @@ public interface MemberStatisticService {
      * @param map 分页
      * @return
      */
-    Object getUserList(Map<String, Object> map);
+    PageUtil<User> getUserList(Map<String, Object> map);
 
     /**
      * 活动列表
