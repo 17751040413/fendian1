@@ -38,9 +38,13 @@
     <!-- 朋友圈模板列表 -->
     <select id="getShareFriendList" resultType="com.wowoniu.fendian.model.ShareFriends">
         SELECT * FROM share_friends WHERE user_id = #{userId}
-        <if test="limit != null">
-            LIMIT #{limit}
-        </if>
+         ORDER BY create_time DESC
+        LIMIT #{startRow},#{pageSize}
+    </select>
+    <select id="searchShareFriend" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM share_friends WHERE user_id = #{userId}
+        ORDER BY create_time DESC
+        LIMIT #{startRow},#{pageSize}
     </select>
 
     <!-- 新增规格详情-批量 -->

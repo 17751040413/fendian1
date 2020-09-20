@@ -6,6 +6,7 @@ import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.ActivitySetService;
+import com.wowoniu.fendian.utils.PageUtil;
 import com.wowoniu.fendian.utils.Result;
 import com.wowoniu.fendian.utils.StringUtils;
 import com.wowoniu.fendian.utils.VerifyCodeUtil;
@@ -20,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 活动设置接口实现
@@ -966,12 +968,19 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     /**
      * 朋友圈模板列表
      *
-     * @param userId
+     * @param map
      * @return
      */
     @Override
-    public List<ShareFriends> getShareFriendList(String userId, Integer limit) {
-        return activitySetMapper.getShareFriendList(userId,limit);
+    public PageUtil<ShareFriends> getShareFriendList(Map<String, Object> map) {
+        PageUtil<ShareFriends> pageUtil = new PageUtil();
+        int count = activitySetMapper.searchShareFriend(map);
+        pageUtil.setTotalCount(count);
+        pageUtil.setPageSize((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
+        List<ShareFriends> shareFriendList = activitySetMapper.getShareFriendList(map);
+        pageUtil.setLists(shareFriendList);
+        return pageUtil;
     }
 
     /**

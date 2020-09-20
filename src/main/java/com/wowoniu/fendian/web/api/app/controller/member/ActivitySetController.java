@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yuany
@@ -450,12 +452,15 @@ public class ActivitySetController {
     /************************************************* True 朋友圈分享 - START *********************************************************/
     @ApiOperation("朋友圈分享--朋友圈模板列表")
     @PostMapping("/getShareFriendList")
-    @ApiImplicitParams({@ApiImplicitParam(name = "limit", value = "数据量", dataType = "Integer", required = true)})
-    public Object getShareFriendList(@ApiIgnore HttpServletRequest request, Integer limit) {
+    @ApiImplicitParams({@ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
+            @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
+    public Object getShareFriendList(@ApiIgnore HttpServletRequest request,int pageSize, int startRow) {
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("pageSize", pageSize);
+        map.put("startRow", startRow);
+        map.put("userId", request.getAttribute("sysid"));
 
-        List<ShareFriends> shareFriendsList = activitySetService.getShareFriendList((String) request.getAttribute("sysid"),limit);
-
-        return new Result(200, true, "获取成功", shareFriendsList);
+        return new Result(200, true, "获取成功", activitySetService.getShareFriendList(map));
     }
 
     @ApiOperation("朋友圈分享--朋友圈分享ID获取设置信息")

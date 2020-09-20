@@ -5,6 +5,7 @@ import com.wowoniu.fendian.model.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 会员活动设置汇总DAO层
@@ -69,9 +70,9 @@ public interface ActivitySetMapper {
      * @return
      */
     @Insert("INSERT INTO fission_set_detail(id,fission_id,level,level_name,coupon_type1,discount_money1,use_threshold1,month_number1,use_range1,exchange_coupon_name1," +
-            "discount1,coupon_type2,discount_money2,use_threshold2,month_number2,use_range2,exchange_coupon_name2,discount2) " +
+            "discount1,coupon_type2,discount_money2,use_threshold2,month_number2,use_range2,exchange_coupon_name2,discount2,factor) " +
             "VALUES (#{id},#{fissionId},#{level},#{levelName},#{couponType1},#{discountMoney1},#{useThreshold1},#{monthNumber1},#{useRange1},#{exchangeCouponName1}," +
-            "#{discount1},#{couponType2},#{discountMoney2},#{useThreshold2},#{monthNumber2},#{useRange2},#{exchangeCouponName2},#{discount2}) ")
+            "#{discount1},#{couponType2},#{discountMoney2},#{useThreshold2},#{monthNumber2},#{useRange2},#{exchangeCouponName2},#{discount2},#{factor}) ")
     int addFissionSetDetail(FissionSetDetail fissionSetDetail);
 
     /**
@@ -741,11 +742,13 @@ public interface ActivitySetMapper {
     /**
      * 朋友圈模板列表
      *
-     * @param userId
+     * @param map
      * @return
      */
 //    @Select("SELECT * FROM share_friends WHERE user_id = #{userId}")
-    List<ShareFriends> getShareFriendList(@Param("userId") String userId,@Param("limit")Integer limit);
+    List<ShareFriends> getShareFriendList(Map<String, Object> map);
+
+    int searchShareFriend(Map<String, Object> map);
 
     /**
      * 朋友圈分享ID获取设置信息

@@ -3,9 +3,11 @@ package com.wowoniu.fendian.service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.model.*;
+import com.wowoniu.fendian.utils.PageUtil;
 import com.wowoniu.fendian.utils.Result;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 活动设置接口
@@ -315,7 +317,7 @@ public interface ActivitySetService {
      *
      * @return
      */
-    List<ShareFriends> getShareFriendList(String userId, Integer limit);
+    PageUtil<ShareFriends> getShareFriendList(Map<String,Object> map);
 
     /**
      * 朋友圈分享ID获取设置信息

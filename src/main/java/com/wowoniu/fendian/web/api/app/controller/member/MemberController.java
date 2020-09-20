@@ -49,14 +49,14 @@ public class MemberController {
     }
 
     /**
-     * 商家ID获取会员用户集合 以团队人数倒叙 limit 取数据量
+     * 商家ID获取会员用户集合
      *
      * @param request
      * @param pageSize
      * @param startRow
      * @return
      */
-    @ApiOperation(value = "会员管理--商家ID获取会员用户集合", tags = "会员管理--商家ID获取会员用户集合 - limit为获取数据条数")
+    @ApiOperation(value = "会员管理--商家ID获取会员用户集合", tags = "会员管理--商家ID获取会员用户集合 - 分页")
     @RequestMapping("/getUseUserList")
     @ApiImplicitParams({@ApiImplicitParam(name = "search", value = "搜索条件", dataType = "int", required = true),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
