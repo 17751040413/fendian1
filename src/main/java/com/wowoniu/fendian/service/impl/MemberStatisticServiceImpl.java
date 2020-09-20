@@ -4,8 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
 import com.wowoniu.fendian.mapper.MemberStatisticMapper;
-import com.wowoniu.fendian.model.DistributionSet;
-import com.wowoniu.fendian.model.User;
+import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.MemberStatisticService;
 import com.wowoniu.fendian.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +43,7 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
         switch (type) {
             //会员裂变
             case Constants.FISSION:
-                object.put("activity", activitySetMapper.getFissionSetDetailByUserId(userId));
+                object.put("activity", activitySetMapper.getFissionSetDetail(userId));
                 break;
             //会员返利
             case Constants.REBATE:
@@ -53,7 +52,7 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
             //店铺分销
             case Constants.DISTRIBUTION:
                 DistributionSet distributionSet = activitySetMapper.getDistributionSet(userId);
-                distributionSet.setDistributionCouponList(activitySetMapper.getDistributionCouponList(userId));
+                distributionSet.setDistributionCouponList(activitySetMapper.getDistributionCoupon(userId));
                 object.put("activity", distributionSet);
                 break;
             //在线商城
@@ -113,29 +112,46 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
     /**
      * 活动列表
      *
-     * @param userId
+     * @param map
      * @return
      */
     @Override
-    public JSONObject getActivity(String userId, int type) {
-
-        String t = type + "";
+    public JSONObject getActivity(Map<String, Object> map) {
         JSONObject jsonObject = new JSONObject();
-        switch (t) {
+        int count;
+        switch ((String) map.get("type")) {
             //会员裂变
             case Constants.FISSION:
-                //裂变
-                jsonObject.put("fissionDetail", activitySetMapper.getFissionSetDetailByUserId(userId));
+                PageUtil<FissionSetDetail> pageUtil1 = new PageUtil();
+                pageUtil1.setPageSize((Integer) map.get("pageSize"));
+                pageUtil1.setCurrentPage((Integer) map.get("pageSize"));
+                count = activitySetMapper.searchFissionSetDetail(map);
+                List<FissionSetDetail> fissionSetDetailList = activitySetMapper.getFissionSetDetailByUserId(map);
+                pageUtil1.setTotalCount(count);
+                pageUtil1.setLists(fissionSetDetailList);
+                jsonObject.put("fissionDetail", pageUtil1);
                 break;
             //会员返利
             case Constants.REBATE:
-                //返利
-                jsonObject.put("rebate", activitySetMapper.getRebateSet(userId));
-                //分销
+                PageUtil<RebateSet> pageUtil2 = new PageUtil();
+                pageUtil2.setPageSize((Integer) map.get("pageSize"));
+                pageUtil2.setCurrentPage((Integer) map.get("pageSize"));
+                count = activitySetMapper.searchRebateSet(map);
+                List<RebateSet> rebateSetList = activitySetMapper.getRebateSets(map);
+                pageUtil2.setTotalCount(count);
+                pageUtil2.setLists(rebateSetList);
+                jsonObject.put("rebate", pageUtil2);
                 break;
             //店铺分销
             case Constants.DISTRIBUTION:
-                jsonObject.put("distributionDetail", activitySetMapper.getDistributionCouponList(userId));
+                PageUtil<DistributionCoupon> pageUtil3 = new PageUtil();
+                pageUtil3.setPageSize((Integer) map.get("pageSize"));
+                pageUtil3.setCurrentPage((Integer) map.get("pageSize"));
+                count = activitySetMapper.searchDistributionCoupon(map);
+                List<DistributionCoupon> distributionCouponList = activitySetMapper.getDistributionCouponList(map);
+                pageUtil3.setTotalCount(count);
+                pageUtil3.setLists(distributionCouponList);
+                jsonObject.put("distributionDetail", pageUtil3);
                 break;
             default:
                 break;

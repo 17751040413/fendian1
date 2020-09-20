@@ -277,7 +277,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             distributionSet.setState(state);
             activitySetMapper.setDistributionSetState(userId, state);
         }
-        List<DistributionCoupon> distributionCouponList = activitySetMapper.getDistributionCouponList(distributionSet.getId());
+        List<DistributionCoupon> distributionCouponList = activitySetMapper.getDistributionCoupons(distributionSet.getId());
         //启用-获取分销详情并返回
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("distributionSet", distributionSet);

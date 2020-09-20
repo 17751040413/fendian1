@@ -47,6 +47,39 @@
         LIMIT #{startRow},#{pageSize}
     </select>
 
+    <select id="getFissionSetDetailByUserId" resultType="com.wowoniu.fendian.model.FissionSetDetail">
+        SELECT * FROM fission_set_detail WHERE fission_id in (SELECT id FROM fission_set WHERE user_id = #{userId})
+        ORDER BY level
+        LIMIT #{startRow},#{pageSize}
+    </select>
+    <select id="searchFissionSetDetail" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM fission_set_detail WHERE fission_id in (SELECT id FROM fission_set WHERE user_id = #{userId})
+        ORDER BY level
+        LIMIT #{startRow},#{pageSize}
+    </select>
+
+    <select id="getRebateSets" resultType="com.wowoniu.fendian.model.RebateSet">
+        SELECT * FROM rebate_set WHERE user_id = #{userId}
+        ORDER BY id DESC
+        LIMIT #{startRow},#{pageSize}
+    </select>
+    <select id="searchRebateSet" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM rebate_set WHERE user_id = #{userId}
+        ORDER BY id DESC
+        LIMIT #{startRow},#{pageSize}
+    </select>
+
+    <select id="getDistributionCouponList" resultType="com.wowoniu.fendian.model.DistributionCoupon">
+        SELECT * FROM distribution_coupon WHERE distribution_id = (SELECT id FROM distribution_set WHERE user_id = #{userId})
+        ORDER BY id DESC
+        LIMIT #{startRow},#{pageSize}
+    </select>
+    <select id="searchDistributionCoupon" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM distribution_coupon WHERE distribution_id = (SELECT id FROM distribution_set WHERE user_id = #{userId})
+        ORDER BY id DESC
+        LIMIT #{startRow},#{pageSize}
+    </select>
+
     <!-- 新增规格详情-批量 -->
     <insert id="addWaresSpecDetailBatch">
         INSERT INTO wares_spec_detail (id,model,price,stock,spec_id,picture_url)

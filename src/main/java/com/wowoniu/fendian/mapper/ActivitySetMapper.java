@@ -22,8 +22,18 @@ public interface ActivitySetMapper {
      * @param userId
      * @return
      */
-    @Select("SELECT * FROM fission_set_detail WHERE fission_id in (SELECT id FROM fission_set WHERE user_id = #{userId}) ORDER BY level")
-    List<FissionSetDetail> getFissionSetDetailByUserId(@Param("userId") String userId);
+    @Select(" SELECT * FROM fission_set_detail WHERE fission_id in (SELECT id FROM fission_set WHERE user_id = #{userId}) ORDER BY level")
+    List<FissionSetDetail> getFissionSetDetail(@Param("userId") String userId);
+
+    /**
+     * 用户ID获取裂变详情 分页
+     *
+     * @param map
+     * @return
+     */
+    List<FissionSetDetail> getFissionSetDetailByUserId(Map<String, Object> map);
+
+    int searchFissionSetDetail(Map<String, Object> map);
 
     /**
      * 设置裂变启用/禁用
@@ -129,14 +139,18 @@ public interface ActivitySetMapper {
     @Update("UPDATE rebate_set SET state = #{state} WHERE user_id = #{userId}")
     int setRebateState(@Param("userId") String userId, @Param("state") String state);
 
+    @Select("SELECT * FROM rebate_set WHERE user_id = #{userId}")
+    RebateSet getRebateSet(@Param("userId") String userId);
+
     /**
      * 商家ID获取返利设置
      *
-     * @param userId
+     * @param map
      * @return
      */
-    @Select("SELECT * FROM rebate_set WHERE user_id = #{userId}")
-    RebateSet getRebateSet(@Param("userId") String userId);
+    List<RebateSet> getRebateSets(Map<String, Object> map);
+
+    int searchRebateSet(Map<String, Object> map);
 
     /**
      * 返利ID获取返利详情
@@ -224,11 +238,30 @@ public interface ActivitySetMapper {
     /**
      * 用户ID获取分销优惠券
      *
+     * @param
+     * @return
+     */
+    @Select("SELECT * FROM distribution_coupon WHERE distribution_id = (SELECT id FROM distribution_set WHERE user_id = #{userId})")
+    List<DistributionCoupon> getDistributionCoupon(@Param("userId") String userId);
+
+    /**
+     * 分销优惠券
+     *
      * @param userId
      * @return
      */
     @Select("SELECT * FROM distribution_coupon WHERE distribution_id = (SELECT id FROM distribution_set WHERE user_id = #{userId})")
-    List<DistributionCoupon> getDistributionCouponList(@Param("userId") String userId);
+    List<DistributionCoupon> getDistributionCoupons(@Param("userId") String userId);
+
+    /**
+     * 分销优惠券 分页
+     *
+     * @param map
+     * @return
+     */
+    List<DistributionCoupon> getDistributionCouponList(Map<String, Object> map);
+
+    int searchDistributionCoupon(Map<String, Object> map);
 
     /**
      * 新增分销

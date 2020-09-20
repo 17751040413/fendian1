@@ -33,8 +33,8 @@ public interface MemberStatisticService {
     /**
      * 活动列表
      *
-     * @param userId
+     * @param map
      * @return
      */
-    JSONObject getActivity(String userId, int type);
+    JSONObject getActivity(Map<String, Object> map);
 }

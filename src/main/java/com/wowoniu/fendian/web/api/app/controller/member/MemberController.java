@@ -87,15 +87,18 @@ public class MemberController {
      * @param request
      * @return
      */
-    @ApiOperation(value = "会员管理--活动列表", tags = " 获取已创建的优惠券 type 0：会员裂变；1：会员返利；2：店铺分销； - limit为获取数据条数")
+    @ApiOperation(value = "会员管理--活动列表", tags = " 获取已创建的优惠券 type 0：会员裂变；1：会员返利；2：店铺分销； ")
     @RequestMapping("/getCouponList")
-    @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "引流活动类型", dataType = "int", required = true)})
-    public Object getCouponList(@ApiIgnore HttpServletRequest request, int type) {
-        JSONObject object = memberStatisticService.getActivity((String) request.getAttribute("sysid"), type);
-        if (object == null && object.size() == 0) {
-            return new Result(204, false, "无数据", null);
-        }
-        return new Result(200, true, "查询成功", object);
+    @ApiImplicitParams({@ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
+            @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true),
+            @ApiImplicitParam(name = "type", value = "引流活动类型 type 0：会员裂变；1：会员返利；2：店铺分销", dataType = "int", required = true)})
+    public Object getCouponList(@ApiIgnore HttpServletRequest request, int pageSize, int startRow, int type) {
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("pageSize", pageSize);
+        map.put("startRow", startRow);
+        map.put("type", type + "");
+        map.put("userId", request.getAttribute("sysid"));
+        return new Result(200, true, "查询成功", memberStatisticService.getActivity(map));
     }
 
 
