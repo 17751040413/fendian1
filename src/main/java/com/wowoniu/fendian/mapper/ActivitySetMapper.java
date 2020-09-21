@@ -104,7 +104,7 @@ public interface ActivitySetMapper {
     @Update(" UPDATE fission_set_detail SET level_name=#{levelName},coupon_type1=#{couponType1}, discount_money1=#{discountMoney1},use_threshold1=#{useThreshold1}," +
             "month_number1=#{monthNumber1},use_range1=#{useRange1}, exchange_coupon_name1=#{exchangeCouponName1},discount1=#{discount1},coupon_type2=#{couponType2}, " +
             "discount_money2=#{discountMoney2},use_threshold2=#{useThreshold2},month_number2=#{monthNumber2},use_range2=#{useRange2}, " +
-            "exchange_coupon_name2=#{exchangeCouponName2},discount2=#{discount2} WHERE id =#{id}")
+            "exchange_coupon_name2=#{exchangeCouponName2},discount2=#{discount2},factor=#{factor} WHERE id =#{id}")
     int updateFissionSetDetail(FissionSetDetail fissionSetDetail);
 
     /**
