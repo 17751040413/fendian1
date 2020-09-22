@@ -162,6 +162,15 @@ public interface ActivitySetMapper {
     List<RebateSetDetail> getRebateSetDetailList(@Param("rebateId") String rebateId);
 
     /**
+     * 返利ID获取充值详情
+     *
+     * @param rebateId
+     * @return
+     */
+    @Select("SELECT * FROM recharge_detail WHERE reable_id = #{rebateId} ORDER BY id")
+    List<RechargeDetail> getRechargeDetailList(@Param("rebateId") String rebateId);
+
+    /**
      * 新增返利
      *
      * @param rebateSet
@@ -195,6 +204,15 @@ public interface ActivitySetMapper {
     int addRebateSetDetail(RebateSetDetail rebateSetDetail);
 
     /**
+     * 新增返利充值
+     *
+     * @param rechargeDetail
+     * @return
+     */
+    @Insert("INSERT INTO recharge_detail (id,recharge_money,give_money,reable_id) VALUES (#{id},#{recharge_money},#{give_money},#{reable_id})")
+    int addRechargeDetail(RechargeDetail rechargeDetail);
+
+    /**
      * 更新裂变详情
      *
      * @param rebateSetDetail
@@ -204,6 +222,15 @@ public interface ActivitySetMapper {
     int updateRebateSetDetail(RebateSetDetail rebateSetDetail);
 
     /**
+     * 更新裂变详情
+     *
+     * @param rechargeDetail
+     * @return
+     */
+    @Update("UPDATE recharge_detail SET recharge_money=#{rechargeMoney},give_money=#{giveMoney} WHERE id =#{id}")
+    int updateRechargeDetail(RechargeDetail rechargeDetail);
+
+    /**
      * ID删除返利详情
      *
      * @param id
@@ -211,6 +238,9 @@ public interface ActivitySetMapper {
      */
     @Delete("DELETE FROM rebate_set_detail WHERE id = #{id}")
     int deleteRebateSetDetail(@Param("id") String id);
+
+    @Delete("DELETE FROM recharge_detail WHERE id = #{id}")
+    int deleteRechargeDetail(@Param("id") String id);
 
     /************************************** 返利 - END *************************************************/
 

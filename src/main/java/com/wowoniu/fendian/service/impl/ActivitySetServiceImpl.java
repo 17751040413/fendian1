@@ -174,10 +174,12 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             return new Result(200, true, "禁用成功", null);
         }
         List<RebateSetDetail> rebateSetDetailList = activitySetMapper.getRebateSetDetailList(rebateSet.getId());
+        List<RechargeDetail> rechargeDetailList = activitySetMapper.getRechargeDetailList(rebateSet.getId());
         //启用-获取返利详情并返回
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("rebateSet", rebateSet);
-        jsonObject.put("detail", rebateSetDetailList);
+        jsonObject.put("rebateDetail", rebateSetDetailList);
+        jsonObject.put("rechargeDetail", rechargeDetailList);
         if (jsonObject == null || jsonObject.size() == 0) {
             return new Result(204, false, "获取失败", null);
         }
@@ -195,8 +197,9 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     @Transactional(rollbackFor = Exception.class)
     public boolean addOrUpdateRebate(JSONObject param, String userId) {
         RebateSet rebateSet = JSONObject.parseObject(param.getJSONObject("rebateSet").toJSONString(), RebateSet.class);
-        List<RebateSetDetail> rebateSetDetailList = JSONArray.parseArray(param.getJSONArray("detail").toJSONString(), RebateSetDetail.class);
-        if (rebateSet == null || CollectionUtils.isEmpty(rebateSetDetailList)) {
+        List<RebateSetDetail> rebateSetDetailList = JSONArray.parseArray(param.getJSONArray("rebateDetail").toJSONString(), RebateSetDetail.class);
+        List<RechargeDetail> rechargeDetailList = JSONArray.parseArray(param.getJSONArray("rechargeDetail").toJSONString(), RechargeDetail.class);
+        if (rebateSet == null || CollectionUtils.isEmpty(rebateSetDetailList) || CollectionUtils.isEmpty(rechargeDetailList) ) {
             return false;
         }
 
@@ -211,6 +214,11 @@ public class ActivitySetServiceImpl implements ActivitySetService {
                 rebateSetDetail.setRebateId(rebateSet.getId());
                 activitySetMapper.addRebateSetDetail(rebateSetDetail);
             }
+            for (RechargeDetail rechargeDetail : rechargeDetailList){
+                rechargeDetail.setId(StringUtils.getUuid());
+                rechargeDetail.setReableId(rebateSet.getId());
+                activitySetMapper.addRechargeDetail(rechargeDetail);
+            }
         } else {
             //更新
             activitySetMapper.updateRebateSet(rebateSet);
@@ -218,8 +226,15 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             List<RebateSetDetail> adds = new ArrayList<>();
             //删除的详情
             List<RebateSetDetail> deletes = new ArrayList<>();
+
+            //新增的充值详情
+            List<RechargeDetail> addrec = new ArrayList<>();
+            //删除的充值详情
+            List<RechargeDetail> delrec = new ArrayList<>();
+
             //原有详情
             List<RebateSetDetail> olds = activitySetMapper.getRebateSetDetailList(rebateSet.getId());
+
             for (RebateSetDetail rebateSetDetail : rebateSetDetailList) {
                 if (StringUtils.isEmpity(rebateSetDetail.getId())) {
                     rebateSetDetail.setId(StringUtils.getUuid());
@@ -239,6 +254,29 @@ public class ActivitySetServiceImpl implements ActivitySetService {
                 }
                 if (result) {
                     activitySetMapper.deleteRebateSetDetail(old.getId());
+                }
+            }
+
+            List<RechargeDetail> oldrec = activitySetMapper.getRechargeDetailList(rebateSet.getId());
+            for (RechargeDetail rechargeDetail : rechargeDetailList) {
+                if (StringUtils.isEmpity(rechargeDetail.getId())) {
+                    rechargeDetail.setId(StringUtils.getUuid());
+                    rechargeDetail.setReableId(rebateSet.getId());
+                    activitySetMapper.addRechargeDetail(rechargeDetail);
+                } else {
+                    activitySetMapper.updateRechargeDetail(rechargeDetail);
+                }
+            }
+            for (RechargeDetail old : oldrec) {
+                boolean result = true;
+                for (RechargeDetail rechargeDetail : rechargeDetailList) {
+                    if (old.getId().equals(rechargeDetail.getId())) {
+                        result = false;
+                        break;
+                    }
+                }
+                if (result) {
+                    activitySetMapper.deleteRechargeDetail(old.getId());
                 }
             }
 
