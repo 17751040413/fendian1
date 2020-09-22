@@ -433,4 +433,78 @@ public class AppletServiceImpl implements AppletService {
     public List<ShopRecord> getShopRecordList(String openId) {
         return appletMapper.getShopRecordList(openId);
     }
+
+    /**
+     * ID获取推荐好友活动
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public RecommendSet getRecommend(String id) {
+        return activitySetMapper.getRecommendSet(id);
+    }
+
+    /**
+     * 商家ID获取推荐好友活动
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<RecommendSet> getRecommendList(String userId) {
+        return activitySetMapper.getRecommendSetList(userId);
+    }
+
+    /**
+     * 添加推荐优惠券
+     *
+     * @param id
+     * @param openId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void addCounpon(String id, String openId, String openId1) {
+        //获取活动
+        RecommendSet recommendSet = activitySetMapper.getRecommendSet(id);
+        CouponBuyer couponBuyer = new CouponBuyer();
+        couponBuyer.setBuyerId(openId1);
+        couponBuyer.setDonorId(openId);
+        couponBuyer.setUserId(recommendSet.getUserId());
+        couponBuyer.setStartTime(recommendSet.getRecommendStartTime());
+        couponBuyer.setEndTime(recommendSet.getRecommendEndTime());
+        couponBuyer.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        couponBuyer.setActivityId(recommendSet.getId());
+        couponBuyer.setActivityName(recommendSet.getTitle());
+        couponBuyer.setCondition(recommendSet.getRecommendThreshold().toString());
+        couponBuyer.setRange(recommendSet.getRecommendRange());
+        couponBuyer.setExchangeNumber(recommendSet.getRecommendGiftNumber());
+        couponBuyer.setExchangeContent(recommendSet.getRecommendGiftName());
+        couponBuyer.setDiscount(recommendSet.getRecommendDiscount());
+        couponBuyer.setActivityType(Constants.RECOMMEND);
+        String[] url = recommendSet.getPictureUrl().split(";");
+        couponBuyer.setActivityUrl(url[0]);
+        couponBuyer.setDiscountAmount(recommendSet.getRecommendMoney().toString());
+        appletMapper.addCouponBuyer(couponBuyer);
+
+        couponBuyer = new CouponBuyer();
+        couponBuyer.setBuyerId(openId);
+        couponBuyer.setUserId(recommendSet.getUserId());
+        couponBuyer.setStartTime(recommendSet.getRecommendedStartTime());
+        couponBuyer.setEndTime(recommendSet.getRecommendedEndTime());
+        couponBuyer.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        couponBuyer.setActivityId(recommendSet.getId());
+        couponBuyer.setActivityName(recommendSet.getTitle());
+        couponBuyer.setCondition(recommendSet.getRecommendedThreshold().toString());
+        couponBuyer.setRange(recommendSet.getRecommendedRange());
+        couponBuyer.setExchangeNumber(recommendSet.getRecommendedGiftNumber());
+        couponBuyer.setExchangeContent(recommendSet.getRecommendedGiftName());
+        couponBuyer.setDiscount(recommendSet.getRecommendedDiscount());
+        couponBuyer.setActivityType(Constants.RECOMMEND);
+        couponBuyer.setActivityUrl(url[0]);
+        couponBuyer.setDiscountAmount(recommendSet.getRecommendedMoney().toString());
+        appletMapper.addCouponBuyer(couponBuyer);
+
+    }
 }

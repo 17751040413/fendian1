@@ -406,11 +406,7 @@ public class ActivitySetController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "推荐设置ID", dataType = "String", required = true)})
     public Object getRecommendSet(String id) {
 
-        RecommendSet recommendSet = activitySetService.getRecommendSet(id);
-        if (recommendSet == null) {
-            return new Result(204, false, "获取失败", null);
-        }
-        return new Result(200, true, "获取成功", recommendSet);
+        return new Result(200, true, "获取成功",  activitySetService.getRecommendSet(id));
     }
 
     @ApiOperation("推荐--优惠券新增/修改")

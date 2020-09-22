@@ -60,9 +60,9 @@ public class AppletController {
     @ApiOperation("5-2-1  店铺ID获取店铺信息 (5-2-9 联系店主)")
     @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true),
             @ApiImplicitParam(name = "skey", value = "skey ", dataType = "String", required = true)})
-    public Object getUseUserById(String userId,String skey) {
+    public Object getUseUserById(String userId, String skey) {
         String openId = userMapper.selectBySkey(skey).getOpenId();
-        return new Result<>(200, true, "获取成功", appletService.getUseUserById(userId,openId));
+        return new Result<>(200, true, "获取成功", appletService.getUseUserById(userId, openId));
     }
 
     @PostMapping("/getSortByUseUserId")
@@ -324,5 +324,32 @@ public class AppletController {
         }
         return new Result<>(200, true, "获取成功", shopRecordList);
     }
+
+    @PostMapping("/recommendByUserId")
+    @ApiOperation("8-2-4-1 推荐好友 -活动列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true)})
+    public Object recommendByUserId(String userId) {
+        return new Result<>(200, true, "获取成功", appletService.getRecommendList(userId));
+    }
+
+    @PostMapping("/recommendById")
+    @ApiOperation("8-2-4-2面对面弹窗")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID ", dataType = "String", required = true)})
+    public Object recommendById(String id) {
+        return new Result<>(200, true, "获取成功", appletService.getRecommend(id));
+    }
+
+    @PostMapping("/getRecommendById")
+    @ApiOperation("8-2-4-2 立即领取")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "当然用户的skey ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "id", value = "推荐活动ID ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "skey1", value = "赠送人的skey ", dataType = "String", required = true)})
+    public Object getRecommendById(String id,String skey,String skey1) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        String openId1 = userMapper.selectBySkey(skey1).getOpenId();
+        appletService.addCounpon(id,openId,openId1);
+        return new Result<>(200, true, "获取成功", null);
+    }
+
 
 }

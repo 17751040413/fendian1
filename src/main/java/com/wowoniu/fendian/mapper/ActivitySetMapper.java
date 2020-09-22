@@ -145,12 +145,11 @@ public interface ActivitySetMapper {
     /**
      * 商家ID获取返利设置
      *
-     * @param map
+     * @param userId
      * @return
      */
-    List<RebateSet> getRebateSets(Map<String, Object> map);
-
-    int searchRebateSet(Map<String, Object> map);
+    @Select("SELECT * FROM rebate_set WHERE user_id = #{userId}")
+    RebateSet getRebateSets(String userId);
 
     /**
      * 返利ID获取返利详情
@@ -732,6 +731,15 @@ public interface ActivitySetMapper {
      */
     @Select("SELECT * FROM recommend_set WHERE id = #{id}")
     RecommendSet getRecommendSet(@Param("id") String id);
+
+    /**
+     * 商家ID获取推荐活动
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM recommend_set WHERE user_id = #{userId}")
+    List<RecommendSet> getRecommendSetList(@Param("userId") String userId);
 
     /**
      * 推荐新增

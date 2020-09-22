@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 买家领取的优惠券
@@ -23,11 +24,11 @@ public class CouponBuyer implements Serializable {
     @ApiModelProperty("商家ID")
     private String userId;
     @ApiModelProperty("开始时间")
-    private String startTime;
+    private Timestamp startTime;
     @ApiModelProperty("结束时间")
-    private String endTime;
+    private Timestamp endTime;
     @ApiModelProperty("领券时间")
-    private String createTime;
+    private Timestamp createTime;
     @ApiModelProperty("消费门槛")
     private String condition;
     @ApiModelProperty("使用范围")
@@ -92,27 +93,27 @@ public class CouponBuyer implements Serializable {
         this.userId = userId;
     }
 
-    public String getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 
-    public String getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 

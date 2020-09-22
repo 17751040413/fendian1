@@ -29,7 +29,7 @@ public interface AppletService {
      * @param id
      * @return
      */
-    UseUser getUseUserById(String id,String openId);
+    UseUser getUseUserById(String id, String openId);
 
     /**
      * 商家ID获取商品分类
@@ -217,4 +217,21 @@ public interface AppletService {
      * @return
      */
     List<ShopRecord> getShopRecordList(String openId);
+
+    /**
+     * 商家ID获取推荐好友活动
+     *
+     * @param id
+     * @return
+     */
+    RecommendSet getRecommend(String id);
+
+    List<RecommendSet> getRecommendList(String userId);
+
+    /**
+     * 添加推荐优惠券
+     *
+     * @return
+     */
+    void addCounpon(String id, String openId, String openId1);
 }

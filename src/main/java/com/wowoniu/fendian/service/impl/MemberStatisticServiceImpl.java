@@ -133,14 +133,12 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
                 break;
             //会员返利
             case Constants.REBATE:
-                PageUtil<RebateSet> pageUtil2 = new PageUtil();
-                pageUtil2.setPageSize((Integer) map.get("pageSize"));
-                pageUtil2.setCurrentPage((Integer) map.get("pageSize"));
-                count = activitySetMapper.searchRebateSet(map);
-                List<RebateSet> rebateSetList = activitySetMapper.getRebateSets(map);
-                pageUtil2.setTotalCount(count);
-                pageUtil2.setLists(rebateSetList);
-                jsonObject.put("rebate", pageUtil2);
+                RebateSet readable = activitySetMapper.getRebateSets(map.get("userId").toString());
+                List<RechargeDetail> rechargeDetailList = activitySetMapper.getRechargeDetailList(readable.getId());
+                List<RebateSetDetail> rebateSetDetailList = activitySetMapper.getRebateSetDetailList(readable.getId());
+                jsonObject.put("rebate", readable);
+                jsonObject.put("detail", rebateSetDetailList);
+                jsonObject.put("recharge", rechargeDetailList);
                 break;
             //店铺分销
             case Constants.DISTRIBUTION:

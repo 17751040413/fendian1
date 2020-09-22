@@ -58,14 +58,6 @@
         LIMIT #{startRow},#{pageSize}
     </select>
 
-    <select id="getRebateSets" resultType="com.wowoniu.fendian.model.RebateSet">
-        SELECT * FROM rebate_set rs LEFT JOIN rebate_set_detail rsd ON rsd.rebate_id = rs.id LEFT JOIN recharge_detail rd ON rd.reable_id = rs.id WHERE rs.user_id = #{userId}
-        LIMIT #{startRow},#{pageSize}
-    </select>
-    <select id="searchRebateSet" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM rebate_set rs LEFT JOIN rebate_set_detail rsd ON rsd.rebate_id = rs.id LEFT JOIN recharge_detail rd ON rd.reable_id = rs.id WHERE rs.user_id = #{userId}
-        LIMIT #{startRow},#{pageSize}
-    </select>
 
     <select id="getDistributionCouponList" resultType="com.wowoniu.fendian.model.DistributionCoupon">
         SELECT * FROM distribution_coupon WHERE distribution_id = (SELECT id FROM distribution_set WHERE user_id = #{userId})
