@@ -280,6 +280,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
                 }
             }
 
+
             //返利裂变集合 重新排序
             List<RebateSetDetail> detailList = activitySetMapper.getRebateSetDetailList(rebateSet.getId());
             if (CollectionUtils.isEmpty(detailList)) {
