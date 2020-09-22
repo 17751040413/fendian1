@@ -234,4 +234,37 @@ public interface AppletService {
      * @return
      */
     void addCounpon(String id, String openId, String openId1);
+
+    /**
+     * 砸金蛋 / 幸运大抽奖
+     *
+     * @param userId
+     * @param type
+     * @return
+     */
+    JSONObject lottery(String userId, String type);
+
+    /**
+     * 参与抽奖人添加
+     *
+     * @param id
+     * @param openId
+     */
+    void addLuckUser(String id, String openId);
+
+    /**
+     * 查看中奖券
+     *
+     * @param id
+     * @return
+     */
+    LuckDrawDetail checkLuckCoupon(String id, String openId);
+
+    /**
+     * 活动ID获取参与人
+     *
+     * @param id
+     * @return
+     */
+    JSONObject luckUserList(String id);
 }

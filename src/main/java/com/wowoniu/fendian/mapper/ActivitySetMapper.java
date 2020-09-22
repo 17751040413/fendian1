@@ -611,6 +611,9 @@ public interface ActivitySetMapper {
     @Select("SELECT * FROM luck_draw_set WHERE id = #{id} ")
     LuckDrawSet getLuckDrawSet(@Param("id") String id);
 
+    @Select("SELECT * FROM luck_draw_set WHERE user_id = #{userId} AND type = #{type} ")
+    LuckDrawSet getLuckDrawSetByUserId(@Param("userId") String userId, @Param("type") String type);
+
     /**
      * 抽奖ID获取抽奖详情
      *
@@ -619,6 +622,15 @@ public interface ActivitySetMapper {
      */
     @Select("SELECT * FROM luck_draw_detail WHERE luck_draw_id = #{id} ")
     List<LuckDrawDetail> getLuckDrawDetailList(@Param("id") String id);
+
+    /**
+     * ID获取中奖详情
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM luck_draw_detail WHERE id = #{id} ")
+    LuckDrawDetail getLuckDrawDetailById(@Param("id") String id);
 
     /**
      * 新增抽奖

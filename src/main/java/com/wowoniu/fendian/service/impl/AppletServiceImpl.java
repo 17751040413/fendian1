@@ -507,4 +507,95 @@ public class AppletServiceImpl implements AppletService {
         appletMapper.addCouponBuyer(couponBuyer);
 
     }
+
+    /**
+     * 砸金蛋 / 幸运大抽奖
+     *
+     * @param userId
+     * @param type
+     * @return
+     */
+    @Override
+    public JSONObject lottery(String userId, String type) {
+        JSONObject jsonObject = new JSONObject();
+        LuckDrawSet luckDrawSet = activitySetMapper.getLuckDrawSetByUserId(userId, type);
+        if (luckDrawSet != null) {
+            List<LuckDrawDetail> luckDrawDetailList = activitySetMapper.getLuckDrawDetailList(luckDrawSet.getId());
+            jsonObject.put("luck", luckDrawSet);
+            jsonObject.put("detail", luckDrawDetailList);
+        }
+
+        return jsonObject;
+    }
+
+    /**
+     * 参与抽奖人添加
+     *
+     * @param id
+     * @param openId
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void addLuckUser(String id, String openId) {
+        LuckUser luckUser = new LuckUser();
+        User user = appletMapper.getUserByOpenId(openId);
+        luckUser.setActivityId(id);
+        luckUser.setBuyerId(openId);
+        luckUser.setId(StringUtils.getUuid());
+        luckUser.setName(user.getNickName());
+        luckUser.setAvatarUrl(user.getAvatarUrl());
+        appletMapper.addLuckUser(luckUser);
+    }
+
+    /**
+     * 查看中奖券
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public LuckDrawDetail checkLuckCoupon(String id, String openId) {
+        LuckDrawDetail luckDrawDetail = activitySetMapper.getLuckDrawDetailById(id);
+        LuckDrawSet luckDrawSet = activitySetMapper.getLuckDrawSet(luckDrawDetail.getLuckDrawId());
+        //放入用户券包
+        CouponBuyer couponBuyer = new CouponBuyer();
+        couponBuyer.setBuyerId(openId);
+        couponBuyer.setUserId(luckDrawSet.getUserId());
+        couponBuyer.setStartTime(luckDrawDetail.getStartTime());
+        couponBuyer.setEndTime(luckDrawDetail.getEndTime());
+        couponBuyer.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        couponBuyer.setActivityId(luckDrawDetail.getId());
+        couponBuyer.setActivityName(luckDrawSet.getTitle());
+        couponBuyer.setRange(luckDrawDetail.getRange());
+        couponBuyer.setExchangeNumber(1);
+        couponBuyer.setExchangeContent(luckDrawDetail.getPrizeName());
+        couponBuyer.setDiscount(luckDrawDetail.getDiscount());
+        if ("0".equals(luckDrawSet.getType())) {
+            couponBuyer.setActivityType(Constants.TURNTABLE);
+        } else {
+            couponBuyer.setActivityType(Constants.LUCKDRAW);
+        }
+        couponBuyer.setActivityUrl(luckDrawDetail.getPictureUrl());
+        couponBuyer.setDiscountAmount(luckDrawDetail.getPreferential().toString());
+        appletMapper.addCouponBuyer(couponBuyer);
+
+        return luckDrawDetail;
+    }
+
+    /**
+     * 活动ID获取参与人
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public JSONObject luckUserList(String id) {
+        JSONObject jsonObject = new JSONObject();
+        List<LuckUser> luckUserList = appletMapper.luckUserList(id);
+        jsonObject.put("luckUser", luckUserList);
+        jsonObject.put("num", luckUserList.size());
+        return jsonObject;
+    }
+
+
 }

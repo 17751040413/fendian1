@@ -380,4 +380,21 @@ public interface AppletMapper {
             "#{activityId},#{activityType},#{condition},#{range},#{exchangeNumber},#{price},#{activityPrice},#{payPrice},#{activityName},#{activityUrl})")
     int addCouponBuyer(CouponBuyer couponBuyer);
 
+    /**
+     * 添加参与抽奖活动的用户
+     *
+     * @param luckUser
+     */
+    @Insert("INSERT INTO (id,buyer_id,name,create_time,activity_id,avatar_url) VALUES (#{id},#{buyerId},#{name},now(),#{activityId},#{avatarUrl})")
+    void addLuckUser(LuckUser luckUser);
+
+    /**
+     * 活动ID获取参与人
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM luck_user WHERE activity_id = #{id}")
+    List<LuckUser> luckUserList(String id);
+
 }

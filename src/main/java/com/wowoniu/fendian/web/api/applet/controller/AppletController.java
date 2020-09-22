@@ -344,11 +344,47 @@ public class AppletController {
     @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "当然用户的skey ", dataType = "String", required = true),
             @ApiImplicitParam(name = "id", value = "推荐活动ID ", dataType = "String", required = true),
             @ApiImplicitParam(name = "skey1", value = "赠送人的skey ", dataType = "String", required = true)})
-    public Object getRecommendById(String id,String skey,String skey1) {
+    public Object getRecommendById(String id, String skey, String skey1) {
         String openId = userMapper.selectBySkey(skey).getOpenId();
         String openId1 = userMapper.selectBySkey(skey1).getOpenId();
-        appletService.addCounpon(id,openId,openId1);
+        appletService.addCounpon(id, openId, openId1);
         return new Result<>(200, true, "获取成功", null);
+    }
+
+    @PostMapping("/lottery")
+    @ApiOperation("8-2-1 8-2-6-1 砸金蛋 / 幸运大抽奖")
+    @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "商家ID", dataType = "String", required = true),
+            @ApiImplicitParam(name = "type", value = "类型0：转盘；1：砸金蛋", dataType = "String", required = true)})
+    public Object lottery(String userId, String type) {
+
+        return new Result<>(200, true, "获取成功", appletService.lottery(userId, type));
+    }
+
+    @PostMapping("/luckUser")
+    @ApiOperation("8-2-1 中奖/未中奖  记录参与人")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true),
+            @ApiImplicitParam(name = "id", value = "抽奖活动ID", dataType = "String", required = true)})
+    public Object luckUser(String skey, String id) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        appletService.addLuckUser(id, openId);
+        return new Result<>(200, true, "获取成功", null);
+    }
+
+    @PostMapping("/luckUserList")
+    @ApiOperation("8-2-1 参加名单")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "抽奖活动ID", dataType = "String", required = true)})
+    public Object luckUserList(String id) {
+
+        return new Result<>(200, true, "获取成功", appletService.luckUserList(id));
+    }
+
+    @PostMapping("/checkLuckCoupon")
+    @ApiOperation("8-2-7-1 8-2-1 查看中奖券")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "中奖详情ID", dataType = "String", required = true),
+            @ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true)})
+    public Object checkLuckCoupon(String id, String skey) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        return new Result<>(200, true, "获取成功", appletService.checkLuckCoupon(id, openId));
     }
 
 
