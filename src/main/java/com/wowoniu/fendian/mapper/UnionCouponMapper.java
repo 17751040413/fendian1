@@ -1,6 +1,8 @@
 package com.wowoniu.fendian.mapper;
 
 import com.wowoniu.fendian.model.UnionCoupon;
+import com.wowoniu.fendian.model.UnionCouponUser;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ public interface UnionCouponMapper {
 
     /**
      * 根据条件获取所有优惠券
+     *
      * @param map
      * @return
      */
@@ -27,9 +30,11 @@ public interface UnionCouponMapper {
 
     /**
      * 根据条件获取所有优惠券数量
+     *
      * @param map
      * @return
      */
     int queryUnionCountByParm(Map map);
+
 
 }

@@ -397,4 +397,31 @@ public interface AppletMapper {
     @Select("SELECT * FROM luck_user WHERE activity_id = #{id}")
     List<LuckUser> luckUserList(String id);
 
+    /**
+     * 商家ID获取秒杀活动列表
+     *
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM seckill_set WHERE user_id = #{userId}")
+    List<SeckillSet> spike(String userId);
+
+    /**
+     * ID查看券
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM coupon_buyer WHERE id = #{id}")
+    CouponBuyer couponById(String id);
+
+    /**
+     * 活动ID获取领取人记录
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM coupon_user WHERE coupon_id = #{id} ORDER BY receive_time DESC")
+    List<CouponUser> getUnionCouponUserByActivityId(String id);
+
 }

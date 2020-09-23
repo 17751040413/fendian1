@@ -233,7 +233,7 @@ public interface AppletService {
      *
      * @return
      */
-    void addCounpon(String id, String openId, String openId1);
+    String addCounpon(String id, String openId, String openId1);
 
     /**
      * 砸金蛋 / 幸运大抽奖
@@ -258,7 +258,7 @@ public interface AppletService {
      * @param id
      * @return
      */
-    LuckDrawDetail checkLuckCoupon(String id, String openId);
+    String checkLuckCoupon(String id, String openId);
 
     /**
      * 活动ID获取参与人
@@ -267,4 +267,63 @@ public interface AppletService {
      * @return
      */
     JSONObject luckUserList(String id);
+
+    /**
+     * 商家ID获取秒杀活动列表
+     *
+     * @param userId
+     * @return
+     */
+    List<SeckillSet> spike(String userId);
+
+    /**
+     * 活动ID获取秒杀活动详情
+     *
+     * @param id
+     * @return
+     */
+    SeckillSet spikeById(String id);
+
+    /**
+     * 查看券
+     *
+     * @param id
+     * @return
+     */
+    CouponBuyer couponById(String id);
+
+    /**
+     * 获取优惠券
+     *
+     * @param id
+     * @param openId
+     * @return
+     */
+    String getSpike(String id, String openId);
+
+    /**
+     * 获取ID获取领取人记录
+     *
+     * @param id
+     * @return
+     */
+    List<CouponUser> couponUser(String id);
+
+    /**
+     * 优惠券信息
+     *
+     * @param id
+     * @return
+     */
+    CouponSet couponInfo(String id);
+
+    /**
+     * 领取优惠券
+     *
+     * @param id
+     * @param openId
+     * @return
+     */
+    String getCoupon(String id, String openId);
+
 }

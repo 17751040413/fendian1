@@ -342,13 +342,12 @@ public class AppletController {
     @PostMapping("/getRecommendById")
     @ApiOperation("8-2-4-2 立即领取")
     @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "当然用户的skey ", dataType = "String", required = true),
-            @ApiImplicitParam(name = "id", value = "推荐活动ID ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "id", value = "推荐活动ID 返回值为优惠券ID 若返回空值则获取失败 ", dataType = "String", required = true),
             @ApiImplicitParam(name = "skey1", value = "赠送人的skey ", dataType = "String", required = true)})
     public Object getRecommendById(String id, String skey, String skey1) {
         String openId = userMapper.selectBySkey(skey).getOpenId();
         String openId1 = userMapper.selectBySkey(skey1).getOpenId();
-        appletService.addCounpon(id, openId, openId1);
-        return new Result<>(200, true, "获取成功", null);
+        return new Result<>(200, true, "获取成功", appletService.addCounpon(id, openId, openId1));
     }
 
     @PostMapping("/lottery")
@@ -380,11 +379,68 @@ public class AppletController {
 
     @PostMapping("/checkLuckCoupon")
     @ApiOperation("8-2-7-1 8-2-1 查看中奖券")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "中奖详情ID", dataType = "String", required = true),
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "中奖详情ID 返回值为优惠券ID 若返回空值则获取失败", dataType = "String", required = true),
             @ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true)})
     public Object checkLuckCoupon(String id, String skey) {
         String openId = userMapper.selectBySkey(skey).getOpenId();
         return new Result<>(200, true, "获取成功", appletService.checkLuckCoupon(id, openId));
+    }
+
+    @PostMapping("/spike")
+    @ApiOperation("8-2-6-1 商家ID获取秒杀活动列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "商家ID", dataType = "String", required = true)})
+    public Object spike(String userId) {
+        return new Result<>(200, true, "获取成功", appletService.spike(userId));
+    }
+
+    @PostMapping("/spikeById")
+    @ApiOperation("8-2-6-1 活动ID获取秒杀活动详情")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true)})
+    public Object spikeById(String id) {
+        return new Result<>(200, true, "获取成功", appletService.spikeById(id));
+    }
+
+    @PostMapping("/getSpike")
+    @ApiOperation("8-2-6-1 秒杀活动弹窗")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "中奖详情ID", dataType = "String", required = true),
+            @ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true)})
+    public Object getSpike(String id, String skey) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        return new Result<>(200, true, "获取成功", appletService.getSpike(id, openId));
+    }
+
+
+    @PostMapping("/couponById")
+    @ApiOperation("8-2-6-1 查看券-所有的单独查看某张券的通用接口")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "券ID 返回值为优惠券ID 若返回空值则获取失败", dataType = "String", required = true)})
+    public Object couponById(String id) {
+
+        return new Result<>(200, true, "获取成功", appletService.couponById(id));
+    }
+
+    @PostMapping("/couponUser")
+    @ApiOperation("8-2-2 领取优惠券-领取人记录")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true)})
+    public Object couponUser(String id) {
+
+        return new Result<>(200, true, "获取成功", appletService.couponUser(id));
+    }
+
+    @PostMapping("/couponInfo")
+    @ApiOperation("8-2-2 领取优惠券-优惠券信息")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true)})
+    public Object couponInfo(String id) {
+
+        return new Result<>(200, true, "获取成功", appletService.couponInfo(id));
+    }
+
+    @PostMapping("/getCoupon")
+    @ApiOperation("8-2-2-2 领取优惠券-领取")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "券ID 返回值为优惠券ID 若返回空值则获取失败", dataType = "String", required = true),
+            @ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true)})
+    public Object getCoupon(String id,String skey) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        return new Result<>(200, true, "获取成功", appletService.getCoupon(id,openId));
     }
 
 

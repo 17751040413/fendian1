@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
 import com.wowoniu.fendian.mapper.AppletMapper;
+import com.wowoniu.fendian.mapper.UnionCouponMapper;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.AppletService;
 import com.wowoniu.fendian.utils.PageUtil;
@@ -34,6 +35,9 @@ public class AppletServiceImpl implements AppletService {
 
     @Autowired
     private ActivitySetMapper activitySetMapper;
+
+    @Autowired
+    private UnionCouponMapper unionCouponMapper;
 
     /**
      * 商铺分页条件查询
@@ -465,10 +469,11 @@ public class AppletServiceImpl implements AppletService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void addCounpon(String id, String openId, String openId1) {
+    public String addCounpon(String id, String openId, String openId1) {
         //获取活动
         RecommendSet recommendSet = activitySetMapper.getRecommendSet(id);
         CouponBuyer couponBuyer = new CouponBuyer();
+        couponBuyer.setId(StringUtils.getUuid());
         couponBuyer.setBuyerId(openId1);
         couponBuyer.setDonorId(openId);
         couponBuyer.setUserId(recommendSet.getUserId());
@@ -489,6 +494,7 @@ public class AppletServiceImpl implements AppletService {
         appletMapper.addCouponBuyer(couponBuyer);
 
         couponBuyer = new CouponBuyer();
+        couponBuyer.setId(StringUtils.getUuid());
         couponBuyer.setBuyerId(openId);
         couponBuyer.setUserId(recommendSet.getUserId());
         couponBuyer.setStartTime(recommendSet.getRecommendedStartTime());
@@ -505,7 +511,7 @@ public class AppletServiceImpl implements AppletService {
         couponBuyer.setActivityUrl(url[0]);
         couponBuyer.setDiscountAmount(recommendSet.getRecommendedMoney().toString());
         appletMapper.addCouponBuyer(couponBuyer);
-
+        return couponBuyer.getId();
     }
 
     /**
@@ -554,11 +560,12 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
-    public LuckDrawDetail checkLuckCoupon(String id, String openId) {
+    public String checkLuckCoupon(String id, String openId) {
         LuckDrawDetail luckDrawDetail = activitySetMapper.getLuckDrawDetailById(id);
         LuckDrawSet luckDrawSet = activitySetMapper.getLuckDrawSet(luckDrawDetail.getLuckDrawId());
         //放入用户券包
         CouponBuyer couponBuyer = new CouponBuyer();
+        couponBuyer.setId(StringUtils.getUuid());
         couponBuyer.setBuyerId(openId);
         couponBuyer.setUserId(luckDrawSet.getUserId());
         couponBuyer.setStartTime(luckDrawDetail.getStartTime());
@@ -579,7 +586,7 @@ public class AppletServiceImpl implements AppletService {
         couponBuyer.setDiscountAmount(luckDrawDetail.getPreferential().toString());
         appletMapper.addCouponBuyer(couponBuyer);
 
-        return luckDrawDetail;
+        return couponBuyer.getId();
     }
 
     /**
@@ -595,6 +602,121 @@ public class AppletServiceImpl implements AppletService {
         jsonObject.put("luckUser", luckUserList);
         jsonObject.put("num", luckUserList.size());
         return jsonObject;
+    }
+
+    /**
+     * 商家ID获取秒杀活动列表
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<SeckillSet> spike(String userId) {
+        return appletMapper.spike(userId);
+    }
+
+    /**
+     * 活动ID获取秒杀活动详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public SeckillSet spikeById(String id) {
+        return activitySetMapper.getSeckillSet(id);
+    }
+
+    /**
+     * 查看券
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public CouponBuyer couponById(String id) {
+        return appletMapper.couponById(id);
+    }
+
+    /**
+     * 获取优惠券
+     *
+     * @param id
+     * @param openId
+     * @return
+     */
+    @Override
+    public String getSpike(String id, String openId) {
+        SeckillSet seckillSet = activitySetMapper.getSeckillSet(id);
+        if (seckillSet == null) {
+            return null;
+        }
+        //放入用户券包
+        CouponBuyer couponBuyer = new CouponBuyer();
+        couponBuyer.setId(StringUtils.getUuid());
+        couponBuyer.setBuyerId(openId);
+        couponBuyer.setUserId(seckillSet.getUserId());
+        couponBuyer.setStartTime(seckillSet.getStartTime());
+        couponBuyer.setEndTime(seckillSet.getEndTime());
+        couponBuyer.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        couponBuyer.setActivityId(seckillSet.getId());
+        couponBuyer.setActivityName(seckillSet.getTitle());
+        couponBuyer.setType(Constants.FAVORABLE);
+        couponBuyer.setExchangeNumber(1);
+        couponBuyer.setExchangeContent(seckillSet.getTitle());
+        couponBuyer.setPrice(seckillSet.getOriginalPrice());
+        couponBuyer.setActivityType(Constants.SECKILL);
+        couponBuyer.setActivityUrl(seckillSet.getHeadPictureUrl());
+        couponBuyer.setActivityPrice(seckillSet.getSeckillPrice().toString());
+        couponBuyer.setPayPrice(seckillSet.getPayAdvance().toString());
+        appletMapper.addCouponBuyer(couponBuyer);
+        return couponBuyer.getId();
+    }
+
+    /**
+     * ID获取订单详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public List<CouponUser> couponUser(String id) {
+        return appletMapper.getUnionCouponUserByActivityId(id);
+    }
+
+    /**
+     * ID获取优惠券信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public CouponSet couponInfo(String id) {
+        return activitySetMapper.getCouponSet(id);
+    }
+
+    /**
+     * 领取优惠券
+     *
+     * @param id
+     * @param openId
+     * @return
+     */
+    @Override
+    public String getCoupon(String id, String openId) {
+        CouponSet couponSet = activitySetMapper.getCouponSet(id);
+        if (couponSet == null) {
+            return null;
+        }
+        //放入用户券包
+        CouponBuyer couponBuyer = new CouponBuyer();
+        couponBuyer.setId(StringUtils.getUuid());
+        couponBuyer.setBuyerId(openId);
+        couponBuyer.setUserId(couponSet.getUserId());
+        couponBuyer.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        couponBuyer.setActivityId(couponSet.getId());
+        couponBuyer.setActivityType(Constants.COUPON);
+        appletMapper.addCouponBuyer(couponBuyer);
+        return couponBuyer.getId();
     }
 
 

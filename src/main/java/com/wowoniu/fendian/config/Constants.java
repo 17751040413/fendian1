@@ -48,7 +48,12 @@ public class Constants {
     public static final String ORDER_STATE_CLOSE = "5";
 
     /*********************配置**************/
-    public static final int PAGESIZE = 20;
+
+
+    /********************* 券类型（0：折扣 1：优惠 2：兑换）**************/
+    public static final String DISCOUNT = "0";
+    public static final String FAVORABLE = "1";
+    public static final String EXCHANGE = "2";
 
     /**********图片地址******************/
     /**
