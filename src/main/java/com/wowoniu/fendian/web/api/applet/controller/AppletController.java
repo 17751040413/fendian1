@@ -411,7 +411,7 @@ public class AppletController {
 
 
     @PostMapping("/couponById")
-    @ApiOperation("8-2-6-1 查看券-所有的单独查看某张券的通用接口")
+    @ApiOperation("8-2-6-1 查看券-所有的通过券ID单独查看某张券的通用接口")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "券ID 返回值为优惠券ID 若返回空值则获取失败", dataType = "String", required = true)})
     public Object couponById(String id) {
 
@@ -438,9 +438,106 @@ public class AppletController {
     @ApiOperation("8-2-2-2 领取优惠券-领取")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "券ID 返回值为优惠券ID 若返回空值则获取失败", dataType = "String", required = true),
             @ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true)})
-    public Object getCoupon(String id,String skey) {
+    public Object getCoupon(String id, String skey) {
         String openId = userMapper.selectBySkey(skey).getOpenId();
-        return new Result<>(200, true, "获取成功", appletService.getCoupon(id,openId));
+        return new Result<>(200, true, "获取成功", appletService.getCoupon(id, openId));
+    }
+
+    @PostMapping("/groupBuy")
+    @ApiOperation("8-2-3 商家ID获取所有拼团活动")
+    @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "商家ID", dataType = "String", required = true)})
+    public Object groupBuy(String userId) {
+        return new Result<>(200, true, "获取成功", appletService.groupBuy(userId));
+    }
+
+    @PostMapping("/groupBuyById")
+    @ApiOperation("8-2-3 活动ID获取拼团活动详情")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true)})
+    public Object groupBuyById(String id) {
+        return new Result<>(200, true, "获取成功", appletService.groupBuyById(id));
+    }
+
+    @PostMapping("/startGroup")
+    @ApiOperation("8-2-3 一键开团")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true),
+            @ApiImplicitParam(name = "id", value = "活动ID 组团成功返回组团ID 否则返回空值", dataType = "String", required = true)})
+    public Object startGroup(String skey, String id) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        return new Result<>(200, true, "获取成功", appletService.startGroup(openId, id));
+    }
+
+    @PostMapping("/getGroupBuyer")
+    @ApiOperation("8-2-3 活动ID获取成团的信息")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID ", dataType = "String", required = true)})
+    public Object getGroupBuyer(String id) {
+        return new Result<>(200, true, "获取成功", appletService.getGroupBuyer(id));
+    }
+
+    @PostMapping("/joinGroup")
+    @ApiOperation("8-2-3 参加团")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true),
+            @ApiImplicitParam(name = "id", value = "活动ID ", dataType = "String", required = true)})
+    public Object joinGroup(String skey, String id) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        appletService.joinGroup(openId, id);
+        return new Result<>(200, true, "获取成功", null);
+    }
+
+    @PostMapping("/checkGroup")
+    @ApiOperation("8-2-3 检查是否有当前拼团活动未完成的团")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true),
+            @ApiImplicitParam(name = "id", value = "活动ID  返回值为true 有未完成的拼团  false 相反", dataType = "String", required = true)})
+    public Object checkGroup(String skey, String id) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        return new Result<>(200, true, "获取成功", appletService.checkGroup(openId, id));
+    }
+
+    @PostMapping("/lookGroupCoupon")
+    @ApiOperation("8-2-3 8-2-5-1查看券")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true),
+            @ApiImplicitParam(name = "id", value = "活动ID ", dataType = "String", required = true)})
+    public Object lookGroupCoupon(String skey, String id) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        return new Result<>(200, true, "获取成功", appletService.lookGroupCoupon(openId, id));
+    }
+
+    @PostMapping("/bargain")
+    @ApiOperation("8-2-5-1 砍价")
+    @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true)})
+    public Object bargain(String userId) {
+        return new Result<>(200, true, "获取成功", appletService.bargain(userId));
+    }
+
+    @PostMapping("/bargainById")
+    @ApiOperation("8-2-5-1 砍价")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID ", dataType = "String", required = true)})
+    public Object bargainById(String id) {
+        return new Result<>(200, true, "获取成功", appletService.bargainById(id));
+    }
+
+    @PostMapping("/startBargain")
+    @ApiOperation("8-2-5-2 发起砍价")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true),
+            @ApiImplicitParam(name = "id", value = "活动ID ", dataType = "String", required = true)})
+    public Object startBargain(String skey, String id) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        return new Result<>(200, true, "获取成功", appletService.startBargain(openId, id));
+    }
+
+    @PostMapping("/joinBargain")
+    @ApiOperation("8-2-5-4 帮砍价")
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true),
+            @ApiImplicitParam(name = "id", value = "活动ID 返回值price为砍掉的价格 result 为true时砍价成功 最低价 ", dataType = "String", required = true)})
+    public Object joinBargain(String skey, String id) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        return new Result<>(200, true, "获取成功", appletService.joinBargain(openId, id));
+    }
+
+    @PostMapping("/bargainUser")
+    @ApiOperation("8-2-5-4 参与砍价")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID ", dataType = "String", required = true)})
+    public Object bargainUser(String id) {
+        return new Result<>(200, true, "获取成功", appletService.bargainUserListByBargainId(id));
     }
 
 

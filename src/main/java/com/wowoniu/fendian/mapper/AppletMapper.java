@@ -424,4 +424,100 @@ public interface AppletMapper {
     @Select("SELECT * FROM coupon_user WHERE coupon_id = #{id} ORDER BY receive_time DESC")
     List<CouponUser> getUnionCouponUserByActivityId(String id);
 
+    /**
+     * 新增组团
+     *
+     * @param groupBuyer
+     */
+    @Insert("INSERT INTO (id,group_id,buyer_id,users,number,create_time,end_time) VALUES (#{id},#{groupId},#{users},#{users},#{number},NOW(),#{endTime}) ")
+    void addGroupBuyer(GroupBuyer groupBuyer);
+
+    /**
+     * 活动ID获取组团信息
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM group_buyer WHERE group_id = #{id}")
+    GroupBuyer getGroupBuyer(String id);
+
+    /**
+     * 参团
+     *
+     * @param openId
+     * @param id
+     */
+    @Update("UPDATE group_buyer SET number = number -1, users = CONCAT(users,';',#{openId}) WHERE id = #{id} ")
+    void joinGroup(String openId, String id);
+
+    /**
+     * 修改拼团状态
+     */
+    @Update("UPDATE group_buyer SET state =1 WHERE number =0")
+    void updateGroupBuyerByNumber();
+
+    /**
+     * 修改拼团状态
+     */
+    @Update("UPDATE group_buyer SET state =2 WHERE end_time < NOW()")
+    void updateGroupBuyerByTime();
+
+    @Select("SELECT * FROM coupon_buyer WHERE activity_id = #{id} AND buyer_id = #{openId}")
+    CouponBuyer lookGroupCoupon(String openId, String id);
+
+    /**
+     * 新增发起砍价
+     *
+     * @param bargainBuyer
+     */
+    @Insert("INSERT INTO (id,buyer_id,buyer_id,number,create_time,end_time,users) VALUES (#{id},#{bargainId},#{bargainId},#{number},NOW(),#{endTime},#{users}}) ")
+    void addBargainBuyer(BargainBuyer bargainBuyer);
+
+    /**
+     * 砍价助力人
+     *
+     * @param bargainUser
+     */
+    @Insert("INSERT INTO (id,buyer_id,name,url,price,bargain_id) VALUES (#{id},#{buyerId},#{price},#{price},#{price},#{bargainId}}) ")
+    void addBargainUser(BargainUser bargainUser);
+
+    /**
+     * 帮砍价
+     *
+     * @param openId
+     * @param id
+     */
+    @Update("UPDATE bargain_buyer SET number = number -1, users = CONCAT(users,';',#{openId}) WHERE id = #{id} ")
+    void joinBargain(String openId, String id);
+
+    /**
+     * ID获取创建的砍价
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM bargain_buyer WHERE id = #{id}")
+    BargainBuyer getBargainBuyer(String id);
+
+    /**
+     * 砍价活动ID 获取助力人
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM bargain_buyer WHERE bargain_id = #{id}")
+    List<BargainUser> getBargainUserListByBargainId(String id);
+
+    /**
+     * 修改砍价状态
+     */
+    @Update("UPDATE bargain_buyer SET state =1 WHERE number =0")
+    void updateBargainBuyerByNumber();
+
+    /**
+     * 修改拼团状态
+     */
+    @Update("UPDATE bargain_buyer SET state =2 WHERE end_time < NOW()")
+    void updateBargainBuyerByTime();
+
 }

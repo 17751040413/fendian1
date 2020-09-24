@@ -55,6 +55,11 @@ public class Constants {
     public static final String FAVORABLE = "1";
     public static final String EXCHANGE = "2";
 
+    /********************* 状态：0拼团中；1成功；2失败**************/
+    public static final String ZERO = "0";
+    public static final String ONE = "1";
+    public static final String TWO = "2";
+
     /**********图片地址******************/
     /**
      * 策划师微信二维码

@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * @author yuany
@@ -191,7 +190,7 @@ public class GroupBuying implements Serializable {
         this.groupNumber = groupNumber;
     }
 
-    public Integer getGroupTime() {
+    public Timestamp getGroupTime() {
         return groupTime;
     }
 

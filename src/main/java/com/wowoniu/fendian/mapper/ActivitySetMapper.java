@@ -716,6 +716,15 @@ public interface ActivitySetMapper {
     GroupBuying getGroupBuying(@Param("id") String id);
 
     /**
+     * 商家ID获取拼团活动
+     *
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM group_buying WHERE user_id = #{userId}")
+    List<GroupBuying> getGroupBuyingList(@Param("userId") String userId);
+
+    /**
      * 新增优惠券设置
      */
     @Insert("INSERT INTO group_buying (id,head_picture_url,title,start_time,end_time,phone_enable,stock,original_price,group_price,payment_type," +
@@ -793,6 +802,14 @@ public interface ActivitySetMapper {
      */
     @Select("SELECT * FROM bargaining_set WHERE id = #{id}")
     BargainingSet getBargainingSet(String id);
+
+    /**
+     * 商家ID获取砍价信息
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM bargaining_set WHERE user_id = #{userId}")
+    List<BargainingSet> getBargainingSetList(String userId);
 
     /**
      * 砍价设置新增

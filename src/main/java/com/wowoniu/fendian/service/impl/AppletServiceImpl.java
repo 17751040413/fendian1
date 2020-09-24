@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
 import com.wowoniu.fendian.mapper.AppletMapper;
-import com.wowoniu.fendian.mapper.UnionCouponMapper;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.AppletService;
 import com.wowoniu.fendian.utils.PageUtil;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -36,8 +36,6 @@ public class AppletServiceImpl implements AppletService {
     @Autowired
     private ActivitySetMapper activitySetMapper;
 
-    @Autowired
-    private UnionCouponMapper unionCouponMapper;
 
     /**
      * 商铺分页条件查询
@@ -717,6 +715,260 @@ public class AppletServiceImpl implements AppletService {
         couponBuyer.setActivityType(Constants.COUPON);
         appletMapper.addCouponBuyer(couponBuyer);
         return couponBuyer.getId();
+    }
+
+    /**
+     * 商家ID获取拼团活动
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<GroupBuying> groupBuy(String userId) {
+        appletMapper.updateGroupBuyerByTime();
+        return activitySetMapper.getGroupBuyingList(userId);
+    }
+
+    /**
+     * 活动ID获取拼团活动详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public GroupBuying groupBuyById(String id) {
+        appletMapper.updateGroupBuyerByTime();
+        return activitySetMapper.getGroupBuying(id);
+    }
+
+    /**
+     * 一键开团
+     *
+     * @param openId
+     * @param id
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String startGroup(String openId, String id) {
+        GroupBuying groupBuying = activitySetMapper.getGroupBuying(id);
+        if (groupBuying == null) {
+            return null;
+        }
+        GroupBuyer groupBuyer = new GroupBuyer();
+        groupBuyer.setId(StringUtils.getUuid());
+        groupBuyer.setGroupId(id);
+        groupBuyer.setBuyerId(openId);
+        groupBuyer.setUsers(openId);
+        groupBuyer.setNumber(groupBuying.getGroupNumber() - 1);
+        groupBuyer.setEndTime(groupBuying.getGroupTime());
+        appletMapper.addGroupBuyer(groupBuyer);
+        return groupBuyer.getId();
+    }
+
+    /**
+     * 活动ID 获取开团信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public GroupBuyer getGroupBuyer(String id) {
+        return appletMapper.getGroupBuyer(id);
+    }
+
+    /**
+     * 参团
+     *
+     * @param openId
+     * @param id
+     */
+    @Override
+    public void joinGroup(String openId, String id) {
+        appletMapper.joinGroup(openId, id);
+        appletMapper.updateGroupBuyerByNumber();
+        GroupBuyer groupBuyer = appletMapper.getGroupBuyer(id);
+        GroupBuying groupBuying = activitySetMapper.getGroupBuying(groupBuyer.getGroupId());
+        String[] openIds = groupBuyer.getUsers().split(";");
+        for (int i = 0; i < openIds.length; i++) {
+            CouponBuyer couponBuyer = new CouponBuyer();
+            couponBuyer.setId(StringUtils.getUuid());
+            couponBuyer.setActivityType(Constants.GROUP);
+            couponBuyer.setActivityId(id);
+            couponBuyer.setBuyerId(openIds[i]);
+            couponBuyer.setUserId(groupBuying.getUserId());
+            couponBuyer.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            appletMapper.addCouponBuyer(couponBuyer);
+        }
+    }
+
+    /**
+     * 检查当前人是否参与拼团活动
+     *
+     * @param openId
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean checkGroup(String openId, String id) {
+
+        GroupBuyer groupBuyer = appletMapper.getGroupBuyer(id);
+        //进行中
+        if (groupBuyer.getState().equals(Constants.ZERO)) {
+            return groupBuyer.getUsers().contains(openId);
+        }
+
+        return false;
+    }
+
+    /**
+     * 查看拼团券
+     *
+     * @param openId
+     * @param id
+     * @return
+     */
+    @Override
+    public CouponBuyer lookGroupCoupon(String openId, String id) {
+        return appletMapper.lookGroupCoupon(openId, id);
+    }
+
+    /**
+     * 商家ID获取砍价信息
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<BargainingSet> bargain(String userId) {
+        appletMapper.updateBargainBuyerByTime();
+        return activitySetMapper.getBargainingSetList(userId);
+    }
+
+    /**
+     * 商家ID获取砍价信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public BargainingSet bargainById(String id) {
+        appletMapper.updateBargainBuyerByTime();
+        return activitySetMapper.getBargainingSet(id);
+    }
+
+    /**
+     * 发起砍价
+     *
+     * @param openId
+     * @param id
+     * @return
+     */
+    @Override
+    public String startBargain(String openId, String id) {
+        BargainingSet bargainingSet = activitySetMapper.getBargainingSet(id);
+        BargainBuyer bargainBuyer = new BargainBuyer();
+        bargainBuyer.setId(StringUtils.getUuid());
+        bargainBuyer.setBargainId(id);
+        bargainBuyer.setBargainId(openId);
+        bargainBuyer.setUsers(openId);
+        bargainBuyer.setNumber(bargainingSet.getBargainingFrequency() - 1);
+        bargainBuyer.setEndTime(bargainingSet.getEndTime());
+        appletMapper.addBargainBuyer(bargainBuyer);
+
+        BargainUser bargainUser = new BargainUser();
+        bargainUser.setId(StringUtils.getUuid());
+        bargainUser.setBuyerId(openId);
+        User user = appletMapper.getUserByOpenId(openId);
+        bargainUser.setName(user.getNickName());
+        bargainUser.setUrl(user.getAvatarUrl());
+        bargainUser.setBargainId(id);
+        //差价
+        Integer agio = bargainingSet.getOriginalPrice() - bargainingSet.getFloorPrice();
+        //砍价比例
+        DecimalFormat df = new DecimalFormat("0.00");
+        Double proportion = Double.valueOf(df.format((bargainingSet.getBargainingFrequency() - bargainBuyer.getNumber()) / (bargainingSet.getBargainingFrequency() * 1.0)));
+        //砍价金额
+        int price = (int) (agio * proportion);
+        bargainUser.setPrice(price);
+        appletMapper.addBargainUser(bargainUser);
+        return bargainBuyer.getId();
+    }
+
+    /**
+     * 帮砍价
+     *
+     * @param openId
+     * @param id
+     */
+    @Override
+    public JSONObject joinBargain(String openId, String id) {
+        appletMapper.joinBargain(openId, id);
+        appletMapper.updateBargainBuyerByNumber();
+        BargainBuyer bargainBuyer = appletMapper.getBargainBuyer(id);
+        BargainingSet bargainingSet = activitySetMapper.getBargainingSet(bargainBuyer.getBargainId());
+        User user = appletMapper.getUserByOpenId(openId);
+        BargainUser bargainUser = new BargainUser();
+        bargainUser.setId(StringUtils.getUuid());
+        bargainUser.setBuyerId(openId);
+        bargainUser.setName(user.getNickName());
+        bargainUser.setUrl(user.getAvatarUrl());
+        bargainUser.setBargainId(id);
+
+        //是否结束
+        boolean result = false;
+        //差价
+        Integer agio = bargainingSet.getOriginalPrice() - bargainingSet.getFloorPrice();
+        //砍价金额
+        int price;
+        if (bargainingSet.getBargainingFrequency() - bargainBuyer.getNumber() != 1) {
+            //砍价比例
+            DecimalFormat df = new DecimalFormat("0.00");
+            Double proportion = Double.valueOf(df.format((bargainingSet.getBargainingFrequency() - bargainBuyer.getNumber()) / (bargainingSet.getBargainingFrequency() * 1.0)));
+            //砍价金额
+            price = (int) (agio * proportion);
+        } else {
+            //最后一人 砍所有
+            List<BargainUser> bargainUserList = appletMapper.getBargainUserListByBargainId(bargainBuyer.getBargainId());
+            //砍价总数
+            int count = 0;
+            for (BargainUser bu : bargainUserList) {
+                count = count + bu.getPrice();
+            }
+            price = agio - count;
+            result = true;
+        }
+        bargainUser.setPrice(price);
+        appletMapper.addBargainUser(bargainUser);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("price", price);
+        jsonObject.put("result", result);
+        return jsonObject;
+    }
+
+    /**
+     * 砍价活动ID获取助力人
+     *
+     * @param bargainId
+     * @return
+     */
+    @Override
+    public JSONObject bargainUserListByBargainId(String bargainId) {
+        JSONObject jsonObject = new JSONObject();
+        List<BargainUser> bargainUserList = appletMapper.getBargainUserListByBargainId(bargainId);
+        //砍价总数
+        int count = 0;
+        for (BargainUser bu : bargainUserList) {
+            count = count + bu.getPrice();
+        }
+        //差价
+        BargainingSet bargainingSet = activitySetMapper.getBargainingSet(bargainId);
+        Integer agio = bargainingSet.getOriginalPrice() - bargainingSet.getFloorPrice();
+        int price = agio - count;
+        jsonObject.put("list", bargainUserList);
+        //距离最低价剩余
+        jsonObject.put("price", price);
+        return jsonObject;
     }
 
 

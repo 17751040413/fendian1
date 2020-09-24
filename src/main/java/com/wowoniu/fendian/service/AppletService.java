@@ -326,4 +326,103 @@ public interface AppletService {
      */
     String getCoupon(String id, String openId);
 
+    /**
+     * 商家ID获取拼团活动
+     *
+     * @param userId
+     * @return
+     */
+    List<GroupBuying> groupBuy(String userId);
+
+    /**
+     * 活动ID获取拼团活动详情
+     *
+     * @param id
+     * @return
+     */
+    GroupBuying groupBuyById(String id);
+
+    /**
+     * 一键开团
+     *
+     * @param openId
+     * @return
+     */
+    String startGroup(String openId, String id);
+
+    /**
+     * 活动ID获取开团信息
+     *
+     * @param id
+     * @return
+     */
+    GroupBuyer getGroupBuyer(String id);
+
+    /**
+     * 参团
+     *
+     * @param openId
+     * @param id
+     */
+    void joinGroup(String openId, String id);
+
+    /**
+     * 检查当前人是否参与拼团活动
+     *
+     * @param openId
+     * @param id
+     * @return
+     */
+    boolean checkGroup(String openId, String id);
+
+    /**
+     * 拼团券
+     *
+     * @param openId
+     * @param id
+     * @return
+     */
+    CouponBuyer lookGroupCoupon(String openId, String id);
+
+    /**
+     * 商家ID获取砍价活动信息
+     *
+     * @param userId
+     * @return
+     */
+    List<BargainingSet> bargain(String userId);
+
+    /**
+     * 砍价ID获取信息
+     *
+     * @param id
+     * @return
+     */
+    BargainingSet bargainById(String id);
+
+    /**
+     * 发起砍价
+     *
+     * @param openId
+     * @param id
+     * @return
+     */
+    String startBargain(String openId, String id);
+
+    /**
+     * 帮砍价
+     *
+     * @param openId
+     * @param id
+     */
+    JSONObject joinBargain(String openId, String id);
+
+    /**
+     * 砍价活动ID获取助力人
+     *
+     * @param bargainId
+     * @return
+     */
+    JSONObject bargainUserListByBargainId(String bargainId);
+
 }

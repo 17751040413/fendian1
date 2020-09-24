@@ -20,6 +20,8 @@ public class BargainBuyer implements Serializable {
     private String bargainId;
     @ApiModelProperty("创建ID")
     private String buyerId;
+    @ApiModelProperty("助力人ID“；”隔开")
+    private String users;
     @ApiModelProperty("剩余砍价人数")
     private Integer number;
     @ApiModelProperty("创建时间")
@@ -30,6 +32,7 @@ public class BargainBuyer implements Serializable {
     private Integer state;
     @ApiModelProperty("店铺名称")
     private String shopName;
+
     public String getId() {
         return id;
     }
@@ -92,5 +95,14 @@ public class BargainBuyer implements Serializable {
 
     public void setShopName(String shopName) {
         this.shopName = shopName;
+    }
+
+
+    public String getUsers() {
+        return users;
+    }
+
+    public void setUsers(String users) {
+        this.users = users;
     }
 }
