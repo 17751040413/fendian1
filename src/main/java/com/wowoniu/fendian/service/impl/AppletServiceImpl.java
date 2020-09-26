@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
 import com.wowoniu.fendian.mapper.AppletMapper;
+import com.wowoniu.fendian.mapper.UserMapper;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.AppletService;
 import com.wowoniu.fendian.utils.PageUtil;
@@ -35,6 +36,9 @@ public class AppletServiceImpl implements AppletService {
 
     @Autowired
     private ActivitySetMapper activitySetMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
 
     /**
@@ -994,6 +998,12 @@ public class AppletServiceImpl implements AppletService {
     @Override
     public int member(Member member) {
         member.setId(StringUtils.getUuid());
+        User user = userMapper.selectBySkey(member.getSkey());
+        member.setNickName(user.getNickName());
+        member.setUrl(user.getAvatarUrl());
+        member.setGender(user.getGender());
+        member.setPhone(user.getPhone());
+
         return appletMapper.addMember(member);
     }
 
@@ -1048,7 +1058,7 @@ public class AppletServiceImpl implements AppletService {
      */
     @Override
     public List<CouponUser> getFriendConsume(String userId, String openId) {
-        return appletMapper.getFriendConsume(userId,openId);
+        return appletMapper.getFriendConsume(userId, openId);
     }
 
 

@@ -1,5 +1,7 @@
 package com.wowoniu.fendian.mapper;
 
+import com.wowoniu.fendian.model.Member;
+import com.wowoniu.fendian.model.MemberConsume;
 import com.wowoniu.fendian.model.MemberStatistic;
 import com.wowoniu.fendian.model.User;
 import org.apache.ibatis.annotations.Param;
@@ -31,7 +33,7 @@ public interface MemberStatisticMapper {
      * @param map
      * @return
      */
-    List<User> getUserList(Map<String, Object> map);
+    List<Member> getUserList(Map<String, Object> map);
 
     /**
      * 条件搜索用户数量
@@ -40,4 +42,8 @@ public interface MemberStatisticMapper {
      * @return
      */
     int searchUserCount(Map<String, Object> map);
+
+    List<MemberConsume> getMemberConsumeList(Map<String, Object> map);
+
+    int searchMemberConsume(Map<String, Object> map);
 }

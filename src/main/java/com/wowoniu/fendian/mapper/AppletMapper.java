@@ -526,7 +526,8 @@ public interface AppletMapper {
      * @param member
      * @return
      */
-    @Insert("INSERT INTO (id,user_id,buyer_id,phone,price) VALUES (#{id},#{userId},#{buyerId},#{phone},#{price})")
+    @Insert("INSERT INTO (id,user_id,buyer_id,phone,price,create_time,name,url,number,level,end_time,remark,nick_name,gender) " +
+            "VALUES (#{id},#{userId},#{buyerId},#{phone},#{price},now(),#{name},#{url},0,#{level},#{endTime},#{remark},#{nickName},#{gender}")
     int addMember(Member member);
 
     /**
@@ -538,6 +539,9 @@ public interface AppletMapper {
      */
     @Select("SELECT * FROM member WHERE user_id = #{userId} AND buyer_id = #{openId}")
     Member getMember(@Param("userId") String userId, @Param("openId") String openId);
+
+    @Select("SELECT * FROM member WHERE id = #{id}")
+    Member getMemberById(@Param("id") String id);
 
     /**
      * 充值
@@ -575,5 +579,8 @@ public interface AppletMapper {
      */
     @Select("SELECT * FROM coupon_user WHERE buyer_id IN (SELECT buyer_id FROM coupon_buyer WHERE effective = 'N' AND user_id = #{userId} AND donor_id = #{open_id} ORDER BY receive_time DESC)")
     List<CouponUser> getFriendConsume(String userId, String openId);
+
+    @Update("UPDATE member SET level =#{level},phone = #{phone},name = #{name},gender = #{gender},remark = #{remark} ,end_time = #{endTime} WHERE id = #{id}")
+    int updateMember(Member member);
 
 }

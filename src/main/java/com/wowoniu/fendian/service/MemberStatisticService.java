@@ -1,7 +1,7 @@
 package com.wowoniu.fendian.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wowoniu.fendian.model.User;
+import com.wowoniu.fendian.model.Member;
 import com.wowoniu.fendian.utils.PageUtil;
 
 import java.util.Map;
@@ -28,7 +28,7 @@ public interface MemberStatisticService {
      * @param map 分页
      * @return
      */
-    PageUtil<User> getUserList(Map<String, Object> map);
+    PageUtil<Member> getUserList(Map<String, Object> map);
 
     /**
      * 活动列表
@@ -37,4 +37,29 @@ public interface MemberStatisticService {
      * @return
      */
     JSONObject getActivity(Map<String, Object> map);
+
+    /**
+     * 会员ID获取数据 会员余额变动记录
+     *
+     * @param map
+     * @return
+     */
+    Object getMemberPrice(Map<String, Object> map);
+
+    /**
+     * ID获取会员信息
+     *
+     * @param id
+     * @return
+     */
+    Member getMember(String id);
+
+    /**
+     * 更新会员信息
+     *
+     * @param member
+     * @return
+     */
+    int updateMember(Member member);
+
 }

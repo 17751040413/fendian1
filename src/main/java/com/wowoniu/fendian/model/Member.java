@@ -14,12 +14,30 @@ public class Member implements Serializable {
     private String userId;
     @ApiModelProperty("会员ID")
     private String buyerId;
+    @ApiModelProperty("用户Skey")
+    private String skey;
     @ApiModelProperty("余额")
     private int price;
     @ApiModelProperty("手机号")
-    private int phone;
+    private String phone;
     @ApiModelProperty("到期时间")
     private Timestamp endTime;
+    @ApiModelProperty("头像地址")
+    private String url;
+    @ApiModelProperty("姓名")
+    private String name;
+    @ApiModelProperty("邀请人数")
+    private int number;
+    @ApiModelProperty("创建时间")
+    private Timestamp createTime;
+    @ApiModelProperty("昵称")
+    private String nickName;
+    @ApiModelProperty("等级")
+    private String level;
+    @ApiModelProperty("性别")
+    private Integer gender;
+    @ApiModelProperty("备注")
+    private String remark;
 
     public String getId() {
         return id;
@@ -45,6 +63,14 @@ public class Member implements Serializable {
         this.buyerId = buyerId;
     }
 
+    public String getSkey() {
+        return skey;
+    }
+
+    public void setSkey(String skey) {
+        this.skey = skey;
+    }
+
     public int getPrice() {
         return price;
     }
@@ -53,11 +79,11 @@ public class Member implements Serializable {
         this.price = price;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -67,5 +93,69 @@ public class Member implements Serializable {
 
     public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

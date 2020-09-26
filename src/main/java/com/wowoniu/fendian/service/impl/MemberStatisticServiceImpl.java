@@ -3,13 +3,17 @@ package com.wowoniu.fendian.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
+import com.wowoniu.fendian.mapper.AppletMapper;
 import com.wowoniu.fendian.mapper.MemberStatisticMapper;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.MemberStatisticService;
+import com.wowoniu.fendian.utils.DateUtils;
 import com.wowoniu.fendian.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +31,9 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
 
     @Autowired
     private ActivitySetMapper activitySetMapper;
+
+    @Autowired
+    private AppletMapper appletMapper;
 
     /**
      * 根据用户ID获取其会员总数居及当日数据,及活动列表
@@ -98,13 +105,13 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
      * @return
      */
     @Override
-    public PageUtil<User> getUserList(Map<String, Object> map) {
-        PageUtil<User> pageUtil = new PageUtil();
+    public PageUtil<Member> getUserList(Map<String, Object> map) {
+        PageUtil<Member> pageUtil = new PageUtil();
         int count = memberStatisticMapper.searchUserCount(map);
         pageUtil.setTotalCount(count);
         pageUtil.setPageSize((Integer) map.get("pageSize"));
         pageUtil.setCurrentPage((Integer) map.get("pageSize"));
-        List<User> userList = memberStatisticMapper.getUserList(map);
+        List<Member> userList = memberStatisticMapper.getUserList(map);
         pageUtil.setLists(userList);
         return pageUtil;
     }
@@ -156,5 +163,82 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
         }
 
         return jsonObject;
+    }
+
+    /**
+     * 会员ID获取数据 会员余额变动记录
+     *
+     * @param map
+     * @return
+     */
+    @Override
+    public Object getMemberPrice(Map<String, Object> map) {
+        JSONObject jsonObject = new JSONObject();
+        Member member = appletMapper.getMemberById(map.get("id").toString());
+        List<MemberConsume> memberConsumeList = appletMapper.getConsume(map.get("id").toString());
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        //总额
+        double price = member.getPrice() * 0.01;
+        //今日增加
+        int todayPlus = 0;
+        //今日减
+        int todayLess = 0;
+        //总加
+        int countPlus = 0;
+        //总减
+        int countLess = 0;
+        for (MemberConsume memberConsume : memberConsumeList) {
+            if (memberConsume.getType().equals("0") || memberConsume.getType().equals("2")) {
+                countPlus = countPlus + memberConsume.getConsume();
+            }
+            if (memberConsume.getType().equals("1")) {
+                countLess = countLess + memberConsume.getConsume();
+            }
+            if (sdf.format(memberConsume.getTime()).equals(DateUtils.getDay())) {
+                if (memberConsume.getType().equals("0") || memberConsume.getType().equals("2")) {
+                    todayPlus = todayPlus + memberConsume.getConsume();
+                }
+                if (memberConsume.getType().equals("1")) {
+                    todayLess = todayLess + memberConsume.getConsume();
+                }
+            }
+        }
+        jsonObject.put("price", price);
+        jsonObject.put("todayPlus", todayPlus * 0.01);
+        jsonObject.put("todayLess", todayLess * 0.01);
+        jsonObject.put("countPlus", countPlus * 0.01);
+        jsonObject.put("countLess", countLess * 0.01);
+
+        PageUtil<MemberConsume> pageUtil = new PageUtil();
+        int count = memberStatisticMapper.searchMemberConsume(map);
+        pageUtil.setTotalCount(count);
+        pageUtil.setPageSize((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
+        List<MemberConsume> memberConsumes = memberStatisticMapper.getMemberConsumeList(map);
+        pageUtil.setLists(memberConsumes);
+        jsonObject.put("list", pageUtil);
+        return jsonObject;
+    }
+
+    /**
+     * 会员ID获取会员信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Member getMember(String id) {
+        return appletMapper.getMemberById(id);
+    }
+
+    /**
+     * 更新会员信息
+     *
+     * @param member
+     * @return
+     */
+    @Override
+    public int updateMember(Member member) {
+        return appletMapper.updateMember(member);
     }
 }

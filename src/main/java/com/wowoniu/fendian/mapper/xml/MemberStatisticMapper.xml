@@ -3,15 +3,15 @@
 <mapper namespace="com.wowoniu.fendian.mapper.MemberStatisticMapper">
 
     <!-- 根据父级用户ID获取会员用户集合 以团队人数倒叙 limit 取数据量 -->
-    <select id="getUserList" resultType="com.wowoniu.fendian.model.User">
-        SELECT u.* FROM `user` u LEFT JOIN link_member_user lmu ON lmu.buy_id = u.open_id WHERE lmu.user_id = #{userId}
+    <select id="getUserList" resultType="com.wowoniu.fendian.model.Member">
+        SELECT * FROM Member WHERE user_id = #{userId}
         <if test="phone != null">
-           AND u.phone = #{phone}
+            AND phone = #{phone}
         </if>
         <if test="name != null">
-           AND u.nick_name LIKE #{name}
+            AND nick_name LIKE #{name}
         </if>
-        ORDER BY u.create_time DESC
+        ORDER BY create_time DESC
         LIMIT #{startRow},#{pageSize}
     </select>
 
@@ -25,6 +25,15 @@
             AND u.nick_name LIKE #{name}
         </if>
         WHERE lmu.user_id = #{userId}
+    </select>
+
+    <select id="searchMemberConsume" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM member_consume
+    </select>
+    <select id="getMemberConsumeList" resultType="com.wowoniu.fendian.model.MemberConsume">
+        SELECT * FROM member_consume
+        ORDER BY create_time DESC
+        LIMIT #{startRow},#{pageSize}
     </select>
 
 </mapper>

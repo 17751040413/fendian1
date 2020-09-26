@@ -1,6 +1,7 @@
 package com.wowoniu.fendian.web.api.app.controller.member;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wowoniu.fendian.model.Member;
 import com.wowoniu.fendian.service.MemberStatisticService;
 import com.wowoniu.fendian.utils.Result;
 import com.wowoniu.fendian.utils.StringUtils;
@@ -56,7 +57,7 @@ public class MemberController {
      * @param startRow
      * @return
      */
-    @ApiOperation(value = "会员管理--商家ID获取会员用户集合", tags = "会员管理--商家ID获取会员用户集合 - 分页")
+    @ApiOperation(value = "会员管理 会员名单 --商家ID获取会员用户集合", tags = "会员管理--商家ID获取会员用户集合 - 分页")
     @RequestMapping("/getUseUserList")
     @ApiImplicitParams({@ApiImplicitParam(name = "search", value = "搜索条件", dataType = "int", required = true),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
@@ -99,6 +100,32 @@ public class MemberController {
         map.put("type", type + "");
         map.put("userId", request.getAttribute("sysid"));
         return new Result(200, true, "查询成功", memberStatisticService.getActivity(map));
+    }
+
+    @ApiOperation(value = "1-6-2-8 会员余额变动记录")
+    @RequestMapping("/getMemberPrice")
+    @ApiImplicitParams({@ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
+            @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true),
+            @ApiImplicitParam(name = "id", value = "会员列表中 会员ID", dataType = "String", required = true)})
+    public Object getMemberPrice(int pageSize, int startRow, String id) {
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("pageSize", pageSize);
+        map.put("startRow", startRow);
+        map.put("id", id);
+        return new Result(200, true, "查询成功", memberStatisticService.getMemberPrice(map));
+    }
+
+    @ApiOperation(value = "1-6-2-9-获取会员信息")
+    @RequestMapping("/getMember")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "会员列表中 会员ID", dataType = "String", required = true)})
+    public Object getMember(String id) {
+        return new Result(200, true, "查询成功", memberStatisticService.getMember(id));
+    }
+
+    @ApiOperation(value = "1-6-2-9-修改会员信息")
+    @RequestMapping("/updateMember")
+    public Object updateMember(Member member) {
+        return new Result(200, true, "查询成功", memberStatisticService.updateMember(member));
     }
 
 
