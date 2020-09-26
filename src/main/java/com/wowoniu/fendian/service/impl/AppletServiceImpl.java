@@ -978,8 +978,77 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
-    public List<FissionSetDetail> fission(String userId) {
-        return activitySetMapper.getFissionSetDetail(userId);
+    public JSONObject fission(String userId) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("fission", activitySetMapper.getFissionSet(userId));
+        jsonObject.put("detail", activitySetMapper.getFissionSetDetail(userId));
+        return jsonObject;
+    }
+
+    /**
+     * 添加会员
+     *
+     * @param member
+     * @return
+     */
+    @Override
+    public int member(Member member) {
+        member.setId(StringUtils.getUuid());
+        return appletMapper.addMember(member);
+    }
+
+    /**
+     * 获取会员信息
+     *
+     * @param userId
+     * @param skey
+     * @return
+     */
+    @Override
+    public Member getMember(String userId, String openId) {
+        return appletMapper.getMember(userId, openId);
+    }
+
+    /**
+     * 充值
+     *
+     * @param id
+     * @param price
+     * @return
+     */
+    @Override
+    public void price(String id, int price) {
+
+        //元 转成 分
+        price = price * 100;
+        appletMapper.price(id, price);
+        MemberConsume memberConsume = new MemberConsume();
+        memberConsume.setConsume(price);
+        memberConsume.setMemberId(id);
+        appletMapper.addMemberConsume(memberConsume);
+    }
+
+    /**
+     * 消费记录
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public List<MemberConsume> getConsume(String id) {
+        return appletMapper.getConsume(id);
+    }
+
+    /**
+     * 邀请好友消费记录
+     *
+     * @param id
+     * @param openId
+     * @return
+     */
+    @Override
+    public List<CouponUser> getFriendConsume(String userId, String openId) {
+        return appletMapper.getFriendConsume(userId,openId);
     }
 
 

@@ -431,6 +431,43 @@ public interface AppletService {
      * @param userId
      * @return
      */
-    List<FissionSetDetail> fission(String userId);
+    JSONObject fission(String userId);
+
+    /**
+     * 添加会员
+     *
+     * @param member
+     * @return
+     */
+    int member(Member member);
+
+    /**
+     * 获取会员信息
+     *
+     * @param userId
+     * @param openId
+     * @return
+     */
+    Member getMember(String userId, String openId);
+
+    /**
+     * 充值
+     *
+     * @param id
+     * @param price
+     * @return
+     */
+    void price(String id, int price);
+
+    List<MemberConsume> getConsume(String id);
+
+    /**
+     * 好友到店消费记录
+     *
+     * @param id
+     * @param openId
+     * @return
+     */
+    List<CouponUser> getFriendConsume(String userId, String openId);
 
 }

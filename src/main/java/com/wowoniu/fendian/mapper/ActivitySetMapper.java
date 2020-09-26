@@ -208,7 +208,7 @@ public interface ActivitySetMapper {
      * @param rechargeDetail
      * @return
      */
-    @Insert("INSERT INTO recharge_detail (id,recharge_money,give_money,reable_id) VALUES (#{id},#{recharge_money},#{give_money},#{reable_id})")
+    @Insert("INSERT INTO recharge_detail (id,recharge_money,give_money,reable_id) VALUES (#{id},#{rechargeMoney},#{giveMoney},#{reableId})")
     int addRechargeDetail(RechargeDetail rechargeDetail);
 
     /**

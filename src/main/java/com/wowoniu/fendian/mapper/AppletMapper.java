@@ -330,7 +330,7 @@ public interface AppletMapper {
     @Select("SELECT bb.*,uu.shop_name FROM bargain_buyer bb " +
             "LEFT JOIN bargaining_set bs ON bs.id = bb.bargain_id LEFT JOIN use_user uu ON uu.id = bs.user_id " +
             "WHERE bb.buyer_id = #{buyerId} AND bb.state = #{state}")
-    List<BargainBuyer> bargainParticipate(String buyerId, int state);
+    List<BargainBuyer> bargainParticipate(@Param("buyerId") String buyerId, @Param("state") int state);
 
     /**
      * ID获取用户信息
@@ -448,7 +448,7 @@ public interface AppletMapper {
      * @param id
      */
     @Update("UPDATE group_buyer SET number = number -1, users = CONCAT(users,';',#{openId}) WHERE id = #{id} ")
-    void joinGroup(String openId, String id);
+    void joinGroup(@Param("openId") String openId, @Param("id") String id);
 
     /**
      * 修改拼团状态
@@ -463,7 +463,7 @@ public interface AppletMapper {
     void updateGroupBuyerByTime();
 
     @Select("SELECT * FROM coupon_buyer WHERE activity_id = #{id} AND buyer_id = #{openId}")
-    CouponBuyer lookGroupCoupon(String openId, String id);
+    CouponBuyer lookGroupCoupon(@Param("openId") String openId, @Param("id") String id);
 
     /**
      * 新增发起砍价
@@ -488,7 +488,7 @@ public interface AppletMapper {
      * @param id
      */
     @Update("UPDATE bargain_buyer SET number = number -1, users = CONCAT(users,';',#{openId}) WHERE id = #{id} ")
-    void joinBargain(String openId, String id);
+    void joinBargain(@Param("openId") String openId, @Param("id") String id);
 
     /**
      * ID获取创建的砍价
@@ -519,5 +519,61 @@ public interface AppletMapper {
      */
     @Update("UPDATE bargain_buyer SET state =2 WHERE end_time < NOW()")
     void updateBargainBuyerByTime();
+
+    /**
+     * 新增
+     *
+     * @param member
+     * @return
+     */
+    @Insert("INSERT INTO (id,user_id,buyer_id,phone,price) VALUES (#{id},#{userId},#{buyerId},#{phone},#{price})")
+    int addMember(Member member);
+
+    /**
+     * 获取会员信息
+     *
+     * @param userId
+     * @param openId
+     * @return
+     */
+    @Select("SELECT * FROM member WHERE user_id = #{userId} AND buyer_id = #{openId}")
+    Member getMember(@Param("userId") String userId, @Param("openId") String openId);
+
+    /**
+     * 充值
+     *
+     * @param id
+     * @param price
+     * @return
+     */
+    @Select("UPDATE member SET price = price + #{price} WHERE id = #{id}")
+    int price(@Param("id") String id, @Param("price") int price);
+
+    /**
+     * 添加会员消费记录
+     *
+     * @param memberConsume
+     */
+    @Insert("INSERT INTO (member_id,consume,time,type) VALUES (memberId,consume,now(),#{type})")
+    void addMemberConsume(MemberConsume memberConsume);
+
+    /**
+     * 消费记录
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM member_consume WHERE id = #{id} ORDER BY time DESC")
+    List<MemberConsume> getConsume(String id);
+
+    /**
+     * 邀请好友到店消费记录
+     *
+     * @param id
+     * @param openId
+     * @return
+     */
+    @Select("SELECT * FROM coupon_user WHERE buyer_id IN (SELECT buyer_id FROM coupon_buyer WHERE effective = 'N' AND user_id = #{userId} AND donor_id = #{open_id} ORDER BY receive_time DESC)")
+    List<CouponUser> getFriendConsume(String userId, String openId);
 
 }

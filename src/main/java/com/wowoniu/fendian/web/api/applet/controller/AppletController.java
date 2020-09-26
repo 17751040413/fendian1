@@ -540,11 +540,51 @@ public class AppletController {
         return new Result<>(200, true, "获取成功", appletService.bargainUserListByBargainId(id));
     }
 
-    @PostMapping("/fissionDetail")
+    @PostMapping("/fission")
     @ApiOperation("8-3-1 领券激活会员-会员权益列表")
     @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true)})
     public Object fission(String userId) {
         return new Result<>(200, true, "获取成功", appletService.fission(userId));
+    }
+
+    @PostMapping("/member")
+    @ApiOperation("8-2-8-1 领取会员权益")
+    public Object member(@RequestBody Member member) {
+        return new Result<>(200, true, "获取成功", appletService.member(member));
+    }
+
+    @PostMapping("/getMember")
+    @ApiOperation("8-2-8-1 获取会员卡信息")
+    @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "skey", value = "skey ", dataType = "String", required = true)})
+    public Object getMember(String userId, String skey) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        return new Result<>(200, true, "获取成功", appletService.getMember(userId, openId));
+    }
+
+    @PostMapping("/price")
+    @ApiOperation("8-2-8-2 充值")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "会员卡ID ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "price", value = "金额 ", dataType = "int", required = true)})
+    public Object price(String id, int price) {
+        appletService.price(id, price);
+        return new Result<>(200, true, "获取成功", null);
+    }
+
+    @PostMapping("/getConsume")
+    @ApiOperation("8-2-8-2 余额记录")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "会员卡ID ", dataType = "String", required = true)})
+    public Object getConsume(String id) {
+        return new Result<>(200, true, "获取成功", appletService.getConsume(id));
+    }
+
+    @PostMapping("/getFriendConsume")
+    @ApiOperation("8-2-9-1 会员卡详情 - 邀请好友消费记录")
+    @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "skey", value = "skey ", dataType = "String", required = true)})
+    public Object getFriendConsume(String userId, String skey) {
+        String openId = userMapper.selectBySkey(skey).getOpenId();
+        return new Result<>(200, true, "获取成功", appletService.getFriendConsume(userId,openId));
     }
 
 
