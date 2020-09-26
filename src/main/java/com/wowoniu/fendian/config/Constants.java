@@ -3,7 +3,7 @@ package com.wowoniu.fendian.config;
 /**
  * 常量类
  *
- * @author yuany
+ * @author
  * @date 2020-06-30
  */
 public class Constants {

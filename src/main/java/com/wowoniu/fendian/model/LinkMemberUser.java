@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 会员商家关联表
  *
- * @author yuany
+ * @author
  * @date 2020-09-02
  */
 @ApiModel("会员商家关联表")

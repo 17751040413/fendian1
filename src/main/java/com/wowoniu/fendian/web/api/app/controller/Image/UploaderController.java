@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 照片上传工具类
- * @author yuany
+ * @author
  * @date 2020-08-11
  */
 @Api(value = "图片上传工具类", tags = "图片上传工具类")

@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * 会员统计DAO层
  *
- * @author yuany
+ * @author
  * @date 2020-06-28
  */
 public interface MemberStatisticMapper {

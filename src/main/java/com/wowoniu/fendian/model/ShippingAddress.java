@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 收货地址
  *
- * @author yuany
+ * @author
  * @date 2020-08-21
  */
 @ApiModel("收货地址")

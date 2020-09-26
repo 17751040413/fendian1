@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 /**
- * @author yuany
+ * @author
  * @date 2020-06-22
  */
 @ApiModel("裂变活动设置")

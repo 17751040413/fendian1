@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * @author yuany
+ * @author
  * @date 2020-07-07
  */
 @ApiModel("红包活动设置")

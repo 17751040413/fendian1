@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 活动设置接口
  *
- * @author yuany
+ * @author
  * @date 2020-07-08
  */
 public interface ActivitySetService {

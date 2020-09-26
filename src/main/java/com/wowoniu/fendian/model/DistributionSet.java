@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author yuany
+ * @author
  * @date 2020-07-01
  */
 @ApiModel("分销活动设置")

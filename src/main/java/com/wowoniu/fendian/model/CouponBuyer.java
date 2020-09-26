@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 /**
  * 买家领取的优惠券
  *
- * @author yuany
+ * @author
  * @date 2020-08-24
  */
 @ApiModel("买家领取的优惠券")

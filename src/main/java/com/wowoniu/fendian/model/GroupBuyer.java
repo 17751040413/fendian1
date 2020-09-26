@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 /**
  * 拼团创建
  *
- * @author yuany
+ * @author
  * @date 2020-09-02
  */
 @ApiModel("拼团创建")

@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * 会员管理控制层
  *
- * @author yuany
+ * @author
  * @date 2020-06-22
  */
 @Api(value = "会员管理控制层", tags = "会员统计管理统计接口")

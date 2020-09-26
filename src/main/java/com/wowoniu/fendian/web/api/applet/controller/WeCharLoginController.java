@@ -21,7 +21,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
- * @author yuany
+ * @author
  * @date 2020-09-01
  */
 @Api(value = "微信登陆", tags = "小程序-微信登陆")

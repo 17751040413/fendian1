@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * 小程序Service实现
  *
- * @author yuany
+ * @author
  * @date 2020-08-19
  */
 @Service
@@ -969,6 +969,17 @@ public class AppletServiceImpl implements AppletService {
         //距离最低价剩余
         jsonObject.put("price", price);
         return jsonObject;
+    }
+
+    /**
+     * 商家ID获取裂变会员活动详情
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<FissionSetDetail> fission(String userId) {
+        return activitySetMapper.getFissionSetDetail(userId);
     }
 
 

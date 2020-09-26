@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * 活动设置接口实现
  *
- * @author yuany
+ * @author
  * @date 2020-07-08
  */
 @Service

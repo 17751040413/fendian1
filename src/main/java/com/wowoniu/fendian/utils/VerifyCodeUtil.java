@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * 随机验证码
  *
- * @author yuany
+ * @author
  * @date 2020-08-24
  */
 public class VerifyCodeUtil {

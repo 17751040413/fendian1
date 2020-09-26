@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * @author yuany
+ * @author
  * @date 2020-06-22
  */
 @ApiModel("会员统计")

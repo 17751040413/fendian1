@@ -45,7 +45,7 @@ public class BaseController {
      * @param jsonStr
      * @return void
      * @throws IOException
-     * @author yuany
+     * @author
      * @date 2020-08-11
      */
     public void writeJsonStr(HttpServletResponse response, String jsonStr) throws IOException {

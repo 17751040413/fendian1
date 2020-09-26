@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author yuany
+ * @author
  * @date 2020-08-14
  */
 @Api(value = "小程序", tags = "小程序接口")
@@ -538,6 +538,13 @@ public class AppletController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID ", dataType = "String", required = true)})
     public Object bargainUser(String id) {
         return new Result<>(200, true, "获取成功", appletService.bargainUserListByBargainId(id));
+    }
+
+    @PostMapping("/fissionDetail")
+    @ApiOperation("8-3-1 领券激活会员-会员权益列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true)})
+    public Object fission(String userId) {
+        return new Result<>(200, true, "获取成功", appletService.fission(userId));
     }
 
 

@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * 会员统计Service
  *
- * @author yuany
+ * @author
  * @date 2020-06-28
  */
 public interface MemberStatisticService {

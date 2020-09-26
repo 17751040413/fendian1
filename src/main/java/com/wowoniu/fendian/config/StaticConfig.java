@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 /**
  * 静态方法获取配置文件信息
  *
- * @author yuany
+ * @author
  * @date 2020-08-05
  */
 @Configuration

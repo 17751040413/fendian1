@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 会员活动设置汇总DAO层
  *
- * @author yuany
+ * @author
  * @date 2020-06-28
  */
 public interface ActivitySetMapper {

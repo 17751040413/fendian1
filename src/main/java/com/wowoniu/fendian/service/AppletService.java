@@ -425,4 +425,12 @@ public interface AppletService {
      */
     JSONObject bargainUserListByBargainId(String bargainId);
 
+    /**
+     * 商家ID获取裂变活动详情
+     *
+     * @param userId
+     * @return
+     */
+    List<FissionSetDetail> fission(String userId);
+
 }
