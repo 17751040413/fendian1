@@ -200,6 +200,11 @@ public class UnionServiceImpl implements UnionService {
     @Override
     public Result unionShops(String id, String shopName) {
         List<UnionShop> unionShops = unionShopMapper.queryUnionShops(id,shopName);
+        for (UnionShop unionShop:unionShops){
+            UnionCoupon unionCoupon = unionCouponMapper.queryUnionCouponByShopAndUnionIdLimit1(id,unionShop.getShopId());
+            unionShop.setCouponType(unionCoupon.getCouponType());
+        }
+
 
         return new Result(200,true,"获取成功",unionShops);
     }
@@ -213,15 +218,40 @@ public class UnionServiceImpl implements UnionService {
         //佣金
         double commission;
 
+        int wechatCount;
+
         //联盟店铺
         UnionShop unionShop = unionShopMapper.selectByPrimaryKey(unionShopId);
+        wechatCount = unionShop.getLeaderWechatCount();
         //联盟信息
         UnionInfo unionInfo = unionInfoMapper.selectByPrimaryKey(unionShop.getUnionId());
 
         if(grantType == 0){
-           // unionCouponUserMapper.
+           sendCount = unionCouponUserMapper.queryShopUnionCount(unionInfo.getId(),unionShop.getShopId(),2);
+           useCount = unionCouponUserMapper.queryShopUnionCount(unionInfo.getId(),unionShop.getShopId(),1);
+           commission = uoionSeparateLogMapper.queryUnionSepPriceByUserId(unionShop.getShopId(),unionInfo.getId());
+        }else {
+            sendCount = unionCouponUserMapper.queryUnionShopCount(unionInfo.getId(),unionShop.getShopId(),2);
+            useCount = unionCouponUserMapper.queryUnionShopCount(unionInfo.getId(),unionShop.getShopId(),1);
+            commission = uoionSeparateLogMapper.queryUnionSepPriceByUserId(unionInfo.getUnionLeaderId(),unionInfo.getId());
         }
 
-        return null;
+        Map map = new HashMap();
+        map.put("sendCount",sendCount);
+        map.put("useCount",useCount);
+        map.put("commission",commission);
+        map.put("wechatCount",wechatCount);
+        map.put("isLock",unionShop.getIsLock());
+        return new Result(200,true,"获取成功",map);
+    }
+
+    @Override
+    public Result lockShop(String unionShopId) {
+
+        UnionShop unionShop = unionShopMapper.selectByPrimaryKey(unionShopId);
+
+        unionShopMapper.updateLock(unionShop.getId(),unionShop.getIsLock());
+
+        return new Result(200,true,"修改成功");
     }
 }

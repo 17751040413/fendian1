@@ -2,6 +2,7 @@ package com.wowoniu.fendian.mapper;
 
 import com.wowoniu.fendian.model.UnionCoupon;
 import com.wowoniu.fendian.model.UnionCouponUser;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -35,6 +36,9 @@ public interface UnionCouponMapper {
      * @return
      */
     int queryUnionCountByParm(Map map);
+
+    UnionCoupon queryUnionCouponByShopAndUnionIdLimit1(@Param("unionId") String unionId,
+                                                       @Param("shopId") String shopId);
 
 
 }

@@ -33,6 +33,11 @@ public class UnionCouponUser {
     private String orderId;
 
     /**
+     * 推广人id
+     */
+    private String extensionId;
+
+    /**
      * 0未使用 1已使用
      */
     private Integer isUse;
@@ -48,6 +53,14 @@ public class UnionCouponUser {
     private Integer overdueTime;
 
     private static final long serialVersionUID = 1L;
+
+    public String getExtensionId() {
+        return extensionId;
+    }
+
+    public void setExtensionId(String extensionId) {
+        this.extensionId = extensionId;
+    }
 
     public String getId() {
         return id;

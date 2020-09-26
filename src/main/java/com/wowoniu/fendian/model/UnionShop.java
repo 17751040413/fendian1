@@ -45,9 +45,45 @@ public class UnionShop implements Serializable {
      */
     private String shopId;
 
+    /**
+     * 券类型
+     */
+    private int couponType;
+
+    /**
+     * 是否锁定
+     */
+    private int isLock;
+
+    private int leaderWechatCount;
+
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
+
+    public int getIsLock() {
+        return isLock;
+    }
+
+    public void setIsLock(int isLock) {
+        this.isLock = isLock;
+    }
+
+    public int getLeaderWechatCount() {
+        return leaderWechatCount;
+    }
+
+    public void setLeaderWechatCount(int leaderWechatCount) {
+        this.leaderWechatCount = leaderWechatCount;
+    }
+
+    public int getCouponType() {
+        return couponType;
+    }
+
+    public void setCouponType(int couponType) {
+        this.couponType = couponType;
+    }
 
     public String getId() {
         return id;

@@ -156,19 +156,19 @@ public class UnionController {
     @PostMapping("unionShopInfo")
     public Result unionShopInfo(String unionShopId,int grantType){
 
-        return new Result();
+        return unionService.unionShopInfo(unionShopId,grantType);
     }
 
-    @ApiOperation("锁定店铺")
+    @ApiOperation("锁定/解锁店铺")
     @ApiImplicitParam(name = "unionShopId",value = "联盟店铺id",dataType = "String",required = true)
     @PostMapping("lockShop")
     public Result lockShop(String unionShopId){
 
-        return new Result();
+        return unionService.lockShop(unionShopId);
     }
 
     @PostMapping("unionCouponLog")
-    @ApiOperation("联盟优惠券记录")
+    @ApiOperation("联盟优惠券记录 3-5-3")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "unionId",value = "联盟id",dataType = "String",required = true),
             @ApiImplicitParam(name = "grantType",value = "派券 0--店铺帮联盟 1--联盟帮店铺",dataType = "int",required = true)

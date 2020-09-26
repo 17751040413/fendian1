@@ -8,11 +8,12 @@
     <result column="union_coupon_id" jdbcType="VARCHAR" property="unionCouponId" />
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
     <result column="is_use" jdbcType="INTEGER" property="isUse" />
+    <result column="extension_id" jdbcType="VARCHAR" property="extensionId"/>
     <result column="is_use_time" jdbcType="INTEGER" property="isUseTime" />
     <result column="overdue_time" jdbcType="INTEGER" property="overdueTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, receive_time, union_coupon_id, order_id, is_use, is_use_time, overdue_time
+    id, user_id, receive_time, union_coupon_id, order_id, is_use, is_use_time, overdue_time,extension_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -21,21 +22,33 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
     <select id="queryShopUnionCount" resultType="java.lang.Integer">
-      select count(1) from union_coupon_user
-      where unio
+      select count(1) from union_coupon_user a
+      left join union_coupon b on a.union_coupon_id = b.id
+      where b.union_id = #{unionId} and a.extension_id = #{unionShopId}
+       <if test="isUse != 2">
+         and a.is_use = #{isUse}
+       </if>
 
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <select id="queryUnionShopCount" resultType="java.lang.Integer">
+    select count(1) from union_coupon_user a
+    left join union_coupon b on a.union_coupon_id = b.id
+    where b.union_id = #{unionId} and b.shop_id = #{unionShopId}
+    <if test="isUse != 2">
+      and a.is_use = #{isUse}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from union_coupon_user
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionCouponUser" useGeneratedKeys="true">
     insert into union_coupon_user (user_id, receive_time, union_coupon_id, 
       order_id, is_use, is_use_time, 
-      overdue_time)
+      overdue_time,extension_id)
     values (#{userId,jdbcType=VARCHAR}, #{receiveTime,jdbcType=INTEGER}, #{unionCouponId,jdbcType=VARCHAR}, 
       #{orderId,jdbcType=VARCHAR}, #{isUse,jdbcType=INTEGER}, #{isUseTime,jdbcType=INTEGER}, 
-      #{overdueTime,jdbcType=INTEGER})
+      #{overdueTime,jdbcType=INTEGER},#{extensionId})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionCouponUser" useGeneratedKeys="true">
     insert into union_coupon_user
@@ -61,6 +74,9 @@
       <if test="overdueTime != null">
         overdue_time,
       </if>
+      <if test="extensionId != null">
+        extension_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -83,6 +99,9 @@
       </if>
       <if test="overdueTime != null">
         #{overdueTime,jdbcType=INTEGER},
+      </if>
+      <if test="extensionId != null">
+        #{extensionId},
       </if>
     </trim>
   </insert>
@@ -110,6 +129,9 @@
       <if test="overdueTime != null">
         overdue_time = #{overdueTime,jdbcType=INTEGER},
       </if>
+      <if test="extensionId != null">
+        extension_id = #{extensionId},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -121,7 +143,8 @@
       order_id = #{orderId,jdbcType=VARCHAR},
       is_use = #{isUse,jdbcType=INTEGER},
       is_use_time = #{isUseTime,jdbcType=INTEGER},
-      overdue_time = #{overdueTime,jdbcType=INTEGER}
+      overdue_time = #{overdueTime,jdbcType=INTEGER},
+      extension_id = #{extensionId}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

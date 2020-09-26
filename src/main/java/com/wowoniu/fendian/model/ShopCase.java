@@ -49,6 +49,8 @@ public class ShopCase implements Serializable {
     @ApiModelProperty("创建人")
     private String createBy;
 
+    @ApiModelProperty("使用人数")
+    private int useCount;
     /**
      * 创建时间
      */
@@ -58,6 +60,14 @@ public class ShopCase implements Serializable {
     @ApiModelProperty("对应活动")
     private List<Activity> activityList;
 
+
+    public int getUseCount() {
+        return useCount;
+    }
+
+    public void setUseCount(int useCount) {
+        this.useCount = useCount;
+    }
 
     public List<Activity> getActivityList() {
         return activityList;

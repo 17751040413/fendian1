@@ -9,10 +9,13 @@
     <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
     <result column="shop_logo" jdbcType="VARCHAR" property="shopLogo" />
     <result column="shop_id" jdbcType="VARCHAR" property="shopId" />
+    <result column="is_lock" jdbcType="INTEGER" property="isLock"/>
+    <result column="leader_wechat_count" jdbcType="INTEGER" property="leaderWechatCount"/>
     <result column="create_time" jdbcType="DATE" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, union_id, union_name, union_logo, shop_name, shop_logo, shop_id, create_time
+    id, union_id, union_name, union_logo, shop_name, shop_logo, shop_id,
+     create_time,leader_wechat_count,is_lock
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -39,10 +42,10 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionShop" useGeneratedKeys="true">
     insert into union_shop (union_id, union_name, union_logo, 
       shop_name, shop_logo, shop_id, 
-      create_time)
+      create_time,leader_wechat_count,is_lock)
     values (#{unionId,jdbcType=VARCHAR}, #{unionName,jdbcType=VARCHAR}, #{unionLogo,jdbcType=VARCHAR}, 
       #{shopName,jdbcType=VARCHAR}, #{shopLogo,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=DATE})
+      #{createTime,jdbcType=DATE},#{leaderWechatCount})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionShop" useGeneratedKeys="true">
     insert into union_shop
@@ -68,6 +71,12 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="leaderWechatCount != null">
+        leader_wechat_count,
+      </if>
+      <if test="isLock != null">
+        is_lock,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="unionId != null">
@@ -90,6 +99,12 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=DATE},
+      </if>
+      <if test="leaderWechatCount != null">
+        #{leaderWechatCount},
+      </if>
+      <if test="isLock != null">
+      #{isLock},
       </if>
     </trim>
   </insert>
@@ -117,6 +132,12 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=DATE},
       </if>
+      <if test="leaderWechatCount != null">
+        leader_wechat_count = #{leaderWechatCount},
+      </if>
+      <if test="isLock != null">
+        is_lock = #{isLock},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -128,7 +149,21 @@
       shop_name = #{shopName,jdbcType=VARCHAR},
       shop_logo = #{shopLogo,jdbcType=VARCHAR},
       shop_id = #{shopId,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=DATE}
+      create_time = #{createTime,jdbcType=DATE},
+      leader_wechat_count = #{leaderWechatCount},
+      is_lock = #{isLock}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <update id="updateLock">
+    update union_shop
+    set
+    <if test="lock == 0">
+      is_lock = 1
+    </if>
+    <if test="lock == 1">
+      is_lock = 0
+    </if>
+    where id = #{id}
+  </update>
+
 </mapper>

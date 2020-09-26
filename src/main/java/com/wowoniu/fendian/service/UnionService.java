@@ -103,6 +103,13 @@ public interface UnionService {
      */
     Result unionShopInfo(String unionShopId,int grantType);
 
+    /**
+     * 锁定解锁店铺
+     * @param unionShopId
+     * @return
+     */
+    Result lockShop(String unionShopId);
+
 
 
 }

@@ -52,7 +52,12 @@
       and shop_name like concat('%',#{shopName},'%')
     </if>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="queryUnionCouponByShopAndUnionIdLimit1" resultType="com.wowoniu.fendian.model.UnionCoupon">
+      select <include refid="Base_Column_List"/> from union_coupon
+      where union_id = #{unionId} and shop_id = #{shopId}
+      limit 1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from union_coupon
     where id = #{id,jdbcType=VARCHAR}
   </delete>

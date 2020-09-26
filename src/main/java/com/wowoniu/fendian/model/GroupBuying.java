@@ -50,7 +50,7 @@ public class GroupBuying implements Serializable {
     private Integer groupNumber;
 
     @ApiModelProperty("成团时间")
-    private Integer groupTime;
+    private Timestamp groupTime;
 
     @ApiModelProperty("时间单位（0：天；1：小时）")
     private String timeUnit;
@@ -194,7 +194,7 @@ public class GroupBuying implements Serializable {
         return groupTime;
     }
 
-    public void setGroupTime(Integer groupTime) {
+    public void setGroupTime(Timestamp groupTime) {
         this.groupTime = groupTime;
     }
 

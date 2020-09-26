@@ -39,7 +39,7 @@ public class ShopController {
         //获取所有店铺行业
         List<ShopIndustry> shopIndustries = shopService.getShopIndustry();
         //获取该店铺id的所有案例
-        PageUtil<ShopCase> pageUtil = shopService.getShopCasePage(currentPage, Constants.PAGESIZE,industyrId);
+        PageUtil<ShopCase> pageUtil = shopService.getShopCasePage(currentPage, 20,industyrId);
         Map map = new HashMap();
         List<ShopCase> caseList = pageUtil.getLists();
         //查询对应活动
@@ -55,6 +55,9 @@ public class ShopController {
 
         }
         map.put("shopIndustries",shopIndustries);
+        for (ShopCase shopCase:pageUtil.getLists()){
+            shopCase.setUseCount((int)((Math.random()*9+1)*1000));
+        }
         map.put("cases",pageUtil.getLists());
         return new Result(200,true,"获取成功",map);
     }

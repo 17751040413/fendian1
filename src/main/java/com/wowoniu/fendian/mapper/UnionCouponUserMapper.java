@@ -26,4 +26,13 @@ public interface UnionCouponUserMapper {
      */
     int queryShopUnionCount(@Param("unionId") String unionId,
                             @Param("unionShopId") String unionShopId, @Param("isUse") int isUse);
+
+    /**
+     * 联盟帮店铺派券数
+     * @param unionId
+     * @param unionShopId
+     * @return
+     */
+    int queryUnionShopCount(@Param("unionId") String unionId,
+                            @Param("unionShopId") String unionShopId, @Param("isUse") int isUse);
 }

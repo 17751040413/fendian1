@@ -32,4 +32,11 @@ public interface UnionShopMapper {
      * @return
      */
     List<UnionShop> queryUnionShops(@Param("unionId") String unionId, @Param("shopName") String shopName);
+
+    /**
+     * 解锁/锁定店铺
+     * @param id
+     * @return
+     */
+    int updateLock(@Param("id") String id,@Param("lock") int lock);
 }
