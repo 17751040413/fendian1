@@ -38,6 +38,26 @@ public class Member implements Serializable {
     private Integer gender;
     @ApiModelProperty("备注")
     private String remark;
+    @ApiModelProperty("最后消费")
+    private String lastBuy;
+    @ApiModelProperty("等级名称")
+    private String levelName;
+
+    public String getLastBuy() {
+        return lastBuy;
+    }
+
+    public void setLastBuy(String lastBuy) {
+        this.lastBuy = lastBuy;
+    }
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
+    }
 
     public String getId() {
         return id;
