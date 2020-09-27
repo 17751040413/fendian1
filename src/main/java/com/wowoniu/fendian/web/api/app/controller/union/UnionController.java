@@ -175,10 +175,10 @@ public class UnionController {
     })
     public Result unionCouponLog(String unionId,int grantType){
 
-        return new Result();
+        return unionService.unionCouponLog(unionId,grantType);
     }
 
-    @ApiOperation("商圈顾客列表")
+    @ApiOperation("商圈顾客列表 3-6-1")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "unionId",value = "联盟id",dataType = "String",required = true),
             @ApiImplicitParam(name = "keyords",value = "关键字",dataType = "String",required = true)
@@ -186,7 +186,7 @@ public class UnionController {
     @PostMapping("unionCustomers")
     public Result unionCustomers(String unionId,String keyWords){
 
-        return new Result();
+        return unionService.unionCustomers(unionId,keyWords);
     }
 
     @PostMapping("unionCustomerInfo")

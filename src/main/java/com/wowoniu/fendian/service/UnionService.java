@@ -110,6 +110,30 @@ public interface UnionService {
      */
     Result lockShop(String unionShopId);
 
+    /**
+     *联盟优惠券记录
+     * @param unionId
+     * @param grantType
+     * @return
+     */
+    Result unionCouponLog(String unionId,int grantType);
+
+    /**
+     * 商圈顾客列表
+     * @param unionId
+     * @param keyWords
+     * @return
+     */
+    Result unionCustomers(String unionId,String keyWords);
+
+
+    /**
+     * 商圈顾客详情
+     * @param unionCusId
+     * @return
+     */
+    Result unionCustomerInfo(String unionCusId);
+
 
 
 }

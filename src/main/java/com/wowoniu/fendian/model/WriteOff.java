@@ -21,6 +21,8 @@ public class WriteOff implements Serializable {
      */
     private String userId;
 
+
+
     /**
      * 活动id
      */
@@ -60,6 +62,18 @@ public class WriteOff implements Serializable {
      * 顾客头像
      */
     private String customerImg;
+    /**
+     * 商店logo
+     */
+    private String userImg;
+
+    public String getUserImg() {
+        return userImg;
+    }
+
+    public void setUserImg(String userImg) {
+        this.userImg = userImg;
+    }
 
     public String getCustomerName() {
         return customerName;

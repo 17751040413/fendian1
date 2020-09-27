@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.mapper;
 
+import com.wowoniu.fendian.model.UnionCoupon;
 import com.wowoniu.fendian.model.UnionCouponUser;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,4 +36,26 @@ public interface UnionCouponUserMapper {
      */
     int queryUnionShopCount(@Param("unionId") String unionId,
                             @Param("unionShopId") String unionShopId, @Param("isUse") int isUse);
+
+    /**
+     * 查询联盟发券数
+     * @param unionId
+     * @param isUse
+     * @return
+     */
+    int queryUnionCount(@Param("unionId") String unionId,@Param("isUse") int isUse);
+
+    /**
+     * 查询用户最近领取的优惠券
+     * @param userId
+     * @return
+     */
+    UnionCouponUser queryLatelyReUnion(String userId);
+
+    /**
+     * 查询用户最近使用的优惠券
+     * @param userId
+     * @return
+     */
+    UnionCouponUser queryLatelyUseUnion(String userId);
 }

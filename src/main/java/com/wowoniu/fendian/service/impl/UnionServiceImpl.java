@@ -254,4 +254,67 @@ public class UnionServiceImpl implements UnionService {
 
         return new Result(200,true,"修改成功");
     }
+
+    @Override
+    public Result unionCouponLog(String unionId, int grantType) {
+        //发放
+        int sendCount;
+        //使用
+        int useCount;
+        //佣金
+        double commission;
+        sendCount = unionCouponUserMapper.queryUnionCount(unionId,2);
+        useCount = unionCouponUserMapper.queryUnionCount(unionId,1);
+        UnionInfo unionInfo = unionInfoMapper.selectByPrimaryKey(unionId);
+        commission = uoionSeparateLogMapper.queryUnionSepPriceByUserId(unionInfo.getUnionLeaderId(),unionInfo.getId());
+        List<UnionShop> unionShops = unionShopMapper.queryUnionShops(unionId,null);
+        //返回集合
+        List reList = new ArrayList();
+        for (UnionShop unionShop:unionShops){
+            Map map = new HashMap();
+            map.put("shopId",unionShop.getShopId());
+            map.put("shopName",unionShop.getShopName());
+            map.put("shopLogo",unionShop.getShopLogo());
+            map.put("sendCount",unionCouponUserMapper.queryShopUnionCount(unionInfo.getId(),unionShop.getShopId(),2));
+            map.put("useCount",unionCouponUserMapper.queryShopUnionCount(unionInfo.getId(),unionShop.getShopId(),1));
+            map.put("commission",uoionSeparateLogMapper.queryUnionSepPriceByUserId(unionShop.getShopId(),unionInfo.getId()));
+            reList.add(map);
+
+        }
+        Map map = new HashMap();
+        map.put("sendCount",sendCount);
+        map.put("useCount",useCount);
+        map.put("commission",commission);
+        map.put("shopList",reList);
+
+        return new Result(200,true,"获取成功",map);
+    }
+
+    @Override
+    public Result unionCustomers(String unionId, String keyWords) {
+        List<UnionCustomer> customers = unionCustomerMapper.queryUnionCustomer(unionId,keyWords);
+        for (UnionCustomer customer:customers){
+
+            UnionCouponUser reCoupon = unionCouponUserMapper.queryLatelyReUnion(customer.getUserId());
+            if (reCoupon != null){
+                customer.setReceiveTime(reCoupon.getReceiveTime());
+            }
+            UnionCouponUser useCoupon = unionCouponUserMapper.queryLatelyUseUnion(customer.getUserId());
+            if (useCoupon != null){
+                customer.setIsUseTime(useCoupon.getIsUseTime());
+            }
+        }
+
+        return new Result(200,true,"获取成功",customers);
+    }
+
+    @Override
+    public Result unionCustomerInfo(String unionCusId) {
+        //用户信息
+        UnionCustomer unionCustomer = unionCustomerMapper.selectByPrimaryKey(unionCusId);
+        //消费信息
+        List<WriteOff> writeOffs = writeOffMapper.queryWriteByCustomerId(unionCustomer.getUserId());
+
+        return null;
+    }
 }

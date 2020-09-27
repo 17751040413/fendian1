@@ -1,6 +1,9 @@
 package com.wowoniu.fendian.mapper;
 
 import com.wowoniu.fendian.model.UnionCustomer;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UnionCustomerMapper {
     int deleteByPrimaryKey(String id);
@@ -21,4 +24,13 @@ public interface UnionCustomerMapper {
      * @return
      */
     int queryCustomerCountByUnionId(String unionId);
+
+    /**
+     * 查询商圈顾客列表
+     * @param unionId
+     * @param keyWords
+     * @return
+     */
+    List<UnionCustomer> queryUnionCustomer(@Param("unionId") String unionId,
+                                           @Param("keyWords") String keyWords);
 }

@@ -1,5 +1,7 @@
 package com.wowoniu.fendian.service.impl;
 
+import ch.qos.logback.core.spi.LogbackLock;
+import com.alibaba.fastjson.JSON;
 import com.wowoniu.fendian.config.AuthCodeConfig;
 import com.wowoniu.fendian.mapper.UseUserMapper;
 import com.wowoniu.fendian.mapper.UserLoginMapper;
@@ -10,6 +12,9 @@ import com.wowoniu.fendian.model.pack.LoginPack;
 import com.wowoniu.fendian.model.pack.UserInfoPack;
 import com.wowoniu.fendian.service.UseUserService;
 import com.wowoniu.fendian.utils.*;
+import org.apache.logging.slf4j.SLF4JLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -84,6 +89,10 @@ public class UseUserServiceImpl implements UseUserService {
             loginPack.setToken(token);
             loginPack.setUseUser(newUser);
 
+
+            String fileName = "登录数据--"+DateUtils.format(new Date());
+            String loginData = JSON.toJSONString(loginPack);
+            CreateTxt.writeToText(loginData,fileName);
         }
 
         else {
@@ -99,6 +108,10 @@ public class UseUserServiceImpl implements UseUserService {
             loginPack.setFlg(i);
             loginPack.setToken(token);
             loginPack.setUseUser(useUser);
+
+            String fileName = "登录数据--"+DateUtils.format(new Date());
+            String loginData = JSON.toJSONString(loginPack);
+            CreateTxt.writeToText(loginData,fileName);
         }
 
         return loginPack;
@@ -106,7 +119,7 @@ public class UseUserServiceImpl implements UseUserService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Result smsLogin(String code, String phone, String identification, HttpSession httpSession) {
+    public Result smsLogin(String code, String phone, String identification, HttpSession httpSession) throws IOException {
         //通过账号查询用户
         UseUser useUser = useUserMapper.queryUserByLoginName(phone);
         LoginPack loginPack = new LoginPack();
@@ -149,6 +162,10 @@ public class UseUserServiceImpl implements UseUserService {
                 loginPack.setToken(token);
                 loginPack.setUseUser(registerUser);
 
+                String fileName = "登录数据--"+DateUtils.format(new Date());
+                String loginData = JSON.toJSONString(loginPack);
+                CreateTxt.writeToText(loginData,fileName);
+
                 result = new Result(200,true,"登录成功",loginPack);
 
             }else {
@@ -165,6 +182,10 @@ public class UseUserServiceImpl implements UseUserService {
                 loginPack.setFlg(i);
                 loginPack.setToken(token);
                 loginPack.setUseUser(useUser);
+
+                String fileName = "登录数据--"+DateUtils.format(new Date());
+                String loginData = JSON.toJSONString(loginPack);
+                CreateTxt.writeToText(loginData,fileName);
                 result = new Result(200,true,"登录成功",loginPack);
             }
 

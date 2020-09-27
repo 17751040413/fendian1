@@ -40,6 +40,11 @@ public class UnionCustomer implements Serializable {
     private String userName;
 
     /**
+     * 用户账号
+     */
+    private String userLoginName;
+
+    /**
      * 用户头像
      */
     private String userImg;
@@ -54,7 +59,55 @@ public class UnionCustomer implements Serializable {
      */
     private String createTime;
 
+    /**
+     * 最近领取时间
+     */
+    private Integer receiveTime;
+
+    /**
+     * 最近使用时间
+     */
+    private Integer isUseTime;
+
+    /**
+     * 是否添加盟主微信
+     */
+    private Integer ifWechat;
+
     private static final long serialVersionUID = 1L;
+
+
+    public Integer getIfWechat() {
+        return ifWechat;
+    }
+
+    public void setIfWechat(Integer ifWechat) {
+        this.ifWechat = ifWechat;
+    }
+
+    public String getUserLoginName() {
+        return userLoginName;
+    }
+
+    public void setUserLoginName(String userLoginName) {
+        this.userLoginName = userLoginName;
+    }
+
+    public Integer getReceiveTime() {
+        return receiveTime;
+    }
+
+    public void setReceiveTime(Integer receiveTime) {
+        this.receiveTime = receiveTime;
+    }
+
+    public Integer getIsUseTime() {
+        return isUseTime;
+    }
+
+    public void setIsUseTime(Integer isUseTime) {
+        this.isUseTime = isUseTime;
+    }
 
     public String getId() {
         return id;

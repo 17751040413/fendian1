@@ -31,6 +31,11 @@
     where a.user_id = #{userId} and activity_id = 13
 
   </select>
+  <select id="queryWriteByCustomerId" resultType="com.wowoniu.fendian.model.WriteOff">
+    select a.*,b.avatar_url as customerImg from write_off a
+    left join union_customer b on a.customer_id = b.open_id
+    where a.customer_id = #{customerId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from write_off
     where id = #{id,jdbcType=VARCHAR}

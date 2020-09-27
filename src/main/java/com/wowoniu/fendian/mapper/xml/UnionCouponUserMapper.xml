@@ -38,6 +38,27 @@
       and a.is_use = #{isUse}
     </if>
   </select>
+  <select id="queryUnionCount" resultType="java.lang.Integer">
+    select count(1) from union_coupon_user a
+    left join union_coupon b on a.union_coupon_id = b.id
+    where b.union_id = #{unionId}
+    <if test="isUse != 2">
+      and a.is_use = #{isUse}
+    </if>
+  </select>
+  <select id="queryLatelyReUnion" resultType="com.wowoniu.fendian.model.UnionCouponUser">
+    select * from union_coupon_user
+    where user_id = #{userId}
+    order by receive_time desc
+    limit 1
+  </select>
+  <select id="queryLatelyUseUnion" resultType="com.wowoniu.fendian.model.UnionCouponUser">
+    select * from union_coupon_user
+    where user_id = #{userId} and is_use = 1
+    order by is_use_time desc
+    limit 1
+
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from union_coupon_user
     where id = #{id,jdbcType=VARCHAR}

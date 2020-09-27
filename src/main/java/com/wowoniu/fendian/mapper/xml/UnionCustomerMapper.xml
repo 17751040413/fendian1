@@ -9,12 +9,14 @@
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_img" jdbcType="VARCHAR" property="userImg" />
+    <result column="user_login_name" jdbcType="VARCHAR" property="userLoginName"/>
     <result column="recommend_id" jdbcType="VARCHAR" property="recommendId" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="if_wechat" jdbcType="INTEGER" property="ifWechat"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, union_id, union_name, union_logo, user_id, user_name, user_img, recommend_id, 
-    create_time
+    create_time,user_login_name,if_wechat
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -27,6 +29,13 @@
       where union_id = #{unionId}
 
     </select>
+    <select id="queryUnionCustomer" resultType="com.wowoniu.fendian.model.UnionCustomer">
+      select <include refid="Base_Column_List"/> from union_customer
+      where union_id = #{unionId}
+      <if test="keyWords != null">
+        and user_name like concat('%',#{keyWords},'%')
+      </if>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from union_customer
     where id = #{id,jdbcType=VARCHAR}
@@ -34,10 +43,10 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionCustomer" useGeneratedKeys="true">
     insert into union_customer (union_id, union_name, union_logo, 
       user_id, user_name, user_img, 
-      recommend_id, create_time)
+      recommend_id, create_time,user_login_name,if_wechat)
     values (#{unionId,jdbcType=VARCHAR}, #{unionName,jdbcType=VARCHAR}, #{unionLogo,jdbcType=VARCHAR}, 
       #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userImg,jdbcType=VARCHAR}, 
-      #{recommendId,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
+      #{recommendId,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR},#{userLoginName},#{ifWechat})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UnionCustomer" useGeneratedKeys="true">
     insert into union_customer
@@ -66,6 +75,12 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="userLoginName != null">
+        user_login_name,
+      </if>
+      <if test="ifWechat != null">
+        if_wechat,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="unionId != null">
@@ -91,6 +106,12 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginName != null">
+        #{userLoginName},
+      </if>
+      <if test="ifWechat != null">
+        #{ifWechat},
       </if>
     </trim>
   </insert>
@@ -121,6 +142,12 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=VARCHAR},
       </if>
+      <if test="userLoginName != null">
+        user_login_name = #{userLoginName},
+      </if>
+      <if test="ifWechat != null">
+        if_wechat = #{ifWechat},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -133,7 +160,9 @@
       user_name = #{userName,jdbcType=VARCHAR},
       user_img = #{userImg,jdbcType=VARCHAR},
       recommend_id = #{recommendId,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=VARCHAR}
+      create_time = #{createTime,jdbcType=VARCHAR},
+      user_login_name = #{userLoginName},
+      if_wechat = #{ifWechat}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -50,7 +50,7 @@ public class LoginController {
 
     })
     public Result<LoginPack> smsLogin(String code, String phone, String identification,
-                                      @ApiIgnore HttpSession httpSession){
+                                      @ApiIgnore HttpSession httpSession) throws IOException {
 
         return useUserService.smsLogin(code,phone,identification,httpSession);
     }
