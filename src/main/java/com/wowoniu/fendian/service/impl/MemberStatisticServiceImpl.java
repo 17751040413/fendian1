@@ -245,29 +245,45 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
     /**
      * 获取记录 消费记录 /余额记录
      *
-     * @param id
-     * @param type
+     * @param map
      * @return
      */
     @Override
-    public List<MemberConsume> getMemberRecord(String id, String type) {
+    public PageUtil<MemberConsume> getMemberRecord(Map<String, Object> map) {
+        PageUtil<MemberConsume> pageUtil = new PageUtil();
+        pageUtil.setPageSize((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
         List<MemberConsume> memberConsumeList = null;
+        int count = 0;
+        String type = map.get("type").toString();
         if ("0".equals(type)) {
-            memberConsumeList = appletMapper.getMemberRecord1(id);
+            count = appletMapper.searchMemberRecord1(map);
+            memberConsumeList = appletMapper.getMemberRecord1(map);
         } else if ("1".equals(type)) {
-            memberConsumeList = appletMapper.getMemberRecord2(id);
+            count = appletMapper.searchMemberRecord2(map);
+            memberConsumeList = appletMapper.getMemberRecord2(map);
         }
-        return memberConsumeList;
+        pageUtil.setTotalCount(count);
+        pageUtil.setLists(memberConsumeList);
+        return pageUtil;
     }
 
     /**
      * 邀请记录
      *
-     * @param id
+     * @param map
      * @return
      */
     @Override
-    public List<LinkMemberUser> getMemberInviter(String id) {
-        return appletMapper.getMemberInviter(id);
+    public PageUtil<LinkMemberUser> getMemberInviter(Map<String, Object> map) {
+
+        PageUtil<LinkMemberUser> pageUtil = new PageUtil();
+        int count = appletMapper.searchMemberInviter(map);
+        pageUtil.setTotalCount(count);
+        pageUtil.setPageSize((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
+        List<LinkMemberUser> linkMemberUserList = appletMapper.getMemberInviter(map);
+        pageUtil.setLists(linkMemberUserList);
+        return pageUtil;
     }
 }

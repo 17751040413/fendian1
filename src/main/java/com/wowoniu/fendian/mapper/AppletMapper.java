@@ -592,28 +592,35 @@ public interface AppletMapper {
     /**
      * 会员消费记录
      *
-     * @param id
+     * @param map
      * @return
      */
-    @Select("SELECT * FROM member_consume WHERE member_id = #{id} AND (type = '1' OR type = '3')")
-    List<MemberConsume> getMemberRecord1(String id);
+    List<MemberConsume> getMemberRecord1(Map<String, Object> map);
+    int searchMemberRecord1(Map<String, Object> map);
 
     /**
      * 会员余额记录
      *
-     * @param id
+     * @param map
      * @return
      */
-    @Select("SELECT * FROM member_consume WHERE member_id = #{id} AND (type = '0' OR type = '2')")
-    List<MemberConsume> getMemberRecord2(String id);
+    List<MemberConsume> getMemberRecord2(Map<String, Object> map);
+    int searchMemberRecord2(Map<String, Object> map);
 
     /**
      * 邀请人获取邀请记录
      *
-     * @param id
+     * @param map
      * @return
      */
-    @Select("SELECT * FROM link_member_user WHERE inviter_id = (SELECT buyer_id FROM member WHERE id = #{id})")
-    List<LinkMemberUser> getMemberInviter(String id);
+    List<LinkMemberUser> getMemberInviter(Map<String, Object> map);
+
+    /**
+     * 邀请人获取邀请记录总数
+     *
+     * @param map
+     * @return
+     */
+    int searchMemberInviter(Map<String, Object> map);
 
 }

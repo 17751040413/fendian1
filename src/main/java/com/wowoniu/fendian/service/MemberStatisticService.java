@@ -68,18 +68,17 @@ public interface MemberStatisticService {
     /**
      * 获取记录 消费记录 /余额记录
      *
-     * @param id
-     * @param type
+     * @param map
      * @return
      */
-    List<MemberConsume> getMemberRecord(String id, String type);
+    PageUtil<MemberConsume> getMemberRecord(Map<String, Object> map);
 
     /**
      * 邀请记录
      *
-     * @param id
+     * @param map
      * @return
      */
-    List<LinkMemberUser> getMemberInviter(String id);
+    PageUtil<LinkMemberUser> getMemberInviter(Map<String, Object> map);
 
 }

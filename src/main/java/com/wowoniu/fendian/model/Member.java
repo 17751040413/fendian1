@@ -59,6 +59,8 @@ public class Member implements Serializable {
         this.levelName = levelName;
     }
 
+    
+
     public String getId() {
         return id;
     }

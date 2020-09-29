@@ -49,6 +49,35 @@
             AND sort_id = #{sortId}
         </if>
     </select>
+    <select id="searchMemberInviter" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM link_member_user WHERE inviter_id = (SELECT buyer_id FROM member WHERE id = #{id})
+        AND time LIKE CONCAT('%',#{date},'%')
+    </select>
+    <select id="getMemberInviter" resultType="com.wowoniu.fendian.model.LinkMemberUser">
+        SELECT * FROM link_member_user WHERE inviter_id = (SELECT buyer_id FROM member WHERE id = #{id})
+        AND time LIKE CONCAT('%',#{date},'%')
+        LIMIT #{startRow},#{pageSize}
+    </select>
+
+    <select id="searchMemberRecord1" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM member_consume WHERE member_id = #{id} AND (type = '1' OR type = '3')
+        AND time LIKE CONCAT('%',#{date},'%')
+    </select>
+
+    <select id="searchMemberRecord2" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM member_consume WHERE member_id = #{id} AND (type = '0' OR type = '2')
+        AND time LIKE CONCAT('%',#{date},'%')
+    </select>
+    <select id="getMemberRecord1" resultType="com.wowoniu.fendian.model.MemberConsume">
+        SELECT * FROM member_consume WHERE member_id = #{id} AND (type = '1' OR type = '3')
+         AND time LIKE CONCAT('%',#{date},'%')
+         LIMIT #{startRow},#{pageSize}
+    </select>
+    <select id="getMemberRecord2" resultType="com.wowoniu.fendian.model.MemberConsume">
+        SELECT * FROM member_consume WHERE member_id = #{id} AND (type = '0' OR type = '2')
+         AND time LIKE CONCAT('%',#{date},'%')
+         LIMIT #{startRow},#{pageSize}
+    </select>
 
     <!-- 购物车货物添加订单ID -->
     <update id="updateWaresCarByOrder">
