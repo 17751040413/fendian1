@@ -567,7 +567,7 @@ public interface AppletMapper {
      * @param id
      * @return
      */
-    @Select("SELECT * FROM member_consume WHERE id = #{id} ORDER BY time DESC")
+    @Select("SELECT * FROM member_consume WHERE member_id = #{id} ORDER BY time DESC")
     List<MemberConsume> getConsume(String id);
 
     /**
@@ -580,7 +580,40 @@ public interface AppletMapper {
     @Select("SELECT * FROM coupon_user WHERE buyer_id IN (SELECT buyer_id FROM coupon_buyer WHERE effective = 'N' AND user_id = #{userId} AND donor_id = #{open_id} ORDER BY receive_time DESC)")
     List<CouponUser> getFriendConsume(String userId, String openId);
 
-    @Update("UPDATE member SET level =#{level},phone = #{phone},name = #{name},gender = #{gender},remark = #{remark} ,end_time = #{endTime} WHERE id = #{id}")
+    /**
+     * 修改会员信息
+     *
+     * @param member
+     * @return
+     */
     int updateMember(Member member);
+
+
+    /**
+     * 会员消费记录
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM member_consume WHERE member_id = #{id} AND (type = '1' OR type = '3')")
+    List<MemberConsume> getMemberRecord1(String id);
+
+    /**
+     * 会员余额记录
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM member_consume WHERE member_id = #{id} AND (type = '0' OR type = '2')")
+    List<MemberConsume> getMemberRecord2(String id);
+
+    /**
+     * 邀请人获取邀请记录
+     *
+     * @param id
+     * @return
+     */
+    @Select("SELECT * FROM link_member_user WHERE inviter_id = (SELECT buyer_id FROM member WHERE id = #{id})")
+    List<LinkMemberUser> getMemberInviter(String id);
 
 }

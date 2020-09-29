@@ -5,7 +5,9 @@
     <!-- 条件搜索店铺 -->
     <select id="searchUseUser" resultType="com.wowoniu.fendian.model.UseUser">
         SELECT * FROM use_user
-        WHERE ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{lat}*PI()/180-lat*PI()/180)/2),2)+COS(#{lat}*PI()/180)*COS(lat*PI()/180)*POW(SIN((#{lng}*PI()/180-lng*PI()/180)/2),2)))*1000) &lt;= 5000
+        WHERE
+        ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{lat}*PI()/180-lat*PI()/180)/2),2)+COS(#{lat}*PI()/180)*COS(lat*PI()/180)*POW(SIN((#{lng}*PI()/180-lng*PI()/180)/2),2)))*1000)
+        &lt;= 5000
         <if test="type != null and type != ''">
             AND type = #{type}
         </if>
@@ -16,7 +18,9 @@
     <!-- 条件搜索店铺的条数 -->
     <select id="searchUseUserCount" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM use_user
-        WHERE ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{lat}*PI()/180-lat*PI()/180)/2),2)+COS(#{lat}*PI()/180)*COS(lat*PI()/180)*POW(SIN((#{lng}*PI()/180-lng*PI()/180)/2),2)))*1000) &lt;= 5000
+        WHERE
+        ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{lat}*PI()/180-lat*PI()/180)/2),2)+COS(#{lat}*PI()/180)*COS(lat*PI()/180)*POW(SIN((#{lng}*PI()/180-lng*PI()/180)/2),2)))*1000)
+        &lt;= 5000
         <if test="type != null and type != ''">
             AND type = #{type}
         </if>
@@ -52,6 +56,28 @@
         <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
+    </update>
+    <update id="updateMember">
+        UPDATE member SET update_time = NOW()
+        <if test="level != null">
+            ,level =#{level},level_name=#{levelName}
+        </if>
+        <if test="phone != null">
+            ,phone = #{phone}
+        </if>
+        <if test="name != null">
+            ,name = #{name}
+        </if>
+        <if test="gender != null">
+            ,gender = #{gender}
+        </if>
+        <if test="remark != null">
+            ,remark = #{remark}
+        </if>
+        <if test="endTime != null">
+            ,end_time = #{endTime}
+        </if>
+        WHERE id = #{id}
     </update>
 
 </mapper>

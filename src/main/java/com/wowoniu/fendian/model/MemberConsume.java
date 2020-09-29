@@ -8,14 +8,18 @@ import java.sql.Timestamp;
 
 @ApiModel("会员消费记录")
 public class MemberConsume implements Serializable {
-    @ApiModelProperty("金额")
+    @ApiModelProperty("消费金额")
     private int consume;
     @ApiModelProperty("会员表ID")
     private String memberId;
     @ApiModelProperty("记录时间")
     private Timestamp time;
-    @ApiModelProperty("类型（0：返现到账，1：到店消费，2：充值）")
+    @ApiModelProperty("类型（0：返现到账，1：到店消费，2：充值,，3.核销）")
     private String type;
+    @ApiModelProperty("当前余额")
+    private int price;
+    @ApiModelProperty("实付余额")
+    private int actual;
 
     public int getConsume() {
         return consume;
@@ -47,5 +51,21 @@ public class MemberConsume implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getActual() {
+        return actual;
+    }
+
+    public void setActual(int actual) {
+        this.actual = actual;
     }
 }

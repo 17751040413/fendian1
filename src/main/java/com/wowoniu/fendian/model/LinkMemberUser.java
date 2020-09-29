@@ -23,6 +23,13 @@ public class LinkMemberUser implements Serializable {
     @ApiModelProperty("邀请人ID")
     private String inviterId;
 
+    @ApiModelProperty("昵称")
+    private String nickName;
+    @ApiModelProperty("头像地址")
+    private String url;
+    @ApiModelProperty("创建时间")
+    private String time;
+
     /**
      * 买家用户实体
      */
@@ -59,5 +66,29 @@ public class LinkMemberUser implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

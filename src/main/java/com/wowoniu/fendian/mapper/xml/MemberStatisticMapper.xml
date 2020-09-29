@@ -32,7 +32,7 @@
     </select>
     <select id="getMemberConsumeList" resultType="com.wowoniu.fendian.model.MemberConsume">
         SELECT * FROM member_consume
-        ORDER BY create_time DESC
+        ORDER BY time DESC
         LIMIT #{startRow},#{pageSize}
     </select>
 

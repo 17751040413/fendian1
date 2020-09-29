@@ -77,7 +77,7 @@ public class MemberController {
         map.put("startRow", startRow);
         map.put("phone", phone);
         map.put("name", name);
-        map.put("userId",request.getAttribute("sysid"));
+        map.put("userId", request.getAttribute("sysid"));
 
         return new Result(200, true, "查询成功", memberStatisticService.getUserList(map));
     }
@@ -115,7 +115,7 @@ public class MemberController {
         return new Result(200, true, "查询成功", memberStatisticService.getMemberPrice(map));
     }
 
-    @ApiOperation(value = "1-6-2-9-获取会员信息")
+    @ApiOperation(value = "1-6-2-9 1-6-2-7 获取会员信息")
     @RequestMapping("/getMember")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "会员列表中 会员ID", dataType = "String", required = true)})
     public Object getMember(String id) {
@@ -125,7 +125,25 @@ public class MemberController {
     @ApiOperation(value = "1-6-2-9-修改会员信息")
     @RequestMapping("/updateMember")
     public Object updateMember(Member member) {
-        return new Result(200, true, "查询成功", memberStatisticService.updateMember(member));
+        memberStatisticService.updateMember(member);
+        return new Result(200, true, "修改成功", null);
+    }
+
+    @ApiOperation(value = "1-6-2-7 获取记录 消费记录 /余额记录")
+    @RequestMapping("/getMemberRecord")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "会员列表中 会员ID", dataType = "String", required = true),
+            @ApiImplicitParam(name = "type", value = "记录类型:0-消费记录 1-余额记录 ", dataType = "String", required = true)})
+    public Object getMemberRecord(String id, String type) {
+
+        return new Result(200, true, "获取成功", memberStatisticService.getMemberRecord(id,type));
+    }
+
+    @ApiOperation(value = "1-6-2-7 获取记录 邀请")
+    @RequestMapping("/getMemberInviter")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "会员列表中 会员ID", dataType = "String", required = true)})
+    public Object getMemberInviter(String id) {
+
+        return new Result(200, true, "获取成功", memberStatisticService.getMemberInviter(id));
     }
 
 

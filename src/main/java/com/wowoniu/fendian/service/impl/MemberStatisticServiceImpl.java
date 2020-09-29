@@ -179,7 +179,7 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         //总额
         double price = member.getPrice() * 0.01;
-        //今日增加
+        //今日增
         int todayPlus = 0;
         //今日减
         int todayLess = 0;
@@ -189,17 +189,17 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
         int countLess = 0;
         for (MemberConsume memberConsume : memberConsumeList) {
             if (memberConsume.getType().equals("0") || memberConsume.getType().equals("2")) {
-                countPlus = countPlus + memberConsume.getConsume();
+                countPlus = countPlus + memberConsume.getActual();
             }
             if (memberConsume.getType().equals("1")) {
-                countLess = countLess + memberConsume.getConsume();
+                countLess = countLess + memberConsume.getActual();
             }
             if (sdf.format(memberConsume.getTime()).equals(DateUtils.getDay())) {
                 if (memberConsume.getType().equals("0") || memberConsume.getType().equals("2")) {
-                    todayPlus = todayPlus + memberConsume.getConsume();
+                    todayPlus = todayPlus + memberConsume.getActual();
                 }
                 if (memberConsume.getType().equals("1")) {
-                    todayLess = todayLess + memberConsume.getConsume();
+                    todayLess = todayLess + memberConsume.getActual();
                 }
             }
         }
@@ -240,5 +240,34 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
     @Override
     public int updateMember(Member member) {
         return appletMapper.updateMember(member);
+    }
+
+    /**
+     * 获取记录 消费记录 /余额记录
+     *
+     * @param id
+     * @param type
+     * @return
+     */
+    @Override
+    public List<MemberConsume> getMemberRecord(String id, String type) {
+        List<MemberConsume> memberConsumeList = null;
+        if ("0".equals(type)) {
+            memberConsumeList = appletMapper.getMemberRecord1(id);
+        } else if ("1".equals(type)) {
+            memberConsumeList = appletMapper.getMemberRecord2(id);
+        }
+        return memberConsumeList;
+    }
+
+    /**
+     * 邀请记录
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public List<LinkMemberUser> getMemberInviter(String id) {
+        return appletMapper.getMemberInviter(id);
     }
 }

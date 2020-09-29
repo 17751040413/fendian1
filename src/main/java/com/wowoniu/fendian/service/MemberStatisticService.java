@@ -1,9 +1,12 @@
 package com.wowoniu.fendian.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wowoniu.fendian.model.LinkMemberUser;
 import com.wowoniu.fendian.model.Member;
+import com.wowoniu.fendian.model.MemberConsume;
 import com.wowoniu.fendian.utils.PageUtil;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,5 +64,22 @@ public interface MemberStatisticService {
      * @return
      */
     int updateMember(Member member);
+
+    /**
+     * 获取记录 消费记录 /余额记录
+     *
+     * @param id
+     * @param type
+     * @return
+     */
+    List<MemberConsume> getMemberRecord(String id, String type);
+
+    /**
+     * 邀请记录
+     *
+     * @param id
+     * @return
+     */
+    List<LinkMemberUser> getMemberInviter(String id);
 
 }
