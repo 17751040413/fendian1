@@ -374,7 +374,7 @@ public interface AppletMapper {
      * @param couponBuyer
      * @return
      */
-    @Insert("INSERT INTO (id,buyer_id,donor_id,user_id,create_time,start_time,end_time,effective,discount,discount_amount," +
+    @Insert("INSERT INTO coupon_buyer (id,buyer_id,donor_id,user_id,create_time,start_time,end_time,effective,discount,discount_amount," +
             "activity_id,activity_type,`condition`,`range`,exchange_number,price,activity_price,pay_price,activity_name,activity_url) " +
             "VALUES (#{id},#{buyerId},#{donorId},#{userId},#{createTime},#{startTime},#{endTime},#{effective},#{discount},#{discountAmount}," +
             "#{activityId},#{activityType},#{condition},#{range},#{exchangeNumber},#{price},#{activityPrice},#{payPrice},#{activityName},#{activityUrl})")

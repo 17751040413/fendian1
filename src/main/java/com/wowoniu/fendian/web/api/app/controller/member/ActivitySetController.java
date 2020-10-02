@@ -84,7 +84,7 @@ public class ActivitySetController {
 
     /************************************************* True 分销 - START *********************************************************/
     @PostMapping("/getDistribution")
-    @ApiOperation("分销--获取返利及详情 及启用/禁用")
+    @ApiOperation("分销--获取分销及详情 及启用/禁用")
     @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（N：关；Y：开； null：为null时返回现有状态的数据）", dataType = "String", required = true)})
     public Object getDistribution(String state, @ApiIgnore HttpServletRequest request) {
 
@@ -230,7 +230,7 @@ public class ActivitySetController {
     @ApiImplicitParams({@ApiImplicitParam(name = "onShelf", value = "上架（Y：上架；N：下架;全部：null）", dataType = "String", required = true),
             @ApiImplicitParam(name = "time", value = "时间查询条件（1:启用；0：禁用）按时间由近到远排序", dataType = "String", required = true),
             @ApiImplicitParam(name = "sales", value = "销量查询条件（1：启用；0：禁用）按时间由多到排序", dataType = "String", required = true),
-            @ApiImplicitParam(name = "sortId", value = "商品分类详情(全部则为0)", dataType = "String", required = true)})
+            @ApiImplicitParam(name = "sortId", value = "商品分类详情Id(全部则为0)", dataType = "String", required = true)})
     public Object getWaresList(String onShelf, String time, String sales, String sortId, @ApiIgnore HttpServletRequest request) {
 
         List<Wares> waresList = activitySetService.getWaresList((String) request.getAttribute("sysid"), onShelf, time, sales, sortId);
@@ -363,7 +363,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", couponSet);
     }
 
-    @ApiOperation("优惠券--优惠券新增/修改")
+    @ApiOperation("优惠券--优惠券新增/修改 （有id参数为修改 无id参数为新增）")
     @PostMapping("/setCouponSet")
     public Object setCouponSet(@RequestBody CouponSet couponSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setCouponSet(couponSet, (String) request.getAttribute("sysid"));
@@ -388,7 +388,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", groupBuying);
     }
 
-    @ApiOperation("拼团--优惠券新增/修改")
+    @ApiOperation("拼团--优惠券新增/修改 （有id参数为修改 无id参数为新增）")
     @PostMapping("/setGroupBuying")
     public Object setGroupBuying(@RequestBody GroupBuying groupBuying, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setGroupBuying(groupBuying, (String) request.getAttribute("sysid"));
@@ -401,7 +401,7 @@ public class ActivitySetController {
 
     /************************************************* True 推荐 - START *********************************************************/
 
-    @ApiOperation("推荐--推荐ID获取设置信息")
+    @ApiOperation("推荐--推荐ID获取设置信息 ")
     @PostMapping("/getRecommendSet")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "推荐设置ID", dataType = "String", required = true)})
     public Object getRecommendSet(String id) {
@@ -409,7 +409,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功",  activitySetService.getRecommendSet(id));
     }
 
-    @ApiOperation("推荐--优惠券新增/修改")
+    @ApiOperation("推荐--优惠券新增/修改（有id参数为修改 无id参数为新增）")
     @PostMapping("/setRecommendSet")
     public Object setRecommendSet(@RequestBody RecommendSet recommendSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setRecommendSet(recommendSet, (String) request.getAttribute("sysid"));
@@ -434,7 +434,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", bargainingSet);
     }
 
-    @ApiOperation("砍价--砍价设置新增/修改")
+    @ApiOperation("砍价--砍价设置新增/修改 （有id参数为修改 无id参数为新增）")
     @PostMapping("/setBargainingSet")
     public Object setBargainingSet(@RequestBody BargainingSet bargainingSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setBargainingSet(bargainingSet, (String) request.getAttribute("sysid"));
@@ -471,7 +471,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", shareFriends);
     }
 
-    @ApiOperation("朋友圈分享--设置新增/修改")
+    @ApiOperation("朋友圈分享--设置新增/修改 （有id参数为修改 无id参数为新增）")
     @PostMapping("/setShareFriends")
     public Object setShareFriends(@RequestBody ShareFriends shareFriends, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setShareFriends(shareFriends, (String) request.getAttribute("sysid"));
@@ -507,7 +507,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", seckillSet);
     }
 
-    @ApiOperation("秒杀--秒杀设置新增/修改")
+    @ApiOperation("秒杀--秒杀设置新增/修改 （有id参数为修改 无id参数为新增）")
     @PostMapping("/setSeckillSet")
     public Object setSeckillSet(@RequestBody SeckillSet seckillSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setSeckillSet(seckillSet, (String) request.getAttribute("sysid"));
@@ -532,7 +532,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", redenvelopesSet);
     }
 
-    @ApiOperation("红包裂变--红包裂变设置新增/修改")
+    @ApiOperation("红包裂变--红包裂变设置新增/修改 （有id参数为修改 无id参数为新增）")
     @PostMapping("/setRedenvelopesSet")
     public Object setRedenvelopesSet(@RequestBody RedenvelopesSet redenvelopesSet, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setRedenvelopesSet(redenvelopesSet, (String) request.getAttribute("sysid"));

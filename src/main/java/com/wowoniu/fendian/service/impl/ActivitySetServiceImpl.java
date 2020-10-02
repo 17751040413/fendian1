@@ -183,7 +183,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         if (jsonObject == null || jsonObject.size() == 0) {
             return new Result(204, false, "获取失败", null);
         }
-        return new Result(200, false, "获取成功", jsonObject);
+        return new Result(200, true, "获取成功", jsonObject);
 
     }
 
@@ -199,7 +199,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         RebateSet rebateSet = JSONObject.parseObject(param.getJSONObject("rebateSet").toJSONString(), RebateSet.class);
         List<RebateSetDetail> rebateSetDetailList = JSONArray.parseArray(param.getJSONArray("rebateDetail").toJSONString(), RebateSetDetail.class);
         List<RechargeDetail> rechargeDetailList = JSONArray.parseArray(param.getJSONArray("rechargeDetail").toJSONString(), RechargeDetail.class);
-        if (rebateSet == null || CollectionUtils.isEmpty(rebateSetDetailList) || CollectionUtils.isEmpty(rechargeDetailList) ) {
+        if (rebateSet == null || CollectionUtils.isEmpty(rebateSetDetailList) || CollectionUtils.isEmpty(rechargeDetailList)) {
             return false;
         }
 
@@ -214,7 +214,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
                 rebateSetDetail.setRebateId(rebateSet.getId());
                 activitySetMapper.addRebateSetDetail(rebateSetDetail);
             }
-            for (RechargeDetail rechargeDetail : rechargeDetailList){
+            for (RechargeDetail rechargeDetail : rechargeDetailList) {
                 rechargeDetail.setId(StringUtils.getUuid());
                 rechargeDetail.setReableId(rebateSet.getId());
                 activitySetMapper.addRechargeDetail(rechargeDetail);
@@ -324,7 +324,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         if (jsonObject == null || jsonObject.size() == 0) {
             return new Result(204, false, "获取失败", null);
         }
-        return new Result(200, false, "获取成功", jsonObject);
+        return new Result(200, true, "获取成功", jsonObject);
     }
 
     /**
@@ -487,7 +487,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             }
         } else {
             waresSortSet.setState(state);
-            activitySetMapper.setWaresSortSetState(userId, state);
+            activitySetMapper.setWaresSortSetState(userId, state, waresSortSet.getId());
         }
 
         //分类列表
@@ -521,7 +521,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     @Override
     public List<WaresSortDetail> getWaresSortDetailListByUserId(String userId) {
 
-        return activitySetMapper.getWaresSortDetailListByUserId(Constants.YES, "1");
+        return activitySetMapper.getWaresSortDetailListByUserId(Constants.YES, userId);
     }
 
     /**
@@ -606,6 +606,9 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         } else {
             //向下
             waresSortDetail1TopRow = activitySetMapper.getWaresSortDetailByTopRow(waresSortDetail.getTopRow() + 1);
+        }
+        if (waresSortDetail1TopRow == null) {
+            return false;
         }
         //交换位置
         List<WaresSortDetail> waresSortDetailList = new ArrayList<>();
@@ -764,8 +767,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         //生成发货码
         String takeCode = VerifyCodeUtil.generateVerifyCode(6);
         //更新订单状态为已发货及添加收货码
-        activitySetMapper.updateWaresOrderState(takeCode, code, Constants.ORDER_STATE_SHIPPED, id);
-        return 0;
+        return  activitySetMapper.updateWaresOrderState(takeCode, code, Constants.ORDER_STATE_SHIPPED, id);
     }
 
     /**

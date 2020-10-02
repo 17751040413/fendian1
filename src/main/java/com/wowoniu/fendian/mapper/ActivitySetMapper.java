@@ -279,8 +279,8 @@ public interface ActivitySetMapper {
      * @param userId
      * @return
      */
-    @Select("SELECT * FROM distribution_coupon WHERE distribution_id = (SELECT id FROM distribution_set WHERE user_id = #{userId})")
-    List<DistributionCoupon> getDistributionCoupons(@Param("userId") String userId);
+    @Select("SELECT * FROM distribution_coupon WHERE distribution_id = #{distributionId}")
+    List<DistributionCoupon> getDistributionCoupons(@Param("distributionId") String distributionId);
 
     /**
      * 分销优惠券 分页
@@ -409,8 +409,8 @@ public interface ActivitySetMapper {
      * @param state
      * @return
      */
-    @Update("UPDATE wares_sort_set SET state = #{state} WHERE id = #{id} AND user_id #{userId}")
-    int setWaresSortSetState(@Param("userId") String userId, @Param("state") String state);
+    @Update("UPDATE wares_sort_set SET state = #{state} WHERE id = #{id} AND user_id = #{userId}")
+    int setWaresSortSetState(@Param("userId") String userId, @Param("state") String state, @Param("id") String id);
 
     /**
      * 分类ID获取分类列表

@@ -341,7 +341,7 @@ public class AppletController {
 
     @PostMapping("/getRecommendById")
     @ApiOperation("8-2-4-2 立即领取")
-    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "当然用户的skey ", dataType = "String", required = true),
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "当前用户的skey ", dataType = "String", required = true),
             @ApiImplicitParam(name = "id", value = "推荐活动ID 返回值为优惠券ID 若返回空值则获取失败 ", dataType = "String", required = true),
             @ApiImplicitParam(name = "skey1", value = "赠送人的skey ", dataType = "String", required = true)})
     public Object getRecommendById(String id, String skey, String skey1) {

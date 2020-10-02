@@ -30,7 +30,7 @@ public class ShoppingMallSet implements Serializable {
     @ApiModelProperty("默认运费（分/单）")
     private Integer freight;
 
-    @ApiModelProperty("配送（N:禁用；Y:启用）")
+    @ApiModelProperty("推荐（N:禁用；Y:启用）")
     private String recommend;
 
     @ApiModelProperty("防刷（N：禁用；Y：启用）")
