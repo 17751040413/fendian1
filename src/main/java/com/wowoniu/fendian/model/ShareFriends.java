@@ -25,10 +25,10 @@ public class ShareFriends implements Serializable {
     @ApiModelProperty("图片URL（最多9张’；‘隔开）")
     private String pictureUrl;
 
-    @ApiModelProperty("今日用券数")
+    @ApiModelProperty("今日分享数")
     private Integer todayUse;
 
-    @ApiModelProperty("总用券数")
+    @ApiModelProperty("总分享数")
     private Integer use;
 
     private Timestamp createTime;

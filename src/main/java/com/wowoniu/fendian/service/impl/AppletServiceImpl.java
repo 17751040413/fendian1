@@ -765,7 +765,7 @@ public class AppletServiceImpl implements AppletService {
         groupBuyer.setBuyerId(openId);
         groupBuyer.setUsers(openId);
         groupBuyer.setNumber(groupBuying.getGroupNumber() - 1);
-        groupBuyer.setEndTime(groupBuying.getGroupTime());
+        groupBuyer.setEndTime(groupBuying.getEndTime());
         appletMapper.addGroupBuyer(groupBuyer);
         return groupBuyer.getId();
     }
@@ -1011,7 +1011,7 @@ public class AppletServiceImpl implements AppletService {
      * 获取会员信息
      *
      * @param userId
-     * @param skey
+     * @param openId
      * @return
      */
     @Override
@@ -1052,7 +1052,7 @@ public class AppletServiceImpl implements AppletService {
     /**
      * 邀请好友消费记录
      *
-     * @param id
+     * @param userId
      * @param openId
      * @return
      */

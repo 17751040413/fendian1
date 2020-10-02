@@ -388,7 +388,7 @@ public class ActivitySetController {
         return new Result(200, true, "获取成功", groupBuying);
     }
 
-    @ApiOperation("拼团--优惠券新增/修改 （有id参数为修改 无id参数为新增）")
+    @ApiOperation("拼团--拼团新增/修改 （有id参数为修改 无id参数为新增）")
     @PostMapping("/setGroupBuying")
     public Object setGroupBuying(@RequestBody GroupBuying groupBuying, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.setGroupBuying(groupBuying, (String) request.getAttribute("sysid"));
@@ -510,7 +510,7 @@ public class ActivitySetController {
     @ApiOperation("秒杀--秒杀设置新增/修改 （有id参数为修改 无id参数为新增）")
     @PostMapping("/setSeckillSet")
     public Object setSeckillSet(@RequestBody SeckillSet seckillSet, @ApiIgnore HttpServletRequest request) {
-        boolean result = activitySetService.setSeckillSet(seckillSet, (String) request.getAttribute("sysid"));
+        boolean result = activitySetService.setSeckillSet(seckillSet,  (String) request.getAttribute("sysid") );
         if (result) {
             return new Result(200, true, "操作成功", null);
         }
@@ -535,7 +535,7 @@ public class ActivitySetController {
     @ApiOperation("红包裂变--红包裂变设置新增/修改 （有id参数为修改 无id参数为新增）")
     @PostMapping("/setRedenvelopesSet")
     public Object setRedenvelopesSet(@RequestBody RedenvelopesSet redenvelopesSet, @ApiIgnore HttpServletRequest request) {
-        boolean result = activitySetService.setRedenvelopesSet(redenvelopesSet, (String) request.getAttribute("sysid"));
+        boolean result = activitySetService.setRedenvelopesSet(redenvelopesSet,(String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "操作成功", null);
         }
