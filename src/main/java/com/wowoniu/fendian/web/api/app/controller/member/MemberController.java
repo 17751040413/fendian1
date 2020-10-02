@@ -59,7 +59,7 @@ public class MemberController {
      */
     @ApiOperation(value = "会员管理 会员名单 --商家ID获取会员用户集合", tags = "会员管理--商家ID获取会员用户集合 - 分页")
     @RequestMapping("/getUseUserList")
-    @ApiImplicitParams({@ApiImplicitParam(name = "search", value = "搜索条件", dataType = "int", required = true),
+    @ApiImplicitParams({@ApiImplicitParam(name = "search", value = "搜索条件", dataType = "String", required = true),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
             @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
     public Object getUseUserList(@ApiIgnore HttpServletRequest request, int pageSize, int startRow, String search) {

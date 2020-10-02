@@ -33,7 +33,7 @@ public class Member implements Serializable {
     @ApiModelProperty("昵称")
     private String nickName;
     @ApiModelProperty("等级")
-    private String level;
+    private Integer level;
     @ApiModelProperty("性别")
     private Integer gender;
     @ApiModelProperty("备注")
@@ -157,11 +157,11 @@ public class Member implements Serializable {
         this.nickName = nickName;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 

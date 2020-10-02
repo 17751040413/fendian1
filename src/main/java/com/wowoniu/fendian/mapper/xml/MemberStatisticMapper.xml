@@ -17,14 +17,13 @@
 
     <!-- 用户总数 -->
     <select id="searchUserCount" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM `user` u LEFT JOIN link_member_user lmu ON lmu.buy_id = u.open_id
+        SELECT COUNT(*) FROM member WHERE user_id = #{userId}
         <if test="phone != null">
-            AND u.phone = #{phone}
+            AND phone = #{phone}
         </if>
         <if test="name != null">
-            AND u.nick_name LIKE concat('%',#{name},'%')
+            AND nick_name LIKE concat('%',#{name},'%')
         </if>
-        WHERE lmu.user_id = #{userId}
     </select>
 
     <select id="searchMemberConsume" resultType="java.lang.Integer">
