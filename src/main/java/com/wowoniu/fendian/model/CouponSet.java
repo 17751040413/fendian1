@@ -54,7 +54,7 @@ public class CouponSet implements Serializable {
     private String range;
 
     @ApiModelProperty("券数量")
-    private String couponNumber;
+    private Integer couponNumber;
 
     @ApiModelProperty("活动描述")
     private String describe;
@@ -193,11 +193,12 @@ public class CouponSet implements Serializable {
         this.range = range;
     }
 
-    public String getCouponNumber() {
+
+    public Integer getCouponNumber() {
         return couponNumber;
     }
 
-    public void setCouponNumber(String couponNumber) {
+    public void setCouponNumber(Integer couponNumber) {
         this.couponNumber = couponNumber;
     }
 

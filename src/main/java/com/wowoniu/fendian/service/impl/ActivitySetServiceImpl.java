@@ -824,6 +824,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         //新增
         if (StringUtils.isEmpity(luckDrawSet.getId())) {
             luckDrawSet.setId(StringUtils.getUuid());
+            luckDrawSet.setUserId(userId);
             for (LuckDrawDetail luckDrawDetail : luckDrawDetailList) {
                 luckDrawDetail.setId(StringUtils.getUuid());
                 luckDrawDetail.setLuckDrawId(luckDrawSet.getId());
