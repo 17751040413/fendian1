@@ -42,7 +42,7 @@ public class MemberController {
     @ApiImplicitParam(name = "type", value = "引流活动类型", dataType = "String", required = true)
     public Object getTotalDataAndActivity(@ApiIgnore HttpServletRequest request, String type) {
 
-        JSONObject object = memberStatisticService.getTotalDataAndActivity((String) request.getAttribute("sysid"), request.getParameterMap().get("type").toString());
+        JSONObject object = memberStatisticService.getTotalDataAndActivity((String) request.getAttribute("sysid"), type);
         if (object == null && object.size() == 0) {
             return new Result(204, false, "无数据", null);
         }
