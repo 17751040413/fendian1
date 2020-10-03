@@ -20,6 +20,10 @@ public class MemberConsume implements Serializable {
     private int price;
     @ApiModelProperty("实付余额")
     private int actual;
+    @ApiModelProperty("昵称")
+    private String nickName;
+    @ApiModelProperty("头像地址")
+    private String url;
 
     public int getConsume() {
         return consume;
@@ -67,5 +71,21 @@ public class MemberConsume implements Serializable {
 
     public void setActual(int actual) {
         this.actual = actual;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }
