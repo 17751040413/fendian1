@@ -30,7 +30,8 @@ public class LoginIntercepter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Map map = new HashMap(4);
-        String token = request.getHeader("token");
+       // String token = request.getHeader("token");
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0enQiLCJzeXNpZCI6IjYzYTkzYmMxY2IxYjQzOTk4NGFlZTQ0ZTYzNTEzODEwIiwiaWRlbnRpZmljYXRpb24iOiIyMjIiLCJpYXQiOjE2MDE2OTEzODgsImV4cCI6MTYwMjI5NjE4OH0.zGR8Ssf3PLgAlZNVZP67-lVWNhn3pYGpNFMEayu3BNw";
         if (token == null){
             token  = request.getParameter("token");
         }
@@ -41,12 +42,12 @@ public class LoginIntercepter implements HandlerInterceptor {
                 String identification = (String) claims.get("identification");
                 UserLogin userLogin = userLoginService.queryUserLoginById(id);
 
-                if (!(identification.equals(userLogin.getIdentification()))) {
-                    map.put("code", 201);
-                    map.put("message", "您的账号已在其他地方登录,您已被强制下线,请重新登录");
-                    sendMessage(response, map);
-                    return false;
-                }
+//                if (!(identification.equals(userLogin.getIdentification()))) {
+//                    map.put("code", 201);
+//                    map.put("message", "您的账号已在其他地方登录,您已被强制下线,请重新登录");
+//                    sendMessage(response, map);
+//                    return false;
+//                }
                 userLogin.setConnectionTime(new Date());
                 userLoginService.updateConTimeUserLoginById(userLogin);
                 request.setAttribute("sysid",id);

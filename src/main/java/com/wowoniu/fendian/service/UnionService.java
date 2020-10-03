@@ -2,7 +2,9 @@ package com.wowoniu.fendian.service;
 
 import com.wowoniu.fendian.model.UnionInfo;
 import com.wowoniu.fendian.utils.Result;
+import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface UnionService {
@@ -133,6 +135,13 @@ public interface UnionService {
      * @return
      */
     Result unionCustomerInfo(String unionCusId);
+
+    /**
+     * 获取我的提货金
+     * @param userid
+     * @return
+     */
+    Result unionCashMoney(String userid);
 
 
 

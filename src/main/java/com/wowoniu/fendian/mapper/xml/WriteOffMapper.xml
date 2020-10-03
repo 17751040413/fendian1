@@ -32,8 +32,8 @@
 
   </select>
   <select id="queryWriteByCustomerId" resultType="com.wowoniu.fendian.model.WriteOff">
-    select a.*,b.avatar_url as customerImg from write_off a
-    left join union_customer b on a.customer_id = b.open_id
+    select a.*,b.shop_logo as userImg,b.shop_name as userName from write_off a
+    left join use_user b on a.user_id = b.id
     where a.customer_id = #{customerId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

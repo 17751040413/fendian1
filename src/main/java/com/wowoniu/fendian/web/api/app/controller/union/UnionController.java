@@ -194,13 +194,15 @@ public class UnionController {
     @ApiOperation("商圈顾客详情")
     public Result unionCustomerInfo(String unionCusId){
 
-        return new Result();
+        return unionService.unionCustomerInfo(unionCusId);
     }
 
     @PostMapping("unionCashMoney")
-    @ApiOperation("我的提货金")
+    @ApiOperation("我的提货金  3-8-1")
     public Result unionCashMoney(@ApiIgnore HttpServletRequest request){
-        return new Result();
+        String id = (String) request.getAttribute("sysid");
+
+        return unionService.unionCashMoney(id);
 
     }
 

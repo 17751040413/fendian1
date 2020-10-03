@@ -314,7 +314,16 @@ public class UnionServiceImpl implements UnionService {
         UnionCustomer unionCustomer = unionCustomerMapper.selectByPrimaryKey(unionCusId);
         //消费信息
         List<WriteOff> writeOffs = writeOffMapper.queryWriteByCustomerId(unionCustomer.getUserId());
+        Map map = new HashMap();
+        map.put("customer",unionCustomer);
+        map.put("writeOffs",writeOffs);
+        return new Result(200,true,"获取成功",map);
+    }
 
-        return null;
+    @Override
+    public Result unionCashMoney(String userid) {
+        UseUser useUser = useUserMapper.selectByPrimaryKey(userid);
+
+        return new Result(200,true,"获取成功",useUser);
     }
 }
