@@ -360,13 +360,13 @@ public class AppletController {
     }
 
     @PostMapping("/luckUser")
-    @ApiOperation("8-2-1 中奖/未中奖  记录参与人")
+    @ApiOperation("8-2-1 中奖/未中奖  添加参与人记录")
     @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true),
             @ApiImplicitParam(name = "id", value = "抽奖活动ID", dataType = "String", required = true)})
     public Object luckUser(String skey, String id) {
         String openId = userMapper.selectBySkey(skey).getOpenId();
         appletService.addLuckUser(id, openId);
-        return new Result<>(200, true, "获取成功", null);
+        return new Result<>(200, true, "添加成功", null);
     }
 
     @PostMapping("/luckUserList")
@@ -378,7 +378,7 @@ public class AppletController {
     }
 
     @PostMapping("/checkLuckCoupon")
-    @ApiOperation("8-2-7-1 8-2-1 查看中奖券")
+    @ApiOperation("8-2-7-1 8-2-1 查看中奖券（中奖添加后领取奖券）")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "中奖详情ID 返回值为优惠券ID 若返回空值则获取失败", dataType = "String", required = true),
             @ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true)})
     public Object checkLuckCoupon(String id, String skey) {
@@ -401,8 +401,8 @@ public class AppletController {
     }
 
     @PostMapping("/getSpike")
-    @ApiOperation("8-2-6-1 秒杀活动弹窗")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "中奖详情ID", dataType = "String", required = true),
+    @ApiOperation("8-2-6-1 秒杀活动弹窗(秒杀成功)")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "秒杀活动ID 返回值为优惠券ID 若返回空值则获取失败", dataType = "String", required = true),
             @ApiImplicitParam(name = "skey", value = "skey", dataType = "String", required = true)})
     public Object getSpike(String id, String skey) {
         String openId = userMapper.selectBySkey(skey).getOpenId();
@@ -412,7 +412,7 @@ public class AppletController {
 
     @PostMapping("/couponById")
     @ApiOperation("8-2-6-1 查看券-所有的通过券ID单独查看某张券的通用接口")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "券ID 返回值为优惠券ID 若返回空值则获取失败", dataType = "String", required = true)})
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "券ID ", dataType = "String", required = true)})
     public Object couponById(String id) {
 
         return new Result<>(200, true, "获取成功", appletService.couponById(id));
@@ -420,10 +420,17 @@ public class AppletController {
 
     @PostMapping("/couponUser")
     @ApiOperation("8-2-2 领取优惠券-领取人记录")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true)})
-    public Object couponUser(String id) {
-
-        return new Result<>(200, true, "获取成功", appletService.couponUser(id));
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "活动ID", dataType = "String", required = true),
+            @ApiImplicitParam(name = "userId", value = "商家ID", dataType = "String", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
+            @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
+    public Object couponUser(int pageSize, int startRow,String id,String userId) {
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("pageSize", pageSize);
+        map.put("startRow", startRow);
+        map.put("id",id);
+        map.put("userId",userId);
+        return new Result<>(200, true, "获取成功", appletService.couponUser(map));
     }
 
     @PostMapping("/couponInfo")

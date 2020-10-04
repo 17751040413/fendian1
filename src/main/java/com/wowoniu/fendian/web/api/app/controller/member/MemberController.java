@@ -117,6 +117,20 @@ public class MemberController {
         return new Result(200, true, "查询成功", memberStatisticService.getMemberPrice(map));
     }
 
+    @ApiOperation(value = "1-6-2-8 所有会员余额变动记录")
+    @RequestMapping("/getAllMemberPrice")
+    @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "类型（0：返现到账，1：到店消费，2：充值,，3.核销）", dataType = "String", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
+            @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
+    public Object getAllMemberPrice(@ApiIgnore HttpServletRequest request, int pageSize, int startRow,String type) {
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("pageSize", pageSize);
+        map.put("startRow", startRow);
+        map.put("type",type);
+        map.put("userId", request.getAttribute("sysid"));
+        return new Result(200, true, "查询成功", memberStatisticService.getAllMemberPrice(map));
+    }
+
     @ApiOperation(value = "1-6-2-9 1-6-2-7 获取会员信息")
     @RequestMapping("/getMember")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "会员列表中 会员ID", dataType = "String", required = true)})
@@ -127,7 +141,7 @@ public class MemberController {
     @ApiOperation(value = "1-6-2-9 获取会员等级列表")
     @RequestMapping("/getLevel")
     public Object getLevel(@ApiIgnore HttpServletRequest request) {
-        List<Map<String, Object>> mapList = memberStatisticService.getLevel("63a93bc1cb1b439984aee44e63513810");
+        List<Map<String, Object>> mapList = memberStatisticService.getLevel((String) request.getAttribute("sysid"));
         if (CollectionUtils.isEmpty(mapList)) {
             return new Result(204, false, "获取失败", null);
         }

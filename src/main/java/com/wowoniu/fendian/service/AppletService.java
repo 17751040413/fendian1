@@ -304,10 +304,10 @@ public interface AppletService {
     /**
      * 获取ID获取领取人记录
      *
-     * @param id
+     * @param map
      * @return
      */
-    List<CouponUser> couponUser(String id);
+    PageUtil<CouponUser> couponUser(Map<String,Object> map);
 
     /**
      * 优惠券信息

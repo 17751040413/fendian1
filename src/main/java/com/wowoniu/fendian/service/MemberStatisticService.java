@@ -50,6 +50,14 @@ public interface MemberStatisticService {
     Object getMemberPrice(Map<String, Object> map);
 
     /**
+     * 当前用户的所有会员数据 会员余额变动记录
+     *
+     * @param map
+     * @return
+     */
+    Object getAllMemberPrice(Map<String, Object> map);
+
+    /**
      * ID获取会员信息
      *
      * @param id
@@ -65,7 +73,7 @@ public interface MemberStatisticService {
      */
     int updateMember(Member member);
 
-    List<Map<String,Object>>  getLevel(String userId);
+    List<Map<String, Object>> getLevel(String userId);
 
     /**
      * 获取记录 消费记录 /余额记录

@@ -385,7 +385,7 @@ public interface AppletMapper {
      *
      * @param luckUser
      */
-    @Insert("INSERT INTO (id,buyer_id,name,create_time,activity_id,avatar_url) VALUES (#{id},#{buyerId},#{name},now(),#{activityId},#{avatarUrl})")
+    @Insert("INSERT INTO luck_user (id,buyer_id,name,create_time,activity_id,avatar_url) VALUES (#{id},#{buyerId},#{name},now(),#{activityId},#{avatarUrl})")
     void addLuckUser(LuckUser luckUser);
 
     /**
@@ -418,11 +418,11 @@ public interface AppletMapper {
     /**
      * 活动ID获取领取人记录
      *
-     * @param id
+     * @param map
      * @return
      */
-    @Select("SELECT * FROM coupon_user WHERE coupon_id = #{id} ORDER BY receive_time DESC")
-    List<CouponUser> getUnionCouponUserByActivityId(String id);
+    List<CouponUser> getCouponUserList(Map<String,Object> map);
+    int searchCouponUser(Map<String,Object> map);
 
     /**
      * 新增组团
@@ -543,6 +543,9 @@ public interface AppletMapper {
     @Select("SELECT * FROM member WHERE id = #{id}")
     Member getMemberById(@Param("id") String id);
 
+    @Select("SELECT * FROM member WHERE user_id = #{userId}")
+    List<Member> getMemberByUserId(@Param("userId") String userId);
+
     /**
      * 充值
      *
@@ -569,6 +572,15 @@ public interface AppletMapper {
      */
     @Select("SELECT * FROM member_consume WHERE member_id = #{id} ORDER BY time DESC")
     List<MemberConsume> getConsume(String id);
+
+    /**
+     * 消费记录 同一家店铺的
+     *
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM member_consume WHERE member_id IN (SELECT id FROM member WHERE user_id = #{userId} ) ORDER BY time DESC")
+    List<MemberConsume> getConsumeByUserId(String userId);
 
     /**
      * 邀请好友到店消费记录

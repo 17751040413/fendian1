@@ -11,8 +11,6 @@ public class CouponUser implements Serializable {
 
     @ApiModelProperty("主键ID")
     private String id;
-    @ApiModelProperty("券类型")
-    private String type;
     @ApiModelProperty("券ID")
     private String couponId;
     @ApiModelProperty("用户ID")
@@ -30,14 +28,6 @@ public class CouponUser implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getCouponId() {

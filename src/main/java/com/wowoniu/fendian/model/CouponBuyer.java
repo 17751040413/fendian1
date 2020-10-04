@@ -34,15 +34,15 @@ public class CouponBuyer implements Serializable {
     @ApiModelProperty("使用范围")
     private String range;
     @ApiModelProperty("兑换数量")
-    private Integer exchangeNumber;
+    private int exchangeNumber;
     @ApiModelProperty("兑换内容 / 奖品名称")
     private String exchangeContent;
     @ApiModelProperty("原价")
-    private Integer price;
+    private int price;
     @ApiModelProperty("活动价")
-    private String activityPrice;
+    private int activityPrice;
     @ApiModelProperty("已支付")
-    private String payPrice;
+    private int payPrice;
     @ApiModelProperty("可用（Y:可用 N：过期）")
     private String effective;
     @ApiModelProperty("券类型（0：折扣 1：优惠 2：兑换）")
@@ -50,7 +50,7 @@ public class CouponBuyer implements Serializable {
     @ApiModelProperty("折扣")
     private Double discount;
     @ApiModelProperty("优惠金额（单位分）")
-    private String discountAmount;
+    private int discountAmount;
     @ApiModelProperty(" 0：会员裂变；1：会员返利；2：店铺分销；3：在线商城；4：幸运转盘；5：发优惠券；6：推荐有礼；7：秒杀活动；8：拼团活动；9：砸金蛋抽奖；10：砍价大战；11：红包裂变券；12：朋友圈 13:联盟 14:排队")
     private String activityType;
     @ApiModelProperty("活动ID")
@@ -59,7 +59,6 @@ public class CouponBuyer implements Serializable {
     private String activityName;
     @ApiModelProperty("用户上传的活动图片")
     private String activityUrl;
-
 
     public String getId() {
         return id;
@@ -117,12 +116,76 @@ public class CouponBuyer implements Serializable {
         this.createTime = createTime;
     }
 
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public String getRange() {
+        return range;
+    }
+
+    public void setRange(String range) {
+        this.range = range;
+    }
+
+    public int getExchangeNumber() {
+        return exchangeNumber;
+    }
+
+    public void setExchangeNumber(int exchangeNumber) {
+        this.exchangeNumber = exchangeNumber;
+    }
+
+    public String getExchangeContent() {
+        return exchangeContent;
+    }
+
+    public void setExchangeContent(String exchangeContent) {
+        this.exchangeContent = exchangeContent;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getActivityPrice() {
+        return activityPrice;
+    }
+
+    public void setActivityPrice(int activityPrice) {
+        this.activityPrice = activityPrice;
+    }
+
+    public int getPayPrice() {
+        return payPrice;
+    }
+
+    public void setPayPrice(int payPrice) {
+        this.payPrice = payPrice;
+    }
+
     public String getEffective() {
         return effective;
     }
 
     public void setEffective(String effective) {
         this.effective = effective;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Double getDiscount() {
@@ -133,11 +196,11 @@ public class CouponBuyer implements Serializable {
         this.discount = discount;
     }
 
-    public String getDiscountAmount() {
+    public int getDiscountAmount() {
         return discountAmount;
     }
 
-    public void setDiscountAmount(String discountAmount) {
+    public void setDiscountAmount(int discountAmount) {
         this.discountAmount = discountAmount;
     }
 
@@ -155,70 +218,6 @@ public class CouponBuyer implements Serializable {
 
     public void setActivityId(String activityId) {
         this.activityId = activityId;
-    }
-
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
-
-    public String getRange() {
-        return range;
-    }
-
-    public void setRange(String range) {
-        this.range = range;
-    }
-
-    public Integer getExchangeNumber() {
-        return exchangeNumber;
-    }
-
-    public void setExchangeNumber(Integer exchangeNumber) {
-        this.exchangeNumber = exchangeNumber;
-    }
-
-    public String getExchangeContent() {
-        return exchangeContent;
-    }
-
-    public void setExchangeContent(String exchangeContent) {
-        this.exchangeContent = exchangeContent;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getActivityPrice() {
-        return activityPrice;
-    }
-
-    public void setActivityPrice(String activityPrice) {
-        this.activityPrice = activityPrice;
-    }
-
-    public String getPayPrice() {
-        return payPrice;
-    }
-
-    public void setPayPrice(String payPrice) {
-        this.payPrice = payPrice;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getActivityName() {

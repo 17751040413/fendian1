@@ -492,7 +492,7 @@ public class AppletServiceImpl implements AppletService {
         couponBuyer.setActivityType(Constants.RECOMMEND);
         String[] url = recommendSet.getPictureUrl().split(";");
         couponBuyer.setActivityUrl(url[0]);
-        couponBuyer.setDiscountAmount(recommendSet.getRecommendMoney().toString());
+        couponBuyer.setDiscountAmount(recommendSet.getRecommendMoney());
         appletMapper.addCouponBuyer(couponBuyer);
 
         couponBuyer = new CouponBuyer();
@@ -511,7 +511,7 @@ public class AppletServiceImpl implements AppletService {
         couponBuyer.setDiscount(recommendSet.getRecommendedDiscount());
         couponBuyer.setActivityType(Constants.RECOMMEND);
         couponBuyer.setActivityUrl(url[0]);
-        couponBuyer.setDiscountAmount(recommendSet.getRecommendedMoney().toString());
+        couponBuyer.setDiscountAmount(recommendSet.getRecommendedMoney());
         appletMapper.addCouponBuyer(couponBuyer);
         return couponBuyer.getId();
     }
@@ -547,6 +547,7 @@ public class AppletServiceImpl implements AppletService {
     public void addLuckUser(String id, String openId) {
         LuckUser luckUser = new LuckUser();
         User user = appletMapper.getUserByOpenId(openId);
+        luckUser.setId(StringUtils.getUuid());
         luckUser.setActivityId(id);
         luckUser.setBuyerId(openId);
         luckUser.setId(StringUtils.getUuid());
@@ -585,7 +586,7 @@ public class AppletServiceImpl implements AppletService {
             couponBuyer.setActivityType(Constants.LUCKDRAW);
         }
         couponBuyer.setActivityUrl(luckDrawDetail.getPictureUrl());
-        couponBuyer.setDiscountAmount(luckDrawDetail.getPreferential().toString());
+        couponBuyer.setDiscountAmount(luckDrawDetail.getPreferential());
         appletMapper.addCouponBuyer(couponBuyer);
 
         return couponBuyer.getId();
@@ -668,21 +669,28 @@ public class AppletServiceImpl implements AppletService {
         couponBuyer.setPrice(seckillSet.getOriginalPrice());
         couponBuyer.setActivityType(Constants.SECKILL);
         couponBuyer.setActivityUrl(seckillSet.getHeadPictureUrl());
-        couponBuyer.setActivityPrice(seckillSet.getSeckillPrice().toString());
-        couponBuyer.setPayPrice(seckillSet.getPayAdvance().toString());
+        couponBuyer.setActivityPrice(seckillSet.getSeckillPrice());
+        couponBuyer.setPayPrice(seckillSet.getPayAdvance());
         appletMapper.addCouponBuyer(couponBuyer);
         return couponBuyer.getId();
     }
 
     /**
-     * ID获取订单详情
+     * 获取ID获取领取人记录
      *
-     * @param id
+     * @param map
      * @return
      */
     @Override
-    public List<CouponUser> couponUser(String id) {
-        return appletMapper.getUnionCouponUserByActivityId(id);
+    public PageUtil<CouponUser> couponUser(Map<String,Object> map) {
+        PageUtil<CouponUser> pageUtil = new PageUtil();
+        int count = appletMapper.searchCouponUser(map);
+        pageUtil.setTotalCount(count);
+        pageUtil.setPageSize((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
+        List<CouponUser> couponUserList = appletMapper.getCouponUserList(map);
+        pageUtil.setLists(couponUserList);
+        return pageUtil;
     }
 
     /**

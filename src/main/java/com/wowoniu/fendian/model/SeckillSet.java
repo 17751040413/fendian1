@@ -32,22 +32,22 @@ public class SeckillSet implements Serializable {
     private String phoneEnable;
 
     @ApiModelProperty("库存")
-    private Integer stock;
+    private int stock;
 
     @ApiModelProperty("原价（分）")
-    private Integer originalPrice;
+    private int originalPrice;
 
     @ApiModelProperty("秒杀价格（分）")
-    private Integer seckillPrice;
+    private int seckillPrice;
 
     @ApiModelProperty("单人秒杀次数（0和不填为不显示）")
-    private Integer frequencyPersonal;
+    private int frequencyPersonal;
 
     @ApiModelProperty("支付类型（0：全额；1：预付）")
     private String paymentType;
 
     @ApiModelProperty("预付金额（分）")
-    private Integer payAdvance;
+    private int payAdvance;
 
     @ApiModelProperty("描述")
     private String describe;
@@ -68,22 +68,22 @@ public class SeckillSet implements Serializable {
     private String userId;
 
     @ApiModelProperty("今日浏览次数")
-    private Integer todayBrowse;
+    private int todayBrowse;
 
     @ApiModelProperty("总浏览次数")
-    private Integer browse;
+    private int browse;
 
     @ApiModelProperty("今日领券数")
-    private Integer todayReceive;
+    private int todayReceive;
 
     @ApiModelProperty("总领券数")
-    private Integer receive;
+    private int receive;
 
     @ApiModelProperty("今日用券数")
-    private Integer todayUse;
+    private int todayUse;
 
     @ApiModelProperty("总用券数")
-    private Integer use;
+    private int use;
 
     public String getId() {
         return id;
@@ -133,35 +133,35 @@ public class SeckillSet implements Serializable {
         this.phoneEnable = phoneEnable;
     }
 
-    public Integer getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(Integer stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
 
-    public Integer getOriginalPrice() {
+    public int getOriginalPrice() {
         return originalPrice;
     }
 
-    public void setOriginalPrice(Integer originalPrice) {
+    public void setOriginalPrice(int originalPrice) {
         this.originalPrice = originalPrice;
     }
 
-    public Integer getSeckillPrice() {
+    public int getSeckillPrice() {
         return seckillPrice;
     }
 
-    public void setSeckillPrice(Integer seckillPrice) {
+    public void setSeckillPrice(int seckillPrice) {
         this.seckillPrice = seckillPrice;
     }
 
-    public Integer getFrequencyPersonal() {
+    public int getFrequencyPersonal() {
         return frequencyPersonal;
     }
 
-    public void setFrequencyPersonal(Integer frequencyPersonal) {
+    public void setFrequencyPersonal(int frequencyPersonal) {
         this.frequencyPersonal = frequencyPersonal;
     }
 
@@ -173,11 +173,11 @@ public class SeckillSet implements Serializable {
         this.paymentType = paymentType;
     }
 
-    public Integer getPayAdvance() {
+    public int getPayAdvance() {
         return payAdvance;
     }
 
-    public void setPayAdvance(Integer payAdvance) {
+    public void setPayAdvance(int payAdvance) {
         this.payAdvance = payAdvance;
     }
 
@@ -229,51 +229,51 @@ public class SeckillSet implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getTodayBrowse() {
+    public int getTodayBrowse() {
         return todayBrowse;
     }
 
-    public void setTodayBrowse(Integer todayBrowse) {
+    public void setTodayBrowse(int todayBrowse) {
         this.todayBrowse = todayBrowse;
     }
 
-    public Integer getBrowse() {
+    public int getBrowse() {
         return browse;
     }
 
-    public void setBrowse(Integer browse) {
+    public void setBrowse(int browse) {
         this.browse = browse;
     }
 
-    public Integer getTodayReceive() {
+    public int getTodayReceive() {
         return todayReceive;
     }
 
-    public void setTodayReceive(Integer todayReceive) {
+    public void setTodayReceive(int todayReceive) {
         this.todayReceive = todayReceive;
     }
 
-    public Integer getReceive() {
+    public int getReceive() {
         return receive;
     }
 
-    public void setReceive(Integer receive) {
+    public void setReceive(int receive) {
         this.receive = receive;
     }
 
-    public Integer getTodayUse() {
+    public int getTodayUse() {
         return todayUse;
     }
 
-    public void setTodayUse(Integer todayUse) {
+    public void setTodayUse(int todayUse) {
         this.todayUse = todayUse;
     }
 
-    public Integer getUse() {
+    public int getUse() {
         return use;
     }
 
-    public void setUse(Integer use) {
+    public void setUse(int use) {
         this.use = use;
     }
 }

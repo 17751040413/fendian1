@@ -27,12 +27,27 @@
     </select>
 
     <select id="searchMemberConsume" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM member_consume
+        SELECT COUNT(*) FROM member_consume WHERE  member_id IN (SELECT id FROM member WHERE user_id = #{userId} )
+        <if test="type != null">
+            type = #{type}
+        </if>
     </select>
     <select id="getMemberConsumeList" resultType="com.wowoniu.fendian.model.MemberConsume">
-        SELECT * FROM member_consume
+        SELECT * FROM member_consume WHERE member_id IN (SELECT id FROM member WHERE user_id = #{userId} )
+        <if test="type != null">
+            type = #{type}
+        </if>
         ORDER BY time DESC
         LIMIT #{startRow},#{pageSize}
+    </select>
+
+    <select id="getMemberConsumeListById" resultType="com.wowoniu.fendian.model.MemberConsume">
+          SELECT * FROM member_consume WHERE member_id = #{id}
+        ORDER BY time DESC
+        LIMIT #{startRow},#{pageSize}
+    </select>
+    <select id="searchMemberConsumeById" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM member_consume WHERE  member_id = #{id}
     </select>
 
 </mapper>

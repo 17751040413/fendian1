@@ -213,6 +213,64 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
         jsonObject.put("countLess", countLess * 0.01);
 
         PageUtil<MemberConsume> pageUtil = new PageUtil();
+        int count = memberStatisticMapper.searchMemberConsumeById(map);
+        pageUtil.setTotalCount(count);
+        pageUtil.setPageSize((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
+        List<MemberConsume> memberConsumes = memberStatisticMapper.getMemberConsumeListById(map);
+        pageUtil.setLists(memberConsumes);
+        jsonObject.put("list", pageUtil);
+        return jsonObject;
+    }
+
+    /**
+     * 当前用户的所有会员数据 会员余额变动记录
+     *
+     * @param map
+     * @return
+     */
+    @Override
+    public Object getAllMemberPrice(Map<String, Object> map) {
+        JSONObject jsonObject = new JSONObject();
+        List<Member> memberList = appletMapper.getMemberByUserId(map.get("userId").toString());
+        List<MemberConsume> memberConsumeList = appletMapper.getConsumeByUserId(map.get("userId").toString());
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        //总额
+        int price = 0;
+        for (Member member : memberList) {
+            price = price + member.getPrice();
+        }
+        //今日增
+        int todayPlus = 0;
+        //今日减
+        int todayLess = 0;
+        //总加
+        int countPlus = 0;
+        //总减
+        int countLess = 0;
+        for (MemberConsume memberConsume : memberConsumeList) {
+            if (memberConsume.getType().equals("0") || memberConsume.getType().equals("2")) {
+                countPlus = countPlus + memberConsume.getActual();
+            }
+            if (memberConsume.getType().equals("1")) {
+                countLess = countLess + memberConsume.getActual();
+            }
+            if (sdf.format(memberConsume.getTime()).equals(DateUtils.getDay())) {
+                if (memberConsume.getType().equals("0") || memberConsume.getType().equals("2")) {
+                    todayPlus = todayPlus + memberConsume.getActual();
+                }
+                if (memberConsume.getType().equals("1")) {
+                    todayLess = todayLess + memberConsume.getActual();
+                }
+            }
+        }
+        jsonObject.put("price", price * 0.01);
+        jsonObject.put("todayPlus", todayPlus * 0.01);
+        jsonObject.put("todayLess", todayLess * 0.01);
+        jsonObject.put("countPlus", countPlus * 0.01);
+        jsonObject.put("countLess", countLess * 0.01);
+
+        PageUtil<MemberConsume> pageUtil = new PageUtil();
         int count = memberStatisticMapper.searchMemberConsume(map);
         pageUtil.setTotalCount(count);
         pageUtil.setPageSize((Integer) map.get("pageSize"));
@@ -253,13 +311,13 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
     @Override
     public List<Map<String, Object>> getLevel(String userId) {
         List<FissionSetDetail> fissionSetDetailList = activitySetMapper.getLevel(userId);
-        if (CollectionUtils.isEmpty(fissionSetDetailList)){
+        if (CollectionUtils.isEmpty(fissionSetDetailList)) {
             return null;
         }
         List<Map<String, Object>> mapList = new ArrayList<>();
-        for (FissionSetDetail fissionSetDetail : fissionSetDetailList){
-            Map<String,Object> map = new HashMap<>();
-            map.put("level",fissionSetDetail.getLevel());
+        for (FissionSetDetail fissionSetDetail : fissionSetDetailList) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("level", fissionSetDetail.getLevel());
             map.put("levelName", fissionSetDetail.getLevelName());
             mapList.add(map);
         }

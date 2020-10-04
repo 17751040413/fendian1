@@ -46,4 +46,8 @@ public interface MemberStatisticMapper {
     List<MemberConsume> getMemberConsumeList(Map<String, Object> map);
 
     int searchMemberConsume(Map<String, Object> map);
+
+    List<MemberConsume> getMemberConsumeListById(Map<String, Object> map);
+
+    int searchMemberConsumeById(Map<String, Object> map);
 }
