@@ -64,6 +64,15 @@ public interface ActivitySetMapper {
     List<FissionSetDetail> getFissionSetDetailList(@Param("fissionId") String fissionId);
 
     /**
+     * 获取等级
+     *
+     * @param userId
+     * @return
+     */
+    @Select("SELECT `level`,level_name FROM fission_set_detail WHERE fission_id = (SELECT id FROM fission_set WHERE user_id = #{userId}) ORDER BY `level`")
+    List<FissionSetDetail> getLevel(@Param("userId") String userId);
+
+    /**
      * 新增裂变
      *
      * @param fissionSet

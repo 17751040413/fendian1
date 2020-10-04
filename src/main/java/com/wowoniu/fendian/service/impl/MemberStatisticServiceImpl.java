@@ -11,9 +11,12 @@ import com.wowoniu.fendian.utils.DateUtils;
 import com.wowoniu.fendian.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -240,6 +243,27 @@ public class MemberStatisticServiceImpl implements MemberStatisticService {
     @Override
     public int updateMember(Member member) {
         return appletMapper.updateMember(member);
+    }
+
+    /**
+     * 获取会员等级
+     *
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> getLevel(String userId) {
+        List<FissionSetDetail> fissionSetDetailList = activitySetMapper.getLevel(userId);
+        if (CollectionUtils.isEmpty(fissionSetDetailList)){
+            return null;
+        }
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        for (FissionSetDetail fissionSetDetail : fissionSetDetailList){
+            Map<String,Object> map = new HashMap<>();
+            map.put("level",fissionSetDetail.getLevel());
+            map.put("levelName", fissionSetDetail.getLevelName());
+            mapList.add(map);
+        }
+        return mapList;
     }
 
     /**

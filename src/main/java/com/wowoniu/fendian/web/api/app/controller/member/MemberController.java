@@ -10,12 +10,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -120,6 +122,16 @@ public class MemberController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "会员列表中 会员ID", dataType = "String", required = true)})
     public Object getMember(String id) {
         return new Result(200, true, "查询成功", memberStatisticService.getMember(id));
+    }
+
+    @ApiOperation(value = "1-6-2-9 获取会员等级列表")
+    @RequestMapping("/getLevel")
+    public Object getLevel(@ApiIgnore HttpServletRequest request) {
+        List<Map<String, Object>> mapList = memberStatisticService.getLevel("63a93bc1cb1b439984aee44e63513810");
+        if (CollectionUtils.isEmpty(mapList)) {
+            return new Result(204, false, "获取失败", null);
+        }
+        return new Result(200, true, "获取成功", mapList);
     }
 
     @ApiOperation(value = "1-6-2-9-修改会员信息")

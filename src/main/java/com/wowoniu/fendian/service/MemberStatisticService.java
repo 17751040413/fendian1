@@ -65,6 +65,8 @@ public interface MemberStatisticService {
      */
     int updateMember(Member member);
 
+    List<Map<String,Object>>  getLevel(String userId);
+
     /**
      * 获取记录 消费记录 /余额记录
      *
