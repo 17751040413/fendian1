@@ -250,6 +250,10 @@ public interface ActivitySetMapper {
     @Delete("DELETE FROM recharge_detail WHERE id = #{id}")
     int deleteRechargeDetail(@Param("id") String id);
 
+    List<RebateRecord> getRebateRecord(Map<String, Object> map);
+
+    int searchRebateRecord(Map<String, Object> map);
+
     /************************************** 返利 - END *************************************************/
 
 
@@ -310,6 +314,12 @@ public interface ActivitySetMapper {
     @Insert("INSERT INTO distribution_set(id,user_id,state,commission_ratio,prevent_brush) VALUES (#{id},#{userId},#{state},#{commissionRatio},#{preventBrush})")
     int addDistributionSet(DistributionSet distributionSet);
 
+    @Insert("INSERT INTO distribution_ratio_record(ratio,time,distribution_id,use) VALUES (#{ratio},now(),#{distributionId},#{use})")
+    int addDistributionRatioRecord(DistributionRatioRecord distributionRatioRecord );
+
+    @Insert("UPDATE distribution_ratio_record SET use = 1 WHERE distribution_id = #{distributionId}")
+    int updateDistributionRatioRecord(String distributionId );
+
     /**
      * 更新分销
      *
@@ -325,8 +335,8 @@ public interface ActivitySetMapper {
      * @param distributionCoupon
      * @return
      */
-    @Insert("INSERT INTO distribution_coupon (id,distribution_id,phone_enable,type,money,discount,threshold,effective_type,effective_day,start_time,end_time,`range`) " +
-            "VALUES (#{id},#{distributionId},#{phoneEnable},#{type},#{money},#{discount},#{threshold},#{effectiveType},#{effectiveDay},#{startTime},#{endTime},#{range})")
+    @Insert("INSERT INTO distribution_coupon (id,distribution_id,new_buyer,phone_enable,type,money,discount,threshold,effective_type,effective_day,start_time,end_time,`range`) " +
+            "VALUES (#{id},#{distributionId},#{newBuyer},#{phoneEnable},#{type},#{money},#{discount},#{threshold},#{effectiveType},#{effectiveDay},#{startTime},#{endTime},#{range})")
     int addDistributionCoupon(DistributionCoupon distributionCoupon);
 
     /**
@@ -335,7 +345,7 @@ public interface ActivitySetMapper {
      * @param distributionCoupon
      * @return
      */
-    @Update("  UPDATE distribution_coupon SET phone_enable=#{phoneEnable},type=#{type},money=#{money},discount=#{discount},threshold=#{threshold}," +
+    @Update("  UPDATE distribution_coupon SET phone_enable=#{phoneEnable},new_buyer=#{newBuyer},type=#{type},money=#{money},discount=#{discount},threshold=#{threshold}," +
             "effective_type=#{effectiveType},start_time=#{startTime},end_time=#{endTime},`range`=#{range} WHERE id =#{id}")
     int updateDistributionCouponList(DistributionCoupon distributionCoupon);
 
@@ -347,6 +357,15 @@ public interface ActivitySetMapper {
      */
     @Delete("UPDATE distribution_coupon SET end_time = now() WHERE id = #{id}")
     int updateDistributionCouponEndTime(@Param("id") String id);
+
+    List<DistributionRatioRecord> getDistributionRatioRecord(Map<String, Object> map);
+
+    int searchDistributionRatioRecord(Map<String, Object> map);
+
+    List<DistributionUser> getDistributionUser(Map<String, Object> map);
+
+    int searchDistributionUser(Map<String, Object> map);
+
 
     /************************************** 分销 - END *************************************************/
 
@@ -814,6 +833,7 @@ public interface ActivitySetMapper {
 
     /**
      * 商家ID获取砍价信息
+     *
      * @param userId
      * @return
      */

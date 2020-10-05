@@ -23,7 +23,7 @@ public class DistributionSet implements Serializable {
     private String state;
 
     @ApiModelProperty("分销佣金比例（整数+%）")
-    private Integer commissionRatio;
+    private int commissionRatio;
 
     @ApiModelProperty("防刷（N：禁用；Y：启用）")
     private String preventBrush;
@@ -55,11 +55,11 @@ public class DistributionSet implements Serializable {
         this.state = state;
     }
 
-    public Integer getCommissionRatio() {
+    public int getCommissionRatio() {
         return commissionRatio;
     }
 
-    public void setCommissionRatio(Integer commissionRatio) {
+    public void setCommissionRatio(int commissionRatio) {
         this.commissionRatio = commissionRatio;
     }
 

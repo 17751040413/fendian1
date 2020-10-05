@@ -52,6 +52,12 @@ public interface ActivitySetService {
      */
     boolean addOrUpdateRebate(JSONObject param, String userId);
 
+    PageUtil<RebateRecord> getRebateRecord(Map<String, Object> map);
+
+    PageUtil<DistributionRatioRecord> getDistributionRatioRecord(Map<String, Object> map);
+
+    PageUtil<DistributionUser> getDistributionUser(Map<String, Object> map);
+
     /**
      * 商家ID获取分销及分销优惠券
      *
@@ -317,7 +323,7 @@ public interface ActivitySetService {
      *
      * @return
      */
-    PageUtil<ShareFriends> getShareFriendList(Map<String,Object> map);
+    PageUtil<ShareFriends> getShareFriendList(Map<String, Object> map);
 
     /**
      * 朋友圈分享ID获取设置信息

@@ -19,6 +19,9 @@ public class DistributionCoupon implements Serializable {
     @ApiModelProperty("分销ID")
     private String distributionId;
 
+    @ApiModelProperty("新客专享（N：禁用；Y：启用）")
+    private String newBuyer;
+
     @ApiModelProperty("领取时是否填写手机号（N：否；Y：是）")
     private String phoneEnable;
 
@@ -48,6 +51,12 @@ public class DistributionCoupon implements Serializable {
 
     @ApiModelProperty("适用范围（默认【全店通用】）")
     private String range;
+
+    @ApiModelProperty("领取数量")
+    private int getNumber;
+
+    @ApiModelProperty("使用数量")
+    private Integer useNumber;
 
     public String getId() {
         return id;
@@ -143,5 +152,29 @@ public class DistributionCoupon implements Serializable {
 
     public void setRange(String range) {
         this.range = range;
+    }
+
+    public String getNewBuyer() {
+        return newBuyer;
+    }
+
+    public void setNewBuyer(String newBuyer) {
+        this.newBuyer = newBuyer;
+    }
+
+    public int getGetNumber() {
+        return getNumber;
+    }
+
+    public void setGetNumber(int getNumber) {
+        this.getNumber = getNumber;
+    }
+
+    public Integer getUseNumber() {
+        return useNumber;
+    }
+
+    public void setUseNumber(Integer useNumber) {
+        this.useNumber = useNumber;
     }
 }

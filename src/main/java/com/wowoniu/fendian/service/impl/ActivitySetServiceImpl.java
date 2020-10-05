@@ -297,6 +297,42 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         return true;
     }
 
+    @Override
+    public PageUtil<RebateRecord> getRebateRecord(Map<String, Object> map) {
+        PageUtil<RebateRecord> pageUtil = new PageUtil();
+        int count = activitySetMapper.searchRebateRecord(map);
+        pageUtil.setTotalCount(count);
+        pageUtil.setPageSize((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
+        List<RebateRecord> rebateRecordList = activitySetMapper.getRebateRecord(map);
+        pageUtil.setLists(rebateRecordList);
+        return pageUtil;
+    }
+
+    @Override
+    public PageUtil<DistributionRatioRecord> getDistributionRatioRecord(Map<String, Object> map) {
+        PageUtil<DistributionRatioRecord> pageUtil = new PageUtil();
+        int count = activitySetMapper.searchDistributionRatioRecord(map);
+        pageUtil.setTotalCount(count);
+        pageUtil.setPageSize((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
+        List<DistributionRatioRecord> distributionRatioRecordList = activitySetMapper.getDistributionRatioRecord(map);
+        pageUtil.setLists(distributionRatioRecordList);
+        return pageUtil;
+    }
+
+    @Override
+    public PageUtil<DistributionUser> getDistributionUser(Map<String, Object> map) {
+        PageUtil<DistributionUser> pageUtil = new PageUtil();
+        int count = activitySetMapper.searchDistributionUser(map);
+        pageUtil.setTotalCount(count);
+        pageUtil.setPageSize((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
+        List<DistributionUser> distributionUserList = activitySetMapper.getDistributionUser(map);
+        pageUtil.setLists(distributionUserList);
+        return pageUtil;
+    }
+
     /**
      * 商家ID获取分销及分销优惠券
      *
@@ -344,9 +380,21 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             distributionSet.setUserId(userId);
             distributionSet.setId(StringUtils.getUuid());
             activitySetMapper.addDistributionSet(distributionSet);
+            DistributionRatioRecord distributionRatioRecord = new DistributionRatioRecord();
+            distributionRatioRecord.setRatio(distributionSet.getCommissionRatio());
+            distributionRatioRecord.setDistributionId(distributionSet.getId());
+            activitySetMapper.addDistributionRatioRecord(distributionRatioRecord);
         } else {
+            DistributionSet distributionSet1 = activitySetMapper.getDistributionSet(distributionSet.getUserId());
             //更新
             activitySetMapper.updateDistributionSet(distributionSet);
+            if (distributionSet1.getCommissionRatio() != distributionSet.getCommissionRatio()){
+                activitySetMapper.updateDistributionRatioRecord(distributionSet.getId());
+                DistributionRatioRecord distributionRatioRecord = new DistributionRatioRecord();
+                distributionRatioRecord.setRatio(distributionSet.getCommissionRatio());
+                distributionRatioRecord.setDistributionId(distributionSet.getId());
+                activitySetMapper.addDistributionRatioRecord(distributionRatioRecord);
+            }
         }
         return true;
     }

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.ActivitySetService;
 import com.wowoniu.fendian.utils.Result;
+import com.wowoniu.fendian.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -80,6 +81,21 @@ public class ActivitySetController {
         return new Result(204, false, "操作失败", null);
     }
 
+    @ApiOperation("返利--返利记录")
+    @PostMapping("/getRebateRecord")
+    @ApiImplicitParams({@ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
+            @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true),
+            @ApiImplicitParam(name = "name", value = "昵称", dataType = "String", required = true)})
+    public Object getRebateRecord(@ApiIgnore HttpServletRequest request,int pageSize, int startRow,String name) {
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("pageSize", pageSize);
+        map.put("startRow", startRow);
+        map.put("userId", request.getAttribute("sysid"));
+        map.put("name", name);
+
+        return new Result(200, true, "获取成功", activitySetService.getRebateRecord(map));
+    }
+
     /************************************************* True 返利 - END *********************************************************/
 
     /************************************************* True 分销 - START *********************************************************/
@@ -123,6 +139,44 @@ public class ActivitySetController {
             return new Result(200, true, "删除成功", null);
         }
         return new Result(204, false, "删除失败", null);
+    }
+
+    @ApiOperation("分销--分销比例修改记录")
+    @PostMapping("/getDistributionRatioRecord")
+    @ApiImplicitParams({@ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
+            @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
+    public Object getDistributionRatioRecord(@ApiIgnore HttpServletRequest request,int pageSize, int startRow) {
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("pageSize", pageSize);
+        map.put("startRow", startRow);
+        map.put("userId", request.getAttribute("sysid"));
+
+        return new Result(200, true, "获取成功", activitySetService.getDistributionRatioRecord(map));
+    }
+
+    @ApiOperation("分销--分销商名单")
+    @PostMapping("/getDistributionUser")
+    @ApiImplicitParams({@ApiImplicitParam(name = "search", value = "搜索条件（昵称/手机号）", dataType = "int", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
+            @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
+    public Object getDistributionUser(@ApiIgnore HttpServletRequest request,String search,int pageSize, int startRow) {
+        String phone = null;
+        String name = null;
+        if (StringUtils.isNotEmpty(search)) {
+            if (StringUtils.isNumeric(search)) {
+                phone = search;
+            } else {
+                name = search;
+            }
+        }
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("pageSize", pageSize);
+        map.put("startRow", startRow);
+        map.put("phone", phone);
+        map.put("name", name);
+        map.put("userId", "63a93bc1cb1b439984aee44e63513810");
+
+        return new Result(200, true, "获取成功", activitySetService.getDistributionUser(map));
     }
     /************************************************* True 分销 - END *********************************************************/
 
