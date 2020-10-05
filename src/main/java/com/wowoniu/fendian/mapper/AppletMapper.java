@@ -429,7 +429,7 @@ public interface AppletMapper {
      *
      * @param groupBuyer
      */
-    @Insert("INSERT INTO (id,group_id,buyer_id,users,number,create_time,end_time) VALUES (#{id},#{groupId},#{users},#{users},#{number},NOW(),#{endTime}) ")
+    @Insert("INSERT INTO group_buyer (id,group_id,buyer_id,users,number,create_time,end_time) VALUES (#{id},#{groupId},#{users},#{users},#{number},NOW(),#{endTime}) ")
     void addGroupBuyer(GroupBuyer groupBuyer);
 
     /**
@@ -447,7 +447,7 @@ public interface AppletMapper {
      * @param openId
      * @param id
      */
-    @Update("UPDATE group_buyer SET number = number -1, users = CONCAT(users,';',#{openId}) WHERE id = #{id} ")
+    @Update("UPDATE group_buyer SET number = number -1, users = CONCAT(users,';',#{openId}) WHERE group_id = #{id} ")
     void joinGroup(@Param("openId") String openId, @Param("id") String id);
 
     /**

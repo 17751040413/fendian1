@@ -30,7 +30,7 @@ public class GroupBuyer implements Serializable {
     @ApiModelProperty("结束时间")
     private Timestamp endTime;
     @ApiModelProperty("状态：0拼团中；1成功；2失败")
-    private Integer state;
+    private String state;
 
     @ApiModelProperty("店铺名称")
     private String shopName;
@@ -91,11 +91,11 @@ public class GroupBuyer implements Serializable {
         this.endTime = endTime;
     }
 
-    public Integer getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(String state) {
         this.state = state;
     }
 
