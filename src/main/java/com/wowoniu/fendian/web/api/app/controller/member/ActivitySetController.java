@@ -174,7 +174,7 @@ public class ActivitySetController {
         map.put("startRow", startRow);
         map.put("phone", phone);
         map.put("name", name);
-        map.put("userId", "63a93bc1cb1b439984aee44e63513810");
+        map.put("userId", request.getAttribute("sysid"));
 
         return new Result(200, true, "获取成功", activitySetService.getDistributionUser(map));
     }

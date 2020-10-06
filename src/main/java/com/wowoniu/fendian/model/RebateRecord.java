@@ -23,6 +23,8 @@ public class RebateRecord implements Serializable {
 
     @ApiModelProperty("活动ID")
     private String rebateId;
+    @ApiModelProperty("订单号")
+    private String code;
 
     public String getId() {
         return id;
@@ -78,5 +80,13 @@ public class RebateRecord implements Serializable {
 
     public void setRebateId(String rebateId) {
         this.rebateId = rebateId;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }
