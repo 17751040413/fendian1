@@ -17,8 +17,16 @@ public class UserInfoPack {
     String roleId;
     @ApiModelProperty("角色名")
     String roleName;
-    @ApiModelProperty("角色图标")
-    String roleImg;
+    @ApiModelProperty("id")
+    String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getHeadImg() {
         return headImg;
@@ -68,11 +76,5 @@ public class UserInfoPack {
         this.roleName = roleName;
     }
 
-    public String getRoleImg() {
-        return roleImg;
-    }
 
-    public void setRoleImg(String roleImg) {
-        this.roleImg = roleImg;
-    }
 }

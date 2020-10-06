@@ -143,6 +143,20 @@ public interface UnionService {
      */
     Result unionCashMoney(String userid);
 
+    /**
+     * 为客户开通服务页面
+     * @param id
+     * @return
+     */
+    Result goOpenService(String id);
+
+    /**
+     * 根据手机号开通服务
+     * @param phone
+     * @return
+     */
+    Result phoneOpenService(String phone,String id);
+
 
 
 }

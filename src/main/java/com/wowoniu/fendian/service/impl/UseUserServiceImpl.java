@@ -3,9 +3,11 @@ package com.wowoniu.fendian.service.impl;
 import ch.qos.logback.core.spi.LogbackLock;
 import com.alibaba.fastjson.JSON;
 import com.wowoniu.fendian.config.AuthCodeConfig;
+import com.wowoniu.fendian.mapper.MessageMapper;
 import com.wowoniu.fendian.mapper.UseUserMapper;
 import com.wowoniu.fendian.mapper.UserLoginMapper;
 import com.wowoniu.fendian.mapper.UserRoleMapper;
+import com.wowoniu.fendian.model.Message;
 import com.wowoniu.fendian.model.UseUser;
 import com.wowoniu.fendian.model.UserLogin;
 import com.wowoniu.fendian.model.pack.LoginPack;
@@ -19,13 +21,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UseUserServiceImpl implements UseUserService {
@@ -42,8 +50,17 @@ public class UseUserServiceImpl implements UseUserService {
     String headImgVisit;
     @Autowired
     UserRoleMapper userRoleMapper;
+    @Autowired
+    MessageMapper messageMapper;
 
 
+    private String fileSavePath = "C:/images/";
+
+
+    /**
+     * 时间格式化
+     */
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd/");
     @Transactional(rollbackFor = Exception.class)
     @Override
     public LoginPack weChatLogin(String openId, String photo, String nickname, String identification) throws IOException {
@@ -275,11 +292,91 @@ public class UseUserServiceImpl implements UseUserService {
             userInfoPack.setHeadImg(useUser.getHeadImg());
             userInfoPack.setParentName(useUser.getParentName());
             userInfoPack.setPromotionIncome(useUser.getPromotionIncome());
-            userInfoPack.setRoleId(useUser.getRoleId1());
-            userInfoPack.setRoleName(userRoleMapper.queryUseRoleById(useUser.getRoleId1()).getRoleName());
-            userInfoPack.setRoleImg(userRoleMapper.queryUseRoleById(useUser.getRoleId1()).getRoleImg());;
+            userInfoPack.setRoleId(useUser.getRoleId2());
+            userInfoPack.setId(useUser.getId());
+            if (useUser.getRoleId2().equals("-1")){
+                userInfoPack.setRoleName("未开通");
+            }else if(useUser.getRoleId2().equals("0")){
+                userInfoPack.setRoleName("区域代理");
+            }else if(useUser.getRoleId2().equals("1")){
+                userInfoPack.setRoleName("市级代理");
+            }else if(useUser.getRoleId2().equals("2")){
+                userInfoPack.setRoleName("省级代理");
+            }
+
         }
         return userInfoPack;
+    }
+
+    @Override
+    public Result getTeam(String id) {
+        //根据id获取个人信息
+        UseUser useUser = useUserMapper.selectByPrimaryKey(id);
+
+        Map map = new HashMap();
+        //总人数
+        int sumCount = useUserMapper.queryCountByParent(id);
+        //今日新增
+        int todayCount = useUserMapper.queryCountByTodayParent(id);
+        //未开通
+        List<UseUser> weiUseUsers = useUserMapper.queryListByParent(id,0);
+        //已开通
+        List<UseUser> yiUseUser = useUserMapper.queryListByParent(id,1);
+
+        map.put("sumCount",sumCount);
+        map.put("todayCount",todayCount);
+        map.put("weiUseUsers",weiUseUsers);
+        map.put("yiUseUser",yiUseUser);
+        return new Result(200,true,"获取成功",map);
+    }
+
+    @Override
+    public Result getMessage(String id) {
+        UseUser useUser = useUserMapper.selectByPrimaryKey(id);
+        List<Message> messages = messageMapper.queryMessageByUserId(id);
+        return new Result(200,true,"获取成功",messages);
+    }
+
+    @Override
+    public Result updateNickName(String id,String nickName) {
+
+        UseUser useUser = useUserMapper.selectByPrimaryKey(id);
+        useUser.setNickName(nickName);
+        useUserMapper.updateByPrimaryKeySelective(useUser);
+        return new Result(200,true,"修改成功");
+    }
+
+    @Override
+    public Result updateHeadImg(String userId, MultipartFile img, HttpServletRequest request) {
+
+
+
+        String url;
+        UseUser users = useUserMapper.selectByPrimaryKey(userId);
+        //1.后半段目录：  2020/03/15
+        String directory = simpleDateFormat.format(new Date());
+        File dir = new File(fileSavePath + directory);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        //后缀
+        String suffix = img.getOriginalFilename().substring(img.getOriginalFilename().lastIndexOf("."));
+        String newFileName = StringUtils.getUuid() + suffix;
+        //4.创建这个新文件
+        File newFile = new File(fileSavePath + directory + newFileName);
+        //5.复制操作
+        try {
+            img.transferTo(newFile);
+            //协议 :// ip地址 ：端口号 / 文件目录(/images/2020/03/15/xxx.jpg)
+            url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/images/" + directory + newFileName;
+            //url = headImgVisit+newFileName;
+            users.setHeadImg(url);
+            useUserMapper.updateByPrimaryKeySelective(users);
+            return new Result(200, true, "修改成功");
+        } catch (IOException e) {
+            return new Result(204, true, "上传失败");
+        }
+
     }
 
 

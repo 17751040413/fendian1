@@ -45,9 +45,19 @@ public class UnionMember implements Serializable {
      */
     private String unionLogo;
 
+    private String loginName;
+
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
 
     public String getId() {
         return id;

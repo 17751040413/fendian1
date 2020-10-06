@@ -3,8 +3,11 @@ package com.wowoniu.fendian.service;
 import com.wowoniu.fendian.model.pack.LoginPack;
 import com.wowoniu.fendian.model.pack.UserInfoPack;
 import com.wowoniu.fendian.utils.Result;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -52,4 +55,28 @@ public interface UseUserService {
      * @return
      */
     UserInfoPack getUserInfo(String userid);
+
+    /**
+     * 我的团队
+     * @param id
+     * @return
+     */
+    Result getTeam(String id);
+
+    /**
+     * 获取我的消息
+     * @param id
+     * @return
+     */
+    Result getMessage(String id);
+
+    /**
+     * 修改昵称
+     * @param id
+     * @return
+     */
+    Result updateNickName(String id,String nickName);
+
+
+    Result updateHeadImg(String userId, MultipartFile img,HttpServletRequest request);
 }

@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.service.impl;
 
+import com.wowoniu.fendian.config.Constants;
 import com.wowoniu.fendian.mapper.*;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.UnionService;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @Service
 public class UnionServiceImpl implements UnionService {
@@ -325,5 +327,25 @@ public class UnionServiceImpl implements UnionService {
         UseUser useUser = useUserMapper.selectByPrimaryKey(userid);
 
         return new Result(200,true,"获取成功",useUser);
+    }
+
+    @Override
+    public Result goOpenService(String id) {
+        //获取未开通服务的商圈用户
+        UnionInfo unionInfo = unionInfoMapper.queryUnionInfoByLeadeid(id);
+        List<UnionMember> unionMembers = unionMemberMapper.queryMemberByUnionId(unionInfo.getId());
+
+        return new Result(200,true,"获取成功",unionMembers);
+    }
+
+    @Override
+    public Result phoneOpenService(String phone,String id) {
+        UseUser useUser = useUserMapper.queryUserByLoginName(phone);
+        if (!useUser.getRoleId1().equals("0")){
+            return new Result(200,true,"当前账号会员未过期，请勿重复开通");
+        }
+        UseUser kaiUser = useUserMapper.selectByPrimaryKey(id);
+        //if (kaiUser.getBalance() < Constants.MEMBERPRICE){}
+        return null;
     }
 }

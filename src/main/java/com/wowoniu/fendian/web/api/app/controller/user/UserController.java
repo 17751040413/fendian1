@@ -9,12 +9,17 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Date;
 
 @RestController
 @Api(tags = "账号管理/用户信息")
@@ -27,7 +32,7 @@ public class UserController {
     @ApiOperation("绑定手机号")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone",value = "手机号",dataType = "String",required = true),
-            @ApiImplicitParam(name = "code",value = "验证码",dataType = "String",required = true)
+                @ApiImplicitParam(name = "code",value = "验证码",dataType = "String",required = true)
     })
     public Result bindPhone(String phone, String code, @ApiIgnore HttpSession httpSession,
                             @ApiIgnore HttpServletRequest request){
@@ -60,6 +65,39 @@ public class UserController {
 
         String userid = (String) request.getAttribute("sysid");
         return new Result(200,true,"获取成功",useUserService.getUserInfo(userid));
+    }
+
+    @PostMapping("getTeam")
+    @ApiOperation("我的团队")
+    public Result getTeam(@ApiIgnore HttpServletRequest request){
+        String userid = (String) request.getAttribute("sysid");
+
+        return useUserService.getTeam(userid);
 
     }
+
+    @PostMapping("getMessage")
+    @ApiOperation("我的消息")
+    public Result getMessage(@ApiIgnore HttpServletRequest request){
+        String userid = (String) request.getAttribute("sysid");
+        return useUserService.getMessage(userid);
+    }
+    @PostMapping("updateNickName")
+    @ApiOperation("修改昵称")
+    public Result updateNickName(@ApiIgnore HttpServletRequest request,String nickName){
+        String userid = (String) request.getAttribute("sysid");
+        return useUserService.updateNickName(userid,nickName);
+    }
+
+
+    @PostMapping("updateHeadImg")
+    @ApiOperation("修改头像")
+    public Result updateHeadImg(@ApiIgnore HttpServletRequest request,@RequestParam("img") MultipartFile img){
+        String userid = (String) request.getAttribute("sysid");
+
+
+
+        return useUserService.updateHeadImg(userid,img,request);
+    }
+
 }

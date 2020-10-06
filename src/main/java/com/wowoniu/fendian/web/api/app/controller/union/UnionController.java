@@ -209,14 +209,17 @@ public class UnionController {
     @PostMapping("goOpenService")
     @ApiOperation("为客户开通服务页面")
     public Result goOpenService(@ApiIgnore HttpServletRequest request){
+        //获取我的id
+        String id = (String) request.getAttribute("sysid");
 
-
-        return new Result();
+        return unionService.goOpenService(id);
     }
 
     @ApiOperation("手机号开通服务验证手机号")
     @PostMapping("phoneOpenService")
-    public Result phoneOpenService(String phone){
+    public Result phoneOpenService(String phone,@ApiIgnore HttpServletRequest request){
+        //获取我的id
+        String id = (String) request.getAttribute("sysid");
 
         return new Result();
     }

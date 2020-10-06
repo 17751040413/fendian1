@@ -53,7 +53,27 @@
 SELECT <include refid="Base_Column_List" /> FROM use_user
 WHERE wechat_id = #{openId} AND state = 0
 </select>
-<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="queryCountByParent" resultType="java.lang.Integer">
+        select count(1) from use_user
+        where parent_id = #{parentId}
+    </select>
+    <select id="queryCountByTodayParent" resultType="java.lang.Integer">
+        select count(1) from use_user
+        where parent_id = #{parentId} and DATEDIFF(create_time,NOW())=0
+
+
+    </select>
+    <select id="queryListByParent" resultType="com.wowoniu.fendian.model.UseUser">
+        select <include refid="Base_Column_List"/> from use_user
+        where parent_id = #{parentId}
+        <if test="flg == 0">
+            and role_id1 = 0
+        </if>
+        <if test="flg != 0">
+            and role_id1 != 0
+        </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from use_user
     where id = #{id,jdbcType=VARCHAR}
   </delete>

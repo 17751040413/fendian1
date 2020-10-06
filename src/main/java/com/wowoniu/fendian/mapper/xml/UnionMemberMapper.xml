@@ -25,6 +25,12 @@
       where user_id = #{userid}
 
     </select>
+    <select id="queryMemberByUnionId" resultType="com.wowoniu.fendian.model.UnionMember">
+      select a.*,b.login_name as loginName from union_member a
+      left join use_user b on a.user_id = b.id
+      where b.role_id1 = 0
+
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from union_member
     where id = #{id,jdbcType=VARCHAR}

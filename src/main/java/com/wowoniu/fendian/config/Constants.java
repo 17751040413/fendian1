@@ -1,5 +1,7 @@
 package com.wowoniu.fendian.config;
 
+import java.math.BigDecimal;
+
 /**
  * 常量类
  *
@@ -75,6 +77,11 @@ public class Constants {
      * 图片服务器地址
      */
     public static final String IMGPATH = "http://localhost:8082/";
+
+    /**
+     * 引流系统价格
+     */
+    public static final BigDecimal MEMBERPRICE = new BigDecimal(888);
 
 
 

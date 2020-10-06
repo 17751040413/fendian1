@@ -23,4 +23,11 @@ public interface UnionMemberMapper {
      * @return
      */
     List<UnionMember> queryMemberByUserId(String userid);
+
+    /**
+     * 查询联盟未开通会员
+     * @param unionId
+     * @return
+     */
+    List<UnionMember> queryMemberByUnionId(String unionId);
 }
