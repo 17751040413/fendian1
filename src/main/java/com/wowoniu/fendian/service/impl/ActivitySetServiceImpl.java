@@ -333,6 +333,11 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         return pageUtil;
     }
 
+    @Override
+    public DistributionUser getDistributionUserById(String id) {
+        return activitySetMapper.getDistributionUserById(id);
+    }
+
     /**
      * 商家ID获取分销及分销优惠券
      *

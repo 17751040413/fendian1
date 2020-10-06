@@ -178,6 +178,13 @@ public class ActivitySetController {
 
         return new Result(200, true, "获取成功", activitySetService.getDistributionUser(map));
     }
+
+    @ApiOperation("分销--分销商详情")
+    @PostMapping("/getDistributionUserById")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "分销商ID", dataType = "int", required = true)})
+    public Object getDistributionUserById(String id) {
+        return new Result(200, true, "获取成功", activitySetService.getDistributionUserById(id));
+    }
     /************************************************* True 分销 - END *********************************************************/
 
     /************************************************* True 商城 - END *********************************************************/

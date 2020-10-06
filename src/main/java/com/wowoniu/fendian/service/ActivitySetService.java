@@ -58,6 +58,8 @@ public interface ActivitySetService {
 
     PageUtil<DistributionUser> getDistributionUser(Map<String, Object> map);
 
+    DistributionUser getDistributionUserById(String id);
+
     /**
      * 商家ID获取分销及分销优惠券
      *

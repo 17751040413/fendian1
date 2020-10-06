@@ -8,6 +8,9 @@ import java.sql.Timestamp;
 
 @ApiModel("分销用户")
 public class DistributionUser implements Serializable {
+
+    @ApiModelProperty("主键ID")
+    private String id;
     @ApiModelProperty("用户Id")
     private String buyerId;
     @ApiModelProperty("昵称")
@@ -24,6 +27,16 @@ public class DistributionUser implements Serializable {
     private int number;
     @ApiModelProperty("分销活动ID")
     private String distributionId;
+    @ApiModelProperty("销售额")
+    private int price;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getBuyerId() {
         return buyerId;
@@ -87,5 +100,13 @@ public class DistributionUser implements Serializable {
 
     public void setDistributionId(String distributionId) {
         this.distributionId = distributionId;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

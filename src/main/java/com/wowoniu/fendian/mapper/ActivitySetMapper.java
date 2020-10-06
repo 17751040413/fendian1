@@ -364,6 +364,9 @@ public interface ActivitySetMapper {
 
     List<DistributionUser> getDistributionUser(Map<String, Object> map);
 
+    @Select("SELECT * FROM distribution_user WHERE id = #{id}")
+    DistributionUser getDistributionUserById(String id);
+
     int searchDistributionUser(Map<String, Object> map);
 
 
