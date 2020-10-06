@@ -129,16 +129,16 @@ public class ActivitySetController {
         return new Result(204, false, "操作失败", null);
     }
 
-    @ApiOperation("分销--删除(结束)分销优惠券")
+    @ApiOperation("分销--删除(禁用)分销优惠券")
     @PostMapping("/updateDistributionCouponEndTime")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "返利详情ID", dataType = "String", required = true)})
     public Object updateDistributionCouponEndTime(String id) {
 
         boolean result = activitySetService.updateDistributionCouponEndTime(id);
         if (result) {
-            return new Result(200, true, "删除成功", null);
+            return new Result(200, true, "禁用成功", null);
         }
-        return new Result(204, false, "删除失败", null);
+        return new Result(204, false, "禁用失败", null);
     }
 
     @ApiOperation("分销--分销比例修改记录")

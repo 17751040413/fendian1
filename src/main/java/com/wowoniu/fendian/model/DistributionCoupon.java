@@ -58,6 +58,9 @@ public class DistributionCoupon implements Serializable {
     @ApiModelProperty("使用数量")
     private Integer useNumber;
 
+    @ApiModelProperty("券是否可用（N：禁用；Y：启用）")
+    private String enable;
+
     public String getId() {
         return id;
     }
@@ -176,5 +179,13 @@ public class DistributionCoupon implements Serializable {
 
     public void setUseNumber(Integer useNumber) {
         this.useNumber = useNumber;
+    }
+
+    public String getEnable() {
+        return enable;
+    }
+
+    public void setEnable(String enable) {
+        this.enable = enable;
     }
 }

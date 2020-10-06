@@ -350,12 +350,12 @@ public interface ActivitySetMapper {
     int updateDistributionCouponList(DistributionCoupon distributionCoupon);
 
     /**
-     * ID删除返利详情
+     * ID删除返利详情(禁用)
      *
      * @param id
      * @return
      */
-    @Delete("UPDATE distribution_coupon SET end_time = now() WHERE id = #{id}")
+    @Delete("UPDATE distribution_coupon SET enable = 'N' WHERE id = #{id}")
     int updateDistributionCouponEndTime(@Param("id") String id);
 
     List<DistributionRatioRecord> getDistributionRatioRecord(Map<String, Object> map);
