@@ -70,7 +70,7 @@
         LIMIT #{startRow},#{pageSize}
     </select>
 
-    <select id="getRebateRecord" resultType="com.wowoniu.fendian.model.DistributionRatioRecord">
+    <select id="getRebateRecord" resultType="com.wowoniu.fendian.model.RebateRecord">
         SELECT * FROM rebate_record WHERE rebate_id IN (SELECT id FROM rebate_set WHERE user_id = #{userId})
         <if test="name != null">
             AND name LIKE CONCAT('%',#{name},'%')
