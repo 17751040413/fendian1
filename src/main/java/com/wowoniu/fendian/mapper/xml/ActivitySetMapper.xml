@@ -85,7 +85,7 @@
         </if>
     </select>
 
-    <select id="getDistributionRatioRecord" resultType="com.wowoniu.fendian.model.DistributionUser">
+    <select id="getDistributionRatioRecord" resultType="com.wowoniu.fendian.model.DistributionRatioRecord">
         SELECT * FROM  distribution_ratio_record WHERE distribution_id IN (SELECT id FROM distribution_set WHERE user_id = #{userId})
         ORDER BY time DESC
         LIMIT #{startRow},#{pageSize}

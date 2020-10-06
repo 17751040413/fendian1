@@ -289,7 +289,7 @@ public interface ActivitySetMapper {
     /**
      * 分销优惠券
      *
-     * @param userId
+     * @param distributionId
      * @return
      */
     @Select("SELECT * FROM distribution_coupon WHERE distribution_id = #{distributionId}")
@@ -784,7 +784,7 @@ public interface ActivitySetMapper {
     /**
      * 商家ID获取推荐活动
      *
-     * @param id
+     * @param userId
      * @return
      */
     @Select("SELECT * FROM recommend_set WHERE user_id = #{userId}")
