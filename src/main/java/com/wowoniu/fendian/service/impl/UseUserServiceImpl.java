@@ -293,6 +293,7 @@ public class UseUserServiceImpl implements UseUserService {
             userInfoPack.setParentName(useUser.getParentName());
             userInfoPack.setPromotionIncome(useUser.getPromotionIncome());
             userInfoPack.setRoleId(useUser.getRoleId2());
+            userInfoPack.setPhone(useUser.getLoginName());
             userInfoPack.setId(useUser.getId());
             if (useUser.getRoleId2().equals("-1")){
                 userInfoPack.setRoleName("未开通");
