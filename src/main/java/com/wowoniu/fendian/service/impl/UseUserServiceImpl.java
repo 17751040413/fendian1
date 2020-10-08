@@ -3,13 +3,8 @@ package com.wowoniu.fendian.service.impl;
 import ch.qos.logback.core.spi.LogbackLock;
 import com.alibaba.fastjson.JSON;
 import com.wowoniu.fendian.config.AuthCodeConfig;
-import com.wowoniu.fendian.mapper.MessageMapper;
-import com.wowoniu.fendian.mapper.UseUserMapper;
-import com.wowoniu.fendian.mapper.UserLoginMapper;
-import com.wowoniu.fendian.mapper.UserRoleMapper;
-import com.wowoniu.fendian.model.Message;
-import com.wowoniu.fendian.model.UseUser;
-import com.wowoniu.fendian.model.UserLogin;
+import com.wowoniu.fendian.mapper.*;
+import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.model.pack.LoginPack;
 import com.wowoniu.fendian.model.pack.UserInfoPack;
 import com.wowoniu.fendian.service.UseUserService;
@@ -52,6 +47,12 @@ public class UseUserServiceImpl implements UseUserService {
     UserRoleMapper userRoleMapper;
     @Autowired
     MessageMapper messageMapper;
+    @Autowired
+    UoionSeparateLogMapper uoionSeparateLogMapper;
+    @Autowired
+    WriteOffMapper writeOffMapper;
+    @Autowired
+    UseUserSubsidyMapper useUserSubsidyMapper;
 
 
     private String fileSavePath = "C:/images/";
@@ -295,6 +296,7 @@ public class UseUserServiceImpl implements UseUserService {
             userInfoPack.setRoleId(useUser.getRoleId2());
             userInfoPack.setPhone(useUser.getLoginName());
             userInfoPack.setId(useUser.getId());
+            userInfoPack.setNickName(useUser.getNickName());
             if (useUser.getRoleId2().equals("-1")){
                 userInfoPack.setRoleName("未开通");
             }else if(useUser.getRoleId2().equals("0")){
@@ -378,6 +380,57 @@ public class UseUserServiceImpl implements UseUserService {
             return new Result(204, true, "上传失败");
         }
 
+    }
+
+    @Override
+    public Result profit(String userid) {
+        //获取总收益
+        double sumPro = uoionSeparateLogMapper.querySepByUserid(userid);
+        double todayPro = uoionSeparateLogMapper.querySepByUseridToday(userid);
+        double yestayPro = uoionSeparateLogMapper.querySepByUseridYestay(userid);
+
+        List<WriteOff> writeOffs = writeOffMapper.queryWriteByuserid(userid);
+
+        Map map = new HashMap();
+        map.put("sumPro",sumPro);
+        map.put("todayPro",todayPro);
+        map.put("yestayPro",yestayPro);
+
+        map.put("writeOffs",writeOffs);
+        return new Result(200,true,"获取成功",map);
+    }
+
+    @Override
+    public Result toBuTie(String userid) {
+        List<UseUserSubsidy> useUserSubsidies = useUserSubsidyMapper.querySubsidyByUserid(userid);
+        return new Result(200,true,"获取成功",useUserSubsidies);
+    }
+
+    @Override
+    @Transactional
+    public Result lingquBu(String butieId) {
+        UseUserSubsidy useUserSubsidy = useUserSubsidyMapper.selectByPrimaryKey(butieId);
+        if (null == useUserSubsidy){
+            return new Result(204,true,"id错误");
+        }
+        if (useUserSubsidy.getReceiveFlg() == 1){
+            return new Result(204,true,"当前补贴已领取");
+        }
+
+        //领钱
+        UseUser useUser = useUserMapper.selectByPrimaryKey(useUserSubsidy.getUserId());
+        if (useUser.getSystemNumber() < useUserSubsidy.getConditions()){
+            return new Result(204,true,"您当前销售系统数是"+useUser.getSystemNumber()+"不满足领取条件");
+        }
+        int sum = useUser.getBalance()+useUserSubsidy.getMoney();
+        useUser.setBalance(sum);
+        useUserMapper.updateByPrimaryKeySelective(useUser);
+        //改状态
+        useUserSubsidy.setReceiveFlg(1);
+        useUserSubsidy.setCreateTime(new Date());
+        useUserSubsidyMapper.updateByPrimaryKeySelective(useUserSubsidy);
+
+        return new Result(200,true,"领取成功");
     }
 
 

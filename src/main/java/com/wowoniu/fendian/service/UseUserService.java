@@ -79,4 +79,24 @@ public interface UseUserService {
 
 
     Result updateHeadImg(String userId, MultipartFile img,HttpServletRequest request);
+
+    /**
+     * 获取我的收益
+     * @param userid
+     * @return
+     */
+    Result profit(String userid);
+
+    /**
+     * 前往补贴页面
+     * @return
+     */
+    Result toBuTie(String userid);
+
+    /**
+     * 领取补贴
+     * @param butieId
+     * @return
+     */
+    Result lingquBu(String butieId);
 }

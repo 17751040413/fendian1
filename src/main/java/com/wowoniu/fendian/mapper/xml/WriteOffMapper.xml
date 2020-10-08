@@ -27,7 +27,7 @@
   </select>
   <select id="queryWriteByUserId" resultType="com.wowoniu.fendian.model.WriteOff">
     select a.*,b.nick_name as customerName,b.head_img as customerImg from write_off a
-    left join use_user b on a.customer_id = b.id
+    left join user b on a.customer_id = b.open_id
     where a.user_id = #{userId} and activity_id = 13
 
   </select>
@@ -35,6 +35,13 @@
     select a.*,b.shop_logo as userImg,b.shop_name as userName from write_off a
     left join use_user b on a.user_id = b.id
     where a.customer_id = #{customerId}
+  </select>
+  <select id="queryWriteByuserid" resultType="com.wowoniu.fendian.model.WriteOff">
+    select b.*,a.sep_price as splitMoney,c.nick_name as customerName,c.head_img as customerImg from uoion_separate_log a
+    left join write_off b on a.order_id = b.id
+    left join user c on b.customer_id = c.open_id
+    where a.user_id = #{userid}
+
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from write_off

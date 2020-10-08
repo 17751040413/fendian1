@@ -21,6 +21,16 @@ public class UserInfoPack {
     String id;
     @ApiModelProperty("手机号")
     String phone;
+    @ApiModelProperty("昵称")
+    String nickName;
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     public String getPhone() {
         return phone;

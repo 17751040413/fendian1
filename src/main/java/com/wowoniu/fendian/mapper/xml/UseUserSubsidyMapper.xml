@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wowoniu.fendian.mapper.UseUserSubsidyMapper">
+  <resultMap id="BaseResultMap" type="com.wowoniu.fendian.model.UseUserSubsidy">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="subsidy_name" jdbcType="VARCHAR" property="subsidyName" />
+    <result column="conditions" jdbcType="INTEGER" property="conditions" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="receive_flg" jdbcType="INTEGER" property="receiveFlg" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, subsidy_name, conditions, money, receive_flg, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from use_user_subsidy
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="querySubsidyByUserid" resultType="com.wowoniu.fendian.model.UseUserSubsidy">
+      select <include refid="Base_Column_List"/> from use_user_subsidy
+      where user_id = #{userid}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from use_user_subsidy
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UseUserSubsidy" useGeneratedKeys="true">
+    insert into use_user_subsidy (user_id, subsidy_name, conditions, 
+      money, receive_flg, create_time
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{subsidyName,jdbcType=VARCHAR}, #{conditions,jdbcType=INTEGER}, 
+      #{money,jdbcType=INTEGER}, #{receiveFlg,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.UseUserSubsidy" useGeneratedKeys="true">
+    insert into use_user_subsidy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="subsidyName != null">
+        subsidy_name,
+      </if>
+      <if test="conditions != null">
+        conditions,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="receiveFlg != null">
+        receive_flg,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="subsidyName != null">
+        #{subsidyName,jdbcType=VARCHAR},
+      </if>
+      <if test="conditions != null">
+        #{conditions,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="receiveFlg != null">
+        #{receiveFlg,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wowoniu.fendian.model.UseUserSubsidy">
+    update use_user_subsidy
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="subsidyName != null">
+        subsidy_name = #{subsidyName,jdbcType=VARCHAR},
+      </if>
+      <if test="conditions != null">
+        conditions = #{conditions,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="receiveFlg != null">
+        receive_flg = #{receiveFlg,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wowoniu.fendian.model.UseUserSubsidy">
+    update use_user_subsidy
+    set user_id = #{userId,jdbcType=VARCHAR},
+      subsidy_name = #{subsidyName,jdbcType=VARCHAR},
+      conditions = #{conditions,jdbcType=INTEGER},
+      money = #{money,jdbcType=INTEGER},
+      receive_flg = #{receiveFlg,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

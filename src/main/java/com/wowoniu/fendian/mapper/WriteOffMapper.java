@@ -36,4 +36,11 @@ public interface WriteOffMapper {
      * @return
      */
     List<WriteOff> queryWriteByCustomerId(String customerId);
+
+    /**
+     * 个人中心我的收益用
+     * @param userid
+     * @return
+     */
+    List<WriteOff> queryWriteByuserid(String userid);
 }

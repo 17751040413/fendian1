@@ -69,6 +69,18 @@ public class WriteOff implements Serializable {
 
     private String userName;
 
+    private double splitMoney;
+
+
+
+    public double getSplitMoney() {
+        return splitMoney;
+    }
+
+    public void setSplitMoney(double splitMoney) {
+        this.splitMoney = splitMoney;
+    }
+
     public String getUserName() {
         return userName;
     }

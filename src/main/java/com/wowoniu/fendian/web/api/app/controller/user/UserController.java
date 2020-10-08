@@ -100,4 +100,26 @@ public class UserController {
         return useUserService.updateHeadImg(userid,img,request);
     }
 
+    @PostMapping("profit")
+    @ApiOperation("获取佣金收益")
+    public Result profit(@ApiIgnore HttpServletRequest request){
+        String userid = (String) request.getAttribute("sysid");
+
+        return useUserService.profit(userid);
+    }
+
+    @PostMapping("toBuTie")
+    @ApiOperation("补贴计划")
+    public Result toBuTie(@ApiIgnore HttpServletRequest request){
+        String userid = (String) request.getAttribute("sysid");
+        return useUserService.toBuTie(userid);
+    }
+
+    @PostMapping("lingquBu")
+    @ApiOperation("领取补贴")
+    public Result lingquBu(String butieId){
+        return useUserService.lingquBu(butieId);
+
+    }
+
 }

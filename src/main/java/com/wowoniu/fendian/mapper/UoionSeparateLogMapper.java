@@ -30,4 +30,26 @@ public interface UoionSeparateLogMapper {
      * @return
      */
     double queryUnionPriceByUnionAndIsEntry(@Param("unionId") String unionId,@Param("isEntry") int isEntry);
+
+    /**
+     * 根据入账人查询分账金额
+     * @param userid
+     * @return
+     */
+    double querySepByUserid(String userid);
+
+    /**
+     * 根据入账人查询分账金额
+     * @param userid
+     * @return
+     */
+    double querySepByUseridToday(String userid);
+
+
+    /**
+     * 根据入账人查询分账金额
+     * @param userid
+     * @return
+     */
+    double querySepByUseridYestay(String userid);
 }
