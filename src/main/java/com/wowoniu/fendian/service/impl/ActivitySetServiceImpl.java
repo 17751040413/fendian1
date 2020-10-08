@@ -334,8 +334,16 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     }
 
     @Override
-    public DistributionUser getDistributionUserById(String id) {
-        return activitySetMapper.getDistributionUserById(id);
+    public JSONObject getDistributionUserById(String id) {
+        JSONObject jsonObject = new JSONObject();
+        DistributionUser distributionUser = activitySetMapper.getDistributionUserById(id);
+        if (distributionUser == null) {
+            return null;
+        }
+        DistributionAlliance distributionAlliance = activitySetMapper.getDistributionAlliance(distributionUser.getAllianceId());
+        jsonObject.put("distributionUser", distributionUser);
+        jsonObject.put("distributionAlliance", distributionAlliance);
+        return jsonObject;
     }
 
     /**
@@ -393,7 +401,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
             DistributionSet distributionSet1 = activitySetMapper.getDistributionSet(distributionSet.getUserId());
             //更新
             activitySetMapper.updateDistributionSet(distributionSet);
-            if (distributionSet1.getCommissionRatio() != distributionSet.getCommissionRatio()){
+            if (distributionSet1.getCommissionRatio() != distributionSet.getCommissionRatio()) {
                 activitySetMapper.updateDistributionRatioRecord(distributionSet.getId());
                 DistributionRatioRecord distributionRatioRecord = new DistributionRatioRecord();
                 distributionRatioRecord.setRatio(distributionSet.getCommissionRatio());
@@ -506,14 +514,19 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     /**
      * 状态获取订单列表
      *
-     * @param userId
-     * @param state
+     * @param map
      * @return
      */
     @Override
-    public List<WaresOrder> getWaresOrderList(String userId, String state) {
-
-        return activitySetMapper.getWaresOrderList(userId, state);
+    public PageUtil<WaresOrder> getWaresOrderList(Map<String, Object> map) {
+        PageUtil<WaresOrder> pageUtil = new PageUtil();
+        int count = activitySetMapper.searchWaresOrder(map);
+        pageUtil.setTotalCount(count);
+        pageUtil.setPageSize((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
+        List<WaresOrder> waresOrderList = activitySetMapper.getWaresOrderList(map);
+        pageUtil.setLists(waresOrderList);
+        return pageUtil;
     }
 
     /**
@@ -820,7 +833,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         //生成发货码
         String takeCode = VerifyCodeUtil.generateVerifyCode(6);
         //更新订单状态为已发货及添加收货码
-        return  activitySetMapper.updateWaresOrderState(takeCode, code, Constants.ORDER_STATE_SHIPPED, id);
+        return activitySetMapper.updateWaresOrderState(takeCode, code, Constants.ORDER_STATE_SHIPPED, id);
     }
 
     /**

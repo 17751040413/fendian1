@@ -58,7 +58,7 @@ public interface ActivitySetService {
 
     PageUtil<DistributionUser> getDistributionUser(Map<String, Object> map);
 
-    DistributionUser getDistributionUserById(String id);
+    JSONObject getDistributionUserById(String id);
 
     /**
      * 商家ID获取分销及分销优惠券
@@ -113,11 +113,10 @@ public interface ActivitySetService {
     /**
      * 状态获取订单列表
      *
-     * @param userId
-     * @param state
+     * @param map
      * @return
      */
-    List<WaresOrder> getWaresOrderList(String userId, String state);
+    PageUtil<WaresOrder> getWaresOrderList(Map<String, Object> map);
 
     /**
      * 商品分类启用/禁用 及获取分类列表

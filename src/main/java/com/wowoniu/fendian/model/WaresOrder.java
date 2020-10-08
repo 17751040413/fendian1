@@ -22,6 +22,9 @@ public class WaresOrder implements Serializable {
     @ApiModelProperty("买家ID")
     private String buyerId;
 
+    @ApiModelProperty("头像地址")
+    private String url;
+
     @ApiModelProperty("状态（0：待付款；1：已付款，2：待发货；3：已发货；4：已完成；5：已关闭）")
     private String state;
 
@@ -72,6 +75,10 @@ public class WaresOrder implements Serializable {
 
     @ApiModelProperty("skey")
     private String skey;
+    @ApiModelProperty("商品图片")
+    private String wareUrl;
+    @ApiModelProperty("商品数量")
+    private int number;
 
     public String getId() {
         return id;
@@ -231,5 +238,29 @@ public class WaresOrder implements Serializable {
 
     public void setSkey(String skey) {
         this.skey = skey;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getWareUrl() {
+        return wareUrl;
+    }
+
+    public void setWareUrl(String wareUrl) {
+        this.wareUrl = wareUrl;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 }

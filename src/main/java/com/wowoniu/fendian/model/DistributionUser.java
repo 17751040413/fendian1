@@ -30,6 +30,9 @@ public class DistributionUser implements Serializable {
     @ApiModelProperty("销售额")
     private int price;
 
+    @ApiModelProperty("联盟ID")
+    private String allianceId;
+
     public String getId() {
         return id;
     }
@@ -108,5 +111,13 @@ public class DistributionUser implements Serializable {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getAllianceId() {
+        return allianceId;
+    }
+
+    public void setAllianceId(String allianceId) {
+        this.allianceId = allianceId;
     }
 }

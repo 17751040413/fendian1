@@ -367,6 +367,9 @@ public interface ActivitySetMapper {
     @Select("SELECT * FROM distribution_user WHERE id = #{id}")
     DistributionUser getDistributionUserById(String id);
 
+    @Select("SELECT * FROM distribution_alliance WHERE id = #{id}")
+    DistributionAlliance getDistributionAlliance(String id);
+
     int searchDistributionUser(Map<String, Object> map);
 
 
@@ -414,12 +417,11 @@ public interface ActivitySetMapper {
     /**
      * 状态获取订单列表
      *
-     * @param userId
-     * @param state
+     * @param map
      * @return
      */
-    @Select("SELECT * FROM wares_order WHERE user_id = #{userId} AND state = #{state}")
-    List<WaresOrder> getWaresOrderList(@Param("userId") String userId, @Param("state") String state);
+    List<WaresOrder> getWaresOrderList(Map<String,Object > map);
+    int searchWaresOrder(Map<String,Object > map);
 
     @Select("SELECT * FROM wares_sort_set WHERE user_id = #{userId}")
     WaresSortSet getWaresSortSet(String userId);

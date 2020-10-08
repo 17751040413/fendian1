@@ -114,6 +114,14 @@
             AND name LIKE concat('%',#{name},'%')
         </if>
     </select>
+    <select id="getWaresOrderList" resultType="com.wowoniu.fendian.model.WaresOrder">
+        SELECT * FROM wares_order WHERE user_id = #{userId} AND state = #{state}
+        ORDER BY create_time DESC
+        LIMIT #{startRow},#{pageSize}
+    </select>
+    <select id="searchWaresOrder" resultType="java.lang.Integer">
+           SELECT COUNT(*) FROM wares_order WHERE user_id = #{userId} AND state = #{state}
+    </select>
 
     <!-- 新增规格详情-批量 -->
     <insert id="addWaresSpecDetailBatch">

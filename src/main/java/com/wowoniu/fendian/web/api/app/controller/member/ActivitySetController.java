@@ -209,12 +209,17 @@ public class ActivitySetController {
 
     @ApiOperation("商城--订单状态获取订单列表")
     @PostMapping("/getWaresOrder")
-    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "订单状态（0：待付款；1：待发货；2：已发货；3：已完成；4：已关闭）", dataType = "String", required = true)})
-    public Object getWaresOrder(String state, @ApiIgnore HttpServletRequest request) {
+    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "订单状态（0：待付款；1：待发货；2：已发货；3：已完成；4：已关闭）", dataType = "String", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
+            @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
+    public Object getWaresOrder(@ApiIgnore HttpServletRequest request,String state, int pageSize, int startRow) {
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("pageSize", pageSize);
+        map.put("startRow", startRow);
+        map.put("state", state);
+        map.put("userId", request.getAttribute("sysid"));
 
-        List<WaresOrder> waresOrderList = activitySetService.getWaresOrderList((String) request.getAttribute("sysid"), state);
-
-        return new Result(200, true, "获取成功", waresOrderList);
+        return new Result(200, true, "获取成功", activitySetService.getWaresOrderList(map));
     }
 
     @ApiOperation("商城--商品分类启用/禁用设置 并返回分类列表")
