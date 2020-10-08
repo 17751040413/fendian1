@@ -68,6 +68,7 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public UseUser getUseUserById(String id, String openId) {
         //添加浏览记录
         UseUser useUser = appletMapper.getUseUserById(id);
@@ -251,6 +252,7 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean setShippingAddress(ShippingAddress shippingAddress) {
         if (shippingAddress == null) {
             return false;
@@ -563,6 +565,7 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String checkLuckCoupon(String id, String openId) {
         LuckDrawDetail luckDrawDetail = activitySetMapper.getLuckDrawDetailById(id);
         LuckDrawSet luckDrawSet = activitySetMapper.getLuckDrawSet(luckDrawDetail.getLuckDrawId());
@@ -648,6 +651,7 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String getSpike(String id, String openId) {
         SeckillSet seckillSet = activitySetMapper.getSeckillSet(id);
         if (seckillSet == null) {
@@ -712,6 +716,7 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String getCoupon(String id, String openId) {
         CouponSet couponSet = activitySetMapper.getCouponSet(id);
         if (couponSet == null) {
@@ -748,6 +753,7 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public GroupBuying groupBuyById(String id) {
         appletMapper.updateGroupBuyerByTime();
         return activitySetMapper.getGroupBuying(id);
@@ -796,6 +802,7 @@ public class AppletServiceImpl implements AppletService {
      * @param id
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void joinGroup(String openId, String id) {
         appletMapper.joinGroup(openId, id);
         appletMapper.updateGroupBuyerByNumber();
@@ -877,12 +884,13 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String startBargain(String openId, String id) {
         BargainingSet bargainingSet = activitySetMapper.getBargainingSet(id);
         BargainBuyer bargainBuyer = new BargainBuyer();
         bargainBuyer.setId(StringUtils.getUuid());
         bargainBuyer.setBargainId(id);
-        bargainBuyer.setBargainId(openId);
+        bargainBuyer.setBuyerId(openId);
         bargainBuyer.setUsers(openId);
         bargainBuyer.setNumber(bargainingSet.getBargainingFrequency() - 1);
         bargainBuyer.setEndTime(bargainingSet.getEndTime());
@@ -914,6 +922,7 @@ public class AppletServiceImpl implements AppletService {
      * @param id
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public JSONObject joinBargain(String openId, String id) {
         appletMapper.joinBargain(openId, id);
         appletMapper.updateBargainBuyerByNumber();
@@ -925,7 +934,7 @@ public class AppletServiceImpl implements AppletService {
         bargainUser.setBuyerId(openId);
         bargainUser.setName(user.getNickName());
         bargainUser.setUrl(user.getAvatarUrl());
-        bargainUser.setBargainId(id);
+        bargainUser.setBargainId(bargainingSet.getId());
 
         //是否结束
         boolean result = false;
@@ -1004,9 +1013,14 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int member(Member member) {
         member.setId(StringUtils.getUuid());
         User user = userMapper.selectBySkey(member.getSkey());
+        if (appletMapper.getMember(member.getUserId(),user.getOpenId())!=null){
+            return 0;
+        }
+        member.setBuyerId(user.getOpenId());
         member.setNickName(user.getNickName());
         member.setUrl(user.getAvatarUrl());
         member.setGender(user.getGender());
@@ -1035,14 +1049,20 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void price(String id, int price) {
 
         //元 转成 分
         price = price * 100;
         appletMapper.price(id, price);
+        Member member = appletMapper.getMemberById(id);
+        User user = appletMapper.getUserByOpenId(member.getBuyerId());
         MemberConsume memberConsume = new MemberConsume();
+        memberConsume.setNickName(user.getNickName());
+        memberConsume.setUrl(user.getAvatarUrl());
         memberConsume.setConsume(price);
         memberConsume.setMemberId(id);
+        memberConsume.setType("2");
         appletMapper.addMemberConsume(memberConsume);
     }
 

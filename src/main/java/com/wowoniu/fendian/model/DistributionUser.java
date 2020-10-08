@@ -29,6 +29,8 @@ public class DistributionUser implements Serializable {
     private String distributionId;
     @ApiModelProperty("销售额")
     private int price;
+    @ApiModelProperty("订单数量")
+    private int orderNumber;
 
     @ApiModelProperty("联盟ID")
     private String allianceId;
@@ -119,5 +121,13 @@ public class DistributionUser implements Serializable {
 
     public void setAllianceId(String allianceId) {
         this.allianceId = allianceId;
+    }
+
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
     }
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -556,8 +557,27 @@ public class AppletController {
 
     @PostMapping("/member")
     @ApiOperation("8-2-8-1 领取会员权益")
-    public Object member(@RequestBody Member member) {
-        return new Result<>(200, true, "获取成功", appletService.member(member));
+    @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "skey", value = "skey ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "price", value = "余额 ", dataType = "int", required = true),
+            @ApiImplicitParam(name = "endTime", value = "到期时间 ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "level", value = "等级 ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "levelName", value = "等级名称 ", dataType = "String", required = true),
+            @ApiImplicitParam(name = "lastBuy", value = "最后消费 ", dataType = "String", required = true)})
+    public Object member(String userId, String skey, int price, Timestamp endTime,Integer level,String levelName,String lastBuy) {
+        Member member = new Member();
+        member.setUserId(userId);
+        member.setSkey(skey);
+        member.setPrice(price);
+        member.setEndTime(endTime);
+        member.setLevel(level);
+        member.setLevelName(levelName);
+        member.setLastBuy(lastBuy);
+        int count = appletService.member(member);
+        if (count==1){
+            return new Result<>(200, true, "添加成功", null);
+        }
+        return new Result<>(204, true, "添加失败", null);
     }
 
     @PostMapping("/getMember")
@@ -575,7 +595,7 @@ public class AppletController {
             @ApiImplicitParam(name = "price", value = "金额 ", dataType = "int", required = true)})
     public Object price(String id, int price) {
         appletService.price(id, price);
-        return new Result<>(200, true, "获取成功", null);
+        return new Result<>(200, true, "充值成功", null);
     }
 
     @PostMapping("/getConsume")

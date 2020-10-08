@@ -16,7 +16,7 @@ public class BargainUser implements Serializable {
     @ApiModelProperty("头像")
     private String url;
     @ApiModelProperty("金额")
-    private Integer price;
+    private int price;
     @ApiModelProperty("活动ID")
     private String bargainId;
 
@@ -52,11 +52,11 @@ public class BargainUser implements Serializable {
         this.url = url;
     }
 
-    public Integer getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

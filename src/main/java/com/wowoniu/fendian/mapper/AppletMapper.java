@@ -374,9 +374,9 @@ public interface AppletMapper {
      * @param couponBuyer
      * @return
      */
-    @Insert("INSERT INTO coupon_buyer (id,buyer_id,donor_id,user_id,create_time,start_time,end_time,effective,discount,discount_amount," +
+    @Insert("INSERT INTO coupon_buyer (id,buyer_id,donor_id,user_id,create_time,start_time,end_time,discount,discount_amount," +
             "activity_id,activity_type,`condition`,`range`,exchange_number,price,activity_price,pay_price,activity_name,activity_url) " +
-            "VALUES (#{id},#{buyerId},#{donorId},#{userId},#{createTime},#{startTime},#{endTime},#{effective},#{discount},#{discountAmount}," +
+            "VALUES (#{id},#{buyerId},#{donorId},#{userId},#{createTime},#{startTime},#{endTime},#{discount},#{discountAmount}," +
             "#{activityId},#{activityType},#{condition},#{range},#{exchangeNumber},#{price},#{activityPrice},#{payPrice},#{activityName},#{activityUrl})")
     int addCouponBuyer(CouponBuyer couponBuyer);
 
@@ -470,7 +470,7 @@ public interface AppletMapper {
      *
      * @param bargainBuyer
      */
-    @Insert("INSERT INTO (id,buyer_id,buyer_id,number,create_time,end_time,users) VALUES (#{id},#{bargainId},#{bargainId},#{number},NOW(),#{endTime},#{users}}) ")
+    @Insert("INSERT INTO bargain_buyer (id,buyer_id,bargain_id,number,create_time,end_time,users) VALUES (#{id},#{buyerId},#{bargainId},#{number},NOW(),#{endTime},#{users}) ")
     void addBargainBuyer(BargainBuyer bargainBuyer);
 
     /**
@@ -478,7 +478,7 @@ public interface AppletMapper {
      *
      * @param bargainUser
      */
-    @Insert("INSERT INTO (id,buyer_id,name,url,price,bargain_id) VALUES (#{id},#{buyerId},#{price},#{price},#{price},#{bargainId}}) ")
+    @Insert("INSERT INTO bargain_user (id,buyer_id,name,url,price,bargain_id) VALUES (#{id},#{buyerId},#{name},#{url},#{price},#{bargainId}) ")
     void addBargainUser(BargainUser bargainUser);
 
     /**
@@ -505,7 +505,7 @@ public interface AppletMapper {
      * @param id
      * @return
      */
-    @Select("SELECT * FROM bargain_buyer WHERE bargain_id = #{id}")
+    @Select("SELECT * FROM bargain_user WHERE bargain_id = #{id}")
     List<BargainUser> getBargainUserListByBargainId(String id);
 
     /**
@@ -526,8 +526,8 @@ public interface AppletMapper {
      * @param member
      * @return
      */
-    @Insert("INSERT INTO (id,user_id,buyer_id,phone,price,create_time,name,url,number,level,end_time,remark,nick_name,gender) " +
-            "VALUES (#{id},#{userId},#{buyerId},#{phone},#{price},now(),#{name},#{url},0,#{level},#{endTime},#{remark},#{nickName},#{gender}")
+    @Insert("INSERT INTO member (id,user_id,buyer_id,phone,price,create_time,name,url,number,level,level_name,end_time,remark,nick_name,gender) " +
+            "VALUES (#{id},#{userId},#{buyerId},#{phone},#{price},now(),#{name},#{url},0,#{level},#{levelName},#{endTime},#{remark},#{nickName},#{gender})")
     int addMember(Member member);
 
     /**
@@ -554,14 +554,14 @@ public interface AppletMapper {
      * @return
      */
     @Select("UPDATE member SET price = price + #{price} WHERE id = #{id}")
-    int price(@Param("id") String id, @Param("price") int price);
+    void price(@Param("id") String id, @Param("price") int price);
 
     /**
      * 添加会员消费记录
      *
      * @param memberConsume
      */
-    @Insert("INSERT INTO (member_id,consume,time,type) VALUES (memberId,consume,now(),#{type})")
+    @Insert("INSERT INTO member_consume (member_id,consume,time,type,price,actual,nick_name,url) VALUES (#{memberId},#{consume},now(),#{type},#{price},#{actual},#{nickName},#{url})")
     void addMemberConsume(MemberConsume memberConsume);
 
     /**
@@ -589,7 +589,7 @@ public interface AppletMapper {
      * @param openId
      * @return
      */
-    @Select("SELECT * FROM coupon_user WHERE buyer_id IN (SELECT buyer_id FROM coupon_buyer WHERE effective = 'N' AND user_id = #{userId} AND donor_id = #{open_id} ORDER BY receive_time DESC)")
+    @Select("SELECT * FROM coupon_user WHERE buyer_id IN (SELECT buyer_id FROM coupon_buyer WHERE effective = 'N' AND user_id = #{userId} AND donor_id = #{openId} ORDER BY receive_time DESC)")
     List<CouponUser> getFriendConsume(String userId, String openId);
 
     /**
