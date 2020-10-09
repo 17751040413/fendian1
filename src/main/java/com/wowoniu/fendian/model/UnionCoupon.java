@@ -116,9 +116,9 @@ public class UnionCoupon implements Serializable {
     /**
      * 已使用
      */
-    private int isuse = 2;
+    private int isuse = 0;
 
-    private int isReceive = 3;
+    private int isReceive = 0;
 
     private double commission = 8.8;
 
