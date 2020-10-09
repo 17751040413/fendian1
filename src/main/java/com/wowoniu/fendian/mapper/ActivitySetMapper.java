@@ -401,8 +401,8 @@ public interface ActivitySetMapper {
      * @param shoppingMallSet
      * @return
      */
-    @Insert("INSERT INTO shopping_mall_set(id,user_id,state,self_raising,distribution,freight,recommend,prevent_brush) " +
-            "VALUES (#{id},#{userId},#{state},#{selfRaising},#{distribution},#{freight},#{recommend},#{preventBrush})")
+    @Insert("INSERT INTO shopping_mall_set(id,user_id,state,self_raising,distribution,freight,recommend,prevent_brush,type,alone) " +
+            "VALUES (#{id},#{userId},#{state},#{selfRaising},#{distribution},#{freight},#{recommend},#{preventBrush},#{type},#{alone})")
     int addShoppingMallSet(ShoppingMallSet shoppingMallSet);
 
     /**
@@ -411,7 +411,8 @@ public interface ActivitySetMapper {
      * @param shoppingMallSet
      * @return
      */
-    @Update("UPDATE shopping_mall_set SET state = #{state} ,self_raising = #{selfRaising},distribution = #{distribution},freight=#{freight},recommend=#{recommend},prevent_brush=#{preventBrush} WHERE id =#{id} ")
+    @Update("UPDATE shopping_mall_set SET state = #{state} ,self_raising = #{selfRaising},distribution = #{distribution},freight=#{freight}," +
+            "recommend=#{recommend},prevent_brush=#{preventBrush},type =#{type},alone=#{alone} WHERE id =#{id} ")
     int updateShoppingMallSet(ShoppingMallSet shoppingMallSet);
 
     /**
