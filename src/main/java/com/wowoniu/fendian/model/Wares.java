@@ -40,7 +40,7 @@ public class Wares implements Serializable {
     @ApiModelProperty("隐藏（N:禁用；Y:启用）")
     private String hide;
 
-    @ApiModelProperty("图片地址")
+    @ApiModelProperty("头图图片地址")
     private String pictureUrl;
 
     @ApiModelProperty("上架（Y：上架；N：下架）")
@@ -54,6 +54,9 @@ public class Wares implements Serializable {
 
     @ApiModelProperty("描述")
     private String describe;
+
+    @ApiModelProperty("图片URL（最多9张 ’；‘隔开）")
+    private String url;
 
     public String getId() {
         return id;
@@ -165,5 +168,13 @@ public class Wares implements Serializable {
 
     public void setDescribe(String describe) {
         this.describe = describe;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

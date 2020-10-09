@@ -529,8 +529,8 @@ public interface ActivitySetMapper {
      * @param wares
      * @return
      */
-    @Insert("INSERT INTO wares(id,title,price,stock,freight,sort_id,distribution_commission,hide,picture_url,on_shelf,shelf_time,user_id,describe) " +
-            "VALUES (#{id},#{title},#{price},#{stock},#{freight},#{sortId},#{distributionCommission},#{hide},#{pictureUrl},#{onShelf},now(),#{userId},#{describe})")
+    @Insert("INSERT INTO wares(id,title,price,stock,freight,sort_id,distribution_commission,hide,picture_url,on_shelf,shelf_time,user_id,describe,url) " +
+            "VALUES (#{id},#{title},#{price},#{stock},#{freight},#{sortId},#{distributionCommission},#{hide},#{pictureUrl},#{onShelf},now(),#{userId},#{describe},#{url})")
     int addWares(Wares wares);
 
     /**
@@ -540,7 +540,7 @@ public interface ActivitySetMapper {
      * @return
      */
     @Update("UPDATE wares SET title = #{title},price=#{price},stock=#{stock},freight=#{freight},sort_id=#{sortId}," +
-            "distribution_commission=#{distributionCommission},hide=#{hide},picture_url=#{pictureUrl},on_shelf=#{onShelf} ,describe = #{describe},shelf_time=now() WHERE id = #{id}")
+            "distribution_commission=#{distributionCommission},hide=#{hide},picture_url=#{pictureUrl},on_shelf=#{onShelf} ,describe = #{describe},shelf_time=now(),url=#{url} WHERE id = #{id}")
     int updateWares(Wares wares);
 
     /**
