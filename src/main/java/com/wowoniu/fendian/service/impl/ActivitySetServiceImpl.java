@@ -652,37 +652,42 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     /**
      * 商品分类置顶移动
      *
-     * @param id
-     * @param move
+     * @param param
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean setWaresSortDetailTopMove(String id, Integer move) {
-        WaresSortDetail waresSortDetail = activitySetMapper.getWaresSortDetail(id);
-        //首位向上移动 则不变
-        if (waresSortDetail.getTopRow() == 0 && move.equals(0)) {
-            return true;
+    public boolean setWaresSortDetailTopMove(JSONArray param) {
+//        WaresSortDetail waresSortDetail = activitySetMapper.getWaresSortDetail(id);
+//        //首位向上移动 则不变
+//        if (waresSortDetail.getTopRow() == 0 && move.equals(0)) {
+//            return true;
+//        }
+//        WaresSortDetail waresSortDetail1TopRow;
+//        //向上
+//        if (move.equals(0)) {
+//            //获取交换的分类
+//            waresSortDetail1TopRow = activitySetMapper.getWaresSortDetailByTopRow(waresSortDetail.getTopRow() - 1);
+//        } else {
+//            //向下
+//            waresSortDetail1TopRow = activitySetMapper.getWaresSortDetailByTopRow(waresSortDetail.getTopRow() + 1);
+//        }
+//        if (waresSortDetail1TopRow == null) {
+//            return false;
+//        }
+//        //交换位置
+//        List<WaresSortDetail> waresSortDetailList = new ArrayList<>();
+//        Integer interim = waresSortDetail.getTopRow();
+//        waresSortDetail.setTopRow(waresSortDetail1TopRow.getTopRow());
+//        waresSortDetail1TopRow.setTopRow(interim);
+//        activitySetMapper.updateWaresSortDetail(waresSortDetail);
+//        activitySetMapper.updateWaresSortDetail(waresSortDetail1TopRow);
+        for (int i = 0; i < param.size(); i++) {
+            JSONObject jsonObject = param.getJSONObject(i);
+            WaresSortDetail waresSortDetail = activitySetMapper.getWaresSortDetail(jsonObject.getString("id"));
+            waresSortDetail.setRow(jsonObject.getInteger("row"));
+            activitySetMapper.updateWaresSortDetail(waresSortDetail);
         }
-        WaresSortDetail waresSortDetail1TopRow;
-        //向上
-        if (move.equals(0)) {
-            //获取交换的分类
-            waresSortDetail1TopRow = activitySetMapper.getWaresSortDetailByTopRow(waresSortDetail.getTopRow() - 1);
-        } else {
-            //向下
-            waresSortDetail1TopRow = activitySetMapper.getWaresSortDetailByTopRow(waresSortDetail.getTopRow() + 1);
-        }
-        if (waresSortDetail1TopRow == null) {
-            return false;
-        }
-        //交换位置
-        List<WaresSortDetail> waresSortDetailList = new ArrayList<>();
-        Integer interim = waresSortDetail.getTopRow();
-        waresSortDetail.setTopRow(waresSortDetail1TopRow.getTopRow());
-        waresSortDetail1TopRow.setTopRow(interim);
-        activitySetMapper.updateWaresSortDetail(waresSortDetail);
-        activitySetMapper.updateWaresSortDetail(waresSortDetail1TopRow);
         return true;
     }
 

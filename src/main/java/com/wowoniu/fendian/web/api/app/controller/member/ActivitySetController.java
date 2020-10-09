@@ -267,11 +267,9 @@ public class ActivitySetController {
 
     @ApiOperation("商城--商品分类置顶上移 下移")
     @PostMapping("/setWaresSortDetailTopMove")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品分类ID", dataType = "String", required = true),
-            @ApiImplicitParam(name = "move", value = "移动（0：向上移动一位；1：向下移动一位）", dataType = "int", required = true)})
-    public Object setWaresSortDetailTopMove(String id, Integer move) {
+    public Object setWaresSortDetailTopMove(@RequestBody JSONArray param) {
 
-        boolean result = activitySetService.setWaresSortDetailTopMove(id, move);
+        boolean result = activitySetService.setWaresSortDetailTopMove(param);
         if (result) {
             return new Result(200, true, "操作成功", null);
         }

@@ -163,11 +163,10 @@ public interface ActivitySetService {
     /**
      * 商品分类置顶移动
      *
-     * @param id
-     * @param move
+     * @param param
      * @return
      */
-    boolean setWaresSortDetailTopMove(String id, Integer move);
+    boolean setWaresSortDetailTopMove(JSONArray param);
 
     /**
      * 商品列表条件查询
