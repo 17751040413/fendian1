@@ -684,9 +684,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
 //        activitySetMapper.updateWaresSortDetail(waresSortDetail1TopRow);
         for (int i = 0; i < param.size(); i++) {
             JSONObject jsonObject = param.getJSONObject(i);
-            WaresSortDetail waresSortDetail = activitySetMapper.getWaresSortDetail(jsonObject.getString("id"));
-            waresSortDetail.setRow(jsonObject.getInteger("row"));
-            activitySetMapper.updateWaresSortDetail(waresSortDetail);
+            activitySetMapper.updateWaresSortDetailRowById(jsonObject.getString("id"),jsonObject.getInteger("row"));
         }
         return true;
     }

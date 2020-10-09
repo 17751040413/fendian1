@@ -491,6 +491,9 @@ public interface ActivitySetMapper {
     @Update("UPDATE wares_sort_detail SET state = #{state},name=#{name},top_row=#{topRow},sort_id=#{sortId} WHERE id = #{id}")
     int updateWaresSortDetail(WaresSortDetail waresSortDetail);
 
+    @Update("UPDATE wares_sort_detail SET row=#{row} WHERE id = #{id}")
+    int updateWaresSortDetailRowById(@Param("id") String id,@Param("row") int row);
+
     /**
      * 置顶排序获取分类
      *
