@@ -31,7 +31,7 @@ public class LoginIntercepter implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Map map = new HashMap(4);
        // String token = request.getHeader("token");
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0enQiLCJzeXNpZCI6IjYzYTkzYmMxY2IxYjQzOTk4NGFlZTQ0ZTYzNTEzODEwIiwiaWRlbnRpZmljYXRpb24iOiIyMjIiLCJpYXQiOjE2MDE2OTEzODgsImV4cCI6MTYwMjI5NjE4OH0.zGR8Ssf3PLgAlZNVZP67-lVWNhn3pYGpNFMEayu3BNw";
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0enQiLCJzeXNpZCI6IjYzYTkzYmMxY2IxYjQzOTk4NGFlZTQ0ZTYzNTEzODEwIiwiaWRlbnRpZmljYXRpb24iOiIwNDY3QjBENi03QkNDLTRGRDctQTI5NS1GNzM2QTgxOEJCNEUiLCJpYXQiOjE2MDIyOTcyMzgsImV4cCI6MTYwMjkwMjAzOH0.ofyO5zUfRWw1JzHc5Pue_Dd-ocn_hXejU8PwhIf-czg";
         if (token == null){
             token  = request.getParameter("token");
         }
