@@ -22,7 +22,7 @@ public class CustomWebContigurer implements WebMvcConfigurer {
         registry.addInterceptor(loginIntercepter).addPathPatterns("/api/pay/*/**");
         registry.addInterceptor(loginIntercepter).addPathPatterns("/api/bank/*/**");
         registry.addInterceptor(loginIntercepter).addPathPatterns("/app/union/*/**");
-        registry.addInterceptor(loginIntercepter).addPathPatterns("/activitySet/*/**");
+//        registry.addInterceptor(loginIntercepter).addPathPatterns("/activitySet/*/**");
         registry.addInterceptor(loginIntercepter).addPathPatterns("/member/*/**");
         registry.addInterceptor(loginIntercepter).addPathPatterns("/app/shop/*/**");
 

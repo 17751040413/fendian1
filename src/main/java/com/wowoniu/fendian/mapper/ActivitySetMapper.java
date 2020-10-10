@@ -511,7 +511,7 @@ public interface ActivitySetMapper {
      * @return
      */
     @Select("SELECT * FROM wares_sort_detail WHERE sort_id = (SELECT id FROM wares_sort_set WHERE user_id = #{userId}) " +
-            "AND state =#{state} ORDER BY top_row,state,id ASC")
+            "AND state =#{state} ORDER BY row,state,id ASC")
     List<WaresSortDetail> getWaresSortDetailListByUserId(@Param("state") String state, @Param("userId") String userId);
 
     /**

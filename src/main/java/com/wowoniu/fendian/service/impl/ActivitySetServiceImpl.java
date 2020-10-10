@@ -684,7 +684,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
 //        activitySetMapper.updateWaresSortDetail(waresSortDetail1TopRow);
         for (int i = 0; i < param.size(); i++) {
             JSONObject jsonObject = param.getJSONObject(i);
-            activitySetMapper.updateWaresSortDetailRowById(jsonObject.getString("id"),jsonObject.getInteger("row"));
+            activitySetMapper.updateWaresSortDetailRowById(jsonObject.getString("id"), jsonObject.getInteger("row"));
         }
         return true;
     }
@@ -850,10 +850,21 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         //获取订单
         WaresOrder waresOrder = activitySetMapper.getWaresOrderById(id, userId);
         if (code.equals(waresOrder.getTakeCode())) {
-//            activitySetMapper.updateWaresOrderState(waresOrder.getTakeCode(), waresOrder.getCourierNumber(), Constants.ORDER_STATE_COMPLETE, id);
+            activitySetMapper.updateWaresOrderState(waresOrder.getTakeCode(), waresOrder.getCourierNumber(), Constants.ORDER_STATE_COMPLETE, id);
             return true;
         }
         return false;
+    }
+
+    /**
+     * 订单ID获取订单信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public WaresOrder getWaresOrderById(String id, String userId) {
+        return activitySetMapper.getWaresOrderById(id, userId);
     }
 
     /**
