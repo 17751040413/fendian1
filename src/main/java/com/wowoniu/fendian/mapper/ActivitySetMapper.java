@@ -518,15 +518,12 @@ public interface ActivitySetMapper {
     /**
      * 商品列表条件查询
      *
-     * @param userId
-     * @param onShelf
-     * @param time
-     * @param sales
-     * @param sortId
+     * @param map
      * @return
      */
-    List<Wares> getWaresList(@Param("userId") String userId, @Param("onShelf") String onShelf, @Param("time") String time,
-                             @Param("sales") String sales, @Param("sortId") String sortId);
+    List<Wares> getWaresList(Map<String, Object> map);
+
+    int searchWares(Map<String, Object> map);
 
     /**
      * 新增商品
@@ -556,6 +553,9 @@ public interface ActivitySetMapper {
      */
     @Select("SELECT * FROM wares_spec WHERE wares_id = #{waresId}")
     List<WaresSpec> getWaresSpecList(String waresId);
+
+    @Select("SELECT * FROM wares_spec WHERE id = #{id}")
+    WaresSpec getWaresSpecById(String id);
 
     /**
      * 规格ID获取规格详情

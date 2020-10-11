@@ -692,16 +692,19 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     /**
      * 商品列表条件查询
      *
-     * @param userId
-     * @param onShelf
-     * @param time
-     * @param sales
+     * @param map
      * @return
      */
     @Override
-    public List<Wares> getWaresList(String userId, String onShelf, String time, String sales, String sortId) {
-
-        return activitySetMapper.getWaresList(userId, onShelf, time, sales, sortId);
+    public PageUtil<Wares> getWaresList(Map<String, Object> map) {
+        PageUtil<Wares> pageUtil = new PageUtil();
+        int count = activitySetMapper.searchWares(map);
+        pageUtil.setTotalCount(count);
+        pageUtil.setPageSize((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
+        List<Wares> waresList = activitySetMapper.getWaresList(map);
+        pageUtil.setLists(waresList);
+        return pageUtil;
     }
 
     /**
@@ -747,6 +750,14 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         }
 
         return jsonArray;
+    }
+
+    @Override
+    public Object getWaresSpecById(String id) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("waresSpec", activitySetMapper.getWaresSpecById(id));
+        jsonObject.put("detail", activitySetMapper.getWaresSpecDetailList(id));
+        return jsonObject;
     }
 
     /**

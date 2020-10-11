@@ -19,7 +19,7 @@
 
     <!-- 商品条件查询 -->
     <select id="getWaresList" resultType="com.wowoniu.fendian.model.Wares">
-        SELECT * FROM wares
+        SELECT * FROM wares LEFT JOIN
         WHERE user_id = #{userId}
         <if test="onShelf != null and onShelf!='' ">
             AND on_shelf = #{onShelf}
@@ -28,10 +28,22 @@
             AND sort_id = #{sortId}
         </if>
         <if test="time == 1">
-            ORDER BY shelf_time DESC
+            ORDER BY `shelf_time` DESC
         </if>
         <if test="sales == 1">
-            ORDER BY sales_volume DESC
+            ORDER BY `sales_volume` DESC
+        </if>
+        LIMIT #{startRow},#{pageSize}
+    </select>
+
+    <select id="searchWares" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM wares
+        WHERE user_id = #{userId}
+        <if test="onShelf != null and onShelf!='' ">
+            AND on_shelf = #{onShelf}
+        </if>
+        <if test="sortId != 0 ">
+            AND sort_id = #{sortId}
         </if>
     </select>
 

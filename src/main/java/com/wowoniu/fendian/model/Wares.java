@@ -34,6 +34,9 @@ public class Wares implements Serializable {
     @ApiModelProperty("分类ID")
     private String sortId;
 
+    @ApiModelProperty("分类名称")
+    private String sortName;
+
     @ApiModelProperty("分销佣金（N:禁用；Y：启用）")
     private String distributionCommission;
 
@@ -176,5 +179,13 @@ public class Wares implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getSortName() {
+        return sortName;
+    }
+
+    public void setSortName(String sortName) {
+        this.sortName = sortName;
     }
 }

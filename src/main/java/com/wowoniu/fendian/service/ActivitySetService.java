@@ -171,13 +171,10 @@ public interface ActivitySetService {
     /**
      * 商品列表条件查询
      *
-     * @param userId
-     * @param onShelf
-     * @param time
-     * @param sales
+     * @param map
      * @return
      */
-    List<Wares> getWaresList(String userId, String onShelf, String time, String sales, String sortId);
+    PageUtil<Wares> getWaresList(Map<String, Object> map);
 
     /**
      * 发布商品新增
@@ -194,6 +191,8 @@ public interface ActivitySetService {
      * @return
      */
     JSONArray getWaresSpecAndDetail(String waresId);
+
+    Object getWaresSpecById(String id);
 
     /**
      * 商品规格及详情新增/修改

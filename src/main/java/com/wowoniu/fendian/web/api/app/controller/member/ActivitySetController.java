@@ -299,14 +299,20 @@ public class ActivitySetController {
     @ApiImplicitParams({@ApiImplicitParam(name = "onShelf", value = "上架（Y：上架；N：下架;全部：null）", dataType = "String", required = true),
             @ApiImplicitParam(name = "time", value = "时间查询条件（1:启用；0：禁用）按时间由近到远排序", dataType = "String", required = true),
             @ApiImplicitParam(name = "sales", value = "销量查询条件（1：启用；0：禁用）按时间由多到排序", dataType = "String", required = true),
-            @ApiImplicitParam(name = "sortId", value = "商品分类详情Id(全部则为0)", dataType = "String", required = true)})
-    public Object getWaresList(String onShelf, String time, String sales, String sortId, @ApiIgnore HttpServletRequest request) {
+            @ApiImplicitParam(name = "sortId", value = "商品分类详情Id(全部则为0)", dataType = "String", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
+            @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
+    public Object getWaresList(String onShelf, String time, String sales, String sortId, int pageSize, int startRow, @ApiIgnore HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("pageSize", pageSize);
+        map.put("startRow", startRow);
+        map.put("userId", request.getAttribute("sysid"));
+        map.put("onShelf", onShelf);
+        map.put("time", time);
+        map.put("sales", sales);
+        map.put("sortId", sortId);
 
-        List<Wares> waresList = activitySetService.getWaresList((String) request.getAttribute("sysid"), onShelf, time, sales, sortId);
-        if (CollectionUtils.isEmpty(waresList)) {
-            return new Result(204, false, "获取失败", null);
-        }
-        return new Result(200, true, "获取成功", waresList);
+        return new Result(200, true, "获取成功", activitySetService.getWaresList(map));
 
     }
 
@@ -320,16 +326,20 @@ public class ActivitySetController {
         return new Result(204, false, "操作失败", null);
     }
 
-    @ApiOperation("商城--商品ID获取规格及规格详情")
+    @ApiOperation("商城--商品ID获取规格及规格详情列表")
     @PostMapping("/getWaresSpecAndDetail")
     @ApiImplicitParams({@ApiImplicitParam(name = "waresId", value = "商品ID", dataType = "String", required = true)})
     public Object getWaresSpecAndDetail(String waresId) {
 
-        JSONArray jsonArray = activitySetService.getWaresSpecAndDetail(waresId);
-        if (jsonArray == null || jsonArray.size() == 0) {
-            return new Result(204, false, "获取失败", null);
-        }
-        return new Result(200, true, "获取成功", jsonArray);
+        return new Result(200, true, "获取成功", activitySetService.getWaresSpecAndDetail(waresId));
+    }
+
+    @ApiOperation("商城--规格ID获取规格及规格详情")
+    @PostMapping("/getWaresSpecById")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "规格id", dataType = "String", required = true)})
+    public Object getWaresSpecById(String id) {
+
+        return new Result(200, true, "获取成功", activitySetService.getWaresSpecById(id));
     }
 
     @ApiOperation("商城--商品规格及详情新增/修改")
@@ -400,7 +410,7 @@ public class ActivitySetController {
     @PostMapping("/getWaresOrderById")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID", dataType = "long", required = true)})
     public Object getWaresOrderById(String id, @ApiIgnore HttpServletRequest request) {
-        return new Result(200, true, "获取成功", activitySetService.getWaresOrderById(id,(String) request.getAttribute("sysid")));
+        return new Result(200, true, "获取成功", activitySetService.getWaresOrderById(id, (String) request.getAttribute("sysid")));
     }
 
 
