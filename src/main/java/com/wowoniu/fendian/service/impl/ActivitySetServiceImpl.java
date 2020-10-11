@@ -755,9 +755,15 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     @Override
     public Object getWaresSpecById(String id) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("waresSpec", activitySetMapper.getWaresSpecById(id));
-        jsonObject.put("detail", activitySetMapper.getWaresSpecDetailList(id));
-        return jsonObject;
+        String[] ids = id.split(";");
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < ids.length; i++) {
+            jsonObject.put("waresSpec", activitySetMapper.getWaresSpecById(ids[i]));
+            jsonObject.put("detail", activitySetMapper.getWaresSpecDetailList(ids[i]));
+            jsonArray.add(jsonObject);
+        }
+
+        return jsonArray;
     }
 
     /**
@@ -768,44 +774,49 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String setWaresSpecAndDetail(JSONObject param) {
-        WaresSpec waresSpec = JSONObject.parseObject(param.getJSONObject("waresSpec").toJSONString(), WaresSpec.class);
+    public List<String> setWaresSpecAndDetail(JSONObject param) {
+        List<WaresSpec> waresSpecList = JSONArray.parseArray(param.getJSONArray("detail").toJSONString(), WaresSpec.class);
         List<WaresSpecDetail> waresSpecDetailList = JSONArray.parseArray(param.getJSONArray("detail").toJSONString(), WaresSpecDetail.class);
-        if (waresSpec == null || CollectionUtils.isEmpty(waresSpecDetailList)) {
+        if (CollectionUtils.isEmpty(waresSpecList) || CollectionUtils.isEmpty(waresSpecDetailList)) {
             return null;
         }
 
-        //新增
-        if (StringUtils.isEmpity(waresSpec.getId())) {
-            waresSpec.setId(StringUtils.getUuid());
-            for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
-                waresSpecDetail.setId(StringUtils.getUuid());
-                waresSpecDetail.setSpecId(waresSpec.getId());
-            }
-            activitySetMapper.addWaresSpec(waresSpec);
-            activitySetMapper.addWaresSpecDetailBatch(waresSpecDetailList);
-        } else {
-            //修改
-            activitySetMapper.updateWaresSpec(waresSpec);
-            List<WaresSpecDetail> add = new ArrayList<>();
-            List<WaresSpecDetail> update = new ArrayList<>();
-            for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
-                if (StringUtils.isEmpity(waresSpecDetail.getId())) {
+        List<String> ids = new ArrayList<>();
+        for (WaresSpec waresSpec : waresSpecList) {
+            //新增
+            if (StringUtils.isEmpity(waresSpec.getId())) {
+                waresSpec.setId(StringUtils.getUuid());
+                for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
                     waresSpecDetail.setId(StringUtils.getUuid());
                     waresSpecDetail.setSpecId(waresSpec.getId());
-                    add.add(waresSpecDetail);
-                } else {
-                    update.add(waresSpecDetail);
+                }
+                activitySetMapper.addWaresSpec(waresSpec);
+                activitySetMapper.addWaresSpecDetailBatch(waresSpecDetailList);
+            } else {
+                //修改
+                activitySetMapper.updateWaresSpec(waresSpec);
+                List<WaresSpecDetail> add = new ArrayList<>();
+                List<WaresSpecDetail> update = new ArrayList<>();
+                for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
+                    if (StringUtils.isEmpity(waresSpecDetail.getId())) {
+                        waresSpecDetail.setId(StringUtils.getUuid());
+                        waresSpecDetail.setSpecId(waresSpec.getId());
+                        add.add(waresSpecDetail);
+                    } else {
+                        update.add(waresSpecDetail);
+                    }
+                }
+                if (!CollectionUtils.isEmpty(add)) {
+                    activitySetMapper.addWaresSpecDetailBatch(add);
+                }
+                if (!CollectionUtils.isEmpty(update)) {
+                    activitySetMapper.updateWaresSpecDetailBatch(update);
                 }
             }
-            if (!CollectionUtils.isEmpty(add)) {
-                activitySetMapper.addWaresSpecDetailBatch(add);
-            }
-            if (!CollectionUtils.isEmpty(update)) {
-                activitySetMapper.updateWaresSpecDetailBatch(update);
-            }
+            ids.add(waresSpec.getId());
         }
-        return waresSpec.getId();
+
+        return ids;
     }
 
     /**

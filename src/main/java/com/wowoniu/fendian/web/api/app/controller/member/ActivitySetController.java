@@ -345,8 +345,8 @@ public class ActivitySetController {
     @ApiOperation("商城--商品规格及详情新增/修改")
     @PostMapping("/setWaresSpec")
     public Object setWaresSpec(@RequestBody JSONObject param) {
-        String result = activitySetService.setWaresSpecAndDetail(param);
-        if (StringUtils.isNotEmpty(result)) {
+        List<String> result = activitySetService.setWaresSpecAndDetail(param);
+        if (!CollectionUtils.isEmpty(result)) {
             return new Result(200, true, "操作成功", result);
         }
         return new Result(204, false, "操作失败", null);
