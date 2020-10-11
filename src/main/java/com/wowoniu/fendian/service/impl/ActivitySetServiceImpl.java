@@ -768,11 +768,11 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean setWaresSpecAndDetail(JSONObject param) {
+    public String setWaresSpecAndDetail(JSONObject param) {
         WaresSpec waresSpec = JSONObject.parseObject(param.getJSONObject("waresSpec").toJSONString(), WaresSpec.class);
         List<WaresSpecDetail> waresSpecDetailList = JSONArray.parseArray(param.getJSONArray("detail").toJSONString(), WaresSpecDetail.class);
         if (waresSpec == null || CollectionUtils.isEmpty(waresSpecDetailList)) {
-            return false;
+            return null;
         }
 
         //新增
@@ -805,7 +805,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
                 activitySetMapper.updateWaresSpecDetailBatch(update);
             }
         }
-        return true;
+        return waresSpec.getId();
     }
 
     /**
