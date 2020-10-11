@@ -90,7 +90,7 @@ public class ActivitySetController {
     @ApiImplicitParams({@ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
             @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true),
             @ApiImplicitParam(name = "name", value = "昵称", dataType = "String", required = true)})
-    public Object getRebateRecord(@ApiIgnore HttpServletRequest request,int pageSize, int startRow,String name) {
+    public Object getRebateRecord(@ApiIgnore HttpServletRequest request, int pageSize, int startRow, String name) {
         Map<String, Object> map = new HashMap<>(8);
         map.put("pageSize", pageSize);
         map.put("startRow", startRow);
@@ -149,7 +149,7 @@ public class ActivitySetController {
     @PostMapping("/getDistributionRatioRecord")
     @ApiImplicitParams({@ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
             @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
-    public Object getDistributionRatioRecord(@ApiIgnore HttpServletRequest request,int pageSize, int startRow) {
+    public Object getDistributionRatioRecord(@ApiIgnore HttpServletRequest request, int pageSize, int startRow) {
         Map<String, Object> map = new HashMap<>(8);
         map.put("pageSize", pageSize);
         map.put("startRow", startRow);
@@ -163,7 +163,7 @@ public class ActivitySetController {
     @ApiImplicitParams({@ApiImplicitParam(name = "search", value = "搜索条件（昵称/手机号）", dataType = "int", required = true),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
             @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
-    public Object getDistributionUser(@ApiIgnore HttpServletRequest request,String search,int pageSize, int startRow) {
+    public Object getDistributionUser(@ApiIgnore HttpServletRequest request, String search, int pageSize, int startRow) {
         String phone = null;
         String name = null;
         if (StringUtils.isNotEmpty(search)) {
@@ -213,10 +213,10 @@ public class ActivitySetController {
 
     @ApiOperation("商城--订单状态获取订单列表")
     @PostMapping("/getWaresOrder")
-    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "订单状态（0：待付款；1：待发货；2：已发货；3：已完成；4：已关闭）", dataType = "String", required = true),
+    @ApiImplicitParams({@ApiImplicitParam(name = "state", value = "状态（0：待付款；1：已付款，2：待发货；3：已发货；4：已完成；5：已关闭）", dataType = "String", required = true),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
             @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
-    public Object getWaresOrder(@ApiIgnore HttpServletRequest request,String state, int pageSize, int startRow) {
+    public Object getWaresOrder(@ApiIgnore HttpServletRequest request, String state, int pageSize, int startRow) {
         Map<String, Object> map = new HashMap<>(8);
         map.put("pageSize", pageSize);
         map.put("startRow", startRow);
@@ -396,6 +396,13 @@ public class ActivitySetController {
         return new Result(204, false, "确认失败", null);
     }
 
+    @ApiOperation("商城--订单ID获取订单信息")
+    @PostMapping("/getWaresOrderById")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID", dataType = "long", required = true)})
+    public Object getWaresOrderById(String id, @ApiIgnore HttpServletRequest request) {
+        return new Result(200, true, "获取成功", activitySetService.getWaresOrderById(id,(String) request.getAttribute("sysid")));
+    }
+
 
     /************************************************* True 商城 - END *********************************************************/
 
@@ -483,7 +490,7 @@ public class ActivitySetController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "推荐设置ID", dataType = "String", required = true)})
     public Object getRecommendSet(String id) {
 
-        return new Result(200, true, "获取成功",  activitySetService.getRecommendSet(id));
+        return new Result(200, true, "获取成功", activitySetService.getRecommendSet(id));
     }
 
     @ApiOperation("推荐--优惠券新增/修改（有id参数为修改 无id参数为新增）")
@@ -527,7 +534,7 @@ public class ActivitySetController {
     @PostMapping("/getShareFriendList")
     @ApiImplicitParams({@ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
             @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
-    public Object getShareFriendList(@ApiIgnore HttpServletRequest request,int pageSize, int startRow) {
+    public Object getShareFriendList(@ApiIgnore HttpServletRequest request, int pageSize, int startRow) {
         Map<String, Object> map = new HashMap<>(8);
         map.put("pageSize", pageSize);
         map.put("startRow", startRow);
@@ -587,7 +594,7 @@ public class ActivitySetController {
     @ApiOperation("秒杀--秒杀设置新增/修改 （有id参数为修改 无id参数为新增）")
     @PostMapping("/setSeckillSet")
     public Object setSeckillSet(@RequestBody SeckillSet seckillSet, @ApiIgnore HttpServletRequest request) {
-        boolean result = activitySetService.setSeckillSet(seckillSet,  (String) request.getAttribute("sysid") );
+        boolean result = activitySetService.setSeckillSet(seckillSet, (String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "操作成功", null);
         }
@@ -612,7 +619,7 @@ public class ActivitySetController {
     @ApiOperation("红包裂变--红包裂变设置新增/修改 （有id参数为修改 无id参数为新增）")
     @PostMapping("/setRedenvelopesSet")
     public Object setRedenvelopesSet(@RequestBody RedenvelopesSet redenvelopesSet, @ApiIgnore HttpServletRequest request) {
-        boolean result = activitySetService.setRedenvelopesSet(redenvelopesSet,(String) request.getAttribute("sysid"));
+        boolean result = activitySetService.setRedenvelopesSet(redenvelopesSet, (String) request.getAttribute("sysid"));
         if (result) {
             return new Result(200, true, "操作成功", null);
         }

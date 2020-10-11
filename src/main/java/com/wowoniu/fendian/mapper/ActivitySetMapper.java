@@ -315,10 +315,10 @@ public interface ActivitySetMapper {
     int addDistributionSet(DistributionSet distributionSet);
 
     @Insert("INSERT INTO distribution_ratio_record(ratio,time,distribution_id,use) VALUES (#{ratio},now(),#{distributionId},#{use})")
-    int addDistributionRatioRecord(DistributionRatioRecord distributionRatioRecord );
+    int addDistributionRatioRecord(DistributionRatioRecord distributionRatioRecord);
 
     @Insert("UPDATE distribution_ratio_record SET use = 1 WHERE distribution_id = #{distributionId}")
-    int updateDistributionRatioRecord(String distributionId );
+    int updateDistributionRatioRecord(String distributionId);
 
     /**
      * 更新分销
@@ -421,8 +421,9 @@ public interface ActivitySetMapper {
      * @param map
      * @return
      */
-    List<WaresOrder> getWaresOrderList(Map<String,Object > map);
-    int searchWaresOrder(Map<String,Object > map);
+    List<WaresOrder> getWaresOrderList(Map<String, Object> map);
+
+    int searchWaresOrder(Map<String, Object> map);
 
     @Select("SELECT * FROM wares_sort_set WHERE user_id = #{userId}")
     WaresSortSet getWaresSortSet(String userId);
@@ -492,7 +493,7 @@ public interface ActivitySetMapper {
     int updateWaresSortDetail(WaresSortDetail waresSortDetail);
 
     @Update("UPDATE wares_sort_detail SET row=#{row} WHERE id = #{id}")
-    int updateWaresSortDetailRowById(@Param("id") String id,@Param("row") int row);
+    int updateWaresSortDetailRowById(@Param("id") String id, @Param("row") int row);
 
     /**
      * 置顶排序获取分类
@@ -511,7 +512,7 @@ public interface ActivitySetMapper {
      * @return
      */
     @Select("SELECT * FROM wares_sort_detail WHERE sort_id = (SELECT id FROM wares_sort_set WHERE user_id = #{userId}) " +
-            "AND state =#{state} ORDER BY top_row,state,id ASC")
+            "AND state =#{state} ORDER BY row,state,id ASC")
     List<WaresSortDetail> getWaresSortDetailListByUserId(@Param("state") String state, @Param("userId") String userId);
 
     /**

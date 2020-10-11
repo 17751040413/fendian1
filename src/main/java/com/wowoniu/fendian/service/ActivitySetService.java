@@ -236,6 +236,13 @@ public interface ActivitySetService {
     boolean takeWaresSure(String id, String code, String userId);
 
     /**
+     * 订单ID获取订单信息
+     * @param id
+     * @return
+     */
+    WaresOrder getWaresOrderById(String id,String userId);
+
+    /**
      * 抽奖ID获取抽奖设置及详情
      *
      * @param id
