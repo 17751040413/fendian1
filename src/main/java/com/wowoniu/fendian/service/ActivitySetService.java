@@ -200,7 +200,7 @@ public interface ActivitySetService {
      * @param array
      * @return
      */
-    List<String> setWaresSpecAndDetail(JSONArray array);
+    String setWaresSpecAndDetail(JSONArray array);
 
     /**
      * 删除商品规格及详情

@@ -774,8 +774,8 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<String> setWaresSpecAndDetail(JSONArray array) {
-        List<String> ids = new ArrayList<>();
+    public String setWaresSpecAndDetail(JSONArray array) {
+        String ids = null;
         for (int o = 0; o < array.size(); o++) {
             JSONObject param = array.getJSONObject(o);
             List<WaresSpec> waresSpecList = JSONArray.parseArray(param.getJSONArray("waresSpec").toJSONString(), WaresSpec.class);
@@ -814,9 +814,12 @@ public class ActivitySetServiceImpl implements ActivitySetService {
                         activitySetMapper.updateWaresSpecDetailBatch(update);
                     }
                 }
-                ids.add(waresSpec.getId());
+                if (StringUtils.isEmpty(ids)) {
+                    ids = waresSpec.getId();
+                } else {
+                    ids = ids + ";" + waresSpec.getId();
+                }
             }
-
         }
         return ids;
     }

@@ -346,8 +346,8 @@ public class ActivitySetController {
     @PostMapping("/setWaresSpec")
     public Object setWaresSpec(@RequestBody String param) {
         JSONArray jsonArray = JSONArray.parseArray(param);
-        List<String> result = activitySetService.setWaresSpecAndDetail(jsonArray);
-        if (!CollectionUtils.isEmpty(result)) {
+        String result = activitySetService.setWaresSpecAndDetail(jsonArray);
+        if (StringUtils.isNotEmpty(result)) {
             return new Result(200, true, "操作成功", result);
         }
         return new Result(204, false, "操作失败", null);
