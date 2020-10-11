@@ -70,10 +70,22 @@ public class UnionInfo implements Serializable {
     private int isOpen;
 
     /**
+     * 背景图
+     */
+    private String backimg;
+
+    /**
      * 创建时间
      */
     private Date createTime;
 
+    public String getBackimg() {
+        return backimg;
+    }
+
+    public void setBackimg(String backimg) {
+        this.backimg = backimg;
+    }
 
     public int getIsOpen() {
         return isOpen;

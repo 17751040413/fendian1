@@ -635,6 +635,14 @@ public interface ActivitySetMapper {
     @Select("SELECT * FROM wares_order WHERE id = #{id} AND user_id = #{userId}")
     WaresOrder getWaresOrderById(@Param("id") String id, @Param("userId") String userId);
 
+    /**
+     * 删除商品
+     * @param id
+     * @return
+     */
+    @Delete("delete from wares where id = #{id}")
+    int delWares(String id);
+
     /************************************** 商城 - END *************************************************/
 
     /************************************** 抽奖 - START *************************************************/

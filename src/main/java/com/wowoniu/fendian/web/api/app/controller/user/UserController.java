@@ -122,4 +122,11 @@ public class UserController {
 
     }
 
+    @PostMapping("tongbu")
+    @ApiOperation("同步")
+    public Result tongbu(String nickName,String headImg,@ApiIgnore HttpServletRequest request){
+        String userid = (String) request.getAttribute("sysid");
+        return useUserService.tongBu(nickName,headImg,userid);
+    }
+
 }

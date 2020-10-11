@@ -302,6 +302,12 @@ public class UnionController {
 
         return new Result();
     }
+    @ApiOperation("修改联盟背景图片")
+    @PostMapping("updatebeingjing")
+    public Result updatebeingjing(String img,String unionId){
+
+        return unionService.updatebeingjing(img,unionId);
+    }
 
 
 }

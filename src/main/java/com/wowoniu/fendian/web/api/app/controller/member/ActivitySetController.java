@@ -2,6 +2,8 @@ package com.wowoniu.fendian.web.api.app.controller.member;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.wowoniu.fendian.mapper.ActivityMapper;
+import com.wowoniu.fendian.mapper.ActivitySetMapper;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.ActivitySetService;
 import com.wowoniu.fendian.utils.Result;
@@ -34,6 +36,8 @@ public class ActivitySetController {
 
     @Autowired
     private ActivitySetService activitySetService;
+    @Autowired
+    private ActivitySetMapper activitySetMapper;
 
     /************************************************* True 裂变 - START *********************************************************/
 
@@ -370,6 +374,14 @@ public class ActivitySetController {
             return new Result(200, true, "确认成功", null);
         }
         return new Result(204, false, "确认失败", null);
+    }
+
+    @PostMapping("/delWares")
+    public Object delWares(String id){
+
+        activitySetMapper.delWares(id);
+
+        return new Result(200,true,"删除成功");
     }
 
     @ApiOperation("商城--取货码确认")

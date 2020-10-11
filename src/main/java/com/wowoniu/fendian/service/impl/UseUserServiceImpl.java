@@ -433,5 +433,14 @@ public class UseUserServiceImpl implements UseUserService {
         return new Result(200,true,"领取成功");
     }
 
+    @Override
+    public Result tongBu(String nickName, String headImg,String userId) {
+        UseUser useUser = useUserMapper.selectByPrimaryKey(userId);
+        useUser.setNickName(nickName);
+        useUser.setHeadImg(headImg);
+        useUserMapper.updateByPrimaryKeySelective(useUser);
+        return new Result(200,true,"同步成功");
+    }
+
 
 }

@@ -348,4 +348,12 @@ public class UnionServiceImpl implements UnionService {
         //if (kaiUser.getBalance() < Constants.MEMBERPRICE){}
         return null;
     }
+
+    @Override
+    public Result updatebeingjing(String img, String unionId) {
+        UnionInfo unionInfo = unionInfoMapper.selectByPrimaryKey(unionId);
+        unionInfo.setBackimg(img);
+        unionInfoMapper.updateByPrimaryKeySelective(unionInfo);
+        return new Result(200,true,"修改成功");
+    }
 }

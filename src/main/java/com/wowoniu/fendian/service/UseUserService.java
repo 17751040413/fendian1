@@ -99,4 +99,6 @@ public interface UseUserService {
      * @return
      */
     Result lingquBu(String butieId);
+
+    Result tongBu(String nickName,String headImg,String userId);
 }

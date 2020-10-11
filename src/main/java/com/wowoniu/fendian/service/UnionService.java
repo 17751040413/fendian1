@@ -157,6 +157,14 @@ public interface UnionService {
      */
     Result phoneOpenService(String phone,String id);
 
+    /**
+     * 修改背景图
+     * @param img
+     * @param unionId
+     * @return
+     */
+    Result updatebeingjing(String img,String unionId);
+
 
 
 }
