@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wowoniu.fendian.mapper.FreeChargeMapper">
+  <resultMap id="BaseResultMap" type="com.wowoniu.fendian.model.FreeCharge">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="if_phone" jdbcType="INTEGER" property="ifPhone" />
+    <result column="profits" jdbcType="DOUBLE" property="profits" />
+    <result column="coupon_type" jdbcType="INTEGER" property="couponType" />
+    <result column="pre_amount" jdbcType="DOUBLE" property="preAmount" />
+    <result column="use_man" jdbcType="DOUBLE" property="useMan" />
+    <result column="discount" jdbcType="DOUBLE" property="discount" />
+    <result column="gift_name" jdbcType="VARCHAR" property="giftName" />
+    <result column="date_type" jdbcType="INTEGER" property="dateType" />
+    <result column="overdue_date" jdbcType="TIMESTAMP" property="overdueDate" />
+    <result column="date_number" jdbcType="INTEGER" property="dateNumber" />
+    <result column="recelive_number" jdbcType="INTEGER" property="receliveNumber" />
+    <result column="range" jdbcType="VARCHAR" property="range" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
+    <result column="rule" jdbcType="VARCHAR" property="rule" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, start_time, end_time, if_phone, profits, coupon_type, pre_amount, use_man, 
+    discount, gift_name, date_type, overdue_date, date_number, recelive_number, `range`, 
+    `describe`, picture_url, `rule`,user_id, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from free_charge
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from free_charge
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.FreeCharge" useGeneratedKeys="true">
+    insert into free_charge (id,title, start_time, end_time,
+      if_phone, profits, coupon_type, 
+      pre_amount, use_man, discount, 
+      gift_name, date_type, overdue_date, 
+      date_number, recelive_number, `range`, 
+      `describe`, picture_url, `rule`, 
+      create_time,user_id)
+    values (#{id},#{title,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},
+      #{ifPhone,jdbcType=INTEGER}, #{profits,jdbcType=DOUBLE}, #{couponType,jdbcType=INTEGER}, 
+      #{preAmount,jdbcType=DECIMAL}, #{useMan,jdbcType=DECIMAL}, #{discount,jdbcType=DOUBLE}, 
+      #{giftName,jdbcType=VARCHAR}, #{dateType,jdbcType=INTEGER}, #{overdueDate,jdbcType=TIMESTAMP}, 
+      #{dateNumber,jdbcType=INTEGER}, #{receliveNumber,jdbcType=INTEGER}, #{range,jdbcType=VARCHAR}, 
+      #{describe,jdbcType=VARCHAR}, #{pictureUrl,jdbcType=VARCHAR}, #{rule,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP},#{userId})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.FreeCharge" useGeneratedKeys="true">
+    insert into free_charge
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="title != null">
+        title,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="ifPhone != null">
+        if_phone,
+      </if>
+      <if test="profits != null">
+        profits,
+      </if>
+      <if test="couponType != null">
+        coupon_type,
+      </if>
+      <if test="preAmount != null">
+        pre_amount,
+      </if>
+      <if test="useMan != null">
+        use_man,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="giftName != null">
+        gift_name,
+      </if>
+      <if test="dateType != null">
+        date_type,
+      </if>
+      <if test="overdueDate != null">
+        overdue_date,
+      </if>
+      <if test="dateNumber != null">
+        date_number,
+      </if>
+      <if test="receliveNumber != null">
+        recelive_number,
+      </if>
+      <if test="range != null">
+        `range`,
+      </if>
+      <if test="describe != null">
+        `describe`,
+      </if>
+      <if test="pictureUrl != null">
+        picture_url,
+      </if>
+      <if test="rule != null">
+        `rule`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id},
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ifPhone != null">
+        #{ifPhone,jdbcType=INTEGER},
+      </if>
+      <if test="profits != null">
+        #{profits,jdbcType=DOUBLE},
+      </if>
+      <if test="couponType != null">
+        #{couponType,jdbcType=INTEGER},
+      </if>
+      <if test="preAmount != null">
+        #{preAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="useMan != null">
+        #{useMan,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="giftName != null">
+        #{giftName,jdbcType=VARCHAR},
+      </if>
+      <if test="dateType != null">
+        #{dateType,jdbcType=INTEGER},
+      </if>
+      <if test="overdueDate != null">
+        #{overdueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateNumber != null">
+        #{dateNumber,jdbcType=INTEGER},
+      </if>
+      <if test="receliveNumber != null">
+        #{receliveNumber,jdbcType=INTEGER},
+      </if>
+      <if test="range != null">
+        #{range,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureUrl != null">
+        #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="rule != null">
+        #{rule,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        #{userId},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wowoniu.fendian.model.FreeCharge">
+    update free_charge
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ifPhone != null">
+        if_phone = #{ifPhone,jdbcType=INTEGER},
+      </if>
+      <if test="profits != null">
+        profits = #{profits,jdbcType=DOUBLE},
+      </if>
+      <if test="couponType != null">
+        coupon_type = #{couponType,jdbcType=INTEGER},
+      </if>
+      <if test="preAmount != null">
+        pre_amount = #{preAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="useMan != null">
+        use_man = #{useMan,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="giftName != null">
+        gift_name = #{giftName,jdbcType=VARCHAR},
+      </if>
+      <if test="dateType != null">
+        date_type = #{dateType,jdbcType=INTEGER},
+      </if>
+      <if test="overdueDate != null">
+        overdue_date = #{overdueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateNumber != null">
+        date_number = #{dateNumber,jdbcType=INTEGER},
+      </if>
+      <if test="receliveNumber != null">
+        recelive_number = #{receliveNumber,jdbcType=INTEGER},
+      </if>
+      <if test="range != null">
+        `range` = #{range,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        `describe` = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureUrl != null">
+        picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="rule != null">
+        `rule` = #{rule,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wowoniu.fendian.model.FreeCharge">
+    update free_charge
+    set title = #{title,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      if_phone = #{ifPhone,jdbcType=INTEGER},
+      profits = #{profits,jdbcType=DOUBLE},
+      coupon_type = #{couponType,jdbcType=INTEGER},
+      pre_amount = #{preAmount,jdbcType=DECIMAL},
+      use_man = #{useMan,jdbcType=DECIMAL},
+      discount = #{discount,jdbcType=DOUBLE},
+      gift_name = #{giftName,jdbcType=VARCHAR},
+      date_type = #{dateType,jdbcType=INTEGER},
+      overdue_date = #{overdueDate,jdbcType=TIMESTAMP},
+      date_number = #{dateNumber,jdbcType=INTEGER},
+      recelive_number = #{receliveNumber,jdbcType=INTEGER},
+      `range` = #{range,jdbcType=VARCHAR},
+      `describe` = #{describe,jdbcType=VARCHAR},
+      picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      `rule` = #{rule,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      user_id = #{userId}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

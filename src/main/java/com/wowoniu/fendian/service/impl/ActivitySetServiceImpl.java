@@ -701,7 +701,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         int count = activitySetMapper.searchWares(map);
         pageUtil.setTotalCount(count);
         pageUtil.setPageSize((Integer) map.get("pageSize"));
-        pageUtil.setCurrentPage((Integer) map.get("pageSize"));
+        pageUtil.setCurrentPage((Integer) map.get("startRow"));
         List<Wares> waresList = activitySetMapper.getWaresList(map);
         pageUtil.setLists(waresList);
         return pageUtil;

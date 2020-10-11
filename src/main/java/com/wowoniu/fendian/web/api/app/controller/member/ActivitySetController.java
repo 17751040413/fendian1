@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.mapper.ActivityMapper;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
+import com.wowoniu.fendian.mapper.FreeChargeMapper;
 import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.ActivitySetService;
 import com.wowoniu.fendian.utils.Result;
@@ -14,13 +15,11 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -637,6 +636,29 @@ public class ActivitySetController {
         return new Result(204, false, "操作失败", null);
     }
     /************************************************* True 红包裂变 - END *********************************************************/
+
+    /************************************************* 排队免单 *************************************/
+    @Autowired
+    FreeChargeMapper freeChargeMapper;
+    @PostMapping("setFreeCharge")
+    @ApiOperation("排队免单设置新增/修改")
+    public Object setFreeCharge(@RequestBody FreeCharge freeCharge,@ApiIgnore HttpServletRequest request){
+        freeCharge.setUserId((String) request.getAttribute("sysid"));
+        if (StringUtils.isEmpity(freeCharge.getId())){
+            String id = StringUtils.getUuid();
+            freeCharge.setId(id);
+            freeCharge.setCreateTime(new Date());
+            freeChargeMapper.insertSelective(freeCharge);
+        }else {
+            freeChargeMapper.updateByPrimaryKeySelective(freeCharge);
+        }
+
+        return new Result(200,true,"操作成功");
+
+    }
+
+
+
 
     /************************************************* True 活动计数 - START *********************************************************/
 
