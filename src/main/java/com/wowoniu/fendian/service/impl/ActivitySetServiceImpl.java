@@ -769,53 +769,55 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     /**
      * 商品规格及详情新增/修改
      *
-     * @param param
+     * @param array
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<String> setWaresSpecAndDetail(JSONObject param) {
-        List<WaresSpec> waresSpecList = JSONArray.parseArray(param.getJSONArray("detail").toJSONString(), WaresSpec.class);
-        List<WaresSpecDetail> waresSpecDetailList = JSONArray.parseArray(param.getJSONArray("detail").toJSONString(), WaresSpecDetail.class);
-        if (CollectionUtils.isEmpty(waresSpecList) || CollectionUtils.isEmpty(waresSpecDetailList)) {
-            return null;
-        }
-
+    public List<String> setWaresSpecAndDetail(JSONArray array) {
         List<String> ids = new ArrayList<>();
-        for (WaresSpec waresSpec : waresSpecList) {
-            //新增
-            if (StringUtils.isEmpity(waresSpec.getId())) {
-                waresSpec.setId(StringUtils.getUuid());
-                for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
-                    waresSpecDetail.setId(StringUtils.getUuid());
-                    waresSpecDetail.setSpecId(waresSpec.getId());
-                }
-                activitySetMapper.addWaresSpec(waresSpec);
-                activitySetMapper.addWaresSpecDetailBatch(waresSpecDetailList);
-            } else {
-                //修改
-                activitySetMapper.updateWaresSpec(waresSpec);
-                List<WaresSpecDetail> add = new ArrayList<>();
-                List<WaresSpecDetail> update = new ArrayList<>();
-                for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
-                    if (StringUtils.isEmpity(waresSpecDetail.getId())) {
+        for (int o = 0; o < array.size(); o++) {
+            JSONObject param = array.getJSONObject(o);
+            List<WaresSpec> waresSpecList = JSONArray.parseArray(param.getJSONArray("waresSpec").toJSONString(), WaresSpec.class);
+            List<WaresSpecDetail> waresSpecDetailList = JSONArray.parseArray(param.getJSONArray("detail").toJSONString(), WaresSpecDetail.class);
+            if (CollectionUtils.isEmpty(waresSpecList) || CollectionUtils.isEmpty(waresSpecDetailList)) {
+                return null;
+            }
+            for (WaresSpec waresSpec : waresSpecList) {
+                //新增
+                if (StringUtils.isEmpity(waresSpec.getId())) {
+                    waresSpec.setId(StringUtils.getUuid());
+                    for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
                         waresSpecDetail.setId(StringUtils.getUuid());
                         waresSpecDetail.setSpecId(waresSpec.getId());
-                        add.add(waresSpecDetail);
-                    } else {
-                        update.add(waresSpecDetail);
+                    }
+                    activitySetMapper.addWaresSpec(waresSpec);
+                    activitySetMapper.addWaresSpecDetailBatch(waresSpecDetailList);
+                } else {
+                    //修改
+                    activitySetMapper.updateWaresSpec(waresSpec);
+                    List<WaresSpecDetail> add = new ArrayList<>();
+                    List<WaresSpecDetail> update = new ArrayList<>();
+                    for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
+                        if (StringUtils.isEmpity(waresSpecDetail.getId())) {
+                            waresSpecDetail.setId(StringUtils.getUuid());
+                            waresSpecDetail.setSpecId(waresSpec.getId());
+                            add.add(waresSpecDetail);
+                        } else {
+                            update.add(waresSpecDetail);
+                        }
+                    }
+                    if (!CollectionUtils.isEmpty(add)) {
+                        activitySetMapper.addWaresSpecDetailBatch(add);
+                    }
+                    if (!CollectionUtils.isEmpty(update)) {
+                        activitySetMapper.updateWaresSpecDetailBatch(update);
                     }
                 }
-                if (!CollectionUtils.isEmpty(add)) {
-                    activitySetMapper.addWaresSpecDetailBatch(add);
-                }
-                if (!CollectionUtils.isEmpty(update)) {
-                    activitySetMapper.updateWaresSpecDetailBatch(update);
-                }
+                ids.add(waresSpec.getId());
             }
-            ids.add(waresSpec.getId());
-        }
 
+        }
         return ids;
     }
 

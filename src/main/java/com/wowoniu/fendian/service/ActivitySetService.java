@@ -197,10 +197,10 @@ public interface ActivitySetService {
     /**
      * 商品规格及详情新增/修改
      *
-     * @param param
+     * @param array
      * @return
      */
-    List<String> setWaresSpecAndDetail(JSONObject param);
+    List<String> setWaresSpecAndDetail(JSONArray array);
 
     /**
      * 删除商品规格及详情
