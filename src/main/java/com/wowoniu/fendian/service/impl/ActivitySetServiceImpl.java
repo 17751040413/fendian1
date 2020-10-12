@@ -837,9 +837,18 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      * @return
      */
     @Override
-    public int sendWaresSure(String id, String code) {
+    public int sendWaresSure(String id, String code,String userId) {
         //生成发货码
         String takeCode = VerifyCodeUtil.generateVerifyCode(6);
+        while (true){
+            WaresOrder waresOrder = activitySetMapper.getWaresOrderByCode1(takeCode,userId);
+            if (waresOrder != null){
+                takeCode = VerifyCodeUtil.generateVerifyCode(6);
+                continue;
+            }
+            break;
+        }
+
         //更新订单状态为已发货及添加收货码
         return activitySetMapper.updateWaresOrderState(takeCode, code, Constants.ORDER_STATE_SHIPPED, id);
     }

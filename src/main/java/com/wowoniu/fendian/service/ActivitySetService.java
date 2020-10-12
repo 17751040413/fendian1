@@ -224,7 +224,7 @@ public interface ActivitySetService {
      * @param id
      * @return
      */
-    int sendWaresSure(String id, String code);
+    int sendWaresSure(String id, String code,String userId);
 
     /**
      * 订单取货确认
