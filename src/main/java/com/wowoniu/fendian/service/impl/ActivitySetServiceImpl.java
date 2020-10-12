@@ -735,93 +735,71 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      * @return
      */
     @Override
-    public JSONArray getWaresSpecAndDetail(String waresId) {
+    public JSONObject getWaresSpecAndDetail(String waresId) {
 
-        //规格集合
-        List<WaresSpec> waresSpecList = activitySetMapper.getWaresSpecList(waresId);
-        JSONArray jsonArray = new JSONArray();
-        for (WaresSpec waresSpec : waresSpecList) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("waresSpec", waresSpec);
-            //规格详情集合
-            List<WaresSpecDetail> waresSpecDetailList = activitySetMapper.getWaresSpecDetailList(waresSpec.getId());
-            jsonObject.put("detail", waresSpecDetailList);
-            jsonArray.add(jsonObject);
-        }
+        JSONObject jsonObject = new JSONObject();
+        Wares wares = activitySetMapper.getWaresById(waresId);
+        WaresSpec waresSpec = activitySetMapper.getWaresSpecById(wares.getSpecId());
+        List<WaresSpecDetail> waresSpecDetailList = activitySetMapper.getWaresSpecDetailList(waresSpec.getId());
+        jsonObject.put("waresSpec", waresSpec);
+        jsonObject.put("detail", waresSpecDetailList);
 
-        return jsonArray;
+        return jsonObject;
     }
 
     @Override
     public Object getWaresSpecById(String id) {
         JSONObject jsonObject = new JSONObject();
-        String[] ids = id.split(";");
-        JSONArray jsonArray = new JSONArray();
-        for (int i = 0; i < ids.length; i++) {
-            jsonObject.put("waresSpec", activitySetMapper.getWaresSpecById(ids[i]));
-            jsonObject.put("detail", activitySetMapper.getWaresSpecDetailList(ids[i]));
-            jsonArray.add(jsonObject);
-        }
-
-        return jsonArray;
+        WaresSpec waresSpec = activitySetMapper.getWaresSpecById(id);
+        List<WaresSpecDetail> waresSpecDetailList = activitySetMapper.getWaresSpecDetailList(id);
+        jsonObject.put("waresSpec", waresSpec);
+        jsonObject.put("detail", waresSpecDetailList);
+        return jsonObject;
     }
 
     /**
      * 商品规格及详情新增/修改
      *
-     * @param array
+     * @param json
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String setWaresSpecAndDetail(JSONArray array) {
-        String ids = null;
-        for (int o = 0; o < array.size(); o++) {
-            JSONObject param = array.getJSONObject(o);
-            List<WaresSpec> waresSpecList = JSONArray.parseArray(param.getJSONArray("waresSpec").toJSONString(), WaresSpec.class);
-            List<WaresSpecDetail> waresSpecDetailList = JSONArray.parseArray(param.getJSONArray("detail").toJSONString(), WaresSpecDetail.class);
-            if (CollectionUtils.isEmpty(waresSpecList) || CollectionUtils.isEmpty(waresSpecDetailList)) {
-                return null;
+    public String setWaresSpecAndDetail(JSONObject json) {
+        WaresSpec waresSpec = JSONObject.parseObject(json.getJSONObject("waresSpec").toJSONString(), WaresSpec.class);
+        List<WaresSpecDetail> waresSpecDetailList = JSONArray.parseArray(json.getJSONArray("detail").toJSONString(), WaresSpecDetail.class);
+        //新增
+        if (StringUtils.isEmpity(waresSpec.getId())) {
+            waresSpec.setId(StringUtils.getUuid());
+            for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
+                waresSpecDetail.setId(StringUtils.getUuid());
+                waresSpecDetail.setSpecId(waresSpec.getId());
             }
-            for (WaresSpec waresSpec : waresSpecList) {
-                //新增
-                if (StringUtils.isEmpity(waresSpec.getId())) {
-                    waresSpec.setId(StringUtils.getUuid());
-                    for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
-                        waresSpecDetail.setId(StringUtils.getUuid());
-                        waresSpecDetail.setSpecId(waresSpec.getId());
-                    }
-                    activitySetMapper.addWaresSpec(waresSpec);
-                    activitySetMapper.addWaresSpecDetailBatch(waresSpecDetailList);
+            activitySetMapper.addWaresSpec(waresSpec);
+            activitySetMapper.addWaresSpecDetailBatch(waresSpecDetailList);
+        } else {
+            //修改
+            activitySetMapper.updateWaresSpec(waresSpec);
+            List<WaresSpecDetail> add = new ArrayList<>();
+            List<WaresSpecDetail> update = new ArrayList<>();
+            for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
+                if (StringUtils.isEmpity(waresSpecDetail.getId())) {
+                    waresSpecDetail.setId(StringUtils.getUuid());
+                    waresSpecDetail.setSpecId(waresSpec.getId());
+                    add.add(waresSpecDetail);
                 } else {
-                    //修改
-                    activitySetMapper.updateWaresSpec(waresSpec);
-                    List<WaresSpecDetail> add = new ArrayList<>();
-                    List<WaresSpecDetail> update = new ArrayList<>();
-                    for (WaresSpecDetail waresSpecDetail : waresSpecDetailList) {
-                        if (StringUtils.isEmpity(waresSpecDetail.getId())) {
-                            waresSpecDetail.setId(StringUtils.getUuid());
-                            waresSpecDetail.setSpecId(waresSpec.getId());
-                            add.add(waresSpecDetail);
-                        } else {
-                            update.add(waresSpecDetail);
-                        }
-                    }
-                    if (!CollectionUtils.isEmpty(add)) {
-                        activitySetMapper.addWaresSpecDetailBatch(add);
-                    }
-                    if (!CollectionUtils.isEmpty(update)) {
-                        activitySetMapper.updateWaresSpecDetailBatch(update);
-                    }
+                    update.add(waresSpecDetail);
                 }
-                if (StringUtils.isEmpty(ids)) {
-                    ids = waresSpec.getId();
-                } else {
-                    ids = ids + ";" + waresSpec.getId();
-                }
+            }
+            if (!CollectionUtils.isEmpty(add)) {
+                activitySetMapper.addWaresSpecDetailBatch(add);
+            }
+            if (!CollectionUtils.isEmpty(update)) {
+                activitySetMapper.updateWaresSpecDetailBatch(update);
             }
         }
-        return ids;
+
+        return waresSpec.getId();
     }
 
     /**
@@ -869,18 +847,17 @@ public class ActivitySetServiceImpl implements ActivitySetService {
     /**
      * 订单取货确认
      *
-     * @param id
      * @return
      */
     @Override
-    public boolean takeWaresSure(String id, String code, String userId) {
+    public String takeWaresSure( String code, String userId) {
         //获取订单
-        WaresOrder waresOrder = activitySetMapper.getWaresOrderById(id, userId);
-        if (code.equals(waresOrder.getTakeCode())) {
-            activitySetMapper.updateWaresOrderState(waresOrder.getTakeCode(), waresOrder.getCourierNumber(), Constants.ORDER_STATE_COMPLETE, id);
-            return true;
+        WaresOrder waresOrder = activitySetMapper.getWaresOrderByCode1(code, userId);
+        if (waresOrder != null) {
+            activitySetMapper.updateWaresOrderState(waresOrder.getTakeCode(), waresOrder.getCourierNumber(), Constants.ORDER_STATE_COMPLETE, waresOrder.getId());
+            return waresOrder.getId();
         }
-        return false;
+        return null;
     }
 
     /**
@@ -890,8 +867,19 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      * @return
      */
     @Override
-    public WaresOrder getWaresOrderById(String id, String userId) {
-        return activitySetMapper.getWaresOrderById(id, userId);
+    public Object getWaresOrderById(String id, String userId) {
+        JSONObject jsonObject = new JSONObject();
+        WaresOrder waresOrder = activitySetMapper.getWaresOrderById(id, userId);
+
+        String[] ids = waresOrder.getCartId().split(",");
+        List<WaresCart> waresCartList = new ArrayList<>();
+        for (int i =0 ;i < ids.length;i++){
+            WaresCart waresCart = activitySetMapper.getWaresCartById(ids[i]);
+            waresCartList.add(waresCart);
+        }
+        jsonObject.put("order",waresOrder);
+        jsonObject.put("detail",waresCartList);
+        return jsonObject;
     }
 
     /**

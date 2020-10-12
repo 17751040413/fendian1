@@ -143,13 +143,12 @@ public class AppletServiceImpl implements AppletService {
      */
     @Override
     public JSONObject getWaresSpec(String waresId) {
-
-        List<WaresSpec> waresSpecList = activitySetMapper.getWaresSpecList(waresId);
+        Wares wares = activitySetMapper.getWaresById(waresId);
+        WaresSpec waresSpec = activitySetMapper.getWaresSpecById(wares.getSpecId());
+        List<WaresSpecDetail> waresSpecDetailList = activitySetMapper.getWaresSpecDetailList(wares.getSpecId());
         JSONObject jsonObject = new JSONObject();
-        for (WaresSpec waresSpec : waresSpecList) {
-            List<WaresSpecDetail> waresSpecDetailList = activitySetMapper.getWaresSpecDetailList(waresSpec.getId());
-            jsonObject.put(waresSpec.getSpec(), waresSpecDetailList);
-        }
+        jsonObject.put("waresSpec",waresSpec);
+        jsonObject.put("detail",waresSpecDetailList);
         return jsonObject;
     }
 

@@ -428,6 +428,9 @@ public interface ActivitySetMapper {
     @Select("SELECT * FROM wares_sort_set WHERE user_id = #{userId}")
     WaresSortSet getWaresSortSet(String userId);
 
+    @Select("SELECT * FROM wares WHERE id = #{id}")
+    Wares getWaresById(String id);
+
     /**
      * 新增商品分类管理启用/禁用标识
      *
@@ -531,8 +534,8 @@ public interface ActivitySetMapper {
      * @param wares
      * @return
      */
-    @Insert("INSERT INTO wares(id,title,price,stock,freight,sort_id,distribution_commission,hide,picture_url,on_shelf,shelf_time,user_id,describe,url) " +
-            "VALUES (#{id},#{title},#{price},#{stock},#{freight},#{sortId},#{distributionCommission},#{hide},#{pictureUrl},#{onShelf},now(),#{userId},#{describe},#{url})")
+    @Insert("INSERT INTO wares(id,spec_id,title,price,stock,freight,sort_id,distribution_commission,hide,picture_url,on_shelf,shelf_time,user_id,describe,url) " +
+            "VALUES (#{id},#{specId},#{title},#{price},#{stock},#{freight},#{sortId},#{distributionCommission},#{hide},#{pictureUrl},#{onShelf},now(),#{userId},#{describe},#{url})")
     int addWares(Wares wares);
 
     /**
@@ -569,13 +572,13 @@ public interface ActivitySetMapper {
     /**
      * 新增规格
      */
-    @Insert("INSERT INTO wares_spec (id,spec,wares_id) VALUES (#{id},#{spec},#{waresId})")
+    @Insert("INSERT INTO wares_spec (id,spec1,spec2,wares_id) VALUES (#{id},#{spec1},#{spec2},#{waresId})")
     int addWaresSpec(WaresSpec waresSpec);
 
     /**
      * 修改规格
      */
-    @Insert("UPDATE wares_spec SET spec = #{spec} WHERE id = #{id}")
+    @Insert("UPDATE wares_spec SET spec1 = #{spec1},spec2 = #{spec2} WHERE id = #{id}")
     int updateWaresSpec(WaresSpec waresSpec);
 
     /**
@@ -633,8 +636,14 @@ public interface ActivitySetMapper {
      * @param userId
      * @return
      */
-    @Select("SELECT * FROM wares_order WHERE id = #{id} AND user_id = #{userId}")
+    @Select("SELECT wo.*,sa.address FROM wares_order wo LEFT JOIN shipping_address sa ON sa.id = wo.address_id WHERE wo.id = #{id} AND wo.user_id = #{userId}")
     WaresOrder getWaresOrderById(@Param("id") String id, @Param("userId") String userId);
+
+    @Select("SELECT * FROM wares_cart WHERE id = #{id}")
+    WaresCart getWaresCartById(String id);
+
+    @Select("SELECT * FROM wares_order WHERE take_code = #{code} AND user_id = #{userId}")
+    WaresOrder getWaresOrderByCode1(@Param("code") String code, @Param("userId") String userId);
 
     /**
      * 删除商品

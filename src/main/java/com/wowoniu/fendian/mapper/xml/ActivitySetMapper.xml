@@ -142,19 +142,18 @@
 
     <!-- 新增规格详情-批量 -->
     <insert id="addWaresSpecDetailBatch">
-        INSERT INTO wares_spec_detail (id,model,price,stock,spec_id,picture_url)
+        INSERT INTO wares_spec_detail (id,model1,,model2,price,stock,spec_id,picture_url1,picture_url2)
         VALUES
         <foreach collection="waresSpecDetailList" item="item" index="index" open="" close="" separator=",">
-            (#{item.id},#{item.model},#{item.price},#{item.stock},#{item.specId},#{item.pictureUrl})
+            (#{item.id},#{item.model1},#{item.model2},#{item.price},#{item.stock},#{item.specId},#{item.pictureUrl1},#{item.pictureUrl2})
         </foreach>
     </insert>
 
     <!-- 修改规格详情-批量 -->
     <update id="updateWaresSpecDetailBatch">
         <foreach collection="waresSpecDetailList" item="item" index="index" open="" close="" separator=";">
-            UPDATE wares_spec_detail SET model = #{item.model},price = #{item.price},stock = #{item.stock},picture_url =
-            #{item.pictureUrl} WHERE id =
-            #{item.id}
+            UPDATE wares_spec_detail SET model1 = #{item.model1},model2 = #{item.model2},price = #{item.price},
+            stock = #{item.stock},picture_url1 = #{item.pictureUrl1},picture_url2 = #{item.pictureUrl2} WHERE id = #{item.id}
         </foreach>
     </update>
 

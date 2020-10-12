@@ -73,6 +73,9 @@ public class WaresOrder implements Serializable {
     @ApiModelProperty("收货地址ID ")
     private String addressId;
 
+    @ApiModelProperty("收货地址 ")
+    private String address;
+
     @ApiModelProperty("skey")
     private String skey;
     @ApiModelProperty("商品图片")
@@ -262,5 +265,13 @@ public class WaresOrder implements Serializable {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
