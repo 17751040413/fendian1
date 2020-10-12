@@ -1,13 +1,10 @@
 package com.wowoniu.fendian.service.impl;
 
-import com.wowoniu.fendian.mapper.ShopCaseMapper;
-import com.wowoniu.fendian.mapper.ShopIndustryMapper;
-import com.wowoniu.fendian.mapper.ShopTypeMapper;
-import com.wowoniu.fendian.model.ShopCase;
-import com.wowoniu.fendian.model.ShopIndustry;
-import com.wowoniu.fendian.model.ShopType;
+import com.wowoniu.fendian.mapper.*;
+import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.ShopService;
 import com.wowoniu.fendian.utils.PageUtil;
+import com.wowoniu.fendian.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +20,12 @@ public class ShopServiceImpl implements ShopService {
     ShopIndustryMapper shopIndustryMapper;
     @Autowired
     ShopCaseMapper shopCaseMapper;
+    @Autowired
+    UseUserMapper useUserMapper;
+    @Autowired
+    FreeChargeMapper freeChargeMapper;
+    @Autowired
+    FreeChargeDetailMapper freeChargeDetailMapper;
     @Override
     public List<ShopType> getShopTypes() {
         return shopTypeMapper.queryAll();
@@ -53,5 +56,67 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public List<ShopCase> getShopCase(String inid,String keyWords) {
         return shopCaseMapper.queryCaseByKeyWord(keyWords,inid);
+    }
+
+    @Override
+    public Result freeDetail(String userid,int type) {
+
+        UseUser useUser = useUserMapper.selectByPrimaryKey(userid);
+
+        FreeCharge freeCharge = freeChargeMapper.queryFreeChargeByUserid(userid);
+        if (null == freeCharge){
+            return new Result(204,true,"您当前没有排队免单活动");
+        }
+        Map map = new HashMap();
+        //浏览次数
+        int browse;
+        //排队人数
+        int lineNumber;
+        //免单人数
+        int freeNumber;
+        //免单人列表
+        List<FreeChargeDetail> freeChargeDetails;
+
+        lineNumber = freeChargeDetailMapper.queryFreeChargeCountByFreeId(freeCharge.getId(),type,1);
+        freeNumber = freeChargeDetailMapper.queryFreeChargeCountByFreeId(freeCharge.getId(),type,2);
+        if (type == 0){
+            //浏览次数
+            browse = freeCharge.getBrowse();
+
+        }else {
+            browse = freeCharge.getTodayBrowse();
+        }
+        freeChargeDetails = freeChargeDetailMapper.queryAllByFreeId(freeCharge.getId(),type);
+
+        map.put("browse",browse);
+        map.put("lineNumber",lineNumber);
+        map.put("freeNumber",freeNumber);
+        map.put("freeChargeDetails",freeChargeDetails);
+        map.put("freeCharge",freeCharge);
+        return new Result(200,true,"获取成功",map);
+    }
+
+    @Override
+    public Result freePeople(String keyWord, String freeId) {
+
+        //已免
+        double yimian = freeChargeDetailMapper.queryYiMian(freeId);
+
+        //到几号
+        int number = freeChargeDetailMapper.queryNumber(freeId);
+
+        Map map = new HashMap();
+        map.put("yimian",yimian);
+        map.put("number",number);
+        map.put("freeDetails",freeChargeDetailMapper.queryAllByParms(keyWord,freeId));
+        return new Result(200,true,"获取成功",map);
+    }
+
+    @Override
+    public Result endFree(String freeId) {
+        FreeCharge freeCharge = freeChargeMapper.selectByPrimaryKey(freeId);
+        freeCharge.setType(0);
+        freeChargeMapper.updateByPrimaryKeySelective(freeCharge);
+        return new Result(200,true,"修改成功");
     }
 }

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wowoniu.fendian.mapper.FreeChargeDetailMapper">
+  <resultMap id="BaseResultMap" type="com.wowoniu.fendian.model.FreeChargeDetail">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="free_id" jdbcType="VARCHAR" property="freeId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="head_img" jdbcType="VARCHAR" property="headImg" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="free_type" jdbcType="INTEGER" property="freeType" />
+    <result column="yi_mian" jdbcType="DOUBLE" property="yiMian" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="phone" jdbcType="VARCHAR" property="phone"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, free_id, user_id, user_name, head_img, `number`, amount, free_type, yi_mian, 
+    create_time,phone
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from free_charge_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="queryFreeChargeCountByFreeId" resultType="java.lang.Integer">
+      select count(1) from free_charge_detail
+      where free_id = #{freeId} and free_type = #{freeType}
+      <if test="type != 0">
+      and to_days(create_time) = to_days(now())
+      </if>
+
+    </select>
+  <select id="queryAllByFreeId" resultType="com.wowoniu.fendian.model.FreeChargeDetail">
+    select <include refid="Base_Column_List"/> from free_charge_detail
+    where free_id = #{freeId}
+    <if test="type != 0">
+      and to_days(create_time) = to_days(now())
+    </if>
+  </select>
+  <select id="queryAllByParms" resultType="com.wowoniu.fendian.model.FreeChargeDetail">
+    select <include refid="Base_Column_List"/> from free_charge_detail
+    where  free_id = #{freeId}
+    <if test="keyWord != null and keyWord != ''">
+      and (user_name like concat('%',#{keyWord},'%') or phone like concat('%',#{keyWord},'%'))
+    </if>
+
+
+
+  </select>
+  <select id="queryYiMian" resultType="java.lang.Double">
+    select COALESCE(SUM(yi_mian),0) from free_charge_detail
+    where free_id = #{freeId}
+  </select>
+  <select id="queryNumber" resultType="java.lang.Integer">
+    select COALESCE(number,0) from free_charge_detail
+    where free_id = #{freeId} and free_type = 2
+    order by number desc
+    limit 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from free_charge_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.FreeChargeDetail" useGeneratedKeys="true">
+    insert into free_charge_detail (free_id, user_id, user_name, 
+      head_img, `number`, amount, 
+      free_type, yi_mian, create_time
+      )
+    values (#{freeId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{headImg,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, #{amount,jdbcType=DOUBLE}, 
+      #{freeType,jdbcType=INTEGER}, #{yiMian,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.FreeChargeDetail" useGeneratedKeys="true">
+    insert into free_charge_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="freeId != null">
+        free_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="headImg != null">
+        head_img,
+      </if>
+      <if test="number != null">
+        `number`,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="freeType != null">
+        free_type,
+      </if>
+      <if test="yiMian != null">
+        yi_mian,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="freeId != null">
+        #{freeId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="headImg != null">
+        #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="freeType != null">
+        #{freeType,jdbcType=INTEGER},
+      </if>
+      <if test="yiMian != null">
+        #{yiMian,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wowoniu.fendian.model.FreeChargeDetail">
+    update free_charge_detail
+    <set>
+      <if test="freeId != null">
+        free_id = #{freeId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="headImg != null">
+        head_img = #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        `number` = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="freeType != null">
+        free_type = #{freeType,jdbcType=INTEGER},
+      </if>
+      <if test="yiMian != null">
+        yi_mian = #{yiMian,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wowoniu.fendian.model.FreeChargeDetail">
+    update free_charge_detail
+    set free_id = #{freeId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      head_img = #{headImg,jdbcType=VARCHAR},
+      `number` = #{number,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DOUBLE},
+      free_type = #{freeType,jdbcType=INTEGER},
+      yi_mian = #{yiMian,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

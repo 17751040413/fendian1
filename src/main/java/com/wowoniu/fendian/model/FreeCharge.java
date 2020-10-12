@@ -115,7 +115,59 @@ public class FreeCharge implements Serializable {
      */
     private Date createTime;
 
+    /**
+     * 浏览次数
+     */
+    private int browse;
+
+    /**
+     * 今日浏览次数
+     */
+    private int todayBrowse;
+
+    /**
+     * 活动状态
+     */
+    private int type;
+
+    /**
+     * 手机号
+     */
+    private String phone;
+
     private static final long serialVersionUID = 1L;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getTodayBrowse() {
+        return todayBrowse;
+    }
+
+    public void setTodayBrowse(int todayBrowse) {
+        this.todayBrowse = todayBrowse;
+    }
+
+    public int getBrowse() {
+        return browse;
+    }
+
+    public void setBrowse(int browse) {
+        this.browse = browse;
+    }
 
     public String getUserId() {
         return userId;

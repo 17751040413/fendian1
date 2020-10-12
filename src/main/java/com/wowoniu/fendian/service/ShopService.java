@@ -4,6 +4,7 @@ import com.wowoniu.fendian.model.ShopCase;
 import com.wowoniu.fendian.model.ShopIndustry;
 import com.wowoniu.fendian.model.ShopType;
 import com.wowoniu.fendian.utils.PageUtil;
+import com.wowoniu.fendian.utils.Result;
 
 import java.util.List;
 
@@ -36,4 +37,27 @@ public interface ShopService {
      * @return
      */
     List<ShopCase> getShopCase(String inid,String keyWords);
+
+
+    /**
+     * 排队免单详情
+     * @param userid
+     * @return
+     */
+    Result freeDetail(String userid,int type);
+
+    /**
+     * 排队免单人员
+     * @param keyWord
+     * @param freeId
+     * @return
+     */
+    Result freePeople(String keyWord,String freeId);
+
+    /**
+     * 结束活动
+     * @param freeId
+     * @return
+     */
+    Result endFree(String freeId);
 }

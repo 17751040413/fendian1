@@ -1,10 +1,7 @@
 package com.wowoniu.fendian.web.api.app.controller.shop;
 
 import com.wowoniu.fendian.config.Constants;
-import com.wowoniu.fendian.model.Activity;
-import com.wowoniu.fendian.model.ShopCase;
-import com.wowoniu.fendian.model.ShopIndustry;
-import com.wowoniu.fendian.model.ShopType;
+import com.wowoniu.fendian.model.*;
 import com.wowoniu.fendian.service.ActivityService;
 import com.wowoniu.fendian.service.ShopService;
 import com.wowoniu.fendian.utils.PageUtil;
@@ -16,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Api(tags = "首页--店铺案例")
@@ -188,6 +187,35 @@ public class ShopController {
 
         return new Result();
     }
+
+
+
+    @PostMapping("freeDetail")
+    @ApiOperation("免单详情")
+    public Result freeDetail(@ApiIgnore HttpServletRequest request,int type){
+
+        String userId = (String) request.getAttribute("sysid");
+
+        return shopService.freeDetail(userId,type);
+
+    }
+
+    @PostMapping("freePeople")
+    @ApiOperation("免单人员")
+    public Result freePeople(String keyWord,String freeId){
+
+
+        return shopService.freePeople(keyWord,freeId);
+
+    }
+
+    @PostMapping("endFree")
+    @ApiOperation("活动结束")
+    public Result endFree(String freeId){
+
+        return shopService.endFree(freeId);
+    }
+
 
 
 

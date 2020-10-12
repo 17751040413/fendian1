@@ -22,12 +22,16 @@
     <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
     <result column="rule" jdbcType="VARCHAR" property="rule" />
     <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+    <result column="browse" jdbcType="INTEGER" property="browse"/>
+    <result column="today_browse" jdbcType="INTEGER" property="todayBrowse"/>
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="type" jdbcType="INTEGER" property="type"/>
+
   </resultMap>
   <sql id="Base_Column_List">
     id, title, start_time, end_time, if_phone, profits, coupon_type, pre_amount, use_man, 
     discount, gift_name, date_type, overdue_date, date_number, recelive_number, `range`, 
-    `describe`, picture_url, `rule`,user_id, create_time
+    `describe`, picture_url, `rule`,user_id, create_time,browse,today_browse,type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -35,6 +39,13 @@
     from free_charge
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="queryFreeChargeByUserid" resultType="com.wowoniu.fendian.model.FreeCharge">
+    select <include refid="Base_Column_List"/> from free_charge
+    where user_id = #{userid}
+    order by create_time desc
+    limit 1
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from free_charge
     where id = #{id,jdbcType=VARCHAR}
@@ -46,14 +57,14 @@
       gift_name, date_type, overdue_date, 
       date_number, recelive_number, `range`, 
       `describe`, picture_url, `rule`, 
-      create_time,user_id)
+      create_time,user_id,browse,today_browse,type,phone)
     values (#{id},#{title,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},
       #{ifPhone,jdbcType=INTEGER}, #{profits,jdbcType=DOUBLE}, #{couponType,jdbcType=INTEGER}, 
       #{preAmount,jdbcType=DECIMAL}, #{useMan,jdbcType=DECIMAL}, #{discount,jdbcType=DOUBLE}, 
       #{giftName,jdbcType=VARCHAR}, #{dateType,jdbcType=INTEGER}, #{overdueDate,jdbcType=TIMESTAMP}, 
       #{dateNumber,jdbcType=INTEGER}, #{receliveNumber,jdbcType=INTEGER}, #{range,jdbcType=VARCHAR}, 
       #{describe,jdbcType=VARCHAR}, #{pictureUrl,jdbcType=VARCHAR}, #{rule,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP},#{userId})
+      #{createTime,jdbcType=TIMESTAMP},#{userId},#{browse},#{todayBrowse},#{type},#{phone})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wowoniu.fendian.model.FreeCharge" useGeneratedKeys="true">
     insert into free_charge
@@ -119,6 +130,18 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="browse != null">
+        browse,
+      </if>
+      <if test="todayBrowse != null">
+        today_browse,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       #{id},
@@ -181,6 +204,18 @@
       </if>
       <if test="userId != null">
         #{userId},
+      </if>
+      <if test="browse != null">
+        #{browse},
+      </if>
+      <if test="todayBrowse != null">
+        #{todayBrowse},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="phone != null">
+        #{phone},
       </if>
     </trim>
   </insert>
@@ -247,6 +282,18 @@
       <if test="userId != null">
         user_id = #{userId},
       </if>
+      <if test="browse != null">
+        browse = #{browse},
+      </if>
+      <if test="todayBrowse != null">
+        today_browse = #{todayBrowse},
+      </if>
+      <if test="type != null">
+        type = #{type},
+      </if>
+      <if test="phone != null">
+        phone = #{phone},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -271,7 +318,11 @@
       picture_url = #{pictureUrl,jdbcType=VARCHAR},
       `rule` = #{rule,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      user_id = #{userId}
+      user_id = #{userId},
+      browse = #{browse},
+      type = #{type},
+      phone = #{phone},
+      today_browse = #{todayBrowse}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
