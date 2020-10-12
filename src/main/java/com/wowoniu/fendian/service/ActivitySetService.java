@@ -231,14 +231,17 @@ public interface ActivitySetService {
      *
      * @return
      */
-    String takeWaresSure( String code, String userId);
+    JSONObject takeWaresSure(String code, String userId);
+
+    boolean waresSureById(String id, String userId);
 
     /**
      * 订单ID获取订单信息
+     *
      * @param id
      * @return
      */
-    Object getWaresOrderById(String id,String userId);
+    Object getWaresOrderById(String id, String userId);
 
     /**
      * 抽奖ID获取抽奖设置及详情

@@ -850,15 +850,30 @@ public class ActivitySetServiceImpl implements ActivitySetService {
      * @return
      */
     @Override
-    public String takeWaresSure( String code, String userId) {
+    public JSONObject takeWaresSure( String code, String userId) {
         //获取订单
         WaresOrder waresOrder = activitySetMapper.getWaresOrderByCode1(code, userId);
         if (waresOrder != null) {
-            activitySetMapper.updateWaresOrderState(waresOrder.getTakeCode(), waresOrder.getCourierNumber(), Constants.ORDER_STATE_COMPLETE, waresOrder.getId());
-            return waresOrder.getId();
+            JSONObject jsonObject = new JSONObject();
+            String[] ids = waresOrder.getCartId().split(",");
+            List<WaresCart> waresCartList = new ArrayList<>();
+            for (int i =0 ;i < ids.length;i++){
+                WaresCart waresCart = activitySetMapper.getWaresCartById(ids[i]);
+                waresCartList.add(waresCart);
+            }
+            jsonObject.put("order",waresOrder);
+            jsonObject.put("detail",waresCartList);
+            return jsonObject;
         }
         return null;
     }
+
+    @Override
+    public boolean waresSureById(String id, String userId) {
+        int count = activitySetMapper.updateWaresOrderStateById(Constants.ORDER_STATE_COMPLETE, id);
+        return count ==1;
+    }
+
 
     /**
      * 订单ID获取订单信息

@@ -395,15 +395,22 @@ public class ActivitySetController {
         return new Result(200,true,"删除成功");
     }
 
-    @ApiOperation("商城--取货码确认")
+    @ApiOperation("商城--扫码获取订单信息")
     @PostMapping("/takeWaresSure")
     @ApiImplicitParams({@ApiImplicitParam(name = "code", value = "扫码信息", dataType = "String", required = true)})
     public Object takeWaresSure( String code, @ApiIgnore HttpServletRequest request) {
-        String result = activitySetService.takeWaresSure(code, (String) request.getAttribute("sysid"));
-        if (StringUtils.isNotEmpty(result)) {
-            return new Result(200, true, "确认成功", result);
+        return new Result(200, true, "获取成功", activitySetService.takeWaresSure(code, (String) request.getAttribute("sysid")));
+    }
+
+    @ApiOperation("商城-订单ID确认取货")
+    @PostMapping("/waresSureById")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID", dataType = "String", required = true)})
+    public Object waresSureById( String id, @ApiIgnore HttpServletRequest request) {
+        boolean result = activitySetService.waresSureById(id, (String) request.getAttribute("sysid"));
+        if (result){
+            return new Result(200, true, "确认成功", null);
         }
-        return new Result(204, false, "确认失败", null);
+        return new Result(204, true, "确认失败", null);
     }
 
     @ApiOperation("商城--订单ID获取订单信息")

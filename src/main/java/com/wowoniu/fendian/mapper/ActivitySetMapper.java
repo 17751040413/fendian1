@@ -629,6 +629,9 @@ public interface ActivitySetMapper {
     @Update("UPDATE wares_order SET take_code = #{takeCode},courier_number = #{courierNumber},state = #{state} WHERE id = #{id}")
     int updateWaresOrderState(@Param("takeCode") String takeCode, @Param("courierNumber") String courierNumber, @Param("state") String state, @Param("id") String id);
 
+    @Update("UPDATE wares_order SET state = #{state} WHERE id = #{id}")
+    int updateWaresOrderStateById(@Param("state") String state, @Param("id") String id);
+
     /**
      * ID和userID获取订单
      *
