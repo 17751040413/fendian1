@@ -23,6 +23,8 @@ public class WaresCart implements Serializable {
 
     @ApiModelProperty("商品ID")
     private String waresId;
+    @ApiModelProperty("商品名称")
+    private String waresName;
 
     @ApiModelProperty("规格ID")
     private String specId;
@@ -30,8 +32,17 @@ public class WaresCart implements Serializable {
     @ApiModelProperty("规格详情ID")
     private String specDetailId;
 
+    @ApiModelProperty("规格名称")
+    private String specDetailName;
+
     @ApiModelProperty("数量ID")
     private Integer number;
+
+    @ApiModelProperty("图片地址")
+    private Integer url;
+
+    @ApiModelProperty("价格")
+    private Integer price;
 
     @ApiModelProperty("订单ID")
     private String orderId;
@@ -109,5 +120,37 @@ public class WaresCart implements Serializable {
 
     public void setSkey(String skey) {
         this.skey = skey;
+    }
+
+    public String getWaresName() {
+        return waresName;
+    }
+
+    public void setWaresName(String waresName) {
+        this.waresName = waresName;
+    }
+
+    public String getSpecDetailName() {
+        return specDetailName;
+    }
+
+    public void setSpecDetailName(String specDetailName) {
+        this.specDetailName = specDetailName;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public Integer getUrl() {
+        return url;
+    }
+
+    public void setUrl(Integer url) {
+        this.url = url;
     }
 }

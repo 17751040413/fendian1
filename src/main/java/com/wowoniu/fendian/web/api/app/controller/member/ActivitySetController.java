@@ -1,5 +1,6 @@
 package com.wowoniu.fendian.web.api.app.controller.member;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wowoniu.fendian.mapper.ActivityMapper;
@@ -344,8 +345,8 @@ public class ActivitySetController {
     @ApiOperation("商城--商品规格及详情新增/修改")
     @PostMapping("/setWaresSpec")
     public Object setWaresSpec(@RequestBody String param) {
-        JSONArray jsonArray = JSONArray.parseArray(param);
-        String result = activitySetService.setWaresSpecAndDetail(jsonArray);
+        JSONObject json = JSONObject.parseObject(param);
+        String result = activitySetService.setWaresSpecAndDetail(json);
         if (StringUtils.isNotEmpty(result)) {
             return new Result(200, true, "操作成功", result);
         }
@@ -396,12 +397,11 @@ public class ActivitySetController {
 
     @ApiOperation("商城--取货码确认")
     @PostMapping("/takeWaresSure")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID", dataType = "long", required = true),
-            @ApiImplicitParam(name = "code", value = "取货码", dataType = "String", required = true)})
-    public Object takeWaresSure(String id, String code, @ApiIgnore HttpServletRequest request) {
-        boolean result = activitySetService.takeWaresSure(id, code, (String) request.getAttribute("sysid"));
-        if (result) {
-            return new Result(200, true, "确认成功", null);
+    @ApiImplicitParams({@ApiImplicitParam(name = "code", value = "扫码信息", dataType = "String", required = true)})
+    public Object takeWaresSure( String code, @ApiIgnore HttpServletRequest request) {
+        String result = activitySetService.takeWaresSure(code, (String) request.getAttribute("sysid"));
+        if (StringUtils.isNotEmpty(result)) {
+            return new Result(200, true, "确认成功", result);
         }
         return new Result(204, false, "确认失败", null);
     }

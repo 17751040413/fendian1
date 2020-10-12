@@ -18,17 +18,21 @@ public class WaresSpecDetail implements Serializable {
     @ApiModelProperty("规格ID")
     private String specId;
 
-    @ApiModelProperty("型号")
-    private String model;
+    @ApiModelProperty("型号1")
+    private String model1;
+    @ApiModelProperty("型号2")
+    private String model2;
+
+    @ApiModelProperty("图片地址1")
+    private String pictureUrl1;
+    @ApiModelProperty("图片地址2")
+    private String pictureUrl2;
 
     @ApiModelProperty("价格（分）")
     private Integer price;
 
     @ApiModelProperty("库存（件）")
     private Integer stock;
-
-    @ApiModelProperty("图片地址")
-    private String pictureUrl;
 
     public String getId() {
         return id;
@@ -38,12 +42,36 @@ public class WaresSpecDetail implements Serializable {
         this.id = id;
     }
 
-    public String getModel() {
-        return model;
+    public String getModel1() {
+        return model1;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setModel1(String model1) {
+        this.model1 = model1;
+    }
+
+    public String getModel2() {
+        return model2;
+    }
+
+    public void setModel2(String model2) {
+        this.model2 = model2;
+    }
+
+    public String getPictureUrl1() {
+        return pictureUrl1;
+    }
+
+    public void setPictureUrl1(String pictureUrl1) {
+        this.pictureUrl1 = pictureUrl1;
+    }
+
+    public String getPictureUrl2() {
+        return pictureUrl2;
+    }
+
+    public void setPictureUrl2(String pictureUrl2) {
+        this.pictureUrl2 = pictureUrl2;
     }
 
     public Integer getPrice() {
@@ -70,11 +98,4 @@ public class WaresSpecDetail implements Serializable {
         this.specId = specId;
     }
 
-    public String getPictureUrl() {
-        return pictureUrl;
-    }
-
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
-    }
 }

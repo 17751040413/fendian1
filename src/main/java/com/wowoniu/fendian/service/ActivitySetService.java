@@ -190,17 +190,17 @@ public interface ActivitySetService {
      * @param waresId
      * @return
      */
-    JSONArray getWaresSpecAndDetail(String waresId);
+    JSONObject getWaresSpecAndDetail(String waresId);
 
     Object getWaresSpecById(String id);
 
     /**
      * 商品规格及详情新增/修改
      *
-     * @param array
+     * @param json
      * @return
      */
-    String setWaresSpecAndDetail(JSONArray array);
+    String setWaresSpecAndDetail(JSONObject json);
 
     /**
      * 删除商品规格及详情
@@ -229,17 +229,16 @@ public interface ActivitySetService {
     /**
      * 订单取货确认
      *
-     * @param id
      * @return
      */
-    boolean takeWaresSure(String id, String code, String userId);
+    String takeWaresSure( String code, String userId);
 
     /**
      * 订单ID获取订单信息
      * @param id
      * @return
      */
-    WaresOrder getWaresOrderById(String id,String userId);
+    Object getWaresOrderById(String id,String userId);
 
     /**
      * 抽奖ID获取抽奖设置及详情

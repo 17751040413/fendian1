@@ -34,6 +34,9 @@ public class Wares implements Serializable {
     @ApiModelProperty("分类ID")
     private String sortId;
 
+    @ApiModelProperty("规格ID")
+    private String specId;
+
     @ApiModelProperty("分类名称")
     private String sortName;
 
@@ -187,5 +190,13 @@ public class Wares implements Serializable {
 
     public void setSortName(String sortName) {
         this.sortName = sortName;
+    }
+
+    public String getSpecId() {
+        return specId;
+    }
+
+    public void setSpecId(String specId) {
+        this.specId = specId;
     }
 }

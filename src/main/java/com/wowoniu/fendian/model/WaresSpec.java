@@ -15,8 +15,10 @@ public class WaresSpec implements Serializable {
     @ApiModelProperty("主键ID")
     private String id;
 
-    @ApiModelProperty("规格")
-    private String spec;
+    @ApiModelProperty("规格1")
+    private String spec1;
+    @ApiModelProperty("规格2")
+    private String spec2;
 
     @ApiModelProperty("商品ID")
     private String waresId;
@@ -29,12 +31,20 @@ public class WaresSpec implements Serializable {
         this.id = id;
     }
 
-    public String getSpec() {
-        return spec;
+    public String getSpec1() {
+        return spec1;
     }
 
-    public void setSpec(String spec) {
-        this.spec = spec;
+    public void setSpec1(String spec1) {
+        this.spec1 = spec1;
+    }
+
+    public String getSpec2() {
+        return spec2;
+    }
+
+    public void setSpec2(String spec2) {
+        this.spec2 = spec2;
     }
 
     public String getWaresId() {
