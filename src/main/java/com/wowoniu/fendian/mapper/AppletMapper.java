@@ -462,7 +462,7 @@ public interface AppletMapper {
     @Update("UPDATE group_buyer SET state =2 WHERE end_time < NOW()")
     void updateGroupBuyerByTime();
 
-    @Select("SELECT * FROM coupon_buyer WHERE activity_id = #{id} AND buyer_id = #{openId}")
+    @Select("SELECT * FROM coupon_buyer WHERE activity_id = #{id} AND buyer_id = #{openId} AND effective ='N'")
     CouponBuyer lookGroupCoupon(@Param("openId") String openId, @Param("id") String id);
 
     /**

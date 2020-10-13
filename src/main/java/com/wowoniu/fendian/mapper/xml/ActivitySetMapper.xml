@@ -142,7 +142,7 @@
 
     <!-- 新增规格详情-批量 -->
     <insert id="addWaresSpecDetailBatch">
-        INSERT INTO wares_spec_detail (id,model1,,model2,price,stock,spec_id,picture_url1,picture_url2)
+        INSERT INTO wares_spec_detail (id,model1,model2,price,stock,spec_id,picture_url1,picture_url2)
         VALUES
         <foreach collection="waresSpecDetailList" item="item" index="index" open="" close="" separator=",">
             (#{item.id},#{item.model1},#{item.model2},#{item.price},#{item.stock},#{item.specId},#{item.pictureUrl1},#{item.pictureUrl2})
