@@ -721,6 +721,7 @@ public class ActivitySetServiceImpl implements ActivitySetService {
         }
         if (StringUtils.isEmpity(wares.getId())) {
             wares.setId(StringUtils.getUuid());
+            wares.setUserId(userId);
             activitySetMapper.addWares(wares);
         } else {
             activitySetMapper.updateWares(wares);

@@ -1,9 +1,7 @@
 package com.wowoniu.fendian.web.api.app.controller.member;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.wowoniu.fendian.mapper.ActivityMapper;
 import com.wowoniu.fendian.mapper.ActivitySetMapper;
 import com.wowoniu.fendian.mapper.FreeChargeMapper;
 import com.wowoniu.fendian.model.*;
@@ -16,7 +14,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
@@ -303,6 +304,9 @@ public class ActivitySetController {
             @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", required = true),
             @ApiImplicitParam(name = "startRow", value = "起始行", dataType = "int", required = true)})
     public Object getWaresList(String onShelf, String time, String sales, String sortId, int pageSize, int startRow, @ApiIgnore HttpServletRequest request) {
+        if (StringUtils.isNotEmpty(sortId) && "0".equals(sortId)) {
+            sortId = null;
+        }
         Map<String, Object> map = new HashMap<>(8);
         map.put("pageSize", pageSize);
         map.put("startRow", startRow);
@@ -380,7 +384,7 @@ public class ActivitySetController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID", dataType = "String", required = true),
             @ApiImplicitParam(name = "code", value = "快递单号", dataType = "String", required = true)})
     public Object sendWaresSure(String id, String code, @ApiIgnore HttpServletRequest request) {
-        int count = activitySetService.sendWaresSure(id, code,(String) request.getAttribute("sysid"));
+        int count = activitySetService.sendWaresSure(id, code, (String) request.getAttribute("sysid"));
         if (count > 0) {
             return new Result(200, true, "确认成功", null);
         }
@@ -388,26 +392,26 @@ public class ActivitySetController {
     }
 
     @PostMapping("/delWares")
-    public Object delWares(String id){
+    public Object delWares(String id) {
 
         activitySetMapper.delWares(id);
 
-        return new Result(200,true,"删除成功");
+        return new Result(200, true, "删除成功");
     }
 
     @ApiOperation("商城--扫码获取订单信息")
     @PostMapping("/takeWaresSure")
     @ApiImplicitParams({@ApiImplicitParam(name = "code", value = "扫码信息", dataType = "String", required = true)})
-    public Object takeWaresSure( String code, @ApiIgnore HttpServletRequest request) {
+    public Object takeWaresSure(String code, @ApiIgnore HttpServletRequest request) {
         return new Result(200, true, "获取成功", activitySetService.takeWaresSure(code, (String) request.getAttribute("sysid")));
     }
 
     @ApiOperation("商城-订单ID确认取货")
     @PostMapping("/waresSureById")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID", dataType = "String", required = true)})
-    public Object waresSureById( String id, @ApiIgnore HttpServletRequest request) {
+    public Object waresSureById(String id, @ApiIgnore HttpServletRequest request) {
         boolean result = activitySetService.waresSureById(id, (String) request.getAttribute("sysid"));
-        if (result){
+        if (result) {
             return new Result(200, true, "确认成功", null);
         }
         return new Result(204, true, "确认失败", null);
@@ -647,26 +651,23 @@ public class ActivitySetController {
     /************************************************* 排队免单 *************************************/
     @Autowired
     FreeChargeMapper freeChargeMapper;
+
     @PostMapping("setFreeCharge")
     @ApiOperation("排队免单设置新增/修改")
-    public Object setFreeCharge(@RequestBody FreeCharge freeCharge,@ApiIgnore HttpServletRequest request){
+    public Object setFreeCharge(@RequestBody FreeCharge freeCharge, @ApiIgnore HttpServletRequest request) {
         freeCharge.setUserId((String) request.getAttribute("sysid"));
-        if (StringUtils.isEmpity(freeCharge.getId())){
+        if (StringUtils.isEmpity(freeCharge.getId())) {
             String id = StringUtils.getUuid();
             freeCharge.setId(id);
             freeCharge.setCreateTime(new Date());
             freeChargeMapper.insertSelective(freeCharge);
-        }else {
+        } else {
             freeChargeMapper.updateByPrimaryKeySelective(freeCharge);
         }
 
-        return new Result(200,true,"操作成功");
+        return new Result(200, true, "操作成功");
 
     }
-
-
-
-
 
 
     /************************************************* True 活动计数 - START *********************************************************/
