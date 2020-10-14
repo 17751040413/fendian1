@@ -534,7 +534,7 @@ public interface ActivitySetMapper {
      * @param wares
      * @return
      */
-    @Insert("INSERT INTO wares(id,spec_id,title,price,stock,freight,sort_id,distribution_commission,hide,picture_url,on_shelf,shelf_time,user_id,describe,url) " +
+    @Insert("INSERT INTO wares(id,spec_id,title,price,stock,freight,sort_id,distribution_commission,hide,picture_url,on_shelf,shelf_time,user_id,`describe`,url) " +
             "VALUES (#{id},#{specId},#{title},#{price},#{stock},#{freight},#{sortId},#{distributionCommission},#{hide},#{pictureUrl},#{onShelf},now(),#{userId},#{describe},#{url})")
     int addWares(Wares wares);
 
