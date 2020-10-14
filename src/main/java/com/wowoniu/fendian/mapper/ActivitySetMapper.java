@@ -538,7 +538,7 @@ public interface ActivitySetMapper {
             "VALUES (#{id},#{specId},#{title},#{price},#{stock},#{freight},#{sortId},#{distributionCommission},#{hide},#{pictureUrl},#{onShelf},now(),#{userId},#{describe},#{url})")
     int addWares(Wares wares);
 
-    /**
+    /**K
      * 更新商品
      *
      * @param wares
