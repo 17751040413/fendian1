@@ -71,6 +71,10 @@ public class FreeCharge implements Serializable {
     private Integer dateType;
 
     /**
+     *
+     */
+    private Date startDate;
+    /**
      * 指定日期
      */
     private Date overdueDate;
@@ -136,6 +140,15 @@ public class FreeCharge implements Serializable {
     private String phone;
 
     private static final long serialVersionUID = 1L;
+
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
     public String getPhone() {
         return phone;
