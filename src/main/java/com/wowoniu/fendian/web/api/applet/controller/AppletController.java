@@ -68,7 +68,7 @@ public class AppletController {
 
     @PostMapping("/getSortByUseUserId")
     @ApiOperation("5-2-2 商家ID获取商品分类")
-    @ApiImplicitParams({@ApiImplicitParam(name = "useUserId", value = "商家ID ", dataType = "String", required = true)})
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商家ID ", dataType = "String", required = true)})
     public Object getSortByUseUserId(String id) {
         return new Result<>(200, true, "获取成功", appletService.getSortByUseUserId(id));
     }
@@ -258,14 +258,11 @@ public class AppletController {
 
     @PostMapping("/couponChoice")
     @ApiOperation("5-2-11 6-1-1优惠券列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey", dataType = "String", required = true)})
-    public Object couponChoice(String skey) {
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey", dataType = "String", required = true),
+            @ApiImplicitParam(name = "state", value = "Y :未使用 N：已使用 X：过期", dataType = "String", required = true)})
+    public Object couponChoice(String skey,String state) {
         String buyerId = userMapper.selectBySkey(skey).getOpenId();
-        List<CouponBuyer> couponBuyerList = appletService.getCouponBuyerList(buyerId);
-        if (CollectionUtils.isEmpty(couponBuyerList)) {
-            return new Result<>(204, false, "获取失败", null);
-        }
-        return new Result<>(200, true, "获取成功", couponBuyerList);
+        return new Result<>(200, true, "获取成功", appletService.getCouponBuyerList(buyerId,state));
     }
 
     @PostMapping("/couponDetail")

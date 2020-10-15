@@ -96,7 +96,7 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
-    public List<WaresSortSet> getSortByUseUserId(String useUserId) {
+    public List<WaresSortDetail> getSortByUseUserId(String useUserId) {
         WaresSortSet waresSortSet = activitySetMapper.getWaresSortSet(useUserId);
         //无分类  或 已禁用分类
         if (waresSortSet == null || waresSortSet.getState().equals(Constants.NO)) {
@@ -147,8 +147,8 @@ public class AppletServiceImpl implements AppletService {
         WaresSpec waresSpec = activitySetMapper.getWaresSpecById(wares.getSpecId());
         List<WaresSpecDetail> waresSpecDetailList = activitySetMapper.getWaresSpecDetailList(wares.getSpecId());
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("waresSpec",waresSpec);
-        jsonObject.put("detail",waresSpecDetailList);
+        jsonObject.put("waresSpec", waresSpec);
+        jsonObject.put("detail", waresSpecDetailList);
         return jsonObject;
     }
 
@@ -336,8 +336,8 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
-    public List<CouponBuyer> getCouponBuyerList(String id) {
-        return appletMapper.getCouponBuyerList(id);
+    public List<CouponBuyer> getCouponBuyerList(String id, String state) {
+        return appletMapper.getCouponBuyerList(id,state);
     }
 
     /**
@@ -685,7 +685,7 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
-    public PageUtil<CouponUser> couponUser(Map<String,Object> map) {
+    public PageUtil<CouponUser> couponUser(Map<String, Object> map) {
         PageUtil<CouponUser> pageUtil = new PageUtil();
         int count = appletMapper.searchCouponUser(map);
         pageUtil.setTotalCount(count);
@@ -1016,7 +1016,7 @@ public class AppletServiceImpl implements AppletService {
     public int member(Member member) {
         member.setId(StringUtils.getUuid());
         User user = userMapper.selectBySkey(member.getSkey());
-        if (appletMapper.getMember(member.getUserId(),user.getOpenId())!=null){
+        if (appletMapper.getMember(member.getUserId(), user.getOpenId()) != null) {
             return 0;
         }
         member.setBuyerId(user.getOpenId());

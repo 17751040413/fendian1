@@ -37,7 +37,7 @@ public interface AppletService {
      * @param useUserId
      * @return
      */
-    List<WaresSortSet> getSortByUseUserId(String useUserId);
+    List<WaresSortDetail> getSortByUseUserId(String useUserId);
 
     /**
      * 商家商品分页列表
@@ -142,7 +142,7 @@ public interface AppletService {
      * @param id
      * @return
      */
-    List<CouponBuyer> getCouponBuyerList(String id);
+    List<CouponBuyer> getCouponBuyerList(String id,String state);
 
     /**
      * 优惠券详情

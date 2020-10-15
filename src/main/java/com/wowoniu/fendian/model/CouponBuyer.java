@@ -43,7 +43,7 @@ public class CouponBuyer implements Serializable {
     private int activityPrice;
     @ApiModelProperty("已支付")
     private int payPrice;
-    @ApiModelProperty("可用（Y:可用 N：过期）")
+    @ApiModelProperty("可用（Y:未使用 N：已使用）")
     private String effective;
     @ApiModelProperty("券类型（0：折扣 1：优惠 2：兑换）")
     private String type;

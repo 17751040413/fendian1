@@ -89,8 +89,8 @@ public interface AppletMapper {
      * @param id
      * @return
      */
-    @Select("SELECT * FROM wares_sort_set WHERE sort_id = #{id} AND state = 'Y' ORDER BY top_row,row")
-    List<WaresSortSet> getSortById(@Param("id") String id);
+    @Select("SELECT * FROM wares_sort_detail WHERE `sort_id` = #{id} AND state = 'Y' ORDER BY top_row,`row`")
+    List<WaresSortDetail> getSortById(@Param("id") String id);
 
     /**
      * 商品ID获取商品信息
@@ -273,8 +273,7 @@ public interface AppletMapper {
      * @param id
      * @return
      */
-    @Select("SELECT * FROM coupon_buyer WHERE buyer_id = #{id} ORDER BY effective DESC")
-    List<CouponBuyer> getCouponBuyerList(String id);
+    List<CouponBuyer> getCouponBuyerList(@Param("id") String id,@Param("state") String state);
 
     /**
      * 优惠券详情
