@@ -259,7 +259,7 @@ public class AppletController {
     @PostMapping("/couponChoice")
     @ApiOperation("5-2-11 6-1-1优惠券列表")
     @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey", dataType = "String", required = true),
-            @ApiImplicitParam(name = "state", value = "Y :未使用 N：已使用 X：过期", dataType = "String", required = true)})
+            @ApiImplicitParam(name = "state", value = "Y :未使用 N：已使用 过期不传值", dataType = "String", required = true)})
     public Object couponChoice(String skey,String state) {
         String buyerId = userMapper.selectBySkey(skey).getOpenId();
         return new Result<>(200, true, "获取成功", appletService.getCouponBuyerList(buyerId,state));
@@ -269,11 +269,7 @@ public class AppletController {
     @ApiOperation("6-1-2 8-2-3 8-2-4-4 7-1-2-2 7-1-2-3 优惠券详情")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "优惠券ID ", dataType = "String", required = true)})
     public Object couponDetail(String id) {
-        CouponBuyer couponBuyer = appletService.getCouponBuyerById(id);
-        if (couponBuyer == null) {
-            return new Result<>(204, false, "获取失败", null);
-        }
-        return new Result<>(200, true, "获取成功", couponBuyer);
+        return new Result<>(200, true, "获取成功", appletService.getCouponBuyerById(id));
     }
 
     @PostMapping("/getUserBySkey")
@@ -293,22 +289,14 @@ public class AppletController {
     @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "Skey ", dataType = "String", required = true)})
     public Object getWaresOrderAll(String skey) {
         String openId = userMapper.selectBySkey(skey).getOpenId();
-        List<JSONObject> orders = appletService.getWaresOrderAll(openId);
-        if (CollectionUtils.isEmpty(orders)) {
-            return new Result<>(204, false, "获取失败", null);
-        }
-        return new Result<>(200, true, "获取成功", orders);
+        return new Result<>(200, true, "获取成功", appletService.getWaresOrderAll(openId));
     }
 
     @PostMapping("/getOrderById")
     @ApiOperation("7-1-2-2 7-1-2-3 订单详情 （调用 couponDetail 接口 传参：coupon_id 获取优惠券及活动数据）)")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID ", dataType = "String", required = true)})
     public Object getOrderById(String id) {
-        JSONObject order = appletService.getOrderById(id);
-        if (order == null) {
-            return new Result<>(204, false, "获取失败", null);
-        }
-        return new Result<>(200, true, "获取成功", order);
+        return new Result<>(200, true, "获取成功", appletService.getOrderById(id));
     }
 
     @PostMapping("/getShopRecordList")

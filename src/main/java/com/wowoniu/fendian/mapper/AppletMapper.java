@@ -346,7 +346,7 @@ public interface AppletMapper {
      * @param openId
      * @return
      */
-    @Select("SELECT wo.create_time,wo.state,wo.price,wo.actual_payment,uu.shop_name,uu.shop_logo FROM wares_order wo LEFT JOIN use_user uu ON uu.id = wo.user_id WHERE wo.buyer_id = #{openId}")
+    @Select("SELECT wo.id,wo.create_time,wo.state,wo.price,wo.actual_payment,uu.shop_name,uu.shop_logo FROM wares_order wo LEFT JOIN use_user uu ON uu.id = wo.user_id WHERE wo.buyer_id = #{openId}")
     List<JSONObject> getWaresOrderAll(@Param("openId") String openId);
 
     /**
