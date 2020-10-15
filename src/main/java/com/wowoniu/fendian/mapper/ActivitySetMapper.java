@@ -545,7 +545,7 @@ public interface ActivitySetMapper {
      * @return
      */
     @Update("UPDATE wares SET title = #{title},price=#{price},stock=#{stock},freight=#{freight},sort_id=#{sortId}," +
-            "distribution_commission=#{distributionCommission},hide=#{hide},picture_url=#{pictureUrl},on_shelf=#{onShelf} ,describe = #{describe},shelf_time=now(),url=#{url} WHERE id = #{id}")
+            "distribution_commission=#{distributionCommission},hide=#{hide},picture_url=#{pictureUrl},on_shelf=#{onShelf} ,`describe` = #{describe},url=#{url} WHERE id = #{id}")
     int updateWares(Wares wares);
 
     /**
