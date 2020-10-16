@@ -117,15 +117,11 @@ public class AppletController {
 
     @PostMapping("/getGoodsCartById")
     @ApiOperation("5-2-5 买家skey获取购物车列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "buyerId", value = "买家skey ", dataType = "String", required = true),
+    @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey ", dataType = "String", required = true),
             @ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true)})
     public Object getGoodsCartById(String skey, String userId) {
         String buyerId = userMapper.selectBySkey(skey).getOpenId();
-        List<WaresCart> waresCartList = appletService.getGoodsCartById(buyerId, userId);
-        if (CollectionUtils.isEmpty(waresCartList)) {
-            return new Result<>(204, false, "获取失败", null);
-        }
-        return new Result<>(200, true, "获取成功", waresCartList);
+        return new Result<>(200, true, "获取成功", appletService.getGoodsCartById(buyerId, userId));
     }
 
     @PostMapping("/settlementOrder")
@@ -145,11 +141,8 @@ public class AppletController {
     @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "买家skey ", dataType = "String", required = true)})
     public Object getShippingAddressList(String skey) {
         String buyerId = userMapper.selectBySkey(skey).getOpenId();
-        List<ShippingAddress> shippingAddressList = appletService.getShippingAddressList(buyerId);
-        if (CollectionUtils.isEmpty(shippingAddressList)) {
-            return new Result<>(204, false, "获取失败", null);
-        }
-        return new Result<>(200, true, "获取成功", shippingAddressList);
+
+        return new Result<>(200, true, "获取成功", appletService.getShippingAddressList(buyerId));
     }
 
     @PostMapping("/setShippingAddress")
@@ -169,11 +162,7 @@ public class AppletController {
             @ApiImplicitParam(name = "userId", value = "商家ID ", dataType = "String", required = true)})
     public Object getWaresOrderList(String skey, String userId) {
         String buyerId = userMapper.selectBySkey(skey).getOpenId();
-        JSONObject jsonObject = appletService.getWaresOrderList(buyerId, userId);
-        if (jsonObject == null || jsonObject.size() <= 0) {
-            return new Result<>(204, false, "获取失败", null);
-        }
-        return new Result<>(200, true, "获取成功", jsonObject);
+        return new Result<>(200, true, "获取成功", appletService.getWaresOrderList(buyerId, userId));
     }
 
     @PostMapping("/getWaresOrderById")
@@ -181,11 +170,7 @@ public class AppletController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID ", dataType = "String", required = true)})
     public Object getWaresOrderById(String id) {
 
-        JSONObject jsonObject = appletService.getWaresOrderById(id);
-        if (jsonObject == null || jsonObject.size() <= 0) {
-            return new Result<>(204, false, "获取失败", null);
-        }
-        return new Result<>(200, true, "获取成功", jsonObject);
+        return new Result<>(200, true, "获取成功", appletService.getWaresOrderById(id));
     }
 
     @PostMapping("/getTakeCodeById")
@@ -193,11 +178,7 @@ public class AppletController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "订单ID ", dataType = "String", required = true)})
     public Object getTakeCodeById(String id) {
 
-        String code = appletService.getTakeCodeById(id);
-        if (StringUtils.isEmpity(code)) {
-            return new Result<>(204, false, "获取失败", null);
-        }
-        return new Result<>(200, true, "获取成功", code);
+        return new Result<>(200, true, "获取成功", appletService.getTakeCodeById(id));
     }
 
     @PostMapping("/updateOrderState")
@@ -277,11 +258,7 @@ public class AppletController {
     @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "Skey ", dataType = "String", required = true)})
     public Object getUserBySkey(String skey) {
         String openId = userMapper.selectBySkey(skey).getOpenId();
-        User user = appletService.getUserByOpenId(openId);
-        if (user == null) {
-            return new Result<>(204, false, "获取失败", null);
-        }
-        return new Result<>(200, true, "获取成功", user);
+        return new Result<>(200, true, "获取成功", appletService.getUserByOpenId(openId));
     }
 
     @PostMapping("/getWaresOrderAll")
@@ -304,11 +281,7 @@ public class AppletController {
     @ApiImplicitParams({@ApiImplicitParam(name = "skey", value = "Skey ", dataType = "String", required = true)})
     public Object getShopRecordList(String skey) {
         String openId = userMapper.selectBySkey(skey).getOpenId();
-        List<ShopRecord> shopRecordList = appletService.getShopRecordList(openId);
-        if (CollectionUtils.isEmpty(shopRecordList)) {
-            return new Result<>(204, false, "获取失败", null);
-        }
-        return new Result<>(200, true, "获取成功", shopRecordList);
+        return new Result<>(200, true, "获取成功", appletService.getShopRecordList(openId));
     }
 
     @PostMapping("/recommendByUserId")
