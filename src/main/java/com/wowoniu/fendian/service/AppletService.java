@@ -208,7 +208,7 @@ public interface AppletService {
      * @param id
      * @return
      */
-    JSONObject getOrderById(String id);
+    WaresOrder getOrderById(String id);
 
     /**
      * 浏览过的店铺

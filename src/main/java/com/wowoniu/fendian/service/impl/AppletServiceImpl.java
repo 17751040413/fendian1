@@ -426,7 +426,7 @@ public class AppletServiceImpl implements AppletService {
      * @return
      */
     @Override
-    public JSONObject getOrderById(String id) {
+    public WaresOrder getOrderById(String id) {
         return appletMapper.getOrderById(id);
     }
 

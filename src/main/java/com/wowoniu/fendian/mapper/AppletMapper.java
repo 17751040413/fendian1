@@ -355,8 +355,9 @@ public interface AppletMapper {
      * @param id
      * @return
      */
-    @Select("SELECT wo.*,uu.shop_name,uu.shop_logo,uu.shop_address FROM wares_order wo LEFT JOIN use_user uu ON uu.id = wo.user_id WHERE wo.id = #{id}")
-    JSONObject getOrderById(String id);
+    @Select("SELECT wo.*,uu.shop_name,uu.shop_logo,uu.shop_address,cb.discount_amount FROM wares_order wo " +
+            "LEFT JOIN use_user uu ON uu.id = wo.user_id LEFT JOIN coupon_buyer cb ON cb.id = wo.coupon_id  WHERE wo.id = #{id}")
+    WaresOrder getOrderById(String id);
 
     /**
      * 浏览过的店铺

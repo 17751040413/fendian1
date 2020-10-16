@@ -47,13 +47,16 @@ public class WaresOrder implements Serializable {
     private String orderCode;
 
     @ApiModelProperty("运费 ")
-    private String freight;
+    private int freight;
 
     @ApiModelProperty("总额 ")
-    private String price;
+    private int price;
+
+    @ApiModelProperty("优惠金额 ")
+    private int discountAmount;
 
     @ApiModelProperty("实付款")
-    private String actualPayment;
+    private int actualPayment;
 
     @ApiModelProperty("发货时间")
     private String sendTime;
@@ -83,6 +86,13 @@ public class WaresOrder implements Serializable {
     @ApiModelProperty("商品数量")
     private int number;
 
+    @ApiModelProperty("店铺名称")
+    private String shopName;
+    @ApiModelProperty("店铺LOGO")
+    private String shopLogo;
+    @ApiModelProperty("店铺地址")
+    private String shopAddress;
+
     public String getId() {
         return id;
     }
@@ -99,6 +109,22 @@ public class WaresOrder implements Serializable {
         this.userId = userId;
     }
 
+    public String getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(String buyerId) {
+        this.buyerId = buyerId;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public String getState() {
         return state;
     }
@@ -109,6 +135,10 @@ public class WaresOrder implements Serializable {
 
     public Timestamp getCreateTime() {
         return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     public String getSelfName() {
@@ -135,12 +165,12 @@ public class WaresOrder implements Serializable {
         this.cartId = cartId;
     }
 
-    public String getActualPayment() {
-        return actualPayment;
+    public String getCouponId() {
+        return couponId;
     }
 
-    public void setActualPayment(String actualPayment) {
-        this.actualPayment = actualPayment;
+    public void setCouponId(String couponId) {
+        this.couponId = couponId;
     }
 
     public String getOrderCode() {
@@ -149,6 +179,38 @@ public class WaresOrder implements Serializable {
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
+    }
+
+    public int getFreight() {
+        return freight;
+    }
+
+    public void setFreight(int freight) {
+        this.freight = freight;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(int discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public int getActualPayment() {
+        return actualPayment;
+    }
+
+    public void setActualPayment(int actualPayment) {
+        this.actualPayment = actualPayment;
     }
 
     public String getSendTime() {
@@ -183,42 +245,6 @@ public class WaresOrder implements Serializable {
         this.courierNumber = courierNumber;
     }
 
-    public String getBuyerId() {
-        return buyerId;
-    }
-
-    public void setBuyerId(String buyerId) {
-        this.buyerId = buyerId;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getCouponId() {
-        return couponId;
-    }
-
-    public void setCouponId(String couponId) {
-        this.couponId = couponId;
-    }
-
-    public String getFreight() {
-        return freight;
-    }
-
-    public void setFreight(String freight) {
-        this.freight = freight;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
     public String getDeliveryMethod() {
         return deliveryMethod;
     }
@@ -235,20 +261,20 @@ public class WaresOrder implements Serializable {
         this.addressId = addressId;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getSkey() {
         return skey;
     }
 
     public void setSkey(String skey) {
         this.skey = skey;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getWareUrl() {
@@ -267,11 +293,27 @@ public class WaresOrder implements Serializable {
         this.number = number;
     }
 
-    public String getAddress() {
-        return address;
+    public String getShopName() {
+        return shopName;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public String getShopLogo() {
+        return shopLogo;
+    }
+
+    public void setShopLogo(String shopLogo) {
+        this.shopLogo = shopLogo;
+    }
+
+    public String getShopAddress() {
+        return shopAddress;
+    }
+
+    public void setShopAddress(String shopAddress) {
+        this.shopAddress = shopAddress;
     }
 }
