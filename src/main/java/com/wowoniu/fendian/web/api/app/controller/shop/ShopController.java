@@ -216,6 +216,16 @@ public class ShopController {
         return shopService.endFree(freeId);
     }
 
+    @PostMapping("shopHome")
+    @ApiOperation("店铺首页")
+    public Result shopHome(@ApiIgnore HttpServletRequest request){
+        String userId = (String) request.getAttribute("sysid");
+
+
+        return null;
+    }
+
+
 
 
 

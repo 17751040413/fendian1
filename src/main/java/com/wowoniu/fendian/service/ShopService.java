@@ -60,4 +60,6 @@ public interface ShopService {
      * @return
      */
     Result endFree(String freeId);
+
+    Result shopHome(String userid);
 }

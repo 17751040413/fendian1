@@ -37,23 +37,23 @@ public class LoginIntercepter implements HandlerInterceptor {
         }
         if(token != null){
             Claims claims = JwtUtils.checkJWT(token);
-            if (claims != null) {
-                String id = (String) claims.get("sysid");
-                String identification = (String) claims.get("identification");
-                UserLogin userLogin = userLoginService.queryUserLoginById(id);
-
-//                if (!(identification.equals(userLogin.getIdentification()))) {
-//                    map.put("code", 201);
-//                    map.put("message", "您的账号已在其他地方登录,您已被强制下线,请重新登录");
-//                    sendMessage(response, map);
-//                    return false;
-//                }
-                userLogin.setConnectionTime(new Date());
-                userLoginService.updateConTimeUserLoginById(userLogin);
+  //          if (claims != null) {
+//                String id = (String) claims.get("sysid");
+//                String identification = (String) claims.get("identification");
+//                UserLogin userLogin = userLoginService.queryUserLoginById(id);
+//
+////                if (!(identification.equals(userLogin.getIdentification()))) {
+////                    map.put("code", 201);
+////                    map.put("message", "您的账号已在其他地方登录,您已被强制下线,请重新登录");
+////                    sendMessage(response, map);
+////                    return false;
+////                }
+//                userLogin.setConnectionTime(new Date());
+//                userLoginService.updateConTimeUserLoginById(userLogin);
 //                request.setAttribute("sysid",id);
                 request.setAttribute("sysid","63a93bc1cb1b439984aee44e63513810");
                 return true;
-            }
+  //          }
         }
         map.put("code",201);
         map.put("message","请登录");

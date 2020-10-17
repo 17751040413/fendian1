@@ -119,4 +119,9 @@ public class ShopServiceImpl implements ShopService {
         freeChargeMapper.updateByPrimaryKeySelective(freeCharge);
         return new Result(200,true,"修改成功");
     }
+
+    @Override
+    public Result shopHome(String userid) {
+        return null;
+    }
 }
