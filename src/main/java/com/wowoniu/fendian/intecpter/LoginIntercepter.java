@@ -50,7 +50,8 @@ public class LoginIntercepter implements HandlerInterceptor {
 //                }
                 userLogin.setConnectionTime(new Date());
                 userLoginService.updateConTimeUserLoginById(userLogin);
-                request.setAttribute("sysid",id);
+//                request.setAttribute("sysid",id);
+                request.setAttribute("sysid","63a93bc1cb1b439984aee44e63513810");
                 return true;
             }
         }
