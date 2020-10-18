@@ -2,15 +2,15 @@ package com.wowoniu.fendian.service.impl;
 
 import com.wowoniu.fendian.mapper.*;
 import com.wowoniu.fendian.model.*;
+import com.wowoniu.fendian.service.ActivityService;
+import com.wowoniu.fendian.service.ActivitySetService;
 import com.wowoniu.fendian.service.ShopService;
 import com.wowoniu.fendian.utils.PageUtil;
 import com.wowoniu.fendian.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -26,6 +26,14 @@ public class ShopServiceImpl implements ShopService {
     FreeChargeMapper freeChargeMapper;
     @Autowired
     FreeChargeDetailMapper freeChargeDetailMapper;
+    @Autowired
+    WriteOffMapper writeOffMapper;
+    @Autowired
+    UserSystemMapper userSystemMapper;
+    @Autowired
+    ActivitySetService activitySetService;
+    @Autowired
+    ActivitySetMapper activitySetMapper;
     @Override
     public List<ShopType> getShopTypes() {
         return shopTypeMapper.queryAll();
@@ -120,8 +128,52 @@ public class ShopServiceImpl implements ShopService {
         return new Result(200,true,"修改成功");
     }
 
+
     @Override
     public Result shopHome(String userid) {
-        return null;
+        UseUser useUser = useUserMapper.selectByPrimaryKey(userid);
+        Map map = new HashMap();
+        //粉丝数
+        int fans = useUser.getFans();
+        //订单数
+        int orderCount = writeOffMapper.countByUserId(userid);
+        //余额
+        double balance = useUser.getBalance();
+        //店铺名
+        String shopName = useUser.getShopName();
+        //系统过期时间
+        Date overDate = new Date();
+        if (userSystemMapper.queryUserSystemByUserId(userid) != null){
+            overDate = userSystemMapper.queryUserSystemByUserId(userid).getExpireTime();
+        }
+        List actList = new ArrayList();
+        //列变
+        Object fis = activitySetMapper.getFissionSet(userid);
+        Map fisMap = new HashMap();
+        if (fis != null){
+            fisMap.put("acName","裂变系统");
+            fisMap.put("shopAcName","我的裂变活动");
+            fisMap.put("type",0);
+            fisMap.put("id",((FissionSet) fis).getId());
+            fisMap.put("todayData",2);
+            fisMap.put("sumData",7);
+            actList.add(fisMap);
+        }
+
+        //返利
+        //获取返利
+        RebateSet rebateSet = activitySetMapper.getRebateSet(userid);
+        //获取分销
+        DistributionSet distributionSet = activitySetMapper.getDistributionSet(userid);
+//        actList.add(fis);
+//        actList.add(rebateSet);
+//        actList.add(distributionSet);
+        map.put("fans",fans);
+        map.put("orderCount",orderCount);
+        map.put("balance",balance);
+        map.put("shopName",shopName);
+        map.put("overDate",overDate);
+        map.put("acList",actList);
+        return new Result(200,true,"获取成功",map);
     }
 }
